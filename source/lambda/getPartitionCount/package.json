@@ -1,0 +1,18 @@
+{
+  "name": "get-partition-count",
+  "main": "index.js",
+  "version": "0.9.0",
+  "description": "Gets number of partions (min, max) in theParttitioned Inventory Glue Table",
+  "license": "Apache-2.0",
+  "repository": {},
+  "scripts": {
+    "test": "mocha --timeout 10000 'test/**/*.js'"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "chai-as-promised": "^7.1.1",
+    "mocha": "^8.2.1",
+    "proxyquire": "^2.1.3",
+    "sinon": "^9.2.1"
+  }
+}
