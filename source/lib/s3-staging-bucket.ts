@@ -22,40 +22,41 @@ export class StagingBucket extends cdk.Construct {
         super(scope, id);
 
         const bucketSettings: s3.BucketProps = {
-            bucketName: `${cdk.Aws.STACK_NAME}-staging-bucket`,
             blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
             encryption: s3.BucketEncryption.S3_MANAGED,
             removalPolicy: cdk.RemovalPolicy.DESTROY
         }
 
-       this.Bucket = new s3.Bucket(this, 'StagingBucket', {
+        this.Bucket = new s3.Bucket(this, 'StagingBucket', {
             ...bucketSettings
         });
+        (this.Bucket.node.defaultChild as s3.CfnBucket).overrideLogicalId('stagingBucket');
 
         this.Bucket.addToResourcePolicy(
             new iam.PolicyStatement({
-              resources: [
-                `${this.Bucket.bucketArn}`,
-                `${this.Bucket.bucketArn}/*`
-              ],
-              actions: ["s3:*"],
-              principals: [new iam.AnyPrincipal],
-              effect: iam.Effect.DENY,
-              conditions: {
-                  Bool:
-                    {'aws:SecureTransport': 'false'}
-              }
+                resources: [
+                    `${this.Bucket.bucketArn}`,
+                    `${this.Bucket.bucketArn}/*`
+                ],
+                actions: ["s3:*"],
+                principals: [new iam.AnyPrincipal],
+                effect: iam.Effect.DENY,
+                conditions: {
+                    Bool: {
+                        'aws:SecureTransport': 'false'
+                    }
+                }
             })
-          );
+        );
 
         this.addCfnNagSuppressions(this.Bucket);
     }
 
     private addCfnNagSuppressions(bucket: s3.IBucket) {
         const rules = [{
-                id: 'W35',
-                reason: 'Transient bucket - access logs are not required'
-            }]
+            id: 'W35',
+            reason: 'Transient bucket - access logs are not required'
+        }]
 
         const cfnBucket = bucket.node.defaultChild as s3.CfnBucket;
         cfnBucket.cfnOptions.metadata = {
