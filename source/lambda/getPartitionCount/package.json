@@ -1,7 +1,7 @@
 {
   "name": "get-partition-count",
   "main": "index.js",
-  "version": "0.9.0",
+  "version": "1.0.0",
   "description": "Gets number of partions (min, max) in theParttitioned Inventory Glue Table",
   "license": "Apache-2.0",
   "repository": {},

@@ -1,7 +1,7 @@
 {
   "name": "check-inventory-state",
   "main": "index.js",
-  "version": "0.9.0",
+  "version": "1.0.0",
   "description": "Checks the row count of the inventory and partitioned inventory tables",
   "license": "Apache-2.0",
   "repository": {},
