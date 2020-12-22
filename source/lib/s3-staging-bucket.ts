@@ -21,16 +21,28 @@ export class StagingBucket extends cdk.Construct {
     constructor(scope: cdk.Construct, id: string) {
         super(scope, id);
 
-        const bucketSettings: s3.BucketProps = {
+        const securitySettings: s3.BucketProps = {
             blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
             encryption: s3.BucketEncryption.S3_MANAGED,
             removalPolicy: cdk.RemovalPolicy.DESTROY
         }
 
+        const accessLogsBucket = new s3.Bucket(this, 'AccessLogsBucket', securitySettings);
+        (accessLogsBucket.node.defaultChild as s3.CfnBucket).overrideLogicalId('AccessLogs');
+        this.addCfnNagSuppressions(accessLogsBucket, true);
+
+        const rules: s3.LifecycleRule[] = [{
+            id: 'multipart-upload-rule',
+            enabled: true,
+            abortIncompleteMultipartUploadAfter: cdk.Duration.days(7)
+        }];
+
         this.Bucket = new s3.Bucket(this, 'StagingBucket', {
-            ...bucketSettings
+            ...securitySettings,
+            serverAccessLogsBucket: accessLogsBucket
         });
         (this.Bucket.node.defaultChild as s3.CfnBucket).overrideLogicalId('stagingBucket');
+        this.addCfnNagSuppressions(this.Bucket);
 
         this.Bucket.addToResourcePolicy(
             new iam.PolicyStatement({
@@ -52,11 +64,19 @@ export class StagingBucket extends cdk.Construct {
         this.addCfnNagSuppressions(this.Bucket);
     }
 
-    private addCfnNagSuppressions(bucket: s3.IBucket) {
+
+    private addCfnNagSuppressions(bucket: s3.IBucket, includeW35?: boolean) {
         const rules = [{
-            id: 'W35',
-            reason: 'Transient bucket - access logs are not required'
-        }]
+            id: 'W51',
+            reason: 'This bucket does not need a bucket policy'
+        }];
+
+        if (includeW35) {
+            rules.push({
+                id: 'W35',
+                reason: 'This bucket is used to store access logs for another bucket'
+            });
+        }
 
         const cfnBucket = bucket.node.defaultChild as s3.CfnBucket;
         cfnBucket.cfnOptions.metadata = {
