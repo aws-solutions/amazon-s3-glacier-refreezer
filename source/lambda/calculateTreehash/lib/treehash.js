@@ -41,8 +41,8 @@ async function getChunkOneMBHashes(key, rangeStart, rangeEnd) {
     let leafHashes = []
     let readStream = S3.getObject({
         Bucket: STAGING_BUCKET,
-        Key: `${STAGING_BUCKET_PREFIX}/${key}`,
-        Range: `bytes=${rangeStart}-${rangeEnd}`
+        Key:    `${STAGING_BUCKET_PREFIX}/${key}`,
+        Range:  `bytes=${rangeStart}-${rangeEnd}`
     }).createReadStream()
 
     let buffer = ""

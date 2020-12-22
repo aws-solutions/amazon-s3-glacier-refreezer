@@ -28,7 +28,7 @@ chai.use(chaiAsPromised);
 // (Optional) Keep test output free of error messages printed by our lambda function
 sinon.stub(console, 'error');
 
-describe('-- Calculate Metrics Test --', () => {
+describe('-- Calculate TreeHash Test --', () => {
     describe('-- db Test --', () => {
         var AWS;
 
@@ -52,6 +52,7 @@ describe('-- Calculate Metrics Test --', () => {
                     getItem: getItemFunc
                 })
             }
+
             statusTableItems = {
                 Items: [{
                     "aid": { "S": validArchiveId },
@@ -68,6 +69,7 @@ describe('-- Calculate Metrics Test --', () => {
                     "vdt": { 'S': originalDateVal }
                 }]
             }
+
             updateItemFunc.withArgs(sinon.match(function (param) {
                 result = statusTableItems.Items.filter(itm => itm['aid']['S'] === param.Key.aid.S);
                 result[0]['vdt']['S'] = Date.now.toString();
@@ -75,12 +77,14 @@ describe('-- Calculate Metrics Test --', () => {
             })).returns({
                 promise: () => result
             })
+
             getItemFunc.withArgs(sinon.match(function (param) {
                 result = statusTableItems.Items.filter(itm => itm['aid']['S'] === param.Key.aid.S);
                 return true;
             })).returns({
                 promise: () => result
             })
+
             // Overwrite internal references with mock proxies
             db = proxyquire('../lib/db.js', {
                 'aws-sdk': AWS
@@ -94,7 +98,7 @@ describe('-- Calculate Metrics Test --', () => {
                 expect(response.length).to.be.equal(1);
                 expect(response[0].aid.S).to.be.equal(validArchiveId);
             })
-            it('Should RETURN no records from DynamoDB if invalid ID is spplied', async () => {
+            it('Should RETURN no records from DynamoDB if an invalid ID is supplied', async () => {
                 const response = await db.getStatusRecord(validArchiveId + 'append-some-random-text');
                 expect(response.length).to.be.equal(0);
             })
@@ -105,7 +109,7 @@ describe('-- Calculate Metrics Test --', () => {
                 expect(result.length).to.be.equal(1);
                 expect(result[0].vdt.S).to.not.equal(originalDateVal);
             })
-            it('Should THROW error from DynamoDB if invalid ID is spplied', async () => {
+            it('Should THROW an error if an ID that does not exist in the DB is supplied', async () => {
                 await expect(db.setTimestampNow(validArchiveId + 'append-some-random-text', 'vdt')).to.be.rejectedWith('Cannot read property \'vdt\' of undefined');
             })
         })

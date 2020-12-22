@@ -25,7 +25,7 @@ const proxyquire = require('proxyquire').noCallThru();
 const expect = chai.expect;
 chai.use(chaiAsPromised);
 
-describe('-- Copy Archive Test --', () => {
+describe('-- Copy Chunk Test --', () => {
     describe('-- trigger Test --', () => {
         var AWS;
 
@@ -93,7 +93,7 @@ describe('-- Copy Archive Test --', () => {
 
         //Test
         it('should successfully send the messages through SQS', async () => {
-            await expect(trigger.calcHash(singleDBresult)).to.be.not.rejected; //TODO: Original method doesnt return, perhaps await issue           
+            await expect(trigger.calcHash(singleDBresult)).to.be.not.rejected; //TODO: Original method doesnt return, perhaps await issue
         })
     })
 })

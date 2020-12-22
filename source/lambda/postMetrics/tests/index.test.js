@@ -28,7 +28,7 @@ chai.use(chaiAsPromised);
 // (Optional) Keep test output free of error messages printed by our lambda function
 sinon.stub(console, 'error');
 
-describe('-- Collect Metrics Test --', () => {
+describe('-- Post Metrics Test --', () => {
     var AWS;
 
     var pubMetric;

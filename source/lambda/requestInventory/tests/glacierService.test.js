@@ -22,96 +22,98 @@ const sinon = require('sinon');
 const proxyquire = require('proxyquire').noCallThru();
 
 
-describe('-- Glacier Service Test --', () => {
-    var AWS;
-    var glacierService;
-    var initiateJobFunc;
+describe('-- Request Inventory Test --', () => {
+    describe('-- Glacier Service Test --', () => {
+        var AWS;
+        var glacierService;
+        var initiateJobFunc;
 
-    const validJobName = 'TestSourceVault' + '_' + "request_inventory_job_" + Date.now();
-    const retrievalType = "inventory-retrieval";
+        const validJobName = 'TestSourceVault' + '_' + "request_inventory_job_" + Date.now();
+        const retrievalType = "inventory-retrieval";
 
-    //Init
-    before(function () {
-        initiateJobFunc = sinon.stub();
+        //Init
+        before(function () {
+            initiateJobFunc = sinon.stub();
 
-        AWS = {
-            Glacier: sinon.stub().returns({
-                initiateJob: initiateJobFunc
+            AWS = {
+                Glacier: sinon.stub().returns({
+                    initiateJob: initiateJobFunc
+                })
+            }
+
+            const successResult = {
+                data: {
+                    jobId: " HkF9p6o7yjhFx-K3CGl6fuSm6VzW9T7esGQfco8nUXVYwS0jlb5gq1JZ55yHgt5vP54ZShjoQzQVVh7vEXAMPLEjobID",
+                    location: "/111122223333/vaults/examplevault/jobs/HkF9p6o7yjhFx-K3CGl6fuSm6VzW9T7esGQfco8nUXVYwS0jlb5gq1JZ55yHgt5vP54ZShjoQzQVVh7vEXAMPLEjobID"
+                },
+                err: null
+            }
+            const failedResult = {
+                data: null,
+                err: "Job initiation error"
+            }
+
+            // Matchers
+            initiateJobFunc.withArgs(sinon.match(function (param) {
+                return param.jobParameters.Description === validJobName && param.jobParameters.Type === retrievalType
+            })).returns(
+                {
+                    promise: () => successResult
+                }
+            )
+            initiateJobFunc.withArgs(sinon.match(function (param) {
+                return param.jobParameters.Description !== validJobName
+            })).returns(
+                {
+                    promise: () => failedResult
+                }
+            )
+
+            // Overwrite internal references with mock proxies
+            glacierService = proxyquire('../lib/glacierService.js', {
+                'aws-sdk': AWS
+            });
+
+        })
+
+        //Tests
+        describe('startJob', () => {
+            it('Should return RESPONSE if valid parameters passed', async () => {
+                var params = {
+                    accountId: "-",
+                    jobParameters: {
+                        Description: validJobName,
+                        Format: "CSV",
+                        SNSTopic: "TestsnsTopic",
+                        Type: "inventory-retrieval"
+                    },
+                    vaultName: "TestSourceVault"
+                };
+
+                const response = await glacierService.startJob(params);
+                expect(response.err).to.null;
+                expect(response.data.location).to.not.null;
+                expect(response.data.jobId).to.not.null;
             })
-        }
 
-        const successResult = {
-            data: {
-                jobId: " HkF9p6o7yjhFx-K3CGl6fuSm6VzW9T7esGQfco8nUXVYwS0jlb5gq1JZ55yHgt5vP54ZShjoQzQVVh7vEXAMPLEjobID",
-                location: "/111122223333/vaults/examplevault/jobs/HkF9p6o7yjhFx-K3CGl6fuSm6VzW9T7esGQfco8nUXVYwS0jlb5gq1JZ55yHgt5vP54ZShjoQzQVVh7vEXAMPLEjobID"
-            },
-            err: null
-        }
-        const failedResult = {
-            data: null,
-            err: "Job initiation error"
-        }
+            it('Should return ERROR if valid parameters are not passed', async () => {
+                var params = {
+                    accountId: "-",
+                    jobParameters: {
+                        Description: "some-random-name",
+                        Format: "CSV",
+                        SNSTopic: "TestsnsTopic",
+                        Type: "inventory-retrieval"
+                    },
+                    vaultName: "TestSourceVault"
+                };
 
-        // Matchers
-        initiateJobFunc.withArgs(sinon.match(function (param) {
-            return param.jobParameters.Description === validJobName && param.jobParameters.Type === retrievalType
-        })).returns(
-            {
-                promise: () => successResult
-            }
-        )
-        initiateJobFunc.withArgs(sinon.match(function (param) {
-            return param.jobParameters.Description !== validJobName
-        })).returns(
-            {
-                promise: () => failedResult
-            }
-        )
-
-        // Overwrite internal references with mock proxies
-        glacierService = proxyquire('../lib/glacierService.js', {
-            'aws-sdk': AWS
-        });
-
-    })
-
-    //Tests
-    describe('startJob', () => {
-        it('Should return RESPONSE if valid parameters passed', async () => {
-            var params = {
-                accountId: "-",
-                jobParameters: {
-                    Description: validJobName,
-                    Format: "CSV",
-                    SNSTopic: "TestsnsTopic",
-                    Type: "inventory-retrieval"
-                },
-                vaultName: "TestSourceVault"
-            };
-
-            const response = await glacierService.startJob(params);
-            expect(response.err).to.null;
-            expect(response.data.location).to.not.null;
-            expect(response.data.jobId).to.not.null;
+                const response = await glacierService.startJob(params);
+                expect(response.err).to.not.null;
+                expect(response.data).to.null;
+                expect(response.data).to.null;
+            })
         })
 
-        it('Should return ERROR if valid parameters are not passed', async () => {
-            var params = {
-                accountId: "-",
-                jobParameters: {
-                    Description: "some-random-name",
-                    Format: "CSV",
-                    SNSTopic: "TestsnsTopic",
-                    Type: "inventory-retrieval"
-                },
-                vaultName: "TestSourceVault"
-            };
-
-            const response = await glacierService.startJob(params);
-            expect(response.err).to.not.null;
-            expect(response.data).to.null;
-            expect(response.data).to.null;
-        })
     })
-
 })

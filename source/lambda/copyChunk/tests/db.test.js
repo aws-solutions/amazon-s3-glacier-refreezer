@@ -28,7 +28,7 @@ chai.use(chaiAsPromised);
 // (Optional) Keep test output free of error messages printed by our lambda function
 sinon.stub(console, 'error');
 
-describe('-- Copy Archive Test --', () => {
+describe('-- Copy Chunk Test --', () => {
     describe('-- db Test --', () => {
         var AWS;
 

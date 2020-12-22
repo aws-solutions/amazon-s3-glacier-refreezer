@@ -5,9 +5,6 @@
   "description": "Deploys Glue Job Script to the Staging Bucket",
   "license": "Apache-2.0",
   "repository": {},
-  "scripts": {
-    "test": "mocha --timeout 10000 'tests/**/*.js'"
-  },
   "dependencies": {
     "axios": "^0.21.0",
     "uuid": "^8.3.1"

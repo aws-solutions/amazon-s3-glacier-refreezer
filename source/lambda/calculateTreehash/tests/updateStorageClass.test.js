@@ -25,7 +25,7 @@ const proxyquire = require('proxyquire').noCallThru();
 const expect = chai.expect;
 chai.use(chaiAsPromised);
 
-describe('-- Calculate Metrics Test --', () => {
+describe('-- Calculate TreeHash Test --', () => {
     describe('-- Update Storage Class Test --', () => {
         var AWS;
 
