@@ -6,5 +6,5 @@ CODE_OF_CONDUCT.md:4
 CONTRIBUTING.md:50
 
 # Using fake AccountId in a unit tests
-source/lambda/downloadInventory/tests/snsMessage.json:6 
+source/lambda/downloadInventory/tests/snsMessage.json
 source/lambda/requestInventory/tests/glacierService.test.js:47
