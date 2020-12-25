@@ -28,9 +28,12 @@ function package_lambda() {
 }
 
 echo "------------------------------------------------------------------------------"
-echo "Starting Lambda npm install"
+echo "Starting npm install"
 echo "------------------------------------------------------------------------------"
 source_dir="$PWD"
+
+npm install
+
 cd $source_dir/lambda
 
 N=${1:-4} # Uses Parallel = 1 unless other value passed as $1 argument
@@ -43,4 +46,3 @@ N=${1:-4} # Uses Parallel = 1 unless other value passed as $1 argument
 )
 
 cd $source_dir
-
