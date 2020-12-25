@@ -51,13 +51,13 @@ async function handler(payload) {
     );
 
     console.log(`Checking progress in DynamoDB`);
-    const pid = payload.currentPartition;
+    const pid = parseInt(payload.currentPartition);
     var partitionMaxProcessedFileNumber = await getPartitionMaxProcessedFileNumber(
         pid
     );
     console.log(`Max Processed File Number : ${partitionMaxProcessedFileNumber}`);
 
-    var resultsCSV = await readAthenaPartition(payload.currentPartition);
+    var resultsCSV = await readAthenaPartition(pid);
     console.log(`Reading athena results file: ${resultsCSV}`);
 
     const lines = await readResultsCSV(resultsCSV);
@@ -128,8 +128,8 @@ async function handler(payload) {
 
     // Increment Partition Count
     // Check if all partitions have been processed
-    payload.currentPartition = payload.currentPartition + 1;
-    if (payload.currentPartition > payload.maxPartition) {
+    payload.currentPartition = pid + 1;
+    if (payload.currentPartition > parseInt(payload.maxPartition)) {
         payload.isComplete = true;
     }
     return payload;

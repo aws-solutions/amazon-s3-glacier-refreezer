@@ -22,7 +22,8 @@ const s3 = new AWS.S3();
 
 const {
     STAGING_BUCKET,
-    STAGING_LIST_PREFIX
+    STAGING_LIST_PREFIX,
+    LOG_BUCKET
 } = process.env;
 
 const CHUNK_SIZE = 2 * 1024 * 1024 * 1024
@@ -153,12 +154,24 @@ async function cleanupStagingBucket() {
     objectList = objectList.concat(await getObjectList(STAGING_BUCKET, "glue"))
     const delList = []
     objectList.forEach(Key => delList.push({Key}))
-    console.log(delList)
-    if (delList.length)
+    await deleteBucketKeys(STAGING_BUCKET, delList)
+}
+
+async function cleanupLogBucket() {
+    let objectList = []
+    objectList = objectList.concat(await getObjectList(LOG_BUCKET, ""))
+    const delList = []
+    objectList.forEach(Key => delList.push({Key}))
+    await deleteBucketKeys(LOG_BUCKET, delList)
+}
+
+async function deleteBucketKeys(Bucket, Objects){
+    console.log(`Cleaning ${Bucket}. Entry count : ${Objects.length}`)
+    if (Objects.length)
         await s3.deleteObjects({
-            Bucket: STAGING_BUCKET,
+            Bucket,
             Delete: {
-                Objects: delList,
+                Objects,
                 Quiet: false
             }}).promise()
 }
@@ -166,5 +179,6 @@ async function cleanupStagingBucket() {
 module.exports = {
     checkBucketExists,
     copyFilelist,
-    cleanupStagingBucket
+    cleanupStagingBucket,
+    cleanupLogBucket
 }

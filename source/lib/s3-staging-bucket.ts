@@ -17,6 +17,7 @@ import * as iam from '@aws-cdk/aws-iam';
 
 export class StagingBucket extends cdk.Construct {
     public readonly Bucket: s3.IBucket;
+    public readonly LogBucket: s3.IBucket;
 
     constructor(scope: cdk.Construct, id: string) {
         super(scope, id);
@@ -27,9 +28,14 @@ export class StagingBucket extends cdk.Construct {
             removalPolicy: cdk.RemovalPolicy.DESTROY
         }
 
-        const accessLogsBucket = new s3.Bucket(this, 'AccessLogsBucket', securitySettings);
+        const accessLogsBucket = new s3.Bucket(this, 'AccessLogsBucket',{
+            blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
+            encryption: s3.BucketEncryption.S3_MANAGED,
+            removalPolicy: cdk.RemovalPolicy.DESTROY
+        });
         (accessLogsBucket.node.defaultChild as s3.CfnBucket).overrideLogicalId('AccessLogs');
         this.addCfnNagSuppressions(accessLogsBucket, true);
+        this.LogBucket = accessLogsBucket;
 
         const rules: s3.LifecycleRule[] = [{
             id: 'multipart-upload-rule',

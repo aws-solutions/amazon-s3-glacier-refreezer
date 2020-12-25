@@ -1,14 +1,12 @@
 {
-  "name": "check-inventory-state",
+  "name": "send-anonymous-statistics",
   "main": "index.js",
   "version": "1.0.0",
-  "description": "Checks the row count of the inventory and partitioned inventory tables",
+  "description": "Uploads the anonymous stats on the invocation",
   "license": "Apache-2.0",
   "repository": {},
-  "scripts": {
-    "test": "mocha --timeout 10000 'test/**/*.js'"
-  },
   "dependencies": {
+    "axios": "^0.21.0",
     "moment": "^2.29.1"
   },
   "devDependencies": {

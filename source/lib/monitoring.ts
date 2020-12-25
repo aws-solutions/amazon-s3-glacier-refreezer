@@ -143,15 +143,14 @@ export class Monitoring extends cdk.Construct {
         // Log Groups and Log Widget
         // Pre-creating all log groups explicitly to remove them on Stack deletion automatically
         const logGroupNames: string[] = [
-            Monitoring.createLogGroup(this, '/aws/states','stageTwoOrchestrator'),
+            Monitoring.createStackLogGroup(this, '/aws/states','stageTwoOrchestrator'),
         ];
 
         const directoryPath = path.join(__dirname, '../lambda');
         fs.readdirSync(directoryPath).map(entry => {
             if (fs.lstatSync(directoryPath + '/' + entry).isDirectory()) {
-                if (entry === 'requestInventory') return;    // requestInventory Log Group is unique
-                                                             // and not removed on stack deletion
-                logGroupNames.push(Monitoring.createLogGroup(this, '/aws/lambda', entry))
+                // if (entry === 'generateUuid') return;  // Unique and not automatically deleted
+                logGroupNames.push(Monitoring.createStackLogGroup(this, '/aws/lambda', entry))
             }
         })
 
@@ -211,7 +210,7 @@ export class Monitoring extends cdk.Construct {
         });
     }
 
-    private static createLogGroup(construct: cdk.Construct, prefix: string, name: string) {
+    private static createStackLogGroup(construct: cdk.Construct, prefix: string, name: string) {
         // Using direct CFN construct to enforce Log Group cleanup on stack deletion
         const logGroupName = `${prefix}/${cdk.Aws.STACK_NAME}-${name}`;
         new logs.CfnLogGroup(construct, `${name}LogGroup`, {logGroupName});
