@@ -95,6 +95,7 @@ echo "--------------------------------------------------------------------------
 cd $source_dir
 
 npm install -g aws-cdk@$cdk_version
+npm install
 cdk synth --output=$staging_dist_dir
 
 cd $staging_dist_dir
