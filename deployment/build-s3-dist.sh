@@ -31,7 +31,7 @@ cdk_version=1.80.0
 # Check to see if input has been provided:
 if [ -z "$1" ] || [ -z "$2" ] || [ -z "$3" ]; then
     echo "Please provide all required parameters for the build script"
-    echo "For example: ./build-s3-dist.sh solutions trademarked-solution-name v1.0.0"
+    echo "For example: ./build-s3-dist.sh bucket-base trademarked-solution-name v1.0.0"
     exit 1
 fi
 
