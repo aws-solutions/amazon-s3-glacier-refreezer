@@ -22,6 +22,7 @@ import {StageThree} from "../lib/stage-three";
 import {StageFour} from "../lib/stage-four";
 import {SolutionStackProps} from './solution-props';
 import {StageTwo} from "../lib/stage-two";
+import {AnonymousStatistics} from "../lib/solution-builders-anonymous-statistics";
 
 export class AmazonS3GlacierRefreezerStack extends cdk.Stack {
     constructor(scope: cdk.Construct, id: string, props: SolutionStackProps) {
@@ -139,6 +140,20 @@ export class AmazonS3GlacierRefreezerStack extends cdk.Stack {
             });
 
         //---------------------------------------------------------------------
+        // Anonymous Statistics
+
+        // This solution includes an option to send anonymous operational metrics to
+        // AWS. We use this data to better understand how customers use this
+        // solution and related services and products
+
+        const statistics = new AnonymousStatistics(this, `statistics`, {
+            solutionId: props.solutionId,
+            retrievalTier: glacierRetrievalTier.valueAsString,
+            destinationStorageClass: destinationStorageClass.valueAsString,
+            sendAnonymousData: 'Yes'
+        })
+
+        //---------------------------------------------------------------------
         // Stage Three: Copy Archives to Staging
         const stageThree = new StageThree(this, 'stageThree', {
             stagingBucket: stagingBucket.Bucket,
@@ -156,7 +171,8 @@ export class AmazonS3GlacierRefreezerStack extends cdk.Stack {
             glacierRetrievalTier: glacierRetrievalTier.valueAsString,
             archiveNotificationTopic: stageThree.archiveNotificationTopic,
             glueDataCatalog: glueDataCatalog,
-            dynamoDataCatalog: dynamoDataCatalog
+            dynamoDataCatalog: dynamoDataCatalog,
+            sendAnonymousStats: statistics.sendAnonymousStats
         });
         stageTwo.node.addDependency(monitoring);
 
@@ -164,6 +180,7 @@ export class AmazonS3GlacierRefreezerStack extends cdk.Stack {
         // Stage One: Get Inventory
         const stageOne = new StageOne(this, 'stageOne', {
             stagingBucket: stagingBucket.Bucket,
+            logBucket: stagingBucket.LogBucket,
             iamSecurity: iamSecurity,
             sourceGlacierVault: sourceVault.valueAsString,
             destinationBucket: destinationBucket.valueAsString,
@@ -207,6 +224,11 @@ export class AmazonS3GlacierRefreezerStack extends cdk.Stack {
         new cdk.CfnOutput(this, 'StagingBucketName', {
             description: 'Staging Bucket Name',
             value: stagingBucket.Bucket.bucketName
+        });
+
+        new cdk.CfnOutput(this, 'StagingAccessLogBucketName', {
+            description: 'Staging Access Logs Bucket Name',
+            value: stagingBucket.LogBucket.bucketName
         });
 
         new cdk.CfnOutput(this, 'dashboardUrl', {

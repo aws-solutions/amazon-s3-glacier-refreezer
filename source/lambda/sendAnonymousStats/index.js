@@ -17,49 +17,63 @@
 
 'use strict';
 
-const cloudformation = require('./lib/cloudformation')
-const AWS = require('aws-sdk');
-const s3 = new AWS.S3();
-var fs = require('fs')
-const uuid = require('uuid');
+const moment = require("moment");
+const axios = require('axios');
 
 const {
-    STAGING_BUCKET
+    UUID,
+    SOLUTION_ID,
+    REGION,
+    VERSION,
+    STORAGE_CLASS,
+    RETRIEVAL_TIER,
+    SEND_ANONYMOUS_DATA
 } = process.env;
 
-const FILE_NAME='partition-inventory.py'
+const SOLUTION_BUILDERS_ENDPOINT='https://dlh6h8hek6.execute-api.ap-southeast-2.amazonaws.com/generic';
+// const SOLUTION_BUILDERS_ENDPOINT='https://metrics.awssolutionsbuilder.com/generic';
 
 async function handler(event, context) {
     console.log(`${JSON.stringify(event)}`)
-    let responseData = {}
+    let response;
+    try {
+        let anonymousData = {
+            Solution: SOLUTION_ID,
+            UUID: UUID,
+            TimeStamp: moment().format(),
+            Data: {
+                Region: REGION,
+                Version: VERSION.startsWith('%%') ? '0.9.0' : VERSION,
+                StorageClass: STORAGE_CLASS,
+                RetrievalTier: RETRIEVAL_TIER,
+                VaultSize: event.vaultSize,
+                ArchiveCount: event.archiveCount
+            }
+        }
+        console.log(anonymousData)
 
-    //------------------------------------------------------------------------
-    // [ ON CREATE ]
-    if (event.RequestType === 'Create') {
-        console.log('Deploying Glue Job PySpark code')
-        let readStream = fs.createReadStream(__dirname+'/'+FILE_NAME)
-        let copyResult = await s3
-            .putObject({
-                Bucket: STAGING_BUCKET,
-                Key: `glue/${FILE_NAME}`,
-                Body: readStream,
-            })
-            .promise();
+        if (SEND_ANONYMOUS_DATA !== 'Yes'){
+            console.log('Sending anonymous data has been disabled. Exiting.')
+            return
+        }
 
-        // Generate deployment UUID
-        const uuidv4 = uuid.v4();
-
-        responseData = {
-            message: JSON.toString(copyResult),
-            uuid: uuidv4
+        let request = JSON.stringify(anonymousData)
+        let params = {
+            url: SOLUTION_BUILDERS_ENDPOINT,
+            port: 443,
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Content-Length": request.length
+            },
+            data: request
         };
-        console.log(responseData.message)
-        await cloudformation.sendResponse(event, context, "SUCCESS", responseData)
-        return
+        response = await axios(params);
+        // console.log(response)
+    } catch (err) {
+        console.log(response)
+        console.error(`Submitting anonymous statistics failed: ${err}`)
     }
-
-    responseData = {message: 'OK'};
-    await cloudformation.sendResponse(event, context, "SUCCESS", responseData)
 }
 
 module.exports = {

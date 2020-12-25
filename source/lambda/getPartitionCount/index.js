@@ -24,12 +24,10 @@ const {
     DATABASE,
     STAGING_BUCKET,
     PARTITIONED_INVENTORY_TABLE,
-    ATHENA_WORKGROUP,
-    UUID
+    ATHENA_WORKGROUP
 } = process.env;
 
 async function handler() {
-    console.log(`Get Partition Count for deployment UUID: ${UUID}`);
     console.log("Getting the min and max partitions from Athena")
 
     const queryExecution = await athena.startQueryExecution({

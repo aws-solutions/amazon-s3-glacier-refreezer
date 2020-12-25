@@ -21,6 +21,7 @@ import * as path from 'path';
 
 export interface StageOneProps {
     readonly stagingBucket: s3.IBucket;
+    readonly logBucket: s3.IBucket;
     readonly iamSecurity: iamSec.IamSecurity;
     readonly sourceGlacierVault: string,
     readonly destinationBucket: string,
@@ -33,9 +34,6 @@ export interface StageOneProps {
 }
 
 export class StageOne extends cdk.Construct {
-    public readonly requestInventory: lambda.IFunction;
-    public readonly downloadInventory: lambda.IFunction;
-    public readonly downloadInventoryPart: lambda.IFunction;
 
     constructor(scope: cdk.Construct, id: string, props: StageOneProps) {
         super(scope, id);
@@ -49,16 +47,18 @@ export class StageOne extends cdk.Construct {
 
         // -------------------------------------------------------------------------------------------
         // Request Inventory
-        const requestInventory = new lambda.Function(this, 'RequestInventory', {
+        const requestInventory = new lambda.Function(this, 'requestInventory', {
+            functionName: `${cdk.Aws.STACK_NAME}-requestInventory`,
             runtime: lambda.Runtime.NODEJS_12_X,
             handler: 'index.handler',
             memorySize: 256,
             timeout: cdk.Duration.minutes(15),
-            code: lambda.Code.fromAsset(path.join(__dirname, '../lambda/requestInventory')),
+            code: lambda.Code.fromAsset('lambda/requestInventory'),
             environment:
                 {
                     SOURCE_VAULT: props.sourceGlacierVault,
                     STAGING_BUCKET: props.stagingBucket.bucketName,
+                    LOG_BUCKET: props.logBucket.bucketName,
                     STAGING_LIST_PREFIX: 'filelist',
                     FILELIST_LOCATION: props.filelistS3location,
                     DESTINATION_BUCKET: props.destinationBucket,
@@ -67,19 +67,18 @@ export class StageOne extends cdk.Construct {
                     SNS_VAULT_CONF: props.snsTopicForVaultConfirmation
                 }
         });
-        (requestInventory.node.defaultChild as lambda.CfnFunction).overrideLogicalId('requestInventory');
+        // (requestInventory.node.defaultChild as lambda.CfnFunction).overrideLogicalId('requestInventory');
 
         props.stagingBucket.grantReadWrite(requestInventory);
+        props.logBucket.grantReadWrite(requestInventory);
         s3.Bucket.fromBucketName(this, 'destinationBucket', props.destinationBucket).grantReadWrite(requestInventory);
         requestInventory.addToRolePolicy(iamSec.IamSecurity.s3AssureSecureTransport([`arn:aws:s3:::${props.filelistS3location}`]));
         requestInventory.addToRolePolicy(iamSec.IamSecurity.glacierPermitOperations(props.sourceGlacierVault));
 
-        new cdk.CustomResource(this, 'requestInventoryTrigger',
+        const requestInventoryTrigger = new cdk.CustomResource(this, 'requestInventoryTrigger',
             {
-                serviceToken: `${cdk.Fn.getAtt((requestInventory.node.defaultChild as lambda.CfnFunction).logicalId, 'Arn')}`
+                serviceToken: requestInventory.functionArn
             });
-
-        this.requestInventory = requestInventory;
 
         // -------------------------------------------------------------------------------------------
         // Download Inventory Part
@@ -97,7 +96,6 @@ export class StageOne extends cdk.Construct {
         props.stagingBucket.grantReadWrite(downloadInventoryPart);
         downloadInventoryPart.addToRolePolicy(glacierAccess);
 
-        this.downloadInventoryPart = downloadInventoryPart;
         // -------------------------------------------------------------------------------------------
         // Download Inventory
         const downloadInventory = new lambda.Function(this, 'downloadInventory', {
@@ -122,7 +120,5 @@ export class StageOne extends cdk.Construct {
         props.stageTwoOrchestrator.grant(downloadInventory, 'states:StartExecution');
 
         downloadInventory.addEventSource(new SnsEventSource(inventoryTopic));
-
-        this.downloadInventory = downloadInventory;
     }
 }
