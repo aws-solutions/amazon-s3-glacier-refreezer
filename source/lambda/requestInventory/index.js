@@ -44,8 +44,6 @@ async function handler(event, context) {
             // If any of the archives have not been copied over to the destination bucket the folder will be present
             // and the bucket deletion by cloudformation will fail, preserving the data for investigation
             await storageService.cleanupStagingBucket();
-            console.log('Cleaning up staging bucket complete');
-            await storageService.cleanupLogBucket();
             responseData = {message: 'Cleaning up staging/log buckets: completed'};
             console.log(responseData.message);
             await cloudformation.sendResponse(event, context, "SUCCESS", responseData);
