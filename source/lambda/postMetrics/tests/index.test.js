@@ -30,14 +30,10 @@ sinon.stub(console, 'error');
 
 describe('-- Post Metrics Test --', () => {
     var AWS;
-
     var pubMetric;
-
-    var archivesResult;
-    var progressResult;
+    var progressCount;
     var metricResult;
     var finalMetricCount = 32000
-
     var queryFunc;
     var putMetricDataFunc;
 
@@ -53,38 +49,27 @@ describe('-- Post Metrics Test --', () => {
             CloudWatch: sinon.stub().returns({
                 putMetricData: putMetricDataFunc
             })
-        }
-        archivesResult = {
+        };
+
+        progressCount = {
             Items: [{
-                "pk": "totalRecordCount",
-                "value": { 'N': finalMetricCount }
-            }]
-        }
-        progressResult = {
-            Items: [{
+                "pk": "count",
+                "total": { 'N': finalMetricCount },
                 "completed": { 'N': finalMetricCount },
-                "pk": "processProgress",
                 "requested": { 'N': finalMetricCount },
                 "started": { 'N': finalMetricCount },
                 "validated": { 'N': finalMetricCount }
             }]
-        }
+        };
 
         //Matchers
         queryFunc.withArgs(sinon.match(function (param) {
-            return param.ExpressionAttributeValues[Object.keys(param.ExpressionAttributeValues)[0]]['S'] === 'processProgress'
+            return param.ExpressionAttributeValues[Object.keys(param.ExpressionAttributeValues)[0]]['S'] === 'count'
         })).returns(
             {
-                promise: () => progressResult
+                promise: () => progressCount
             }
-        )
-        queryFunc.withArgs(sinon.match(function (param) {
-            return param.ExpressionAttributeValues[Object.keys(param.ExpressionAttributeValues)[0]]['S'] === 'totalRecordCount'
-        })).returns(
-            {
-                promise: () => archivesResult
-            }
-        )
+        );
 
         metricResult = {
             'Total Archives': 0,
@@ -92,7 +77,8 @@ describe('-- Post Metrics Test --', () => {
             'Copy Initiated': 0,
             'Copy Completed': 0,
             'Hashes Validated': 0
-        }
+        };
+
         putMetricDataFunc.withArgs(sinon.match(function (param) {
             metricResult[param.MetricData[0].MetricName] = param.MetricData[0].Value
             return true;
@@ -107,18 +93,15 @@ describe('-- Post Metrics Test --', () => {
     })
 
     //Tests
-    it('Should Dynamo return Total Records to expected metric value', async () => {
-        var res = await pubMetric.getTotalRecords({});
-        expect(res).to.be.equal(finalMetricCount);
-    })
-    it('Should Dynamo return Total Processing Records  to expected metric values', async () => {
-        var res = await pubMetric.getProcessProgress({});
+    it('Should Dynamo return Processing Counts to expected metric values', async () => {
+        var res = await pubMetric.getCount();
+        expect(res.total.N).to.be.equal(finalMetricCount);
         expect(res.started.N).to.be.equal(finalMetricCount);
         expect(res.requested.N).to.be.equal(finalMetricCount);
         expect(res.completed.N).to.be.equal(finalMetricCount);
         expect(res.validated.N).to.be.equal(finalMetricCount);
     })
     it('Should publish metric to CloudWatch', async () => {
-        await expect(pubMetric.publishMetric({})).to.be.not.rejected;
+        await expect(pubMetric.publishMetric()).to.be.not.rejected;
     })
 })

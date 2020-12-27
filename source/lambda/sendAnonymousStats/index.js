@@ -30,50 +30,47 @@ const {
     SEND_ANONYMOUS_DATA
 } = process.env;
 
-const SOLUTION_BUILDERS_ENDPOINT='https://dlh6h8hek6.execute-api.ap-southeast-2.amazonaws.com/generic';
+const SOLUTION_BUILDERS_ENDPOINT = 'https://dlh6h8hek6.execute-api.ap-southeast-2.amazonaws.com/generic';
+
 // const SOLUTION_BUILDERS_ENDPOINT='https://metrics.awssolutionsbuilder.com/generic';
 
 async function handler(event, context) {
-    console.log(`${JSON.stringify(event)}`)
+    console.log(`${JSON.stringify(event)}`);
     let response;
-    try {
-        let anonymousData = {
-            Solution: SOLUTION_ID,
-            UUID: UUID,
-            TimeStamp: moment().format(),
-            Data: {
-                Region: REGION,
-                Version: VERSION.startsWith('%%') ? '0.9.0' : VERSION,
-                StorageClass: STORAGE_CLASS,
-                RetrievalTier: RETRIEVAL_TIER,
-                VaultSize: event.vaultSize,
-                ArchiveCount: event.archiveCount
-            }
-        }
-        console.log(anonymousData)
 
-        if (SEND_ANONYMOUS_DATA !== 'Yes'){
-            console.log('Sending anonymous data has been disabled. Exiting.')
-            return
+    let anonymousData = {
+        Solution: SOLUTION_ID,
+        UUID: UUID,
+        TimeStamp: moment().format(),
+        Data: {
+            Region: REGION,
+            Version: VERSION.startsWith('%%') ? '0.9.0' : VERSION,
+            StorageClass: STORAGE_CLASS,
+            RetrievalTier: RETRIEVAL_TIER,
+            VaultSize: event.vaultSize,
+            ArchiveCount: event.archiveCount
         }
+    };
+    console.log(anonymousData);
 
-        let request = JSON.stringify(anonymousData)
-        let params = {
-            url: SOLUTION_BUILDERS_ENDPOINT,
-            port: 443,
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "Content-Length": request.length
-            },
-            data: request
-        };
-        response = await axios(params);
-        // console.log(response)
-    } catch (err) {
-        console.log(response)
-        console.error(`Submitting anonymous statistics failed: ${err}`)
+    if (SEND_ANONYMOUS_DATA !== 'Yes') {
+        console.log('Sending anonymous data has been disabled. Exiting.');
+        return;
     }
+
+    let request = JSON.stringify(anonymousData);
+    let params = {
+        url: SOLUTION_BUILDERS_ENDPOINT,
+        port: 443,
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Content-Length": request.length
+        },
+        data: request
+    };
+    response = await axios(params);
+    // console.log(response.data);
 }
 
 module.exports = {

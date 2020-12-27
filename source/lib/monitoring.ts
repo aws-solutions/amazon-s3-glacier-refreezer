@@ -138,7 +138,7 @@ export class Monitoring extends cdk.Construct {
                 completed,
                 validated
             ]
-        })
+        });
 
         // Log Groups and Log Widget
         // Pre-creating all log groups explicitly to remove them on Stack deletion automatically
@@ -149,10 +149,11 @@ export class Monitoring extends cdk.Construct {
         const directoryPath = path.join(__dirname, '../lambda');
         fs.readdirSync(directoryPath).map(entry => {
             if (fs.lstatSync(directoryPath + '/' + entry).isDirectory()) {
-                // if (entry === 'generateUuid') return;  // Unique and not automatically deleted
+                if (entry === 'toLowercase') return;  // created in glue-data-catalog.ts
+                if (entry === 'generateUuid') return;  // created in solution-builders-anonymous-statistics.cs
                 logGroupNames.push(Monitoring.createStackLogGroup(this, '/aws/lambda', entry))
             }
-        })
+        });
 
         const logWidget = new cloudwatch.LogQueryWidget({
             width: 20,

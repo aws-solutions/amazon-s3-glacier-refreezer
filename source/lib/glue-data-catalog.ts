@@ -17,6 +17,8 @@ import * as glue from '@aws-cdk/aws-glue';
 import * as lambda from '@aws-cdk/aws-lambda';
 import * as athena from '@aws-cdk/aws-athena';
 import { readFileSync } from 'fs';
+import * as logs from "@aws-cdk/aws-logs";
+import * as iam from "@aws-cdk/aws-iam";
 
 export interface GlueDataProps {
     readonly stagingBucket: s3.IBucket;
@@ -32,14 +34,26 @@ export class GlueDataCatalog extends cdk.Construct {
     constructor(scope: cdk.Construct, id: string, props: GlueDataProps) {
         super(scope, id);
 
+        const toLowerLogGroup = new logs.CfnLogGroup(this, `toLowercaseLogGroup`, {
+            logGroupName:  `/aws/lambda/${cdk.Aws.STACK_NAME}-toLowercase`
+        });
+
+        // The role is declared explicitly to orchestrate the deletion of the log group in order
+        const toLowercaseRole = new iam.Role(this,'toLowercaseRole',{
+            assumedBy: new iam.ServicePrincipal('lambda.amazonaws.com')
+        });
+        toLowercaseRole.node.addDependency(toLowerLogGroup);
+
         const toLowercase = new lambda.Function(this, 'toLowercase', {
+            functionName: `${cdk.Aws.STACK_NAME}-toLowercase`,
             runtime: lambda.Runtime.NODEJS_12_X,
             handler: 'index.handler',
-            code: lambda.Code.fromInline(readFileSync('inline/toLowercase/index.js', 'utf-8')) 
+            role: toLowercaseRole,
+            code: lambda.Code.fromInline(readFileSync('lambda/toLowercase/index.js', 'utf-8')) 
         });
-        (toLowercase.node.defaultChild as lambda.CfnFunction).overrideLogicalId('toLowercase');
+        toLowercase.node.addDependency(toLowercaseRole);
 
-        const lowercaseCustomResource = new cdk.CustomResource(this, 'toLowercaseCustom', {
+        const toLowercaseTrigger = new cdk.CustomResource(this, 'toLowercaseTrigger', {
             serviceToken: toLowercase.functionArn,
             properties: { stack_name: cdk.Aws.STACK_NAME }
         })
@@ -47,13 +61,13 @@ export class GlueDataCatalog extends cdk.Construct {
         // database
         this.inventoryDatabase = new glue.Database(this, 'InventoryDatabase', 
         {
-            databaseName: `refreezer-inventory-${lowercaseCustomResource.getAttString('stack_name')}`
+            databaseName: `refreezer-inventory-${toLowercaseTrigger.getAttString('stack_name')}`
         });
 
         // inventory table
         const inventoryTable = new glue.Table(this, 'InventoryTable', 
         {
-            tableName: `${lowercaseCustomResource.getAttString('stack_name')}-grf-inventory`,
+            tableName: `${toLowercaseTrigger.getAttString('stack_name')}-grf-inventory`,
             database: this.inventoryDatabase,
             columns: [{
                 name: 'archiveid',
@@ -88,7 +102,7 @@ export class GlueDataCatalog extends cdk.Construct {
         // filename override table
         const filelistTable = new glue.Table(this, 'FilelistTable', 
         {
-            tableName:  `${lowercaseCustomResource.getAttString('stack_name')}-grf-filelist`,
+            tableName:  `${toLowercaseTrigger.getAttString('stack_name')}-grf-filelist`,
             database: this.inventoryDatabase,
             columns: [{
                 name: 'archiveid',
@@ -109,7 +123,7 @@ export class GlueDataCatalog extends cdk.Construct {
         // partitioned inventory table
         const partitionedinventoryTable = new glue.Table(this, 'PartitionedinventoryTable', 
         {
-            tableName:  `${lowercaseCustomResource.getAttString('stack_name')}-grf-inventory-partitioned`,
+            tableName:  `${toLowercaseTrigger.getAttString('stack_name')}-grf-inventory-partitioned`,
             database: this.inventoryDatabase,
             columns: [{
                 name: 'archiveid',

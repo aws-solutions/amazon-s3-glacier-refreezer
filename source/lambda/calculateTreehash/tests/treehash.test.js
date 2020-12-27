@@ -34,11 +34,9 @@ const ONE_MB = 1024 * 1024;
 describe('-- Calculate TreeHash Test --', () => {
     describe('-- TreeHash Test --', () => {
         var AWS;
-
         var treehash;
         var getObjectFunc;
         var readStream;
-
         const fixtureFile = 'tests/fixtures/data.bin';
 
         //Init

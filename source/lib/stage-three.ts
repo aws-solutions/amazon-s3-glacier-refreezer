@@ -51,8 +51,9 @@ export class StageThree extends cdk.Construct {
 
         // -------------------------------------------------------------------------------------------
         // Archive Notification Topic
-        const archiveNotificationTopic = new sns.Topic(this, 'archiveNotificationTopic');
-        (archiveNotificationTopic.node.defaultChild as sns.CfnTopic).overrideLogicalId(`archiveNotificationTopic`);
+        const archiveNotificationTopic = new sns.Topic(this, 'archiveNotificationTopic',{
+            topicName: `${cdk.Aws.STACK_NAME}-archive-retrieval-notification`,
+        });
 
         archiveNotificationTopic.addToResourcePolicy(iamSec.IamSecurity.snsPermitAccountAccess(archiveNotificationTopic));
         archiveNotificationTopic.addToResourcePolicy(iamSec.IamSecurity.snsDenyInsecureTransport(archiveNotificationTopic));

@@ -39,6 +39,9 @@ bucket_name="$1"
 solution_name="$2"
 solution_version="$3"
 
+# Explicitly override the target template file name
+export GRF_STACK_NAME=${solution_name}
+
 # Get reference for all important folders
 template_dir="$PWD"
 staging_dist_dir="$template_dir/staging"

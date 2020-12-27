@@ -13,6 +13,8 @@
 
 import * as cdk from '@aws-cdk/core';
 import * as lambda from '@aws-cdk/aws-lambda';
+import * as iam from "@aws-cdk/aws-iam";
+import * as logs from "@aws-cdk/aws-logs";
 
 export interface AnonymousStatisticsProps {
     readonly solutionId: string;
@@ -28,6 +30,16 @@ export class AnonymousStatistics extends cdk.Construct {
     constructor(scope: cdk.Construct, id: string, props: AnonymousStatisticsProps) {
         super(scope, id);
 
+        const generateUuidLogGroup = new logs.CfnLogGroup(this, `generateUuidLogGroup`, {
+            logGroupName:  `/aws/lambda/${cdk.Aws.STACK_NAME}-generateUuid`
+        });
+
+        // The role is declared explicitly to orchestrate the deletion of the log group in order
+        const generateUuidRole = new iam.Role(this,'generateUuidRole',{
+            assumedBy: new iam.ServicePrincipal('lambda.amazonaws.com')
+        });
+        generateUuidRole.node.addDependency(generateUuidLogGroup);
+
         const generateUuid = new lambda.Function(this, 'generateUuid', {
             functionName: `${cdk.Aws.STACK_NAME}-generateUuid`,
             description: 'This function generates UUID for each deployment',
@@ -35,9 +47,10 @@ export class AnonymousStatistics extends cdk.Construct {
             handler: 'index.handler',
             memorySize: 256,
             timeout: cdk.Duration.seconds(20),
+            role: generateUuidRole,
             code: lambda.Code.fromAsset('lambda/generateUuid')
         });
-        // (generateUuid.node.defaultChild as lambda.CfnFunction).overrideLogicalId('generateUuid');
+        generateUuid.node.addDependency(generateUuidRole);
 
         const genereateUuidTrigger = new cdk.CustomResource(this, 'generateUuidTrigger', {
             serviceToken: generateUuid.functionArn
