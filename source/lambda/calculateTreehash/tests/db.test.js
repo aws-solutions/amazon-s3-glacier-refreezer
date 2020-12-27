@@ -31,12 +31,9 @@ sinon.stub(console, 'error');
 describe('-- Calculate TreeHash Test --', () => {
     describe('-- db Test --', () => {
         var AWS;
-
         var db;
-
         var updateItemFunc;
         var getItemFunc;
-
         var statusTableItems;
         var result;
         var validArchiveId = '-_27G6RJ0mYFtcF4dF9_eWRPYFkndowEpxodhax26-t9UXFI-AaEZszxf80pu_4JCPvOGMIUA933I80uqRX9eZBhQN8umpBt1GXZUNeUGJKgYGJwA41cwqz7hFe4W5FZQoBMEpEdQA';

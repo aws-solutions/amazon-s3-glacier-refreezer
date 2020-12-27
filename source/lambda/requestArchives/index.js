@@ -47,11 +47,11 @@ async function handler(payload) {
     const processed = [];
 
     console.log(
-        `Starting partition: ${payload.currentPartition}. Last partition: ${payload.maxPartition}`
+        `Starting partition: ${payload.nextPartition}. Last partition: ${payload.maxPartition}`
     );
 
     console.log(`Checking progress in DynamoDB`);
-    const pid = parseInt(payload.currentPartition);
+    const pid = payload.nextPartition;
     var partitionMaxProcessedFileNumber = await getPartitionMaxProcessedFileNumber(
         pid
     );
@@ -126,12 +126,8 @@ async function handler(payload) {
         partitionMaxProcessedFileNumber = ifn;
     }
 
-    // Increment Partition Count
-    // Check if all partitions have been processed
-    payload.currentPartition = pid + 1;
-    if (payload.currentPartition > parseInt(payload.maxPartition)) {
-        payload.isComplete = true;
-    }
+    // Increment Processed Partition Count
+    payload.nextPartition = pid + 1;
     return payload;
 };
 

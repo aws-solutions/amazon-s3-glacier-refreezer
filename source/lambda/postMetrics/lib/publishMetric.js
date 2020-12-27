@@ -29,31 +29,12 @@ const {
 const CLOUDWATCH_DIMENSIONS_NAME = 'CloudFormation Stack';
 const CLOUDWATCH_NAMESPACE = 'AmazonS3GlacierReFreezer';
 
-// query dynamodb table for #pk = :totalRecordCount
-async function getTotalRecords() {
-    try {
-        const params = {
-            KeyConditionExpression: 'pk = :totalRecordCount',
-            ExpressionAttributeValues: {
-                ':totalRecordCount': { S: 'totalRecordCount' }
-            },
-            TableName: METRICS_TABLE
-        };
-        const data = await dynamodb.query(params).promise();
-        if (Array.isArray(data.Items) && data.Items.length) {
-            return parseInt(data.Items[0].value['N']);
-        }
-    } catch (error) {
-        console.error('getTotalRecords.error', error);
-    }
-}
-
-async function getProcessProgress() {
+async function getCount() {
     try {
         const params = {
             KeyConditionExpression: 'pk = :pk',
             ExpressionAttributeValues: {
-                ':pk': { S: 'processProgress' }
+                ':pk': { S: 'count' }
             },
             TableName: METRICS_TABLE
         };
@@ -64,7 +45,7 @@ async function getProcessProgress() {
             return null
         }
     } catch (error) {
-        console.error('getProcessProgress.error', error);
+        console.error('getCount.error', error);
     }
 }
 
@@ -96,7 +77,6 @@ async function publishMetric(metricName, metricValue) {
 }
 
 module.exports = { 
-    getTotalRecords, 
-    getProcessProgress, 
+    getCount,
     publishMetric 
 };

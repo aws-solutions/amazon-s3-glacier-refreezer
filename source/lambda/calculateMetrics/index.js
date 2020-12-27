@@ -26,31 +26,31 @@ const {
 
 async function handler(event) {
 
-    let requested = 0
-    let copyStarted = 0
-    let copyCompleted = 0
-    let validated = 0
+    let requested = 0;
+    let copyStarted = 0;
+    let copyCompleted = 0;
+    let validated = 0;
 
     for (const record of event.Records) {
         if (record.eventName === "REMOVE") continue;
-        requested += checkField(record, "aid")
-        copyStarted += checkField(record, "psdt")
-        copyCompleted += checkField(record, "cpdt")
-        validated += checkField(record, "vdt")
+        requested += checkField(record, "aid");
+        copyStarted += checkField(record, "psdt");
+        copyCompleted += checkField(record, "cpdt");
+        validated += checkField(record, "vdt");
     }
 
     if (requested > 0 || copyStarted > 0 || copyCompleted > 0 || validated > 0) {
-        console.log(`r: ${requested} s: ${copyStarted} c: ${copyCompleted} v: ${validated}`)
-        await incrementCount(requested, copyStarted, copyCompleted, validated)
+        console.log(`r: ${requested} s: ${copyStarted} c: ${copyCompleted} v: ${validated}`);
+        await incrementCount(requested, copyStarted, copyCompleted, validated);
     }
 }
 
 function checkField(record, field) {
     if ((!record.dynamodb.OldImage || !record.dynamodb.OldImage[field]) &&
         record.dynamodb.NewImage[field]) {
-        return 1
+        return 1;
     }
-    return 0
+    return 0;
 }
 
 async function incrementCount(requested, started, completed, validated) {
@@ -58,7 +58,7 @@ async function incrementCount(requested, started, completed, validated) {
         TableName: METRICS_TABLE,
         Key: {
             pk: {
-                S: "processProgress"
+                S: "count"
             }
         },
         ExpressionAttributeValues: {

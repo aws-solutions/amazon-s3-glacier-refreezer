@@ -12,17 +12,17 @@
  *********************************************************************************************************************/
 
 import * as cdk from '@aws-cdk/core';
-import {StagingBucket} from '../lib/s3-staging-bucket';
-import {GlueDataCatalog} from '../lib/glue-data-catalog';
-import {DynamoDataCatalog} from '../lib/ddb-data-catalog';
-import {IamSecurity} from '../lib/iam-security';
-import {StageOne} from '../lib/stage-one';
-import {Monitoring} from "../lib/monitoring";
-import {StageThree} from "../lib/stage-three";
-import {StageFour} from "../lib/stage-four";
+import {StagingBucket} from './s3-staging-bucket';
+import {GlueDataCatalog} from './glue-data-catalog';
+import {DynamoDataCatalog} from './ddb-data-catalog';
+import {IamSecurity} from './iam-security';
+import {StageOne} from './stage-one';
+import {Monitoring} from "./monitoring";
+import {StageThree} from "./stage-three";
+import {StageFour} from "./stage-four";
 import {SolutionStackProps} from './solution-props';
-import {StageTwo} from "../lib/stage-two";
-import {AnonymousStatistics} from "../lib/solution-builders-anonymous-statistics";
+import {StageTwo} from "./stage-two";
+import {AnonymousStatistics} from "./solution-builders-anonymous-statistics";
 
 export class AmazonS3GlacierRefreezerStack extends cdk.Stack {
     constructor(scope: cdk.Construct, id: string, props: SolutionStackProps) {

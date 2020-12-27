@@ -33,9 +33,7 @@ const {
 } = process.env;
 
 async function handler(event) {
-    let { aid, key, partNo, startByte, endByte } = JSON.parse(
-        event.Records[0].body
-    );
+    let {aid, key, partNo, startByte, endByte} = JSON.parse(event.Records[0].body);
 
     console.log(`${key} - ${partNo} hash : ${startByte}-${endByte}`);
 
@@ -105,15 +103,16 @@ async function finalise(s3hash, statusRecord) {
     }
     await copy.copyKeyToDestinationBucket(key, statusRecord.Attributes.sz.N);
     await closeOffRecord(statusRecord);
-};
+}
 
 async function closeOffRecord(statusRecord) {
     let key = statusRecord.Attributes.fname.S;
     await db.setTimestampNow(statusRecord.Attributes.aid.S, "vdt");
     await s3.deleteObject({
-            Bucket: STAGING_BUCKET,
-            Key: `${STAGING_BUCKET_PREFIX}/${key}`}).promise();
-};
+        Bucket: STAGING_BUCKET,
+        Key: `${STAGING_BUCKET_PREFIX}/${key}`
+    }).promise();
+}
 
 async function fileExists(Bucket, key) {
     let objects = await s3
@@ -130,7 +129,7 @@ async function fileExists(Bucket, key) {
     }
 
     return false;
-};
+}
 
 // Retry when hash mismatch is found
 async function failArchiveAndRetry(statusRecord, key) {
@@ -183,8 +182,8 @@ async function failArchiveAndRetry(statusRecord, key) {
             MessageBody: messageBody,
         })
         .promise();
-};
+}
 
 module.exports = {
     handler
-};
+}

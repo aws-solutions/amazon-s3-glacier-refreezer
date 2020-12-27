@@ -19,26 +19,25 @@
 
 const AWS = require('aws-sdk');
 const { 
-    getTotalRecords, 
-    getProcessProgress, 
+    getCount,
     publishMetric 
 } = require('./lib/publishMetric.js')
 
 async function handler() {
 
-    const archivesTotal = await getTotalRecords();
-    const processProgress = await getProcessProgress();
+    const progressCount = await getCount();
 
-    let archivesRequested = processProgress && processProgress.requested ? processProgress.requested.N : 0
-    let archivesInitiated = processProgress && processProgress.started ? processProgress.started.N : 0
-    let archivesCompleted = processProgress && processProgress.completed ? processProgress.completed.N : 0
-    let treehashValidated = processProgress && processProgress.validated ? processProgress.validated.N : 0
+    let archivesTotal = progressCount && progressCount.requested ? progressCount.total.N : null;
+    let archivesRequested = progressCount && progressCount.requested ? progressCount.requested.N : 0;
+    let archivesInitiated = progressCount && progressCount.started ? progressCount.started.N : 0;
+    let archivesCompleted = progressCount && progressCount.completed ? progressCount.completed.N : 0;
+    let treehashValidated = progressCount && progressCount.validated ? progressCount.validated.N : 0;
 
     if (archivesTotal) {
-        archivesRequested = archivesRequested > archivesTotal ? archivesTotal : archivesRequested
-        archivesInitiated = archivesInitiated > archivesTotal ? archivesTotal : archivesInitiated
-        archivesCompleted = archivesCompleted > archivesTotal ? archivesTotal : archivesCompleted
-        treehashValidated = treehashValidated > archivesTotal ? archivesTotal : treehashValidated
+        archivesRequested = archivesRequested > archivesTotal ? archivesTotal : archivesRequested;
+        archivesInitiated = archivesInitiated > archivesTotal ? archivesTotal : archivesInitiated;
+        archivesCompleted = archivesCompleted > archivesTotal ? archivesTotal : archivesCompleted;
+        treehashValidated = treehashValidated > archivesTotal ? archivesTotal : treehashValidated;
     }
 
     await publishMetric('Total Archives', archivesTotal);

@@ -41,6 +41,8 @@ export class StageOne extends cdk.Construct {
         // -------------------------------------------------------------------------------------------
         // Inventory SNS Topic
         const inventoryTopic = new sns.Topic(this, 'vaultInventoryTopic');
+        // overriding CDK name with CFN ID to enforce a random topic name generation
+        // so if the same stack name has been deployed twice, each deployment will have only a single inventory alert
         (inventoryTopic.node.defaultChild as sns.CfnTopic).overrideLogicalId(`vaultInventoryTopic`);
         inventoryTopic.addToResourcePolicy(iamSec.IamSecurity.snsDenyInsecureTransport(inventoryTopic));
         inventoryTopic.addToResourcePolicy(iamSec.IamSecurity.snsPermitAccountAccess(inventoryTopic));
@@ -67,7 +69,6 @@ export class StageOne extends cdk.Construct {
                     SNS_VAULT_CONF: props.snsTopicForVaultConfirmation
                 }
         });
-        // (requestInventory.node.defaultChild as lambda.CfnFunction).overrideLogicalId('requestInventory');
 
         props.stagingBucket.grantReadWrite(requestInventory);
         props.logBucket.grantReadWrite(requestInventory);
