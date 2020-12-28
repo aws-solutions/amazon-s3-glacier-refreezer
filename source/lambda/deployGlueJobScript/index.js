@@ -17,11 +17,10 @@
 
 'use strict';
 
-const cloudformation = require('./lib/cloudformation')
+const cloudformation = require('./lib/cloudformation');
 const AWS = require('aws-sdk');
 const s3 = new AWS.S3();
-var fs = require('fs')
-const uuid = require('uuid');
+var fs = require('fs');
 
 const {
     STAGING_BUCKET
@@ -30,8 +29,7 @@ const {
 const FILE_NAME='partition-inventory.py'
 
 async function handler(event, context) {
-    console.log(`${JSON.stringify(event)}`);
-    let responseData = {};
+    console.log(JSON.stringify(event));
 
     //------------------------------------------------------------------------
     // [ ON CREATE ]
@@ -43,23 +41,14 @@ async function handler(event, context) {
                 Bucket: STAGING_BUCKET,
                 Key: `glue/${FILE_NAME}`,
                 Body: readStream,
-            })
-            .promise();
+            }) .promise();
 
-        // Generate deployment UUID
-        const uuidv4 = uuid.v4();
-
-        responseData = {
-            message: JSON.toString(copyResult),
-            uuid: uuidv4
-        };
-        console.log(responseData.message);
-        await cloudformation.sendResponse(event, context, "SUCCESS", responseData);
+        console.log(JSON.stringify(copyResult));
+        await cloudformation.sendResponse(event, context, "SUCCESS", {message: 'Glue Script Copied'});
         return;
     }
 
-    responseData = {message: 'OK'};
-    await cloudformation.sendResponse(event, context, "SUCCESS", responseData);
+    await cloudformation.sendResponse(event, context, "SUCCESS", {});
 }
 
 module.exports = {
