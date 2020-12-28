@@ -6,8 +6,7 @@
   "license": "Apache-2.0",
   "repository": {},
   "dependencies": {
-    "axios": "^0.21.0",
-    "uuid": "^8.3.1"
+    "axios": "^0.21.0"
   },
   "devDependencies": {
     "aws-sdk": "^2.792.0",

@@ -49,7 +49,8 @@ async function handler(event, context) {
             await cloudformation.sendResponse(event, context, "SUCCESS", responseData);
         } catch (err) {
             console.error(err);
-            await cloudformation.sendResponse(event, context, "FAILED", {});
+            await cloudformation.sendResponse(event, context, "FAILED",
+                {message: `Staging Bucket cleanup failed: ${JSON.stringify(err)}`});
         }
         return;
     }

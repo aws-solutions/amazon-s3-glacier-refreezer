@@ -25,7 +25,7 @@ async function sendResponse(event, context, responseStatus, responseData) {
         let responseBody = JSON.stringify({
             Status: responseStatus,
             Reason: "See the details in CloudWatch Log Stream: " + context.logGroupName + "/" + context.logStreamName,
-            PhysicalResourceId: `${event.StackId}-${event.LogicalResourceId}`,
+            PhysicalResourceId: context.functionName,
             StackId: event.StackId,
             RequestId: event.RequestId,
             LogicalResourceId: event.LogicalResourceId,
