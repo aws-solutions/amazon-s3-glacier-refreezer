@@ -151,6 +151,8 @@ export class Monitoring extends cdk.Construct {
             if (fs.lstatSync(directoryPath + '/' + entry).isDirectory()) {
                 if (entry === 'toLowercase') return;  // created in glue-data-catalog.ts
                 if (entry === 'generateUuid') return;  // created in solution-builders-anonymous-statistics.cs
+                if (entry === 'calculateTreehash') return;  // Preserving the log file to assist with possible troubleshooting 
+                                                            // in cases when stagingdata folder is not empty yet stack has been deleted.
                 logGroupNames.push(Monitoring.createStackLogGroup(this, '/aws/lambda', entry))
             }
         });
