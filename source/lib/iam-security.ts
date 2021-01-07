@@ -137,6 +137,7 @@ export class IamSecurity extends cdk.Construct {
                 'athena:StopQueryExecution',
                 'athena:GetQueryExecution',
                 'glue:GetTable',
+                'glue:UpdateTable',
                 'glue:GetPartitions',
                 'glue:BatchCreatePartition'
             ],
