@@ -27,7 +27,7 @@ const {
     VERSION,
     STORAGE_CLASS,
     RETRIEVAL_TIER,
-    SEND_ANONYMOUS_DATA
+    SEND_ANONYMOUS_STATISTICS
 } = process.env;
 
 const SOLUTION_BUILDERS_ENDPOINT = 'https://dlh6h8hek6.execute-api.ap-southeast-2.amazonaws.com/generic';
@@ -53,7 +53,7 @@ async function handler(event, context) {
     };
     console.log(anonymousData);
 
-    if (SEND_ANONYMOUS_DATA !== 'Yes') {
+    if (SEND_ANONYMOUS_STATISTICS !== 'Yes') {
         console.log('Sending anonymous data has been disabled. Exiting.');
         return;
     }

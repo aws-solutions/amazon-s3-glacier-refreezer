@@ -30,6 +30,16 @@ export class AmazonS3GlacierRefreezerStack extends cdk.Stack {
 
         //---------------------------------------------------------------------
         // Amazon S3 Glacier CloudFormation Configuration
+        const statisticsMapping = new cdk.CfnMapping(this, 'AnonymousStatisticsMap', {
+            mapping: {
+                'SendAnonymousStatistics': {
+                    'Data': 'Yes'
+                }
+            }
+        });
+
+        //---------------------------------------------------------------------
+        // Amazon S3 Glacier CloudFormation Configuration
         const sourceVault = new cdk.CfnParameter(this, 'SourceVault', {
             type: 'String',
             allowedPattern: '.+'
@@ -150,7 +160,7 @@ export class AmazonS3GlacierRefreezerStack extends cdk.Stack {
             solutionId: props.solutionId,
             retrievalTier: glacierRetrievalTier.valueAsString,
             destinationStorageClass: destinationStorageClass.valueAsString,
-            sendAnonymousData: 'Yes'
+            sendAnonymousSelection: statisticsMapping.findInMap('SendAnonymousStatistics', 'Data')
         })
 
         //---------------------------------------------------------------------
