@@ -20,7 +20,7 @@ export interface AnonymousStatisticsProps {
     readonly solutionId: string;
     readonly retrievalTier: string;
     readonly destinationStorageClass: string;
-    readonly sendAnonymousData: string;
+    readonly sendAnonymousSelection: string;
 }
 
 export class AnonymousStatistics extends cdk.Construct {
@@ -71,7 +71,7 @@ export class AnonymousStatistics extends cdk.Construct {
                 VERSION: '%%VERSION%%',
                 STORAGE_CLASS: props.destinationStorageClass,
                 RETRIEVAL_TIER: props.retrievalTier,
-                SEND_ANONYMOUS_DATA: props.sendAnonymousData
+                SEND_ANONYMOUS_STATISTICS: props.sendAnonymousSelection
             }
         });
 
