@@ -26,6 +26,7 @@ import { readFileSync } from 'fs';
 import * as logs from "@aws-cdk/aws-logs";
 import * as iam from "@aws-cdk/aws-iam";
 import {CfnNagSuppressor} from "./cfn-nag-suppressor";
+import * as iamSec from './iam-permissions';
 
 export interface GlueDataProps {
     readonly stagingBucket: s3.IBucket;
@@ -50,6 +51,7 @@ export class GlueDataCatalog extends cdk.Construct {
             assumedBy: new iam.ServicePrincipal('lambda.amazonaws.com')
         });
         toLowercaseRole.node.addDependency(toLowerLogGroup);
+        toLowercaseRole.addToPolicy(iamSec.IamPermissions.lambdaLogGroup(`${cdk.Aws.STACK_NAME}-toLowercase`))
 
         const toLowercase = new lambda.Function(this, 'toLowercase', {
             functionName: `${cdk.Aws.STACK_NAME}-toLowercase`,

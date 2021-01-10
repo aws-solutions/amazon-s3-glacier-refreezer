@@ -26,7 +26,6 @@ import {SnsEventSource} from '@aws-cdk/aws-lambda-event-sources';
 import * as iamSec from './iam-permissions';
 import {CfnNagSuppressor} from './cfn-nag-suppressor';
 import * as path from 'path';
-import {IamPermissions} from "./iam-permissions";
 
 export interface StageOneProps {
     readonly stagingBucket: s3.IBucket;
