@@ -1183,6 +1183,7 @@ Object {
     },
     "glueDataCatalogtoLowercase8AA0AFF5": Object {
       "DependsOn": Array [
+        "glueDataCatalogtoLowercaseRoleDefaultPolicyA095B46C",
         "glueDataCatalogtoLowercaseRole5DC9B33B",
       ],
       "Metadata": Object {
@@ -1298,6 +1299,54 @@ exports.handler = function(event, context) {
         ],
       },
       "Type": "AWS::IAM::Role",
+    },
+    "glueDataCatalogtoLowercaseRoleDefaultPolicyA095B46C": Object {
+      "DependsOn": Array [
+        "glueDataCatalogtoLowercaseLogGroupC1705CD6",
+      ],
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": Array [
+                "logs:CreateLogGroup",
+                "logs:CreateLogStream",
+                "logs:PutLogEvents",
+              ],
+              "Effect": "Allow",
+              "Resource": Object {
+                "Fn::Join": Array [
+                  "",
+                  Array [
+                    "arn:aws:logs:",
+                    Object {
+                      "Ref": "AWS::Region",
+                    },
+                    ":",
+                    Object {
+                      "Ref": "AWS::AccountId",
+                    },
+                    ":log-group:/aws/lambda/",
+                    Object {
+                      "Ref": "AWS::StackName",
+                    },
+                    "-toLowercase:**",
+                  ],
+                ],
+              },
+              "Sid": "allowCloudWatchLogs",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "glueDataCatalogtoLowercaseRoleDefaultPolicyA095B46C",
+        "Roles": Array [
+          Object {
+            "Ref": "glueDataCatalogtoLowercaseRole5DC9B33B",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
     },
     "glueDataCatalogtoLowercaseTrigger0ABB3AB5": Object {
       "DeletionPolicy": "Delete",
@@ -1506,7 +1555,11 @@ exports.handler = function(event, context) {
                 "Fn::Join": Array [
                   "",
                   Array [
-                    "arn:aws:logs:*:i",
+                    "arn:aws:logs:",
+                    Object {
+                      "Ref": "AWS::Region",
+                    },
+                    ":",
                     Object {
                       "Ref": "AWS::AccountId",
                     },
@@ -1514,7 +1567,7 @@ exports.handler = function(event, context) {
                     Object {
                       "Ref": "AWS::StackName",
                     },
-                    "-calculateMetrics",
+                    "-calculateMetrics:**",
                   ],
                 ],
               },
@@ -1757,7 +1810,11 @@ exports.handler = function(event, context) {
                 "Fn::Join": Array [
                   "",
                   Array [
-                    "arn:aws:logs:*:i",
+                    "arn:aws:logs:",
+                    Object {
+                      "Ref": "AWS::Region",
+                    },
+                    ":",
                     Object {
                       "Ref": "AWS::AccountId",
                     },
@@ -1765,7 +1822,7 @@ exports.handler = function(event, context) {
                     Object {
                       "Ref": "AWS::StackName",
                     },
-                    "-postMetrics",
+                    "-postMetrics:**",
                   ],
                 ],
               },
@@ -3909,7 +3966,11 @@ exports.handler = function(event, context) {
                 "Fn::Join": Array [
                   "",
                   Array [
-                    "arn:aws:logs:*:i",
+                    "arn:aws:logs:",
+                    Object {
+                      "Ref": "AWS::Region",
+                    },
+                    ":",
                     Object {
                       "Ref": "AWS::AccountId",
                     },
@@ -3917,7 +3978,7 @@ exports.handler = function(event, context) {
                     Object {
                       "Ref": "AWS::StackName",
                     },
-                    "-copyArchive",
+                    "-copyArchive:**",
                   ],
                 ],
               },
@@ -4243,7 +4304,11 @@ exports.handler = function(event, context) {
                 "Fn::Join": Array [
                   "",
                   Array [
-                    "arn:aws:logs:*:i",
+                    "arn:aws:logs:",
+                    Object {
+                      "Ref": "AWS::Region",
+                    },
+                    ":",
                     Object {
                       "Ref": "AWS::AccountId",
                     },
@@ -4251,7 +4316,7 @@ exports.handler = function(event, context) {
                     Object {
                       "Ref": "AWS::StackName",
                     },
-                    "-copyChunk",
+                    "-copyChunk:**",
                   ],
                 ],
               },
@@ -5836,7 +5901,11 @@ exports.handler = function(event, context) {
                 "Fn::Join": Array [
                   "",
                   Array [
-                    "arn:aws:logs:*:i",
+                    "arn:aws:logs:",
+                    Object {
+                      "Ref": "AWS::Region",
+                    },
+                    ":",
                     Object {
                       "Ref": "AWS::AccountId",
                     },
@@ -5844,7 +5913,7 @@ exports.handler = function(event, context) {
                     Object {
                       "Ref": "AWS::StackName",
                     },
-                    "-postMetrics",
+                    "-postMetrics:**",
                   ],
                 ],
               },
@@ -6557,6 +6626,7 @@ exports.handler = function(event, context) {
     },
     "statisticsGenerateUuidF0CAA49C": Object {
       "DependsOn": Array [
+        "statisticsGenerateUuidRoleDefaultPolicy7A2566CE",
         "statisticsGenerateUuidRole2A541B74",
       ],
       "Metadata": Object {
@@ -6681,6 +6751,54 @@ exports.handler = function(event, context) {
         ],
       },
       "Type": "AWS::IAM::Role",
+    },
+    "statisticsGenerateUuidRoleDefaultPolicy7A2566CE": Object {
+      "DependsOn": Array [
+        "statisticsGenerateUuidLogGroup7741FD49",
+      ],
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": Array [
+                "logs:CreateLogGroup",
+                "logs:CreateLogStream",
+                "logs:PutLogEvents",
+              ],
+              "Effect": "Allow",
+              "Resource": Object {
+                "Fn::Join": Array [
+                  "",
+                  Array [
+                    "arn:aws:logs:",
+                    Object {
+                      "Ref": "AWS::Region",
+                    },
+                    ":",
+                    Object {
+                      "Ref": "AWS::AccountId",
+                    },
+                    ":log-group:/aws/lambda/",
+                    Object {
+                      "Ref": "AWS::StackName",
+                    },
+                    "-generateUuid:**",
+                  ],
+                ],
+              },
+              "Sid": "allowCloudWatchLogs",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "statisticsGenerateUuidRoleDefaultPolicy7A2566CE",
+        "Roles": Array [
+          Object {
+            "Ref": "statisticsGenerateUuidRole2A541B74",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
     },
     "statisticsGenerateUuidTriggerAFF2A046": Object {
       "DeletionPolicy": "Delete",

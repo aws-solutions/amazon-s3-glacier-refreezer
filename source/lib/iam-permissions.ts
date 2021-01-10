@@ -175,7 +175,7 @@ export class IamPermissions extends cdk.Construct {
                 'logs:PutLogEvents'
             ],
             resources: [
-                `arn:aws:logs:*:i${cdk.Aws.ACCOUNT_ID}:log-group:/aws/lambda/${functionName}`
+                `arn:aws:logs:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:log-group:/aws/lambda/${functionName}:**`
             ]
         })
     }

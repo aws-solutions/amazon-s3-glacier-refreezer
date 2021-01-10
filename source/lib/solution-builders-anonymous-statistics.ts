@@ -22,6 +22,7 @@ import * as lambda from '@aws-cdk/aws-lambda';
 import * as iam from "@aws-cdk/aws-iam";
 import * as logs from "@aws-cdk/aws-logs";
 import {CfnNagSuppressor} from "./cfn-nag-suppressor";
+import * as iamSec from "./iam-permissions";
 
 export interface AnonymousStatisticsProps {
     readonly solutionId: string;
@@ -45,6 +46,7 @@ export class AnonymousStatistics extends cdk.Construct {
         const generateUuidRole = new iam.Role(this,'GenerateUuidRole',{
             assumedBy: new iam.ServicePrincipal('lambda.amazonaws.com')
         });
+        generateUuidRole.addToPolicy(iamSec.IamPermissions.lambdaLogGroup(`${cdk.Aws.STACK_NAME}-generateUuid`));
         generateUuidRole.node.addDependency(generateUuidLogGroup);
 
         const generateUuid = new lambda.Function(this, 'GenerateUuid', {
