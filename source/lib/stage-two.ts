@@ -21,20 +21,18 @@ import * as cdk from '@aws-cdk/core';
 import * as sns from '@aws-cdk/aws-sns';
 import * as s3 from '@aws-cdk/aws-s3';
 import * as lambda from '@aws-cdk/aws-lambda';
-import * as logs from '@aws-cdk/aws-logs';
 import * as iam from '@aws-cdk/aws-iam';
 import * as sfn from '@aws-cdk/aws-stepfunctions';
-import * as tasks from '@aws-cdk/aws-stepfunctions-tasks';
 import * as glue from '@aws-cdk/aws-glue';
-import * as iamSec from './iam-security';
+import * as iamSec from './iam-permissions';
 import * as path from 'path';
 import {GlueDataCatalog} from "./glue-data-catalog";
 import {DynamoDataCatalog} from "./ddb-data-catalog";
 import {StageTwoOrchestrator} from "./stage-two-orchestrator";
+import {CfnNagSuppressor} from "./cfn-nag-suppressor";
 
 export interface StageTwoProps {
     readonly stagingBucket: s3.IBucket;
-    readonly iamSecurity: iamSec.IamSecurity;
     readonly glueDataCatalog: GlueDataCatalog;
     readonly dynamoDataCatalog: DynamoDataCatalog;
     readonly glacierSourceVault: string;
@@ -64,6 +62,7 @@ export class StageTwo extends cdk.Construct {
                 }
         });
         props.stagingBucket.grantWrite(deployGlueJobScript);
+        CfnNagSuppressor.addW58Suppression(deployGlueJobScript);
 
         const deployGlueJobScriptTrigger = new cdk.CustomResource(this, 'deployGlueJobScriptTrigger',
             {
@@ -72,6 +71,30 @@ export class StageTwo extends cdk.Construct {
 
         // -------------------------------------------------------------------------------------------
         // Request Archives
+        const requestArchivesRole = new iam.Role(this, 'RequestArchiveRole', {
+            assumedBy: new iam.ServicePrincipal('lambda.amazonaws.com'),
+            managedPolicies: [
+                iam.ManagedPolicy.fromAwsManagedPolicyName('service-role/AWSLambdaBasicExecutionRole'),
+            ],
+        });
+
+        // Declaring the policy granting access to the stream explicitly to minimize permissions
+        const requestArchiveRolePolicy = new iam.Policy(this, 'RequestArchiveRolePolicy', {
+            statements: [
+                iamSec.IamPermissions.athena([
+                    props.glueDataCatalog.inventoryDatabase.catalogArn,
+                    props.glueDataCatalog.inventoryDatabase.databaseArn,
+                    `arn:aws:athena:*:${cdk.Aws.ACCOUNT_ID}:workgroup/${props.glueDataCatalog.athenaWorkgroup.name}`,
+                    props.glueDataCatalog.partitionedInventoryTable.tableArn
+                ]),
+                iamSec.IamPermissions.lambdaLogGroup(`${cdk.Aws.STACK_NAME}-postMetrics`),
+                iamSec.IamPermissions.glacier(props.glacierSourceVault),
+           ]
+        });
+        props.stagingBucket.grantReadWrite(requestArchivesRole);
+        props.dynamoDataCatalog.statusTable.grantReadWriteData(requestArchivesRole);
+        requestArchiveRolePolicy.attachToRole(requestArchivesRole);
+
         const requestArchives = new lambda.Function(this, 'RequestArchives', {
             functionName: `${cdk.Aws.STACK_NAME}-requestArchives`,
             runtime: lambda.Runtime.NODEJS_12_X,
@@ -79,6 +102,7 @@ export class StageTwo extends cdk.Construct {
             memorySize: 1024,
             timeout: cdk.Duration.minutes(15),
             code: lambda.Code.fromAsset(path.join(__dirname, '../lambda/requestArchives')),
+            role: requestArchivesRole,
             environment:
                 {
                     AWS_NODEJS_CONNECTION_REUSE_ENABLED: "1",
@@ -92,26 +116,26 @@ export class StageTwo extends cdk.Construct {
                     PARTITIONED_INVENTORY_TABLE: props.glueDataCatalog.partitionedInventoryTable.tableName
                 }
         });
-
-        props.stagingBucket.grantReadWrite(requestArchives);
-        requestArchives.addToRolePolicy(iamSec.IamSecurity.athenaPermissions([
-            props.glueDataCatalog.inventoryDatabase.catalogArn,
-            props.glueDataCatalog.inventoryDatabase.databaseArn,
-            `arn:aws:athena:*:${cdk.Aws.ACCOUNT_ID}:workgroup/${props.glueDataCatalog.athenaWorkgroup.name}`,
-            props.glueDataCatalog.partitionedInventoryTable.tableArn
-        ]));
-        props.dynamoDataCatalog.statusTable.grantReadWriteData(requestArchives);
-        requestArchives.addToRolePolicy(iamSec.IamSecurity.glacierPermitOperations(props.glacierSourceVault));
+        CfnNagSuppressor.addW58Suppression(requestArchives);
 
         // -------------------------------------------------------------------------------------------
         // Glue Partitioning Job
-        const glueRole = new iam.Role(this, 'GluePartitionRole', {
-            roleName: `${cdk.Aws.STACK_NAME}-glue-repartition-role`,
+        const glueRole = new iam.Role(this, 'GlueJobRole', {
+            roleName: `${cdk.Aws.STACK_NAME}-glue-job-role`,
             assumedBy: new iam.ServicePrincipal('glue.amazonaws.com')
         });
 
+        (<cdk.CfnResource>glueRole.node.defaultChild).cfnOptions.metadata = {
+            cfn_nag: {
+                rules_to_suppress: [{
+                    id: 'W28',
+                    reason: 'Transient, one off solution - updates must be through deletion/redeployment of the stack only'
+                }]
+            }
+        };
+
         props.stagingBucket.grantReadWrite(glueRole);
-        glueRole.addToPolicy(iamSec.IamSecurity.athenaPermissions(
+        glueRole.addToPolicy(iamSec.IamPermissions.athena(
             [
                 props.glueDataCatalog.inventoryDatabase.catalogArn,
                 props.glueDataCatalog.inventoryDatabase.databaseArn,
@@ -127,12 +151,13 @@ export class StageTwo extends cdk.Construct {
                 sid: 'allowLogging',
                 effect: iam.Effect.ALLOW,
                 actions: [
-                    'logs:*'
+                    "logs:CreateLogGroup",
+                    "logs:CreateLogStream",
+                    "logs:PutLogEvents"
                 ],
                 resources:
                     [
-                        `arn:aws:logs:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:log-group:/cdk-glueJob:**`,
-                        `arn:aws:logs:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:log-group:/aws-glue/*:**`
+                        `arn:aws:logs:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:log-group:/aws-glue/jobs/*:**`
                     ]
             }));
 
@@ -166,6 +191,7 @@ export class StageTwo extends cdk.Construct {
             });
 
         this.stageTwoOrchestrator = new StageTwoOrchestrator(this, 'Stepfunctions', {
+            stagingBucket: props.stagingBucket,
             dynamoDataCatalog: props.dynamoDataCatalog,
             glueDataCatalog: props.glueDataCatalog,
             sendAnonymousStats: props.sendAnonymousStats,

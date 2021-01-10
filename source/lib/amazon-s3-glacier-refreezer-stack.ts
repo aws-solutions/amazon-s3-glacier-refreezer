@@ -11,11 +11,17 @@
  *  and limitations under the License.                                                                                *
  *********************************************************************************************************************/
 
+/**
+ * @author Solution Builders
+ */
+
+'use strict';
+
 import * as cdk from '@aws-cdk/core';
 import {StagingBucket} from './s3-staging-bucket';
 import {GlueDataCatalog} from './glue-data-catalog';
 import {DynamoDataCatalog} from './ddb-data-catalog';
-import {IamSecurity} from './iam-security';
+import {IamPermissions} from './iam-permissions';
 import {StageOne} from './stage-one';
 import {Monitoring} from "./monitoring";
 import {StageThree} from "./stage-three";
@@ -127,27 +133,26 @@ export class AmazonS3GlacierRefreezerStack extends cdk.Stack {
         const stagingBucket = new StagingBucket(this, 'stagingBucket');
 
         //---------------------------------------------------------------------
-        // IAM Security
-        const iamSecurity = new IamSecurity(this, 'iamSecurity');
+        // Glue/Athena Data Structures
+        const glueDataCatalog = new GlueDataCatalog(this, 'glueDataCatalog',
+            {
+                stagingBucket: stagingBucket.Bucket
+            });
 
         //---------------------------------------------------------------------
         // DynamoDB Data Structures
         const dynamoDataCatalog = new DynamoDataCatalog(this, 'dynamoDataCatalog');
 
         //---------------------------------------------------------------------
+        // IAM Permissions
+        const iamPermissions = new IamPermissions(this, 'iamPermissions');
+
+        //---------------------------------------------------------------------
         // Monitoring
         const monitoring = new Monitoring(this, `monitoring`, {
             statusTable: dynamoDataCatalog.statusTable,
-            metricTable: dynamoDataCatalog.metricTable,
-            iamSecurity: iamSecurity
+            metricTable: dynamoDataCatalog.metricTable
         })
-
-        //---------------------------------------------------------------------
-        // Glue/Athena Data Structures
-        const glueDataCatalog = new GlueDataCatalog(this, 'glueDataCatalog',
-            {
-                stagingBucket: stagingBucket.Bucket
-            });
 
         //---------------------------------------------------------------------
         // Anonymous Statistics
@@ -167,7 +172,6 @@ export class AmazonS3GlacierRefreezerStack extends cdk.Stack {
         // Stage Three: Copy Archives to Staging
         const stageThree = new StageThree(this, 'stageThree', {
             stagingBucket: stagingBucket.Bucket,
-            iamSecurity: iamSecurity,
             sourceVault: sourceVault.valueAsString,
             statusTable: dynamoDataCatalog.statusTable
         });
@@ -176,7 +180,6 @@ export class AmazonS3GlacierRefreezerStack extends cdk.Stack {
         // Stage Two: Request Archive Retrieval
         const stageTwo = new StageTwo(this, 'stageTwo', {
             stagingBucket: stagingBucket.Bucket,
-            iamSecurity: iamSecurity,
             glacierSourceVault: sourceVault.valueAsString,
             glacierRetrievalTier: glacierRetrievalTier.valueAsString,
             archiveNotificationTopic: stageThree.archiveNotificationTopic,
@@ -191,7 +194,6 @@ export class AmazonS3GlacierRefreezerStack extends cdk.Stack {
         const stageOne = new StageOne(this, 'stageOne', {
             stagingBucket: stagingBucket.Bucket,
             logBucket: stagingBucket.LogBucket,
-            iamSecurity: iamSecurity,
             sourceGlacierVault: sourceVault.valueAsString,
             destinationBucket: destinationBucket.valueAsString,
             destinationStorageClass: destinationStorageClass.valueAsString,
@@ -207,12 +209,11 @@ export class AmazonS3GlacierRefreezerStack extends cdk.Stack {
         // Stage Four: Validate SHA256 Treehash and move archives from Staging to Destination
         const stageFour = new StageFour(this, 'stageFour', {
             stagingBucket: stagingBucket.Bucket,
-            iamSecurity: iamSecurity,
             statusTable: dynamoDataCatalog.statusTable,
             treehashCalcQueue: stageThree.treehashCalcQueue,
             destinationBucket: destinationBucket.valueAsString,
             destinationStorageClass: destinationStorageClass.valueAsString,
-            archiveNotificationQueue: stageThree. archiveNotificationQueue
+            archiveNotificationQueue: stageThree.archiveNotificationQueue
         });
 
         //---------------------------------------------------------------------

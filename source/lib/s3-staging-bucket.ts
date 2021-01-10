@@ -11,6 +11,12 @@
  *  and limitations under the License.                                                                                *
  *********************************************************************************************************************/
 
+/**
+ * @author Solution Builders
+ */
+
+'use strict';
+
 import * as cdk from '@aws-cdk/core';
 import * as s3 from '@aws-cdk/aws-s3';
 import * as iam from '@aws-cdk/aws-iam';

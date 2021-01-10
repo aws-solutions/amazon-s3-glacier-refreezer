@@ -10,20 +10,27 @@
  *  OR CONDITIONS OF ANY KIND, express or implied. See the License for the specific language governing permissions    *
  *  and limitations under the License.                                                                                *
  *********************************************************************************************************************/
+
+/**
+ * @author Solution Builders
+ */
+
+'use strict';
+
 import * as cdk from '@aws-cdk/core';
 import * as iam from '@aws-cdk/aws-iam';
 import * as sns from '@aws-cdk/aws-sns';
 import * as sqs from '@aws-cdk/aws-sqs';
 
-export class IamSecurity extends cdk.Construct {
+export class IamPermissions extends cdk.Construct {
 
     constructor(scope: cdk.Construct, id: string) {
         super(scope, id);
     }
 
-    static glacierPermitOperations(glacierVault: string) {
+    static glacier(glacierVault: string) {
         return new iam.PolicyStatement({
-            sid: 'permitGlacier',
+            sid: 'allowGlacierAccess',
             effect: iam.Effect.ALLOW,
             actions: [
                 'glacier:GetJobOutput',
@@ -34,6 +41,20 @@ export class IamSecurity extends cdk.Construct {
                 Bool:
                     {'aws:SecureTransport': true}
             }
+        });
+    }
+
+
+    static sqsSubscriber(queue: sqs.IQueue) {
+        return new iam.PolicyStatement({
+            sid: `allowSqsSubscribeAccess`,
+            effect: iam.Effect.ALLOW,
+            actions: [
+                'sqs:ReceiveMessage',
+                'sqs:DeleteMessage',
+                'sqs:GetQueueAttributes'
+            ],
+            resources: [`${queue.queueArn}`]
         });
     }
 
@@ -76,11 +97,11 @@ export class IamSecurity extends cdk.Construct {
         });
     }
 
-    static snsPermitAccountAccess(topic: sns.ITopic) {
+    static snsGlacierPublisher(topic: sns.ITopic) {
         return new iam.PolicyStatement({
-            sid: 'permitServie',
+            sid: 'permitService',
             effect: iam.Effect.ALLOW,
-            principals: [new iam.AnyPrincipal],
+            principals: [new iam.ServicePrincipal('glacier.amazonaws.com')],
             actions: [
                 'sns:GetTopicAttributes',
                 'sns:SetTopicAttributes',
@@ -101,21 +122,16 @@ export class IamSecurity extends cdk.Construct {
         });
     }
 
-    static s3AssureSecureTransport(resources: Array<string>) {
+    static s3ReadOnly(resources: Array<string>) {
         return new iam.PolicyStatement({
-            sid: 'allowStagingAccess',
+            sid: 'allowS3Access',
             effect: iam.Effect.ALLOW,
             actions: [
                 's3:ListBucket',
-                's3:ListBucketVersions',
                 's3:ListBucketMultipartUploads',
-                's3:ListMultipartUploadParts',
                 's3:GetBucketLocation',
                 's3:GetObject',
-                's3:GetObjectAcl',
-                's3:PutObject',
-                's3:DeleteObject',
-                's3:AbortMultipartUpload'
+                's3:GetObjectAcl'
             ],
             resources: resources,
             conditions: {
@@ -125,7 +141,7 @@ export class IamSecurity extends cdk.Construct {
         })
     }
 
-    static athenaPermissions(resources: Array<string>) {
+    static athena(resources: Array<string>) {
         return new iam.PolicyStatement({
             sid: 'allowStagingAccess',
             effect: iam.Effect.ALLOW,
@@ -149,4 +165,18 @@ export class IamSecurity extends cdk.Construct {
         })
     }
 
+    static lambdaLogGroup(functionName: string) {
+        return new iam.PolicyStatement({
+            sid: 'allowCloudWatchLogs',
+            effect: iam.Effect.ALLOW,
+            actions: [
+                'logs:CreateLogGroup',
+                'logs:CreateLogStream',
+                'logs:PutLogEvents'
+            ],
+            resources: [
+                `arn:aws:logs:*:i${cdk.Aws.ACCOUNT_ID}:log-group:/aws/lambda/${functionName}`
+            ]
+        })
+    }
 }

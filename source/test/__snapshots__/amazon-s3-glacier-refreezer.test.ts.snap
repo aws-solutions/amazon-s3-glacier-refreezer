@@ -144,18 +144,6 @@ Object {
       "Description": "S3 key for asset version \\"4992e7a127be7e52d20430a45e3d8b21285eeed4f46c2b372446c4746686136c\\"",
       "Type": "String",
     },
-    "AssetParameters64575d4a11d974ec52b55af18bc6083309c4556861988baf35ecad9aab5aadfeArtifactHash07E73E28": Object {
-      "Description": "Artifact hash for asset \\"64575d4a11d974ec52b55af18bc6083309c4556861988baf35ecad9aab5aadfe\\"",
-      "Type": "String",
-    },
-    "AssetParameters64575d4a11d974ec52b55af18bc6083309c4556861988baf35ecad9aab5aadfeS3Bucket42A6D7A1": Object {
-      "Description": "S3 bucket for asset \\"64575d4a11d974ec52b55af18bc6083309c4556861988baf35ecad9aab5aadfe\\"",
-      "Type": "String",
-    },
-    "AssetParameters64575d4a11d974ec52b55af18bc6083309c4556861988baf35ecad9aab5aadfeS3VersionKeyDF57DFE2": Object {
-      "Description": "S3 key for asset version \\"64575d4a11d974ec52b55af18bc6083309c4556861988baf35ecad9aab5aadfe\\"",
-      "Type": "String",
-    },
     "AssetParameters6cfd7607a87ee5914eeeafada9959b33754b7512ea44c83f7a98630c41718867ArtifactHash4D978E23": Object {
       "Description": "Artifact hash for asset \\"6cfd7607a87ee5914eeeafada9959b33754b7512ea44c83f7a98630c41718867\\"",
       "Type": "String",
@@ -178,6 +166,18 @@ Object {
     },
     "AssetParameters6f44b6e9e590716ba5da1b6a6eda781bcb02dfe5e749cb4659bd389610f43658S3VersionKeyB9F30624": Object {
       "Description": "S3 key for asset version \\"6f44b6e9e590716ba5da1b6a6eda781bcb02dfe5e749cb4659bd389610f43658\\"",
+      "Type": "String",
+    },
+    "AssetParameters784287ee95e4c17d822a4126a45416d22bfb9b51d12754257c800f5d1d63694aArtifactHashB64002CA": Object {
+      "Description": "Artifact hash for asset \\"784287ee95e4c17d822a4126a45416d22bfb9b51d12754257c800f5d1d63694a\\"",
+      "Type": "String",
+    },
+    "AssetParameters784287ee95e4c17d822a4126a45416d22bfb9b51d12754257c800f5d1d63694aS3Bucket3C34CC4A": Object {
+      "Description": "S3 bucket for asset \\"784287ee95e4c17d822a4126a45416d22bfb9b51d12754257c800f5d1d63694a\\"",
+      "Type": "String",
+    },
+    "AssetParameters784287ee95e4c17d822a4126a45416d22bfb9b51d12754257c800f5d1d63694aS3VersionKey5E91745D": Object {
+      "Description": "S3 key for asset version \\"784287ee95e4c17d822a4126a45416d22bfb9b51d12754257c800f5d1d63694a\\"",
       "Type": "String",
     },
     "AssetParameters86f042fb2a2b3ab5a4694522fc2ecad8dfd1c22c78853adf9e62002400d3d4b4ArtifactHash40A883AA": Object {
@@ -228,16 +228,16 @@ Object {
       "Description": "S3 key for asset version \\"cac40dd75e680d661e66e3bf5a0bba8a142f38b2bc3178ea3c93494ef8786f68\\"",
       "Type": "String",
     },
-    "AssetParametersdf4e3db5885ffe5c62d78b25fbb2dc530f67091b9eff658212e4b60f853e3d0fArtifactHash4F16674F": Object {
-      "Description": "Artifact hash for asset \\"df4e3db5885ffe5c62d78b25fbb2dc530f67091b9eff658212e4b60f853e3d0f\\"",
+    "AssetParametersd299a6309a138f47087977694c8d405a90125341ea02fc1f0d8bd92e616688fbArtifactHashD5B71F45": Object {
+      "Description": "Artifact hash for asset \\"d299a6309a138f47087977694c8d405a90125341ea02fc1f0d8bd92e616688fb\\"",
       "Type": "String",
     },
-    "AssetParametersdf4e3db5885ffe5c62d78b25fbb2dc530f67091b9eff658212e4b60f853e3d0fS3Bucket41EC0D75": Object {
-      "Description": "S3 bucket for asset \\"df4e3db5885ffe5c62d78b25fbb2dc530f67091b9eff658212e4b60f853e3d0f\\"",
+    "AssetParametersd299a6309a138f47087977694c8d405a90125341ea02fc1f0d8bd92e616688fbS3Bucket5D4C2E13": Object {
+      "Description": "S3 bucket for asset \\"d299a6309a138f47087977694c8d405a90125341ea02fc1f0d8bd92e616688fb\\"",
       "Type": "String",
     },
-    "AssetParametersdf4e3db5885ffe5c62d78b25fbb2dc530f67091b9eff658212e4b60f853e3d0fS3VersionKey5B00C857": Object {
-      "Description": "S3 key for asset version \\"df4e3db5885ffe5c62d78b25fbb2dc530f67091b9eff658212e4b60f853e3d0f\\"",
+    "AssetParametersd299a6309a138f47087977694c8d405a90125341ea02fc1f0d8bd92e616688fbS3VersionKey27175BCA": Object {
+      "Description": "S3 key for asset version \\"d299a6309a138f47087977694c8d405a90125341ea02fc1f0d8bd92e616688fb\\"",
       "Type": "String",
     },
     "AssetParameterse63aeebc152892bb5b362662f7fb61da6c0cd6cb9151f53891d7c717710aab8aArtifactHash7135A57E": Object {
@@ -356,8 +356,22 @@ Object {
       "Type": "AWS::S3::Bucket",
       "UpdateReplacePolicy": "Delete",
     },
-    "dynamoDataCatalogmetricsTableD896DDA5": Object {
+    "dynamoDataCatalogMetricsTable174C007B": Object {
       "DeletionPolicy": "Delete",
+      "Metadata": Object {
+        "cfn_nag": Object {
+          "rules_to_suppress": Array [
+            Object {
+              "id": "W28",
+              "reason": "Transient table - updates must be through deletion/redeployment of the stack only",
+            },
+            Object {
+              "id": "W74",
+              "reason": "Metadata table - no encryption required",
+            },
+          ],
+        },
+      },
       "Properties": Object {
         "AttributeDefinitions": Array [
           Object {
@@ -372,6 +386,9 @@ Object {
             "KeyType": "HASH",
           },
         ],
+        "PointInTimeRecoverySpecification": Object {
+          "PointInTimeRecoveryEnabled": true,
+        },
         "TableName": Object {
           "Fn::Join": Array [
             "",
@@ -393,8 +410,22 @@ Object {
       "Type": "AWS::DynamoDB::Table",
       "UpdateReplacePolicy": "Delete",
     },
-    "dynamoDataCatalogstatusTableA9EC97D3": Object {
+    "dynamoDataCatalogStatusTableE9ACB88F": Object {
       "DeletionPolicy": "Delete",
+      "Metadata": Object {
+        "cfn_nag": Object {
+          "rules_to_suppress": Array [
+            Object {
+              "id": "W28",
+              "reason": "Transient table - updates must be through deletion/redeployment of the stack only",
+            },
+            Object {
+              "id": "W74",
+              "reason": "Metadata table - no encryption required",
+            },
+          ],
+        },
+      },
       "Properties": Object {
         "AttributeDefinitions": Array [
           Object {
@@ -414,6 +445,7 @@ Object {
             "AttributeType": "S",
           },
         ],
+        "BillingMode": "PROVISIONED",
         "GlobalSecondaryIndexes": Array [
           Object {
             "IndexName": "max-file-index",
@@ -458,6 +490,9 @@ Object {
             "KeyType": "HASH",
           },
         ],
+        "PointInTimeRecoverySpecification": Object {
+          "PointInTimeRecoveryEnabled": true,
+        },
         "ProvisionedThroughput": Object {
           "ReadCapacityUnits": 25,
           "WriteCapacityUnits": 30,
@@ -486,7 +521,7 @@ Object {
       "Type": "AWS::DynamoDB::Table",
       "UpdateReplacePolicy": "Delete",
     },
-    "dynamoDataCatalogstatusTableReadScalingTarget816FEC1D": Object {
+    "dynamoDataCatalogStatusTableReadScalingTarget544936B3": Object {
       "Properties": Object {
         "MaxCapacity": 500,
         "MinCapacity": 25,
@@ -496,7 +531,7 @@ Object {
             Array [
               "table/",
               Object {
-                "Ref": "dynamoDataCatalogstatusTableA9EC97D3",
+                "Ref": "dynamoDataCatalogStatusTableE9ACB88F",
               },
             ],
           ],
@@ -522,12 +557,12 @@ Object {
       },
       "Type": "AWS::ApplicationAutoScaling::ScalableTarget",
     },
-    "dynamoDataCatalogstatusTableReadScalingTargetTracking24DC4A7C": Object {
+    "dynamoDataCatalogStatusTableReadScalingTargetTrackingEA8022B1": Object {
       "Properties": Object {
-        "PolicyName": "teststackdynamoDataCatalogstatusTableReadScalingTargetTracking378FFBF4",
+        "PolicyName": "teststackdynamoDataCatalogStatusTableReadScalingTargetTracking192C2DD9",
         "PolicyType": "TargetTrackingScaling",
         "ScalingTargetId": Object {
-          "Ref": "dynamoDataCatalogstatusTableReadScalingTarget816FEC1D",
+          "Ref": "dynamoDataCatalogStatusTableReadScalingTarget544936B3",
         },
         "TargetTrackingScalingPolicyConfiguration": Object {
           "PredefinedMetricSpecification": Object {
@@ -540,7 +575,7 @@ Object {
       },
       "Type": "AWS::ApplicationAutoScaling::ScalingPolicy",
     },
-    "dynamoDataCatalogstatusTableWriteScalingTarget2F154BD2": Object {
+    "dynamoDataCatalogStatusTableWriteScalingTargetD6BBCD46": Object {
       "Properties": Object {
         "MaxCapacity": 500,
         "MinCapacity": 30,
@@ -550,7 +585,7 @@ Object {
             Array [
               "table/",
               Object {
-                "Ref": "dynamoDataCatalogstatusTableA9EC97D3",
+                "Ref": "dynamoDataCatalogStatusTableE9ACB88F",
               },
             ],
           ],
@@ -576,12 +611,12 @@ Object {
       },
       "Type": "AWS::ApplicationAutoScaling::ScalableTarget",
     },
-    "dynamoDataCatalogstatusTableWriteScalingTargetTracking9C8BFD84": Object {
+    "dynamoDataCatalogStatusTableWriteScalingTargetTrackingD2EC7DF0": Object {
       "Properties": Object {
-        "PolicyName": "teststackdynamoDataCatalogstatusTableWriteScalingTargetTracking6CD34C15",
+        "PolicyName": "teststackdynamoDataCatalogStatusTableWriteScalingTargetTracking5A9B6665",
         "PolicyType": "TargetTrackingScaling",
         "ScalingTargetId": Object {
-          "Ref": "dynamoDataCatalogstatusTableWriteScalingTarget2F154BD2",
+          "Ref": "dynamoDataCatalogStatusTableWriteScalingTargetD6BBCD46",
         },
         "TargetTrackingScalingPolicyConfiguration": Object {
           "PredefinedMetricSpecification": Object {
@@ -594,7 +629,7 @@ Object {
       },
       "Type": "AWS::ApplicationAutoScaling::ScalingPolicy",
     },
-    "dynamoDataCatalogstatusTablemaxfileindexReadScalingTargetF2F56B9B": Object {
+    "dynamoDataCatalogStatusTablemaxfileindexReadScalingTarget4766C10B": Object {
       "Properties": Object {
         "MaxCapacity": 500,
         "MinCapacity": 5,
@@ -604,7 +639,7 @@ Object {
             Array [
               "table/",
               Object {
-                "Ref": "dynamoDataCatalogstatusTableA9EC97D3",
+                "Ref": "dynamoDataCatalogStatusTableE9ACB88F",
               },
               "/index/max-file-index",
             ],
@@ -631,12 +666,12 @@ Object {
       },
       "Type": "AWS::ApplicationAutoScaling::ScalableTarget",
     },
-    "dynamoDataCatalogstatusTablemaxfileindexReadScalingTargetTracking219D84D8": Object {
+    "dynamoDataCatalogStatusTablemaxfileindexReadScalingTargetTrackingC5BD9481": Object {
       "Properties": Object {
-        "PolicyName": "teststackdynamoDataCatalogstatusTablemaxfileindexReadScalingTargetTracking1D8D5641",
+        "PolicyName": "teststackdynamoDataCatalogStatusTablemaxfileindexReadScalingTargetTracking699B3E11",
         "PolicyType": "TargetTrackingScaling",
         "ScalingTargetId": Object {
-          "Ref": "dynamoDataCatalogstatusTablemaxfileindexReadScalingTargetF2F56B9B",
+          "Ref": "dynamoDataCatalogStatusTablemaxfileindexReadScalingTarget4766C10B",
         },
         "TargetTrackingScalingPolicyConfiguration": Object {
           "PredefinedMetricSpecification": Object {
@@ -649,7 +684,7 @@ Object {
       },
       "Type": "AWS::ApplicationAutoScaling::ScalingPolicy",
     },
-    "dynamoDataCatalogstatusTablemaxfileindexWriteScalingTargetD5A04ED2": Object {
+    "dynamoDataCatalogStatusTablemaxfileindexWriteScalingTargetFD4F0C81": Object {
       "Properties": Object {
         "MaxCapacity": 500,
         "MinCapacity": 30,
@@ -659,7 +694,7 @@ Object {
             Array [
               "table/",
               Object {
-                "Ref": "dynamoDataCatalogstatusTableA9EC97D3",
+                "Ref": "dynamoDataCatalogStatusTableE9ACB88F",
               },
               "/index/max-file-index",
             ],
@@ -686,12 +721,12 @@ Object {
       },
       "Type": "AWS::ApplicationAutoScaling::ScalableTarget",
     },
-    "dynamoDataCatalogstatusTablemaxfileindexWriteScalingTargetTracking33C1B067": Object {
+    "dynamoDataCatalogStatusTablemaxfileindexWriteScalingTargetTracking43B81A6C": Object {
       "Properties": Object {
-        "PolicyName": "teststackdynamoDataCatalogstatusTablemaxfileindexWriteScalingTargetTracking33B02C5F",
+        "PolicyName": "teststackdynamoDataCatalogStatusTablemaxfileindexWriteScalingTargetTrackingF1CC354C",
         "PolicyType": "TargetTrackingScaling",
         "ScalingTargetId": Object {
-          "Ref": "dynamoDataCatalogstatusTablemaxfileindexWriteScalingTargetD5A04ED2",
+          "Ref": "dynamoDataCatalogStatusTablemaxfileindexWriteScalingTargetFD4F0C81",
         },
         "TargetTrackingScalingPolicyConfiguration": Object {
           "PredefinedMetricSpecification": Object {
@@ -704,7 +739,7 @@ Object {
       },
       "Type": "AWS::ApplicationAutoScaling::ScalingPolicy",
     },
-    "dynamoDataCatalogstatusTablenameindexReadScalingTarget5EF3B4C2": Object {
+    "dynamoDataCatalogStatusTablenameindexReadScalingTarget756A5D45": Object {
       "Properties": Object {
         "MaxCapacity": 500,
         "MinCapacity": 15,
@@ -714,7 +749,7 @@ Object {
             Array [
               "table/",
               Object {
-                "Ref": "dynamoDataCatalogstatusTableA9EC97D3",
+                "Ref": "dynamoDataCatalogStatusTableE9ACB88F",
               },
               "/index/name-index",
             ],
@@ -741,12 +776,12 @@ Object {
       },
       "Type": "AWS::ApplicationAutoScaling::ScalableTarget",
     },
-    "dynamoDataCatalogstatusTablenameindexReadScalingTargetTrackingA09A1826": Object {
+    "dynamoDataCatalogStatusTablenameindexReadScalingTargetTracking0A15E69B": Object {
       "Properties": Object {
-        "PolicyName": "teststackdynamoDataCatalogstatusTablenameindexReadScalingTargetTrackingFADC652E",
+        "PolicyName": "teststackdynamoDataCatalogStatusTablenameindexReadScalingTargetTracking64D84775",
         "PolicyType": "TargetTrackingScaling",
         "ScalingTargetId": Object {
-          "Ref": "dynamoDataCatalogstatusTablenameindexReadScalingTarget5EF3B4C2",
+          "Ref": "dynamoDataCatalogStatusTablenameindexReadScalingTarget756A5D45",
         },
         "TargetTrackingScalingPolicyConfiguration": Object {
           "PredefinedMetricSpecification": Object {
@@ -759,7 +794,7 @@ Object {
       },
       "Type": "AWS::ApplicationAutoScaling::ScalingPolicy",
     },
-    "dynamoDataCatalogstatusTablenameindexWriteScalingTargetA15E58A8": Object {
+    "dynamoDataCatalogStatusTablenameindexWriteScalingTargetBF74747A": Object {
       "Properties": Object {
         "MaxCapacity": 500,
         "MinCapacity": 30,
@@ -769,7 +804,7 @@ Object {
             Array [
               "table/",
               Object {
-                "Ref": "dynamoDataCatalogstatusTableA9EC97D3",
+                "Ref": "dynamoDataCatalogStatusTableE9ACB88F",
               },
               "/index/name-index",
             ],
@@ -796,12 +831,12 @@ Object {
       },
       "Type": "AWS::ApplicationAutoScaling::ScalableTarget",
     },
-    "dynamoDataCatalogstatusTablenameindexWriteScalingTargetTrackingEFA06F13": Object {
+    "dynamoDataCatalogStatusTablenameindexWriteScalingTargetTrackingBF88D57A": Object {
       "Properties": Object {
-        "PolicyName": "teststackdynamoDataCatalogstatusTablenameindexWriteScalingTargetTrackingB10B5367",
+        "PolicyName": "teststackdynamoDataCatalogStatusTablenameindexWriteScalingTargetTrackingFAAC1A4F",
         "PolicyType": "TargetTrackingScaling",
         "ScalingTargetId": Object {
-          "Ref": "dynamoDataCatalogstatusTablenameindexWriteScalingTargetA15E58A8",
+          "Ref": "dynamoDataCatalogStatusTablenameindexWriteScalingTargetBF74747A",
         },
         "TargetTrackingScalingPolicyConfiguration": Object {
           "PredefinedMetricSpecification": Object {
@@ -1150,6 +1185,16 @@ Object {
       "DependsOn": Array [
         "glueDataCatalogtoLowercaseRole5DC9B33B",
       ],
+      "Metadata": Object {
+        "cfn_nag": Object {
+          "rules_to_suppress": Array [
+            Object {
+              "id": "W58",
+              "reason": "cfn nag is unable to reason about CDK generated cloudwatch log permissions",
+            },
+          ],
+        },
+      },
       "Properties": Object {
         "Code": Object {
           "ZipFile": "/*********************************************************************************************************************
@@ -1270,11 +1315,22 @@ exports.handler = function(event, context) {
       "Type": "AWS::CloudFormation::CustomResource",
       "UpdateReplacePolicy": "Delete",
     },
-    "monitoringcalculateMetrics2AD3D7FA": Object {
+    "monitoringCalculateMetrics1B70CF5B": Object {
       "DependsOn": Array [
-        "monitoringcalculateMetricsServiceRoleDefaultPolicyA9458FB6",
-        "monitoringcalculateMetricsServiceRole67BC8BC3",
+        "monitoringCalculateMetricsRoleDefaultPolicy22C0E657",
+        "monitoringCalculateMetricsRoleA76278A7",
+        "monitoringCalculateMetricsRolePolicy0C1EF64D",
       ],
+      "Metadata": Object {
+        "cfn_nag": Object {
+          "rules_to_suppress": Array [
+            Object {
+              "id": "W58",
+              "reason": "cfn nag is unable to reason about CDK generated cloudwatch log permissions",
+            },
+          ],
+        },
+      },
       "Properties": Object {
         "Code": Object {
           "S3Bucket": Object {
@@ -1317,7 +1373,7 @@ exports.handler = function(event, context) {
         "Environment": Object {
           "Variables": Object {
             "METRICS_TABLE": Object {
-              "Ref": "dynamoDataCatalogmetricsTableD896DDA5",
+              "Ref": "dynamoDataCatalogMetricsTable174C007B",
             },
           },
         },
@@ -1335,7 +1391,7 @@ exports.handler = function(event, context) {
         "Handler": "index.handler",
         "Role": Object {
           "Fn::GetAtt": Array [
-            "monitoringcalculateMetricsServiceRole67BC8BC3",
+            "monitoringCalculateMetricsRoleA76278A7",
             "Arn",
           ],
         },
@@ -1349,17 +1405,20 @@ exports.handler = function(event, context) {
       },
       "Type": "AWS::Lambda::Function",
     },
-    "monitoringcalculateMetricsDynamoDBEventSourceteststackdynamoDataCatalogstatusTableDC30348BC2B7F631": Object {
+    "monitoringCalculateMetricsDynamoDBEventSourceteststackdynamoDataCatalogStatusTable4AFD52BCA4A6AAB1": Object {
+      "DependsOn": Array [
+        "monitoringCalculateMetricsRolePolicy0C1EF64D",
+      ],
       "Properties": Object {
         "BatchSize": 1000,
         "EventSourceArn": Object {
           "Fn::GetAtt": Array [
-            "dynamoDataCatalogstatusTableA9EC97D3",
+            "dynamoDataCatalogStatusTableE9ACB88F",
             "StreamArn",
           ],
         },
         "FunctionName": Object {
-          "Ref": "monitoringcalculateMetrics2AD3D7FA",
+          "Ref": "monitoringCalculateMetrics1B70CF5B",
         },
         "MaximumBatchingWindowInSeconds": 30,
         "ParallelizationFactor": 1,
@@ -1367,24 +1426,7 @@ exports.handler = function(event, context) {
       },
       "Type": "AWS::Lambda::EventSourceMapping",
     },
-    "monitoringcalculateMetricsLogGroup9961A214": Object {
-      "Properties": Object {
-        "LogGroupName": Object {
-          "Fn::Join": Array [
-            "",
-            Array [
-              "/aws/lambda/",
-              Object {
-                "Ref": "AWS::StackName",
-              },
-              "-calculateMetrics",
-            ],
-          ],
-        },
-      },
-      "Type": "AWS::Logs::LogGroup",
-    },
-    "monitoringcalculateMetricsServiceRole67BC8BC3": Object {
+    "monitoringCalculateMetricsRoleA76278A7": Object {
       "Properties": Object {
         "AssumeRolePolicyDocument": Object {
           "Statement": Array [
@@ -1398,20 +1440,6 @@ exports.handler = function(event, context) {
           ],
           "Version": "2012-10-17",
         },
-        "ManagedPolicyArns": Array [
-          Object {
-            "Fn::Join": Array [
-              "",
-              Array [
-                "arn:",
-                Object {
-                  "Ref": "AWS::Partition",
-                },
-                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
-              ],
-            ],
-          },
-        ],
         "Tags": Array [
           Object {
             "Key": "solution",
@@ -1421,7 +1449,7 @@ exports.handler = function(event, context) {
       },
       "Type": "AWS::IAM::Role",
     },
-    "monitoringcalculateMetricsServiceRoleDefaultPolicyA9458FB6": Object {
+    "monitoringCalculateMetricsRoleDefaultPolicy22C0E657": Object {
       "Properties": Object {
         "PolicyDocument": Object {
           "Statement": Array [
@@ -1442,7 +1470,7 @@ exports.handler = function(event, context) {
               "Resource": Array [
                 Object {
                   "Fn::GetAtt": Array [
-                    "dynamoDataCatalogmetricsTableD896DDA5",
+                    "dynamoDataCatalogMetricsTable174C007B",
                     "Arn",
                   ],
                 },
@@ -1451,36 +1479,326 @@ exports.handler = function(event, context) {
                 },
               ],
             },
-            Object {
-              "Action": "dynamodb:ListStreams",
-              "Effect": "Allow",
-              "Resource": "*",
-            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "monitoringCalculateMetricsRoleDefaultPolicy22C0E657",
+        "Roles": Array [
+          Object {
+            "Ref": "monitoringCalculateMetricsRoleA76278A7",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "monitoringCalculateMetricsRolePolicy0C1EF64D": Object {
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
             Object {
               "Action": Array [
-                "dynamodb:DescribeStream",
-                "dynamodb:GetRecords",
-                "dynamodb:GetShardIterator",
+                "logs:CreateLogGroup",
+                "logs:CreateLogStream",
+                "logs:PutLogEvents",
               ],
               "Effect": "Allow",
               "Resource": Object {
-                "Fn::GetAtt": Array [
-                  "dynamoDataCatalogstatusTableA9EC97D3",
-                  "StreamArn",
+                "Fn::Join": Array [
+                  "",
+                  Array [
+                    "arn:aws:logs:*:i",
+                    Object {
+                      "Ref": "AWS::AccountId",
+                    },
+                    ":log-group:/aws/lambda/",
+                    Object {
+                      "Ref": "AWS::StackName",
+                    },
+                    "-calculateMetrics",
+                  ],
+                ],
+              },
+              "Sid": "allowCloudWatchLogs",
+            },
+            Object {
+              "Action": Array [
+                "dynamodb:ListStreams",
+                "dynamodb:DescribeStream",
+                "dynamodb:GetRecords",
+                "dynamodb:GetShardIterator",
+                "dynamodb:ListShards",
+              ],
+              "Effect": "Allow",
+              "Resource": Object {
+                "Fn::Join": Array [
+                  "",
+                  Array [
+                    Object {
+                      "Fn::GetAtt": Array [
+                        "dynamoDataCatalogStatusTableE9ACB88F",
+                        "Arn",
+                      ],
+                    },
+                    "/stream/*",
+                  ],
                 ],
               },
             },
           ],
           "Version": "2012-10-17",
         },
-        "PolicyName": "monitoringcalculateMetricsServiceRoleDefaultPolicyA9458FB6",
+        "PolicyName": "monitoringCalculateMetricsRolePolicy0C1EF64D",
         "Roles": Array [
           Object {
-            "Ref": "monitoringcalculateMetricsServiceRole67BC8BC3",
+            "Ref": "monitoringCalculateMetricsRoleA76278A7",
           },
         ],
       },
       "Type": "AWS::IAM::Policy",
+    },
+    "monitoringPostMetricSchedule8675C968": Object {
+      "Properties": Object {
+        "ScheduleExpression": "rate(1 minute)",
+        "State": "ENABLED",
+        "Targets": Array [
+          Object {
+            "Arn": Object {
+              "Fn::GetAtt": Array [
+                "monitoringPostMetrics98F9F947",
+                "Arn",
+              ],
+            },
+            "Id": "Target0",
+          },
+        ],
+      },
+      "Type": "AWS::Events::Rule",
+    },
+    "monitoringPostMetricScheduleAllowEventRuleteststackmonitoringPostMetricSchedule2E9FE30DD6019900": Object {
+      "Properties": Object {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": Object {
+          "Fn::GetAtt": Array [
+            "monitoringPostMetrics98F9F947",
+            "Arn",
+          ],
+        },
+        "Principal": "events.amazonaws.com",
+        "SourceArn": Object {
+          "Fn::GetAtt": Array [
+            "monitoringPostMetricSchedule8675C968",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "AWS::Lambda::Permission",
+    },
+    "monitoringPostMetrics98F9F947": Object {
+      "DependsOn": Array [
+        "monitoringPostMetricsRole87B61E7B",
+        "monitoringPostMetricsRolePolicy596F9F4D",
+      ],
+      "Metadata": Object {
+        "cfn_nag": Object {
+          "rules_to_suppress": Array [
+            Object {
+              "id": "W58",
+              "reason": "cfn nag is unable to reason about CDK generated cloudwatch log permissions",
+            },
+          ],
+        },
+      },
+      "Properties": Object {
+        "Code": Object {
+          "S3Bucket": Object {
+            "Ref": "AssetParameters86f042fb2a2b3ab5a4694522fc2ecad8dfd1c22c78853adf9e62002400d3d4b4S3Bucket1ADF9B83",
+          },
+          "S3Key": Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                Object {
+                  "Fn::Select": Array [
+                    0,
+                    Object {
+                      "Fn::Split": Array [
+                        "||",
+                        Object {
+                          "Ref": "AssetParameters86f042fb2a2b3ab5a4694522fc2ecad8dfd1c22c78853adf9e62002400d3d4b4S3VersionKey80444FFA",
+                        },
+                      ],
+                    },
+                  ],
+                },
+                Object {
+                  "Fn::Select": Array [
+                    1,
+                    Object {
+                      "Fn::Split": Array [
+                        "||",
+                        Object {
+                          "Ref": "AssetParameters86f042fb2a2b3ab5a4694522fc2ecad8dfd1c22c78853adf9e62002400d3d4b4S3VersionKey80444FFA",
+                        },
+                      ],
+                    },
+                  ],
+                },
+              ],
+            ],
+          },
+        },
+        "Environment": Object {
+          "Variables": Object {
+            "METRICS_TABLE": Object {
+              "Ref": "dynamoDataCatalogMetricsTable174C007B",
+            },
+            "STACK_NAME": Object {
+              "Ref": "AWS::StackName",
+            },
+            "STATUS_TABLE": Object {
+              "Ref": "dynamoDataCatalogStatusTableE9ACB88F",
+            },
+          },
+        },
+        "FunctionName": Object {
+          "Fn::Join": Array [
+            "",
+            Array [
+              Object {
+                "Ref": "AWS::StackName",
+              },
+              "-postMetrics",
+            ],
+          ],
+        },
+        "Handler": "index.handler",
+        "Role": Object {
+          "Fn::GetAtt": Array [
+            "monitoringPostMetricsRole87B61E7B",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs12.x",
+        "Tags": Array [
+          Object {
+            "Key": "solution",
+            "Value": "amazon-s3-glacier-refreezer",
+          },
+        ],
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "monitoringPostMetricsRole87B61E7B": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "Tags": Array [
+          Object {
+            "Key": "solution",
+            "Value": "amazon-s3-glacier-refreezer",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "monitoringPostMetricsRolePolicy596F9F4D": Object {
+      "Metadata": Object {
+        "cfn_nag": Object {
+          "rules_to_suppress": Array [
+            Object {
+              "id": "W12",
+              "reason": "CloudWatch does not support metric ARNs. Using Namespace condition",
+            },
+          ],
+        },
+      },
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "dynamodb:Query",
+              "Effect": "Allow",
+              "Resource": Object {
+                "Fn::GetAtt": Array [
+                  "dynamoDataCatalogMetricsTable174C007B",
+                  "Arn",
+                ],
+              },
+            },
+            Object {
+              "Action": "cloudwatch:PutMetricData",
+              "Condition": Object {
+                "StringEquals": Object {
+                  "cloudwatch:namespace": "AmazonS3GlacierReFreezer",
+                },
+              },
+              "Effect": "Allow",
+              "Resource": "*",
+              "Sid": "permitPostMetrics",
+            },
+            Object {
+              "Action": Array [
+                "logs:CreateLogGroup",
+                "logs:CreateLogStream",
+                "logs:PutLogEvents",
+              ],
+              "Effect": "Allow",
+              "Resource": Object {
+                "Fn::Join": Array [
+                  "",
+                  Array [
+                    "arn:aws:logs:*:i",
+                    Object {
+                      "Ref": "AWS::AccountId",
+                    },
+                    ":log-group:/aws/lambda/",
+                    Object {
+                      "Ref": "AWS::StackName",
+                    },
+                    "-postMetrics",
+                  ],
+                ],
+              },
+              "Sid": "allowCloudWatchLogs",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "monitoringPostMetricsRolePolicy596F9F4D",
+        "Roles": Array [
+          Object {
+            "Ref": "monitoringPostMetricsRole87B61E7B",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "monitoringcalculateMetricsLogGroup9961A214": Object {
+      "Properties": Object {
+        "LogGroupName": Object {
+          "Fn::Join": Array [
+            "",
+            Array [
+              "/aws/lambda/",
+              Object {
+                "Ref": "AWS::StackName",
+              },
+              "-calculateMetrics",
+            ],
+          ],
+        },
+      },
+      "Type": "AWS::Logs::LogGroup",
     },
     "monitoringcopyArchiveLogGroupBB702B1B": Object {
       "Properties": Object {
@@ -1677,6 +1995,10 @@ exports.handler = function(event, context) {
               Object {
                 "Ref": "AWS::StackName",
               },
+              "-calculateTreehash' | SOURCE '/aws/lambda/",
+              Object {
+                "Ref": "AWS::StackName",
+              },
               "-calculateMetrics' | SOURCE '/aws/lambda/",
               Object {
                 "Ref": "AWS::StackName",
@@ -1743,128 +2065,6 @@ exports.handler = function(event, context) {
       },
       "Type": "AWS::CloudWatch::Dashboard",
     },
-    "monitoringpostMetricSchedule6EF27DB5": Object {
-      "Properties": Object {
-        "ScheduleExpression": "rate(1 minute)",
-        "State": "ENABLED",
-        "Targets": Array [
-          Object {
-            "Arn": Object {
-              "Fn::GetAtt": Array [
-                "monitoringpostMetrics42F37764",
-                "Arn",
-              ],
-            },
-            "Id": "Target0",
-          },
-        ],
-      },
-      "Type": "AWS::Events::Rule",
-    },
-    "monitoringpostMetricScheduleAllowEventRuleteststackmonitoringpostMetricScheduleF95992D5AD258B19": Object {
-      "Properties": Object {
-        "Action": "lambda:InvokeFunction",
-        "FunctionName": Object {
-          "Fn::GetAtt": Array [
-            "monitoringpostMetrics42F37764",
-            "Arn",
-          ],
-        },
-        "Principal": "events.amazonaws.com",
-        "SourceArn": Object {
-          "Fn::GetAtt": Array [
-            "monitoringpostMetricSchedule6EF27DB5",
-            "Arn",
-          ],
-        },
-      },
-      "Type": "AWS::Lambda::Permission",
-    },
-    "monitoringpostMetrics42F37764": Object {
-      "DependsOn": Array [
-        "monitoringpostMetricsServiceRoleDefaultPolicy8BA2D595",
-        "monitoringpostMetricsServiceRole67C38DA0",
-      ],
-      "Properties": Object {
-        "Code": Object {
-          "S3Bucket": Object {
-            "Ref": "AssetParameters86f042fb2a2b3ab5a4694522fc2ecad8dfd1c22c78853adf9e62002400d3d4b4S3Bucket1ADF9B83",
-          },
-          "S3Key": Object {
-            "Fn::Join": Array [
-              "",
-              Array [
-                Object {
-                  "Fn::Select": Array [
-                    0,
-                    Object {
-                      "Fn::Split": Array [
-                        "||",
-                        Object {
-                          "Ref": "AssetParameters86f042fb2a2b3ab5a4694522fc2ecad8dfd1c22c78853adf9e62002400d3d4b4S3VersionKey80444FFA",
-                        },
-                      ],
-                    },
-                  ],
-                },
-                Object {
-                  "Fn::Select": Array [
-                    1,
-                    Object {
-                      "Fn::Split": Array [
-                        "||",
-                        Object {
-                          "Ref": "AssetParameters86f042fb2a2b3ab5a4694522fc2ecad8dfd1c22c78853adf9e62002400d3d4b4S3VersionKey80444FFA",
-                        },
-                      ],
-                    },
-                  ],
-                },
-              ],
-            ],
-          },
-        },
-        "Environment": Object {
-          "Variables": Object {
-            "METRICS_TABLE": Object {
-              "Ref": "dynamoDataCatalogmetricsTableD896DDA5",
-            },
-            "STACK_NAME": Object {
-              "Ref": "AWS::StackName",
-            },
-            "STATUS_TABLE": Object {
-              "Ref": "dynamoDataCatalogstatusTableA9EC97D3",
-            },
-          },
-        },
-        "FunctionName": Object {
-          "Fn::Join": Array [
-            "",
-            Array [
-              Object {
-                "Ref": "AWS::StackName",
-              },
-              "-postMetrics",
-            ],
-          ],
-        },
-        "Handler": "index.handler",
-        "Role": Object {
-          "Fn::GetAtt": Array [
-            "monitoringpostMetricsServiceRole67C38DA0",
-            "Arn",
-          ],
-        },
-        "Runtime": "nodejs12.x",
-        "Tags": Array [
-          Object {
-            "Key": "solution",
-            "Value": "amazon-s3-glacier-refreezer",
-          },
-        ],
-      },
-      "Type": "AWS::Lambda::Function",
-    },
     "monitoringpostMetricsLogGroup670566A8": Object {
       "Properties": Object {
         "LogGroupName": Object {
@@ -1881,92 +2081,6 @@ exports.handler = function(event, context) {
         },
       },
       "Type": "AWS::Logs::LogGroup",
-    },
-    "monitoringpostMetricsServiceRole67C38DA0": Object {
-      "Properties": Object {
-        "AssumeRolePolicyDocument": Object {
-          "Statement": Array [
-            Object {
-              "Action": "sts:AssumeRole",
-              "Effect": "Allow",
-              "Principal": Object {
-                "Service": "lambda.amazonaws.com",
-              },
-            },
-          ],
-          "Version": "2012-10-17",
-        },
-        "ManagedPolicyArns": Array [
-          Object {
-            "Fn::Join": Array [
-              "",
-              Array [
-                "arn:",
-                Object {
-                  "Ref": "AWS::Partition",
-                },
-                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
-              ],
-            ],
-          },
-        ],
-        "Tags": Array [
-          Object {
-            "Key": "solution",
-            "Value": "amazon-s3-glacier-refreezer",
-          },
-        ],
-      },
-      "Type": "AWS::IAM::Role",
-    },
-    "monitoringpostMetricsServiceRoleDefaultPolicy8BA2D595": Object {
-      "Properties": Object {
-        "PolicyDocument": Object {
-          "Statement": Array [
-            Object {
-              "Action": Array [
-                "dynamodb:BatchGetItem",
-                "dynamodb:GetRecords",
-                "dynamodb:GetShardIterator",
-                "dynamodb:Query",
-                "dynamodb:GetItem",
-                "dynamodb:Scan",
-              ],
-              "Effect": "Allow",
-              "Resource": Array [
-                Object {
-                  "Fn::GetAtt": Array [
-                    "dynamoDataCatalogmetricsTableD896DDA5",
-                    "Arn",
-                  ],
-                },
-                Object {
-                  "Ref": "AWS::NoValue",
-                },
-              ],
-            },
-            Object {
-              "Action": "cloudwatch:PutMetricData",
-              "Condition": Object {
-                "StringEquals": Object {
-                  "cloudwatch:namespace": "AmazonS3GlacierReFreezer",
-                },
-              },
-              "Effect": "Allow",
-              "Resource": "*",
-              "Sid": "permitPostMetrics",
-            },
-          ],
-          "Version": "2012-10-17",
-        },
-        "PolicyName": "monitoringpostMetricsServiceRoleDefaultPolicy8BA2D595",
-        "Roles": Array [
-          Object {
-            "Ref": "monitoringpostMetricsServiceRole67C38DA0",
-          },
-        ],
-      },
-      "Type": "AWS::IAM::Policy",
     },
     "monitoringrequestArchivesLogGroup70D7C9C5": Object {
       "Properties": Object {
@@ -2041,10 +2155,20 @@ exports.handler = function(event, context) {
         "stageFourcalculateTreehashServiceRoleDefaultPolicyBF15D3E2",
         "stageFourcalculateTreehashServiceRoleC753ABC4",
       ],
+      "Metadata": Object {
+        "cfn_nag": Object {
+          "rules_to_suppress": Array [
+            Object {
+              "id": "W58",
+              "reason": "cfn nag is unable to reason about CDK generated cloudwatch log permissions",
+            },
+          ],
+        },
+      },
       "Properties": Object {
         "Code": Object {
           "S3Bucket": Object {
-            "Ref": "AssetParameters64575d4a11d974ec52b55af18bc6083309c4556861988baf35ecad9aab5aadfeS3Bucket42A6D7A1",
+            "Ref": "AssetParameters784287ee95e4c17d822a4126a45416d22bfb9b51d12754257c800f5d1d63694aS3Bucket3C34CC4A",
           },
           "S3Key": Object {
             "Fn::Join": Array [
@@ -2057,7 +2181,7 @@ exports.handler = function(event, context) {
                       "Fn::Split": Array [
                         "||",
                         Object {
-                          "Ref": "AssetParameters64575d4a11d974ec52b55af18bc6083309c4556861988baf35ecad9aab5aadfeS3VersionKeyDF57DFE2",
+                          "Ref": "AssetParameters784287ee95e4c17d822a4126a45416d22bfb9b51d12754257c800f5d1d63694aS3VersionKey5E91745D",
                         },
                       ],
                     },
@@ -2070,7 +2194,7 @@ exports.handler = function(event, context) {
                       "Fn::Split": Array [
                         "||",
                         Object {
-                          "Ref": "AssetParameters64575d4a11d974ec52b55af18bc6083309c4556861988baf35ecad9aab5aadfeS3VersionKeyDF57DFE2",
+                          "Ref": "AssetParameters784287ee95e4c17d822a4126a45416d22bfb9b51d12754257c800f5d1d63694aS3VersionKey5E91745D",
                         },
                       ],
                     },
@@ -2096,7 +2220,7 @@ exports.handler = function(event, context) {
             },
             "STAGING_BUCKET_PREFIX": "stagingdata",
             "STATUS_TABLE": Object {
-              "Ref": "dynamoDataCatalogstatusTableA9EC97D3",
+              "Ref": "dynamoDataCatalogStatusTableE9ACB88F",
             },
             "STORAGE_CLASS": Object {
               "Ref": "DestinationStorageClass",
@@ -2210,6 +2334,43 @@ exports.handler = function(event, context) {
             },
             Object {
               "Action": Array [
+                "dynamodb:BatchGetItem",
+                "dynamodb:GetRecords",
+                "dynamodb:GetShardIterator",
+                "dynamodb:Query",
+                "dynamodb:GetItem",
+                "dynamodb:Scan",
+                "dynamodb:BatchWriteItem",
+                "dynamodb:PutItem",
+                "dynamodb:UpdateItem",
+                "dynamodb:DeleteItem",
+              ],
+              "Effect": "Allow",
+              "Resource": Array [
+                Object {
+                  "Fn::GetAtt": Array [
+                    "dynamoDataCatalogStatusTableE9ACB88F",
+                    "Arn",
+                  ],
+                },
+                Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      Object {
+                        "Fn::GetAtt": Array [
+                          "dynamoDataCatalogStatusTableE9ACB88F",
+                          "Arn",
+                        ],
+                      },
+                      "/index/*",
+                    ],
+                  ],
+                },
+              ],
+            },
+            Object {
+              "Action": Array [
                 "s3:GetObject*",
                 "s3:GetBucket*",
                 "s3:List*",
@@ -2247,43 +2408,6 @@ exports.handler = function(event, context) {
                         "Ref": "DestinationBucket",
                       },
                       "/*",
-                    ],
-                  ],
-                },
-              ],
-            },
-            Object {
-              "Action": Array [
-                "dynamodb:BatchGetItem",
-                "dynamodb:GetRecords",
-                "dynamodb:GetShardIterator",
-                "dynamodb:Query",
-                "dynamodb:GetItem",
-                "dynamodb:Scan",
-                "dynamodb:BatchWriteItem",
-                "dynamodb:PutItem",
-                "dynamodb:UpdateItem",
-                "dynamodb:DeleteItem",
-              ],
-              "Effect": "Allow",
-              "Resource": Array [
-                Object {
-                  "Fn::GetAtt": Array [
-                    "dynamoDataCatalogstatusTableA9EC97D3",
-                    "Arn",
-                  ],
-                },
-                Object {
-                  "Fn::Join": Array [
-                    "",
-                    Array [
-                      Object {
-                        "Fn::GetAtt": Array [
-                          "dynamoDataCatalogstatusTableA9EC97D3",
-                          "Arn",
-                        ],
-                      },
-                      "/index/*",
                     ],
                   ],
                 },
@@ -2334,23 +2458,24 @@ exports.handler = function(event, context) {
     },
     "stageOnedownloadInventory7367D822": Object {
       "DependsOn": Array [
-        "monitoringcalculateMetricsDynamoDBEventSourceteststackdynamoDataCatalogstatusTableDC30348BC2B7F631",
-        "monitoringcalculateMetrics2AD3D7FA",
-        "monitoringcalculateMetricsServiceRoleDefaultPolicyA9458FB6",
-        "monitoringcalculateMetricsServiceRole67BC8BC3",
+        "monitoringCalculateMetricsDynamoDBEventSourceteststackdynamoDataCatalogStatusTable4AFD52BCA4A6AAB1",
+        "monitoringCalculateMetrics1B70CF5B",
         "monitoringcalculateMetricsLogGroup9961A214",
+        "monitoringCalculateMetricsRoleDefaultPolicy22C0E657",
+        "monitoringCalculateMetricsRoleA76278A7",
+        "monitoringCalculateMetricsRolePolicy0C1EF64D",
         "monitoringcopyArchiveLogGroupBB702B1B",
         "monitoringcopyChunkLogGroup5D04918E",
         "monitoringdeployGlueJobScriptLogGroupAA50E4DE",
         "monitoringdownloadInventoryLogGroup2471C2FF",
         "monitoringdownloadInventoryPartLogGroupD9E69690",
         "monitoringglacierrefreezerdashboardE7F6D8AE",
-        "monitoringpostMetrics42F37764",
-        "monitoringpostMetricsServiceRoleDefaultPolicy8BA2D595",
-        "monitoringpostMetricsServiceRole67C38DA0",
-        "monitoringpostMetricScheduleAllowEventRuleteststackmonitoringpostMetricScheduleF95992D5AD258B19",
-        "monitoringpostMetricSchedule6EF27DB5",
+        "monitoringPostMetrics98F9F947",
+        "monitoringPostMetricScheduleAllowEventRuleteststackmonitoringPostMetricSchedule2E9FE30DD6019900",
+        "monitoringPostMetricSchedule8675C968",
         "monitoringpostMetricsLogGroup670566A8",
+        "monitoringPostMetricsRole87B61E7B",
+        "monitoringPostMetricsRolePolicy596F9F4D",
         "monitoringrequestArchivesLogGroup70D7C9C5",
         "monitoringrequestInventoryLogGroupB7C9607D",
         "monitoringsendAnonymousStatsLogGroup0C9968BB",
@@ -2358,6 +2483,16 @@ exports.handler = function(event, context) {
         "stageOnedownloadInventoryServiceRoleDefaultPolicy8C7F6A4F",
         "stageOnedownloadInventoryServiceRole411212F6",
       ],
+      "Metadata": Object {
+        "cfn_nag": Object {
+          "rules_to_suppress": Array [
+            Object {
+              "id": "W58",
+              "reason": "cfn nag is unable to reason about CDK generated cloudwatch log permissions",
+            },
+          ],
+        },
+      },
       "Properties": Object {
         "Code": Object {
           "S3Bucket": Object {
@@ -2446,23 +2581,24 @@ exports.handler = function(event, context) {
     },
     "stageOnedownloadInventoryAllowInvoketeststackstageOnevaultInventoryTopic9CB7DD07115692CF": Object {
       "DependsOn": Array [
-        "monitoringcalculateMetricsDynamoDBEventSourceteststackdynamoDataCatalogstatusTableDC30348BC2B7F631",
-        "monitoringcalculateMetrics2AD3D7FA",
-        "monitoringcalculateMetricsServiceRoleDefaultPolicyA9458FB6",
-        "monitoringcalculateMetricsServiceRole67BC8BC3",
+        "monitoringCalculateMetricsDynamoDBEventSourceteststackdynamoDataCatalogStatusTable4AFD52BCA4A6AAB1",
+        "monitoringCalculateMetrics1B70CF5B",
         "monitoringcalculateMetricsLogGroup9961A214",
+        "monitoringCalculateMetricsRoleDefaultPolicy22C0E657",
+        "monitoringCalculateMetricsRoleA76278A7",
+        "monitoringCalculateMetricsRolePolicy0C1EF64D",
         "monitoringcopyArchiveLogGroupBB702B1B",
         "monitoringcopyChunkLogGroup5D04918E",
         "monitoringdeployGlueJobScriptLogGroupAA50E4DE",
         "monitoringdownloadInventoryLogGroup2471C2FF",
         "monitoringdownloadInventoryPartLogGroupD9E69690",
         "monitoringglacierrefreezerdashboardE7F6D8AE",
-        "monitoringpostMetrics42F37764",
-        "monitoringpostMetricsServiceRoleDefaultPolicy8BA2D595",
-        "monitoringpostMetricsServiceRole67C38DA0",
-        "monitoringpostMetricScheduleAllowEventRuleteststackmonitoringpostMetricScheduleF95992D5AD258B19",
-        "monitoringpostMetricSchedule6EF27DB5",
+        "monitoringPostMetrics98F9F947",
+        "monitoringPostMetricScheduleAllowEventRuleteststackmonitoringPostMetricSchedule2E9FE30DD6019900",
+        "monitoringPostMetricSchedule8675C968",
         "monitoringpostMetricsLogGroup670566A8",
+        "monitoringPostMetricsRole87B61E7B",
+        "monitoringPostMetricsRolePolicy596F9F4D",
         "monitoringrequestArchivesLogGroup70D7C9C5",
         "monitoringrequestInventoryLogGroupB7C9607D",
         "monitoringsendAnonymousStatsLogGroup0C9968BB",
@@ -2485,23 +2621,24 @@ exports.handler = function(event, context) {
     },
     "stageOnedownloadInventoryPartC8387F3A": Object {
       "DependsOn": Array [
-        "monitoringcalculateMetricsDynamoDBEventSourceteststackdynamoDataCatalogstatusTableDC30348BC2B7F631",
-        "monitoringcalculateMetrics2AD3D7FA",
-        "monitoringcalculateMetricsServiceRoleDefaultPolicyA9458FB6",
-        "monitoringcalculateMetricsServiceRole67BC8BC3",
+        "monitoringCalculateMetricsDynamoDBEventSourceteststackdynamoDataCatalogStatusTable4AFD52BCA4A6AAB1",
+        "monitoringCalculateMetrics1B70CF5B",
         "monitoringcalculateMetricsLogGroup9961A214",
+        "monitoringCalculateMetricsRoleDefaultPolicy22C0E657",
+        "monitoringCalculateMetricsRoleA76278A7",
+        "monitoringCalculateMetricsRolePolicy0C1EF64D",
         "monitoringcopyArchiveLogGroupBB702B1B",
         "monitoringcopyChunkLogGroup5D04918E",
         "monitoringdeployGlueJobScriptLogGroupAA50E4DE",
         "monitoringdownloadInventoryLogGroup2471C2FF",
         "monitoringdownloadInventoryPartLogGroupD9E69690",
         "monitoringglacierrefreezerdashboardE7F6D8AE",
-        "monitoringpostMetrics42F37764",
-        "monitoringpostMetricsServiceRoleDefaultPolicy8BA2D595",
-        "monitoringpostMetricsServiceRole67C38DA0",
-        "monitoringpostMetricScheduleAllowEventRuleteststackmonitoringpostMetricScheduleF95992D5AD258B19",
-        "monitoringpostMetricSchedule6EF27DB5",
+        "monitoringPostMetrics98F9F947",
+        "monitoringPostMetricScheduleAllowEventRuleteststackmonitoringPostMetricSchedule2E9FE30DD6019900",
+        "monitoringPostMetricSchedule8675C968",
         "monitoringpostMetricsLogGroup670566A8",
+        "monitoringPostMetricsRole87B61E7B",
+        "monitoringPostMetricsRolePolicy596F9F4D",
         "monitoringrequestArchivesLogGroup70D7C9C5",
         "monitoringrequestInventoryLogGroupB7C9607D",
         "monitoringsendAnonymousStatsLogGroup0C9968BB",
@@ -2509,6 +2646,16 @@ exports.handler = function(event, context) {
         "stageOnedownloadInventoryPartServiceRoleDefaultPolicy59CA83BD",
         "stageOnedownloadInventoryPartServiceRole73BC3A9B",
       ],
+      "Metadata": Object {
+        "cfn_nag": Object {
+          "rules_to_suppress": Array [
+            Object {
+              "id": "W58",
+              "reason": "cfn nag is unable to reason about CDK generated cloudwatch log permissions",
+            },
+          ],
+        },
+      },
       "Properties": Object {
         "Code": Object {
           "S3Bucket": Object {
@@ -2580,23 +2727,24 @@ exports.handler = function(event, context) {
     },
     "stageOnedownloadInventoryPartServiceRole73BC3A9B": Object {
       "DependsOn": Array [
-        "monitoringcalculateMetricsDynamoDBEventSourceteststackdynamoDataCatalogstatusTableDC30348BC2B7F631",
-        "monitoringcalculateMetrics2AD3D7FA",
-        "monitoringcalculateMetricsServiceRoleDefaultPolicyA9458FB6",
-        "monitoringcalculateMetricsServiceRole67BC8BC3",
+        "monitoringCalculateMetricsDynamoDBEventSourceteststackdynamoDataCatalogStatusTable4AFD52BCA4A6AAB1",
+        "monitoringCalculateMetrics1B70CF5B",
         "monitoringcalculateMetricsLogGroup9961A214",
+        "monitoringCalculateMetricsRoleDefaultPolicy22C0E657",
+        "monitoringCalculateMetricsRoleA76278A7",
+        "monitoringCalculateMetricsRolePolicy0C1EF64D",
         "monitoringcopyArchiveLogGroupBB702B1B",
         "monitoringcopyChunkLogGroup5D04918E",
         "monitoringdeployGlueJobScriptLogGroupAA50E4DE",
         "monitoringdownloadInventoryLogGroup2471C2FF",
         "monitoringdownloadInventoryPartLogGroupD9E69690",
         "monitoringglacierrefreezerdashboardE7F6D8AE",
-        "monitoringpostMetrics42F37764",
-        "monitoringpostMetricsServiceRoleDefaultPolicy8BA2D595",
-        "monitoringpostMetricsServiceRole67C38DA0",
-        "monitoringpostMetricScheduleAllowEventRuleteststackmonitoringpostMetricScheduleF95992D5AD258B19",
-        "monitoringpostMetricSchedule6EF27DB5",
+        "monitoringPostMetrics98F9F947",
+        "monitoringPostMetricScheduleAllowEventRuleteststackmonitoringPostMetricSchedule2E9FE30DD6019900",
+        "monitoringPostMetricSchedule8675C968",
         "monitoringpostMetricsLogGroup670566A8",
+        "monitoringPostMetricsRole87B61E7B",
+        "monitoringPostMetricsRolePolicy596F9F4D",
         "monitoringrequestArchivesLogGroup70D7C9C5",
         "monitoringrequestInventoryLogGroupB7C9607D",
         "monitoringsendAnonymousStatsLogGroup0C9968BB",
@@ -2640,23 +2788,24 @@ exports.handler = function(event, context) {
     },
     "stageOnedownloadInventoryPartServiceRoleDefaultPolicy59CA83BD": Object {
       "DependsOn": Array [
-        "monitoringcalculateMetricsDynamoDBEventSourceteststackdynamoDataCatalogstatusTableDC30348BC2B7F631",
-        "monitoringcalculateMetrics2AD3D7FA",
-        "monitoringcalculateMetricsServiceRoleDefaultPolicyA9458FB6",
-        "monitoringcalculateMetricsServiceRole67BC8BC3",
+        "monitoringCalculateMetricsDynamoDBEventSourceteststackdynamoDataCatalogStatusTable4AFD52BCA4A6AAB1",
+        "monitoringCalculateMetrics1B70CF5B",
         "monitoringcalculateMetricsLogGroup9961A214",
+        "monitoringCalculateMetricsRoleDefaultPolicy22C0E657",
+        "monitoringCalculateMetricsRoleA76278A7",
+        "monitoringCalculateMetricsRolePolicy0C1EF64D",
         "monitoringcopyArchiveLogGroupBB702B1B",
         "monitoringcopyChunkLogGroup5D04918E",
         "monitoringdeployGlueJobScriptLogGroupAA50E4DE",
         "monitoringdownloadInventoryLogGroup2471C2FF",
         "monitoringdownloadInventoryPartLogGroupD9E69690",
         "monitoringglacierrefreezerdashboardE7F6D8AE",
-        "monitoringpostMetrics42F37764",
-        "monitoringpostMetricsServiceRoleDefaultPolicy8BA2D595",
-        "monitoringpostMetricsServiceRole67C38DA0",
-        "monitoringpostMetricScheduleAllowEventRuleteststackmonitoringpostMetricScheduleF95992D5AD258B19",
-        "monitoringpostMetricSchedule6EF27DB5",
+        "monitoringPostMetrics98F9F947",
+        "monitoringPostMetricScheduleAllowEventRuleteststackmonitoringPostMetricSchedule2E9FE30DD6019900",
+        "monitoringPostMetricSchedule8675C968",
         "monitoringpostMetricsLogGroup670566A8",
+        "monitoringPostMetricsRole87B61E7B",
+        "monitoringPostMetricsRolePolicy596F9F4D",
         "monitoringrequestArchivesLogGroup70D7C9C5",
         "monitoringrequestInventoryLogGroupB7C9607D",
         "monitoringsendAnonymousStatsLogGroup0C9968BB",
@@ -2728,7 +2877,7 @@ exports.handler = function(event, context) {
                   ],
                 ],
               },
-              "Sid": "permitGlacier",
+              "Sid": "allowGlacierAccess",
             },
           ],
           "Version": "2012-10-17",
@@ -2744,23 +2893,24 @@ exports.handler = function(event, context) {
     },
     "stageOnedownloadInventoryServiceRole411212F6": Object {
       "DependsOn": Array [
-        "monitoringcalculateMetricsDynamoDBEventSourceteststackdynamoDataCatalogstatusTableDC30348BC2B7F631",
-        "monitoringcalculateMetrics2AD3D7FA",
-        "monitoringcalculateMetricsServiceRoleDefaultPolicyA9458FB6",
-        "monitoringcalculateMetricsServiceRole67BC8BC3",
+        "monitoringCalculateMetricsDynamoDBEventSourceteststackdynamoDataCatalogStatusTable4AFD52BCA4A6AAB1",
+        "monitoringCalculateMetrics1B70CF5B",
         "monitoringcalculateMetricsLogGroup9961A214",
+        "monitoringCalculateMetricsRoleDefaultPolicy22C0E657",
+        "monitoringCalculateMetricsRoleA76278A7",
+        "monitoringCalculateMetricsRolePolicy0C1EF64D",
         "monitoringcopyArchiveLogGroupBB702B1B",
         "monitoringcopyChunkLogGroup5D04918E",
         "monitoringdeployGlueJobScriptLogGroupAA50E4DE",
         "monitoringdownloadInventoryLogGroup2471C2FF",
         "monitoringdownloadInventoryPartLogGroupD9E69690",
         "monitoringglacierrefreezerdashboardE7F6D8AE",
-        "monitoringpostMetrics42F37764",
-        "monitoringpostMetricsServiceRoleDefaultPolicy8BA2D595",
-        "monitoringpostMetricsServiceRole67C38DA0",
-        "monitoringpostMetricScheduleAllowEventRuleteststackmonitoringpostMetricScheduleF95992D5AD258B19",
-        "monitoringpostMetricSchedule6EF27DB5",
+        "monitoringPostMetrics98F9F947",
+        "monitoringPostMetricScheduleAllowEventRuleteststackmonitoringPostMetricSchedule2E9FE30DD6019900",
+        "monitoringPostMetricSchedule8675C968",
         "monitoringpostMetricsLogGroup670566A8",
+        "monitoringPostMetricsRole87B61E7B",
+        "monitoringPostMetricsRolePolicy596F9F4D",
         "monitoringrequestArchivesLogGroup70D7C9C5",
         "monitoringrequestInventoryLogGroupB7C9607D",
         "monitoringsendAnonymousStatsLogGroup0C9968BB",
@@ -2804,23 +2954,24 @@ exports.handler = function(event, context) {
     },
     "stageOnedownloadInventoryServiceRoleDefaultPolicy8C7F6A4F": Object {
       "DependsOn": Array [
-        "monitoringcalculateMetricsDynamoDBEventSourceteststackdynamoDataCatalogstatusTableDC30348BC2B7F631",
-        "monitoringcalculateMetrics2AD3D7FA",
-        "monitoringcalculateMetricsServiceRoleDefaultPolicyA9458FB6",
-        "monitoringcalculateMetricsServiceRole67BC8BC3",
+        "monitoringCalculateMetricsDynamoDBEventSourceteststackdynamoDataCatalogStatusTable4AFD52BCA4A6AAB1",
+        "monitoringCalculateMetrics1B70CF5B",
         "monitoringcalculateMetricsLogGroup9961A214",
+        "monitoringCalculateMetricsRoleDefaultPolicy22C0E657",
+        "monitoringCalculateMetricsRoleA76278A7",
+        "monitoringCalculateMetricsRolePolicy0C1EF64D",
         "monitoringcopyArchiveLogGroupBB702B1B",
         "monitoringcopyChunkLogGroup5D04918E",
         "monitoringdeployGlueJobScriptLogGroupAA50E4DE",
         "monitoringdownloadInventoryLogGroup2471C2FF",
         "monitoringdownloadInventoryPartLogGroupD9E69690",
         "monitoringglacierrefreezerdashboardE7F6D8AE",
-        "monitoringpostMetrics42F37764",
-        "monitoringpostMetricsServiceRoleDefaultPolicy8BA2D595",
-        "monitoringpostMetricsServiceRole67C38DA0",
-        "monitoringpostMetricScheduleAllowEventRuleteststackmonitoringpostMetricScheduleF95992D5AD258B19",
-        "monitoringpostMetricSchedule6EF27DB5",
+        "monitoringPostMetrics98F9F947",
+        "monitoringPostMetricScheduleAllowEventRuleteststackmonitoringPostMetricSchedule2E9FE30DD6019900",
+        "monitoringPostMetricSchedule8675C968",
         "monitoringpostMetricsLogGroup670566A8",
+        "monitoringPostMetricsRole87B61E7B",
+        "monitoringPostMetricsRolePolicy596F9F4D",
         "monitoringrequestArchivesLogGroup70D7C9C5",
         "monitoringrequestInventoryLogGroupB7C9607D",
         "monitoringsendAnonymousStatsLogGroup0C9968BB",
@@ -2892,7 +3043,7 @@ exports.handler = function(event, context) {
                   ],
                 ],
               },
-              "Sid": "permitGlacier",
+              "Sid": "allowGlacierAccess",
             },
             Object {
               "Action": "lambda:InvokeFunction",
@@ -2925,23 +3076,24 @@ exports.handler = function(event, context) {
     },
     "stageOnedownloadInventoryvaultInventoryTopicBC4D1E1D": Object {
       "DependsOn": Array [
-        "monitoringcalculateMetricsDynamoDBEventSourceteststackdynamoDataCatalogstatusTableDC30348BC2B7F631",
-        "monitoringcalculateMetrics2AD3D7FA",
-        "monitoringcalculateMetricsServiceRoleDefaultPolicyA9458FB6",
-        "monitoringcalculateMetricsServiceRole67BC8BC3",
+        "monitoringCalculateMetricsDynamoDBEventSourceteststackdynamoDataCatalogStatusTable4AFD52BCA4A6AAB1",
+        "monitoringCalculateMetrics1B70CF5B",
         "monitoringcalculateMetricsLogGroup9961A214",
+        "monitoringCalculateMetricsRoleDefaultPolicy22C0E657",
+        "monitoringCalculateMetricsRoleA76278A7",
+        "monitoringCalculateMetricsRolePolicy0C1EF64D",
         "monitoringcopyArchiveLogGroupBB702B1B",
         "monitoringcopyChunkLogGroup5D04918E",
         "monitoringdeployGlueJobScriptLogGroupAA50E4DE",
         "monitoringdownloadInventoryLogGroup2471C2FF",
         "monitoringdownloadInventoryPartLogGroupD9E69690",
         "monitoringglacierrefreezerdashboardE7F6D8AE",
-        "monitoringpostMetrics42F37764",
-        "monitoringpostMetricsServiceRoleDefaultPolicy8BA2D595",
-        "monitoringpostMetricsServiceRole67C38DA0",
-        "monitoringpostMetricScheduleAllowEventRuleteststackmonitoringpostMetricScheduleF95992D5AD258B19",
-        "monitoringpostMetricSchedule6EF27DB5",
+        "monitoringPostMetrics98F9F947",
+        "monitoringPostMetricScheduleAllowEventRuleteststackmonitoringPostMetricSchedule2E9FE30DD6019900",
+        "monitoringPostMetricSchedule8675C968",
         "monitoringpostMetricsLogGroup670566A8",
+        "monitoringPostMetricsRole87B61E7B",
+        "monitoringPostMetricsRolePolicy596F9F4D",
         "monitoringrequestArchivesLogGroup70D7C9C5",
         "monitoringrequestInventoryLogGroupB7C9607D",
         "monitoringsendAnonymousStatsLogGroup0C9968BB",
@@ -2963,23 +3115,24 @@ exports.handler = function(event, context) {
     },
     "stageOnerequestInventory8924DF79": Object {
       "DependsOn": Array [
-        "monitoringcalculateMetricsDynamoDBEventSourceteststackdynamoDataCatalogstatusTableDC30348BC2B7F631",
-        "monitoringcalculateMetrics2AD3D7FA",
-        "monitoringcalculateMetricsServiceRoleDefaultPolicyA9458FB6",
-        "monitoringcalculateMetricsServiceRole67BC8BC3",
+        "monitoringCalculateMetricsDynamoDBEventSourceteststackdynamoDataCatalogStatusTable4AFD52BCA4A6AAB1",
+        "monitoringCalculateMetrics1B70CF5B",
         "monitoringcalculateMetricsLogGroup9961A214",
+        "monitoringCalculateMetricsRoleDefaultPolicy22C0E657",
+        "monitoringCalculateMetricsRoleA76278A7",
+        "monitoringCalculateMetricsRolePolicy0C1EF64D",
         "monitoringcopyArchiveLogGroupBB702B1B",
         "monitoringcopyChunkLogGroup5D04918E",
         "monitoringdeployGlueJobScriptLogGroupAA50E4DE",
         "monitoringdownloadInventoryLogGroup2471C2FF",
         "monitoringdownloadInventoryPartLogGroupD9E69690",
         "monitoringglacierrefreezerdashboardE7F6D8AE",
-        "monitoringpostMetrics42F37764",
-        "monitoringpostMetricsServiceRoleDefaultPolicy8BA2D595",
-        "monitoringpostMetricsServiceRole67C38DA0",
-        "monitoringpostMetricScheduleAllowEventRuleteststackmonitoringpostMetricScheduleF95992D5AD258B19",
-        "monitoringpostMetricSchedule6EF27DB5",
+        "monitoringPostMetrics98F9F947",
+        "monitoringPostMetricScheduleAllowEventRuleteststackmonitoringPostMetricSchedule2E9FE30DD6019900",
+        "monitoringPostMetricSchedule8675C968",
         "monitoringpostMetricsLogGroup670566A8",
+        "monitoringPostMetricsRole87B61E7B",
+        "monitoringPostMetricsRolePolicy596F9F4D",
         "monitoringrequestArchivesLogGroup70D7C9C5",
         "monitoringrequestInventoryLogGroupB7C9607D",
         "monitoringsendAnonymousStatsLogGroup0C9968BB",
@@ -2987,6 +3140,16 @@ exports.handler = function(event, context) {
         "stageOnerequestInventoryServiceRoleDefaultPolicyE7A49E61",
         "stageOnerequestInventoryServiceRole5904E2D3",
       ],
+      "Metadata": Object {
+        "cfn_nag": Object {
+          "rules_to_suppress": Array [
+            Object {
+              "id": "W58",
+              "reason": "cfn nag is unable to reason about CDK generated cloudwatch log permissions",
+            },
+          ],
+        },
+      },
       "Properties": Object {
         "Code": Object {
           "S3Bucket": Object {
@@ -3087,23 +3250,24 @@ exports.handler = function(event, context) {
     },
     "stageOnerequestInventoryServiceRole5904E2D3": Object {
       "DependsOn": Array [
-        "monitoringcalculateMetricsDynamoDBEventSourceteststackdynamoDataCatalogstatusTableDC30348BC2B7F631",
-        "monitoringcalculateMetrics2AD3D7FA",
-        "monitoringcalculateMetricsServiceRoleDefaultPolicyA9458FB6",
-        "monitoringcalculateMetricsServiceRole67BC8BC3",
+        "monitoringCalculateMetricsDynamoDBEventSourceteststackdynamoDataCatalogStatusTable4AFD52BCA4A6AAB1",
+        "monitoringCalculateMetrics1B70CF5B",
         "monitoringcalculateMetricsLogGroup9961A214",
+        "monitoringCalculateMetricsRoleDefaultPolicy22C0E657",
+        "monitoringCalculateMetricsRoleA76278A7",
+        "monitoringCalculateMetricsRolePolicy0C1EF64D",
         "monitoringcopyArchiveLogGroupBB702B1B",
         "monitoringcopyChunkLogGroup5D04918E",
         "monitoringdeployGlueJobScriptLogGroupAA50E4DE",
         "monitoringdownloadInventoryLogGroup2471C2FF",
         "monitoringdownloadInventoryPartLogGroupD9E69690",
         "monitoringglacierrefreezerdashboardE7F6D8AE",
-        "monitoringpostMetrics42F37764",
-        "monitoringpostMetricsServiceRoleDefaultPolicy8BA2D595",
-        "monitoringpostMetricsServiceRole67C38DA0",
-        "monitoringpostMetricScheduleAllowEventRuleteststackmonitoringpostMetricScheduleF95992D5AD258B19",
-        "monitoringpostMetricSchedule6EF27DB5",
+        "monitoringPostMetrics98F9F947",
+        "monitoringPostMetricScheduleAllowEventRuleteststackmonitoringPostMetricSchedule2E9FE30DD6019900",
+        "monitoringPostMetricSchedule8675C968",
         "monitoringpostMetricsLogGroup670566A8",
+        "monitoringPostMetricsRole87B61E7B",
+        "monitoringPostMetricsRolePolicy596F9F4D",
         "monitoringrequestArchivesLogGroup70D7C9C5",
         "monitoringrequestInventoryLogGroupB7C9607D",
         "monitoringsendAnonymousStatsLogGroup0C9968BB",
@@ -3147,23 +3311,24 @@ exports.handler = function(event, context) {
     },
     "stageOnerequestInventoryServiceRoleDefaultPolicyE7A49E61": Object {
       "DependsOn": Array [
-        "monitoringcalculateMetricsDynamoDBEventSourceteststackdynamoDataCatalogstatusTableDC30348BC2B7F631",
-        "monitoringcalculateMetrics2AD3D7FA",
-        "monitoringcalculateMetricsServiceRoleDefaultPolicyA9458FB6",
-        "monitoringcalculateMetricsServiceRole67BC8BC3",
+        "monitoringCalculateMetricsDynamoDBEventSourceteststackdynamoDataCatalogStatusTable4AFD52BCA4A6AAB1",
+        "monitoringCalculateMetrics1B70CF5B",
         "monitoringcalculateMetricsLogGroup9961A214",
+        "monitoringCalculateMetricsRoleDefaultPolicy22C0E657",
+        "monitoringCalculateMetricsRoleA76278A7",
+        "monitoringCalculateMetricsRolePolicy0C1EF64D",
         "monitoringcopyArchiveLogGroupBB702B1B",
         "monitoringcopyChunkLogGroup5D04918E",
         "monitoringdeployGlueJobScriptLogGroupAA50E4DE",
         "monitoringdownloadInventoryLogGroup2471C2FF",
         "monitoringdownloadInventoryPartLogGroupD9E69690",
         "monitoringglacierrefreezerdashboardE7F6D8AE",
-        "monitoringpostMetrics42F37764",
-        "monitoringpostMetricsServiceRoleDefaultPolicy8BA2D595",
-        "monitoringpostMetricsServiceRole67C38DA0",
-        "monitoringpostMetricScheduleAllowEventRuleteststackmonitoringpostMetricScheduleF95992D5AD258B19",
-        "monitoringpostMetricSchedule6EF27DB5",
+        "monitoringPostMetrics98F9F947",
+        "monitoringPostMetricScheduleAllowEventRuleteststackmonitoringPostMetricSchedule2E9FE30DD6019900",
+        "monitoringPostMetricSchedule8675C968",
         "monitoringpostMetricsLogGroup670566A8",
+        "monitoringPostMetricsRole87B61E7B",
+        "monitoringPostMetricsRolePolicy596F9F4D",
         "monitoringrequestArchivesLogGroup70D7C9C5",
         "monitoringrequestInventoryLogGroupB7C9607D",
         "monitoringsendAnonymousStatsLogGroup0C9968BB",
@@ -3285,15 +3450,10 @@ exports.handler = function(event, context) {
             Object {
               "Action": Array [
                 "s3:ListBucket",
-                "s3:ListBucketVersions",
                 "s3:ListBucketMultipartUploads",
-                "s3:ListMultipartUploadParts",
                 "s3:GetBucketLocation",
                 "s3:GetObject",
                 "s3:GetObjectAcl",
-                "s3:PutObject",
-                "s3:DeleteObject",
-                "s3:AbortMultipartUpload",
               ],
               "Condition": Object {
                 "Bool": Object {
@@ -3312,7 +3472,7 @@ exports.handler = function(event, context) {
                   ],
                 ],
               },
-              "Sid": "allowStagingAccess",
+              "Sid": "allowS3Access",
             },
             Object {
               "Action": Array [
@@ -3344,7 +3504,7 @@ exports.handler = function(event, context) {
                   ],
                 ],
               },
-              "Sid": "permitGlacier",
+              "Sid": "allowGlacierAccess",
             },
           ],
           "Version": "2012-10-17",
@@ -3361,23 +3521,24 @@ exports.handler = function(event, context) {
     "stageOnerequestInventoryTriggerB9B55962": Object {
       "DeletionPolicy": "Delete",
       "DependsOn": Array [
-        "monitoringcalculateMetricsDynamoDBEventSourceteststackdynamoDataCatalogstatusTableDC30348BC2B7F631",
-        "monitoringcalculateMetrics2AD3D7FA",
-        "monitoringcalculateMetricsServiceRoleDefaultPolicyA9458FB6",
-        "monitoringcalculateMetricsServiceRole67BC8BC3",
+        "monitoringCalculateMetricsDynamoDBEventSourceteststackdynamoDataCatalogStatusTable4AFD52BCA4A6AAB1",
+        "monitoringCalculateMetrics1B70CF5B",
         "monitoringcalculateMetricsLogGroup9961A214",
+        "monitoringCalculateMetricsRoleDefaultPolicy22C0E657",
+        "monitoringCalculateMetricsRoleA76278A7",
+        "monitoringCalculateMetricsRolePolicy0C1EF64D",
         "monitoringcopyArchiveLogGroupBB702B1B",
         "monitoringcopyChunkLogGroup5D04918E",
         "monitoringdeployGlueJobScriptLogGroupAA50E4DE",
         "monitoringdownloadInventoryLogGroup2471C2FF",
         "monitoringdownloadInventoryPartLogGroupD9E69690",
         "monitoringglacierrefreezerdashboardE7F6D8AE",
-        "monitoringpostMetrics42F37764",
-        "monitoringpostMetricsServiceRoleDefaultPolicy8BA2D595",
-        "monitoringpostMetricsServiceRole67C38DA0",
-        "monitoringpostMetricScheduleAllowEventRuleteststackmonitoringpostMetricScheduleF95992D5AD258B19",
-        "monitoringpostMetricSchedule6EF27DB5",
+        "monitoringPostMetrics98F9F947",
+        "monitoringPostMetricScheduleAllowEventRuleteststackmonitoringPostMetricSchedule2E9FE30DD6019900",
+        "monitoringPostMetricSchedule8675C968",
         "monitoringpostMetricsLogGroup670566A8",
+        "monitoringPostMetricsRole87B61E7B",
+        "monitoringPostMetricsRolePolicy596F9F4D",
         "monitoringrequestArchivesLogGroup70D7C9C5",
         "monitoringrequestInventoryLogGroupB7C9607D",
         "monitoringsendAnonymousStatsLogGroup0C9968BB",
@@ -3396,23 +3557,24 @@ exports.handler = function(event, context) {
     },
     "stageOnevaultInventoryTopicPolicyF3FF58AF": Object {
       "DependsOn": Array [
-        "monitoringcalculateMetricsDynamoDBEventSourceteststackdynamoDataCatalogstatusTableDC30348BC2B7F631",
-        "monitoringcalculateMetrics2AD3D7FA",
-        "monitoringcalculateMetricsServiceRoleDefaultPolicyA9458FB6",
-        "monitoringcalculateMetricsServiceRole67BC8BC3",
+        "monitoringCalculateMetricsDynamoDBEventSourceteststackdynamoDataCatalogStatusTable4AFD52BCA4A6AAB1",
+        "monitoringCalculateMetrics1B70CF5B",
         "monitoringcalculateMetricsLogGroup9961A214",
+        "monitoringCalculateMetricsRoleDefaultPolicy22C0E657",
+        "monitoringCalculateMetricsRoleA76278A7",
+        "monitoringCalculateMetricsRolePolicy0C1EF64D",
         "monitoringcopyArchiveLogGroupBB702B1B",
         "monitoringcopyChunkLogGroup5D04918E",
         "monitoringdeployGlueJobScriptLogGroupAA50E4DE",
         "monitoringdownloadInventoryLogGroup2471C2FF",
         "monitoringdownloadInventoryPartLogGroupD9E69690",
         "monitoringglacierrefreezerdashboardE7F6D8AE",
-        "monitoringpostMetrics42F37764",
-        "monitoringpostMetricsServiceRoleDefaultPolicy8BA2D595",
-        "monitoringpostMetricsServiceRole67C38DA0",
-        "monitoringpostMetricScheduleAllowEventRuleteststackmonitoringpostMetricScheduleF95992D5AD258B19",
-        "monitoringpostMetricSchedule6EF27DB5",
+        "monitoringPostMetrics98F9F947",
+        "monitoringPostMetricScheduleAllowEventRuleteststackmonitoringPostMetricSchedule2E9FE30DD6019900",
+        "monitoringPostMetricSchedule8675C968",
         "monitoringpostMetricsLogGroup670566A8",
+        "monitoringPostMetricsRole87B61E7B",
+        "monitoringPostMetricsRolePolicy596F9F4D",
         "monitoringrequestArchivesLogGroup70D7C9C5",
         "monitoringrequestInventoryLogGroupB7C9607D",
         "monitoringsendAnonymousStatsLogGroup0C9968BB",
@@ -3464,11 +3626,13 @@ exports.handler = function(event, context) {
                 },
               },
               "Effect": "Allow",
-              "Principal": "*",
+              "Principal": Object {
+                "Service": "glacier.amazonaws.com",
+              },
               "Resource": Object {
                 "Ref": "vaultInventoryTopic",
               },
-              "Sid": "permitServie",
+              "Sid": "permitService",
             },
           ],
           "Version": "2012-10-17",
@@ -3481,7 +3645,703 @@ exports.handler = function(event, context) {
       },
       "Type": "AWS::SNS::TopicPolicy",
     },
+    "stageThreeCopyArchive3C4457DF": Object {
+      "DependsOn": Array [
+        "stageThreeCopyArchiveRoleDefaultPolicy61EA658E",
+        "stageThreeCopyArchiveRoleF6DAB445",
+        "stageThreeCopyArchiveRolePolicyBDE7CBFE",
+      ],
+      "Metadata": Object {
+        "cfn_nag": Object {
+          "rules_to_suppress": Array [
+            Object {
+              "id": "W58",
+              "reason": "cfn nag is unable to reason about CDK generated cloudwatch log permissions",
+            },
+          ],
+        },
+      },
+      "Properties": Object {
+        "Code": Object {
+          "S3Bucket": Object {
+            "Ref": "AssetParameterscac40dd75e680d661e66e3bf5a0bba8a142f38b2bc3178ea3c93494ef8786f68S3Bucket77A37061",
+          },
+          "S3Key": Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                Object {
+                  "Fn::Select": Array [
+                    0,
+                    Object {
+                      "Fn::Split": Array [
+                        "||",
+                        Object {
+                          "Ref": "AssetParameterscac40dd75e680d661e66e3bf5a0bba8a142f38b2bc3178ea3c93494ef8786f68S3VersionKeyD4C9C0A0",
+                        },
+                      ],
+                    },
+                  ],
+                },
+                Object {
+                  "Fn::Select": Array [
+                    1,
+                    Object {
+                      "Fn::Split": Array [
+                        "||",
+                        Object {
+                          "Ref": "AssetParameterscac40dd75e680d661e66e3bf5a0bba8a142f38b2bc3178ea3c93494ef8786f68S3VersionKeyD4C9C0A0",
+                        },
+                      ],
+                    },
+                  ],
+                },
+              ],
+            ],
+          },
+        },
+        "Environment": Object {
+          "Variables": Object {
+            "SQS_CHUNK": Object {
+              "Fn::GetAtt": Array [
+                "stageThreechunkcopyqueue6E6E5A95",
+                "QueueName",
+              ],
+            },
+            "SQS_HASH": Object {
+              "Fn::GetAtt": Array [
+                "stageThreetreehashcalcqueue77403987",
+                "QueueName",
+              ],
+            },
+            "STAGING_BUCKET": Object {
+              "Ref": "stagingBucket",
+            },
+            "STAGING_BUCKET_PREFIX": "stagingdata",
+            "STATUS_TABLE": Object {
+              "Ref": "dynamoDataCatalogStatusTableE9ACB88F",
+            },
+            "VAULT": Object {
+              "Ref": "SourceVault",
+            },
+          },
+        },
+        "FunctionName": Object {
+          "Fn::Join": Array [
+            "",
+            Array [
+              Object {
+                "Ref": "AWS::StackName",
+              },
+              "-copyArchive",
+            ],
+          ],
+        },
+        "Handler": "index.handler",
+        "MemorySize": 1024,
+        "ReservedConcurrentExecutions": 50,
+        "Role": Object {
+          "Fn::GetAtt": Array [
+            "stageThreeCopyArchiveRoleF6DAB445",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs12.x",
+        "Tags": Array [
+          Object {
+            "Key": "solution",
+            "Value": "amazon-s3-glacier-refreezer",
+          },
+        ],
+        "Timeout": 900,
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "stageThreeCopyArchiveRoleDefaultPolicy61EA658E": Object {
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": Array [
+                "s3:GetObject*",
+                "s3:GetBucket*",
+                "s3:List*",
+                "s3:DeleteObject*",
+                "s3:PutObject*",
+                "s3:Abort*",
+              ],
+              "Effect": "Allow",
+              "Resource": Array [
+                Object {
+                  "Fn::GetAtt": Array [
+                    "stagingBucket",
+                    "Arn",
+                  ],
+                },
+                Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      Object {
+                        "Fn::GetAtt": Array [
+                          "stagingBucket",
+                          "Arn",
+                        ],
+                      },
+                      "/*",
+                    ],
+                  ],
+                },
+              ],
+            },
+            Object {
+              "Action": Array [
+                "dynamodb:BatchGetItem",
+                "dynamodb:GetRecords",
+                "dynamodb:GetShardIterator",
+                "dynamodb:Query",
+                "dynamodb:GetItem",
+                "dynamodb:Scan",
+                "dynamodb:BatchWriteItem",
+                "dynamodb:PutItem",
+                "dynamodb:UpdateItem",
+                "dynamodb:DeleteItem",
+              ],
+              "Effect": "Allow",
+              "Resource": Array [
+                Object {
+                  "Fn::GetAtt": Array [
+                    "dynamoDataCatalogStatusTableE9ACB88F",
+                    "Arn",
+                  ],
+                },
+                Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      Object {
+                        "Fn::GetAtt": Array [
+                          "dynamoDataCatalogStatusTableE9ACB88F",
+                          "Arn",
+                        ],
+                      },
+                      "/index/*",
+                    ],
+                  ],
+                },
+              ],
+            },
+            Object {
+              "Action": Array [
+                "sqs:SendMessage",
+                "sqs:GetQueueAttributes",
+                "sqs:GetQueueUrl",
+              ],
+              "Effect": "Allow",
+              "Resource": Object {
+                "Fn::GetAtt": Array [
+                  "stageThreechunkcopyqueue6E6E5A95",
+                  "Arn",
+                ],
+              },
+            },
+            Object {
+              "Action": Array [
+                "sqs:SendMessage",
+                "sqs:GetQueueAttributes",
+                "sqs:GetQueueUrl",
+              ],
+              "Effect": "Allow",
+              "Resource": Object {
+                "Fn::GetAtt": Array [
+                  "stageThreetreehashcalcqueue77403987",
+                  "Arn",
+                ],
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "stageThreeCopyArchiveRoleDefaultPolicy61EA658E",
+        "Roles": Array [
+          Object {
+            "Ref": "stageThreeCopyArchiveRoleF6DAB445",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "stageThreeCopyArchiveRoleF6DAB445": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "Tags": Array [
+          Object {
+            "Key": "solution",
+            "Value": "amazon-s3-glacier-refreezer",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "stageThreeCopyArchiveRolePolicyBDE7CBFE": Object {
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": Array [
+                "logs:CreateLogGroup",
+                "logs:CreateLogStream",
+                "logs:PutLogEvents",
+              ],
+              "Effect": "Allow",
+              "Resource": Object {
+                "Fn::Join": Array [
+                  "",
+                  Array [
+                    "arn:aws:logs:*:i",
+                    Object {
+                      "Ref": "AWS::AccountId",
+                    },
+                    ":log-group:/aws/lambda/",
+                    Object {
+                      "Ref": "AWS::StackName",
+                    },
+                    "-copyArchive",
+                  ],
+                ],
+              },
+              "Sid": "allowCloudWatchLogs",
+            },
+            Object {
+              "Action": Array [
+                "glacier:GetJobOutput",
+                "glacier:InitiateJob",
+              ],
+              "Condition": Object {
+                "Bool": Object {
+                  "aws:SecureTransport": true,
+                },
+              },
+              "Effect": "Allow",
+              "Resource": Object {
+                "Fn::Join": Array [
+                  "",
+                  Array [
+                    "arn:aws:glacier:",
+                    Object {
+                      "Ref": "AWS::Region",
+                    },
+                    ":",
+                    Object {
+                      "Ref": "AWS::AccountId",
+                    },
+                    ":vaults/",
+                    Object {
+                      "Ref": "SourceVault",
+                    },
+                  ],
+                ],
+              },
+              "Sid": "allowGlacierAccess",
+            },
+            Object {
+              "Action": Array [
+                "sqs:ReceiveMessage",
+                "sqs:DeleteMessage",
+                "sqs:GetQueueAttributes",
+              ],
+              "Effect": "Allow",
+              "Resource": Object {
+                "Fn::GetAtt": Array [
+                  "stageThreearchivenotificationqueue402FED49",
+                  "Arn",
+                ],
+              },
+              "Sid": "allowSqsSubscribeAccess",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "stageThreeCopyArchiveRolePolicyBDE7CBFE",
+        "Roles": Array [
+          Object {
+            "Ref": "stageThreeCopyArchiveRoleF6DAB445",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "stageThreeCopyArchiveSqsEventSourceteststackstageThreearchivenotificationqueue7E1D389E9E4BE7E3": Object {
+      "DependsOn": Array [
+        "stageThreeCopyArchiveRolePolicyBDE7CBFE",
+      ],
+      "Properties": Object {
+        "BatchSize": 1,
+        "EventSourceArn": Object {
+          "Fn::GetAtt": Array [
+            "stageThreearchivenotificationqueue402FED49",
+            "Arn",
+          ],
+        },
+        "FunctionName": Object {
+          "Ref": "stageThreeCopyArchive3C4457DF",
+        },
+      },
+      "Type": "AWS::Lambda::EventSourceMapping",
+    },
+    "stageThreeCopyChunk9DFA72B0": Object {
+      "DependsOn": Array [
+        "stageThreeCopyChunkRoleDefaultPolicyA5C59C91",
+        "stageThreeCopyChunkRole24158C8C",
+      ],
+      "Metadata": Object {
+        "cfn_nag": Object {
+          "rules_to_suppress": Array [
+            Object {
+              "id": "W58",
+              "reason": "cfn nag is unable to reason about CDK generated cloudwatch log permissions",
+            },
+          ],
+        },
+      },
+      "Properties": Object {
+        "Code": Object {
+          "S3Bucket": Object {
+            "Ref": "AssetParameterse63aeebc152892bb5b362662f7fb61da6c0cd6cb9151f53891d7c717710aab8aS3Bucket4421C61A",
+          },
+          "S3Key": Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                Object {
+                  "Fn::Select": Array [
+                    0,
+                    Object {
+                      "Fn::Split": Array [
+                        "||",
+                        Object {
+                          "Ref": "AssetParameterse63aeebc152892bb5b362662f7fb61da6c0cd6cb9151f53891d7c717710aab8aS3VersionKeyBB570786",
+                        },
+                      ],
+                    },
+                  ],
+                },
+                Object {
+                  "Fn::Select": Array [
+                    1,
+                    Object {
+                      "Fn::Split": Array [
+                        "||",
+                        Object {
+                          "Ref": "AssetParameterse63aeebc152892bb5b362662f7fb61da6c0cd6cb9151f53891d7c717710aab8aS3VersionKeyBB570786",
+                        },
+                      ],
+                    },
+                  ],
+                },
+              ],
+            ],
+          },
+        },
+        "Environment": Object {
+          "Variables": Object {
+            "SQS_HASH": Object {
+              "Fn::GetAtt": Array [
+                "stageThreetreehashcalcqueue77403987",
+                "QueueName",
+              ],
+            },
+            "STAGING_BUCKET": Object {
+              "Ref": "stagingBucket",
+            },
+            "STAGING_BUCKET_PREFIX": "stagingdata",
+            "STATUS_TABLE": Object {
+              "Ref": "dynamoDataCatalogStatusTableE9ACB88F",
+            },
+            "VAULT": Object {
+              "Ref": "SourceVault",
+            },
+          },
+        },
+        "FunctionName": Object {
+          "Fn::Join": Array [
+            "",
+            Array [
+              Object {
+                "Ref": "AWS::StackName",
+              },
+              "-copyChunk",
+            ],
+          ],
+        },
+        "Handler": "index.handler",
+        "MemorySize": 1024,
+        "ReservedConcurrentExecutions": 30,
+        "Role": Object {
+          "Fn::GetAtt": Array [
+            "stageThreeCopyChunkRole24158C8C",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs12.x",
+        "Tags": Array [
+          Object {
+            "Key": "solution",
+            "Value": "amazon-s3-glacier-refreezer",
+          },
+        ],
+        "Timeout": 900,
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "stageThreeCopyChunkRole24158C8C": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "Tags": Array [
+          Object {
+            "Key": "solution",
+            "Value": "amazon-s3-glacier-refreezer",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "stageThreeCopyChunkRoleDefaultPolicyA5C59C91": Object {
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": Array [
+                "s3:GetObject*",
+                "s3:GetBucket*",
+                "s3:List*",
+                "s3:DeleteObject*",
+                "s3:PutObject*",
+                "s3:Abort*",
+              ],
+              "Effect": "Allow",
+              "Resource": Array [
+                Object {
+                  "Fn::GetAtt": Array [
+                    "stagingBucket",
+                    "Arn",
+                  ],
+                },
+                Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      Object {
+                        "Fn::GetAtt": Array [
+                          "stagingBucket",
+                          "Arn",
+                        ],
+                      },
+                      "/*",
+                    ],
+                  ],
+                },
+              ],
+            },
+            Object {
+              "Action": Array [
+                "dynamodb:BatchGetItem",
+                "dynamodb:GetRecords",
+                "dynamodb:GetShardIterator",
+                "dynamodb:Query",
+                "dynamodb:GetItem",
+                "dynamodb:Scan",
+                "dynamodb:BatchWriteItem",
+                "dynamodb:PutItem",
+                "dynamodb:UpdateItem",
+                "dynamodb:DeleteItem",
+              ],
+              "Effect": "Allow",
+              "Resource": Array [
+                Object {
+                  "Fn::GetAtt": Array [
+                    "dynamoDataCatalogStatusTableE9ACB88F",
+                    "Arn",
+                  ],
+                },
+                Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      Object {
+                        "Fn::GetAtt": Array [
+                          "dynamoDataCatalogStatusTableE9ACB88F",
+                          "Arn",
+                        ],
+                      },
+                      "/index/*",
+                    ],
+                  ],
+                },
+              ],
+            },
+            Object {
+              "Action": Array [
+                "sqs:SendMessage",
+                "sqs:GetQueueAttributes",
+                "sqs:GetQueueUrl",
+              ],
+              "Effect": "Allow",
+              "Resource": Object {
+                "Fn::GetAtt": Array [
+                  "stageThreetreehashcalcqueue77403987",
+                  "Arn",
+                ],
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "stageThreeCopyChunkRoleDefaultPolicyA5C59C91",
+        "Roles": Array [
+          Object {
+            "Ref": "stageThreeCopyChunkRole24158C8C",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "stageThreeCopyChunkRolePolicy8072E407": Object {
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": Array [
+                "logs:CreateLogGroup",
+                "logs:CreateLogStream",
+                "logs:PutLogEvents",
+              ],
+              "Effect": "Allow",
+              "Resource": Object {
+                "Fn::Join": Array [
+                  "",
+                  Array [
+                    "arn:aws:logs:*:i",
+                    Object {
+                      "Ref": "AWS::AccountId",
+                    },
+                    ":log-group:/aws/lambda/",
+                    Object {
+                      "Ref": "AWS::StackName",
+                    },
+                    "-copyChunk",
+                  ],
+                ],
+              },
+              "Sid": "allowCloudWatchLogs",
+            },
+            Object {
+              "Action": Array [
+                "glacier:GetJobOutput",
+                "glacier:InitiateJob",
+              ],
+              "Condition": Object {
+                "Bool": Object {
+                  "aws:SecureTransport": true,
+                },
+              },
+              "Effect": "Allow",
+              "Resource": Object {
+                "Fn::Join": Array [
+                  "",
+                  Array [
+                    "arn:aws:glacier:",
+                    Object {
+                      "Ref": "AWS::Region",
+                    },
+                    ":",
+                    Object {
+                      "Ref": "AWS::AccountId",
+                    },
+                    ":vaults/",
+                    Object {
+                      "Ref": "SourceVault",
+                    },
+                  ],
+                ],
+              },
+              "Sid": "allowGlacierAccess",
+            },
+            Object {
+              "Action": Array [
+                "sqs:ReceiveMessage",
+                "sqs:DeleteMessage",
+                "sqs:GetQueueAttributes",
+              ],
+              "Effect": "Allow",
+              "Resource": Object {
+                "Fn::GetAtt": Array [
+                  "stageThreechunkcopyqueue6E6E5A95",
+                  "Arn",
+                ],
+              },
+              "Sid": "allowSqsSubscribeAccess",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "stageThreeCopyChunkRolePolicy8072E407",
+        "Roles": Array [
+          Object {
+            "Ref": "stageThreeCopyChunkRole24158C8C",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "stageThreeCopyChunkSqsEventSourceteststackstageThreechunkcopyqueue346472D84B59BEB5": Object {
+      "Properties": Object {
+        "BatchSize": 1,
+        "EventSourceArn": Object {
+          "Fn::GetAtt": Array [
+            "stageThreechunkcopyqueue6E6E5A95",
+            "Arn",
+          ],
+        },
+        "FunctionName": Object {
+          "Ref": "stageThreeCopyChunk9DFA72B0",
+        },
+      },
+      "Type": "AWS::Lambda::EventSourceMapping",
+    },
     "stageThreearchiveNotificationTopic5D1E2506": Object {
+      "Metadata": Object {
+        "cfn_nag": Object {
+          "rules_to_suppress": Array [
+            Object {
+              "id": "W47",
+              "reason": "Non sensitive metadata - encryption is not required and cost inefficient",
+            },
+          ],
+        },
+      },
       "Properties": Object {
         "Tags": Array [
           Object {
@@ -3527,11 +4387,13 @@ exports.handler = function(event, context) {
                 },
               },
               "Effect": "Allow",
-              "Principal": "*",
+              "Principal": Object {
+                "Service": "glacier.amazonaws.com",
+              },
               "Resource": Object {
                 "Ref": "stageThreearchiveNotificationTopic5D1E2506",
               },
-              "Sid": "permitServie",
+              "Sid": "permitService",
             },
             Object {
               "Action": Array [
@@ -3568,6 +4430,16 @@ exports.handler = function(event, context) {
       "Type": "AWS::SNS::TopicPolicy",
     },
     "stageThreearchivenotificationqueue402FED49": Object {
+      "Metadata": Object {
+        "cfn_nag": Object {
+          "rules_to_suppress": Array [
+            Object {
+              "id": "W48",
+              "reason": "Non sensitive metadata - encryption is not required and cost inefficient",
+            },
+          ],
+        },
+      },
       "Properties": Object {
         "QueueName": Object {
           "Fn::Join": Array [
@@ -3658,6 +4530,16 @@ exports.handler = function(event, context) {
       "Type": "AWS::SNS::Subscription",
     },
     "stageThreechunkcopyqueue6E6E5A95": Object {
+      "Metadata": Object {
+        "cfn_nag": Object {
+          "rules_to_suppress": Array [
+            Object {
+              "id": "W48",
+              "reason": "Non sensitive metadata - encryption is not required and cost inefficient",
+            },
+          ],
+        },
+      },
       "Properties": Object {
         "QueueName": Object {
           "Fn::Join": Array [
@@ -3712,617 +4594,17 @@ exports.handler = function(event, context) {
       },
       "Type": "AWS::SQS::QueuePolicy",
     },
-    "stageThreecopyArchive0F10719D": Object {
-      "DependsOn": Array [
-        "stageThreecopyArchiveServiceRoleDefaultPolicyA4E27715",
-        "stageThreecopyArchiveServiceRoleAAA3BAD9",
-      ],
-      "Properties": Object {
-        "Code": Object {
-          "S3Bucket": Object {
-            "Ref": "AssetParameterscac40dd75e680d661e66e3bf5a0bba8a142f38b2bc3178ea3c93494ef8786f68S3Bucket77A37061",
-          },
-          "S3Key": Object {
-            "Fn::Join": Array [
-              "",
-              Array [
-                Object {
-                  "Fn::Select": Array [
-                    0,
-                    Object {
-                      "Fn::Split": Array [
-                        "||",
-                        Object {
-                          "Ref": "AssetParameterscac40dd75e680d661e66e3bf5a0bba8a142f38b2bc3178ea3c93494ef8786f68S3VersionKeyD4C9C0A0",
-                        },
-                      ],
-                    },
-                  ],
-                },
-                Object {
-                  "Fn::Select": Array [
-                    1,
-                    Object {
-                      "Fn::Split": Array [
-                        "||",
-                        Object {
-                          "Ref": "AssetParameterscac40dd75e680d661e66e3bf5a0bba8a142f38b2bc3178ea3c93494ef8786f68S3VersionKeyD4C9C0A0",
-                        },
-                      ],
-                    },
-                  ],
-                },
-              ],
-            ],
-          },
-        },
-        "Environment": Object {
-          "Variables": Object {
-            "SQS_CHUNK": Object {
-              "Fn::GetAtt": Array [
-                "stageThreechunkcopyqueue6E6E5A95",
-                "QueueName",
-              ],
-            },
-            "SQS_HASH": Object {
-              "Fn::GetAtt": Array [
-                "stageThreetreehashcalcqueue77403987",
-                "QueueName",
-              ],
-            },
-            "STAGING_BUCKET": Object {
-              "Ref": "stagingBucket",
-            },
-            "STAGING_BUCKET_PREFIX": "stagingdata",
-            "STATUS_TABLE": Object {
-              "Ref": "dynamoDataCatalogstatusTableA9EC97D3",
-            },
-            "VAULT": Object {
-              "Ref": "SourceVault",
-            },
-          },
-        },
-        "FunctionName": Object {
-          "Fn::Join": Array [
-            "",
-            Array [
-              Object {
-                "Ref": "AWS::StackName",
-              },
-              "-copyArchive",
-            ],
-          ],
-        },
-        "Handler": "index.handler",
-        "MemorySize": 1024,
-        "ReservedConcurrentExecutions": 50,
-        "Role": Object {
-          "Fn::GetAtt": Array [
-            "stageThreecopyArchiveServiceRoleAAA3BAD9",
-            "Arn",
-          ],
-        },
-        "Runtime": "nodejs12.x",
-        "Tags": Array [
-          Object {
-            "Key": "solution",
-            "Value": "amazon-s3-glacier-refreezer",
-          },
-        ],
-        "Timeout": 900,
-      },
-      "Type": "AWS::Lambda::Function",
-    },
-    "stageThreecopyArchiveServiceRoleAAA3BAD9": Object {
-      "Properties": Object {
-        "AssumeRolePolicyDocument": Object {
-          "Statement": Array [
-            Object {
-              "Action": "sts:AssumeRole",
-              "Effect": "Allow",
-              "Principal": Object {
-                "Service": "lambda.amazonaws.com",
-              },
-            },
-          ],
-          "Version": "2012-10-17",
-        },
-        "ManagedPolicyArns": Array [
-          Object {
-            "Fn::Join": Array [
-              "",
-              Array [
-                "arn:",
-                Object {
-                  "Ref": "AWS::Partition",
-                },
-                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
-              ],
-            ],
-          },
-        ],
-        "Tags": Array [
-          Object {
-            "Key": "solution",
-            "Value": "amazon-s3-glacier-refreezer",
-          },
-        ],
-      },
-      "Type": "AWS::IAM::Role",
-    },
-    "stageThreecopyArchiveServiceRoleDefaultPolicyA4E27715": Object {
-      "Properties": Object {
-        "PolicyDocument": Object {
-          "Statement": Array [
-            Object {
-              "Action": Array [
-                "s3:GetObject*",
-                "s3:GetBucket*",
-                "s3:List*",
-                "s3:DeleteObject*",
-                "s3:PutObject*",
-                "s3:Abort*",
-              ],
-              "Effect": "Allow",
-              "Resource": Array [
-                Object {
-                  "Fn::GetAtt": Array [
-                    "stagingBucket",
-                    "Arn",
-                  ],
-                },
-                Object {
-                  "Fn::Join": Array [
-                    "",
-                    Array [
-                      Object {
-                        "Fn::GetAtt": Array [
-                          "stagingBucket",
-                          "Arn",
-                        ],
-                      },
-                      "/*",
-                    ],
-                  ],
-                },
-              ],
-            },
-            Object {
-              "Action": Array [
-                "dynamodb:BatchGetItem",
-                "dynamodb:GetRecords",
-                "dynamodb:GetShardIterator",
-                "dynamodb:Query",
-                "dynamodb:GetItem",
-                "dynamodb:Scan",
-                "dynamodb:BatchWriteItem",
-                "dynamodb:PutItem",
-                "dynamodb:UpdateItem",
-                "dynamodb:DeleteItem",
-              ],
-              "Effect": "Allow",
-              "Resource": Array [
-                Object {
-                  "Fn::GetAtt": Array [
-                    "dynamoDataCatalogstatusTableA9EC97D3",
-                    "Arn",
-                  ],
-                },
-                Object {
-                  "Fn::Join": Array [
-                    "",
-                    Array [
-                      Object {
-                        "Fn::GetAtt": Array [
-                          "dynamoDataCatalogstatusTableA9EC97D3",
-                          "Arn",
-                        ],
-                      },
-                      "/index/*",
-                    ],
-                  ],
-                },
-              ],
-            },
-            Object {
-              "Action": Array [
-                "glacier:GetJobOutput",
-                "glacier:InitiateJob",
-              ],
-              "Condition": Object {
-                "Bool": Object {
-                  "aws:SecureTransport": true,
-                },
-              },
-              "Effect": "Allow",
-              "Resource": Object {
-                "Fn::Join": Array [
-                  "",
-                  Array [
-                    "arn:aws:glacier:",
-                    Object {
-                      "Ref": "AWS::Region",
-                    },
-                    ":",
-                    Object {
-                      "Ref": "AWS::AccountId",
-                    },
-                    ":vaults/",
-                    Object {
-                      "Ref": "SourceVault",
-                    },
-                  ],
-                ],
-              },
-              "Sid": "permitGlacier",
-            },
-            Object {
-              "Action": Array [
-                "sqs:SendMessage",
-                "sqs:GetQueueAttributes",
-                "sqs:GetQueueUrl",
-              ],
-              "Effect": "Allow",
-              "Resource": Object {
-                "Fn::GetAtt": Array [
-                  "stageThreechunkcopyqueue6E6E5A95",
-                  "Arn",
-                ],
-              },
-            },
-            Object {
-              "Action": Array [
-                "sqs:SendMessage",
-                "sqs:GetQueueAttributes",
-                "sqs:GetQueueUrl",
-              ],
-              "Effect": "Allow",
-              "Resource": Object {
-                "Fn::GetAtt": Array [
-                  "stageThreetreehashcalcqueue77403987",
-                  "Arn",
-                ],
-              },
-            },
-            Object {
-              "Action": Array [
-                "sqs:ReceiveMessage",
-                "sqs:ChangeMessageVisibility",
-                "sqs:GetQueueUrl",
-                "sqs:DeleteMessage",
-                "sqs:GetQueueAttributes",
-              ],
-              "Effect": "Allow",
-              "Resource": Object {
-                "Fn::GetAtt": Array [
-                  "stageThreearchivenotificationqueue402FED49",
-                  "Arn",
-                ],
-              },
-            },
-          ],
-          "Version": "2012-10-17",
-        },
-        "PolicyName": "stageThreecopyArchiveServiceRoleDefaultPolicyA4E27715",
-        "Roles": Array [
-          Object {
-            "Ref": "stageThreecopyArchiveServiceRoleAAA3BAD9",
-          },
-        ],
-      },
-      "Type": "AWS::IAM::Policy",
-    },
-    "stageThreecopyArchiveSqsEventSourceteststackstageThreearchivenotificationqueue7E1D389E906E6BE0": Object {
-      "Properties": Object {
-        "BatchSize": 1,
-        "EventSourceArn": Object {
-          "Fn::GetAtt": Array [
-            "stageThreearchivenotificationqueue402FED49",
-            "Arn",
-          ],
-        },
-        "FunctionName": Object {
-          "Ref": "stageThreecopyArchive0F10719D",
-        },
-      },
-      "Type": "AWS::Lambda::EventSourceMapping",
-    },
-    "stageThreecopyChunk9A1B6F24": Object {
-      "DependsOn": Array [
-        "stageThreecopyChunkServiceRoleDefaultPolicyFDDCA56C",
-        "stageThreecopyChunkServiceRole88E1F526",
-      ],
-      "Properties": Object {
-        "Code": Object {
-          "S3Bucket": Object {
-            "Ref": "AssetParameterse63aeebc152892bb5b362662f7fb61da6c0cd6cb9151f53891d7c717710aab8aS3Bucket4421C61A",
-          },
-          "S3Key": Object {
-            "Fn::Join": Array [
-              "",
-              Array [
-                Object {
-                  "Fn::Select": Array [
-                    0,
-                    Object {
-                      "Fn::Split": Array [
-                        "||",
-                        Object {
-                          "Ref": "AssetParameterse63aeebc152892bb5b362662f7fb61da6c0cd6cb9151f53891d7c717710aab8aS3VersionKeyBB570786",
-                        },
-                      ],
-                    },
-                  ],
-                },
-                Object {
-                  "Fn::Select": Array [
-                    1,
-                    Object {
-                      "Fn::Split": Array [
-                        "||",
-                        Object {
-                          "Ref": "AssetParameterse63aeebc152892bb5b362662f7fb61da6c0cd6cb9151f53891d7c717710aab8aS3VersionKeyBB570786",
-                        },
-                      ],
-                    },
-                  ],
-                },
-              ],
-            ],
-          },
-        },
-        "Environment": Object {
-          "Variables": Object {
-            "SQS_HASH": Object {
-              "Fn::GetAtt": Array [
-                "stageThreetreehashcalcqueue77403987",
-                "QueueName",
-              ],
-            },
-            "STAGING_BUCKET": Object {
-              "Ref": "stagingBucket",
-            },
-            "STAGING_BUCKET_PREFIX": "stagingdata",
-            "STATUS_TABLE": Object {
-              "Ref": "dynamoDataCatalogstatusTableA9EC97D3",
-            },
-            "VAULT": Object {
-              "Ref": "SourceVault",
-            },
-          },
-        },
-        "FunctionName": Object {
-          "Fn::Join": Array [
-            "",
-            Array [
-              Object {
-                "Ref": "AWS::StackName",
-              },
-              "-copyChunk",
-            ],
-          ],
-        },
-        "Handler": "index.handler",
-        "MemorySize": 1024,
-        "ReservedConcurrentExecutions": 30,
-        "Role": Object {
-          "Fn::GetAtt": Array [
-            "stageThreecopyChunkServiceRole88E1F526",
-            "Arn",
-          ],
-        },
-        "Runtime": "nodejs12.x",
-        "Tags": Array [
-          Object {
-            "Key": "solution",
-            "Value": "amazon-s3-glacier-refreezer",
-          },
-        ],
-        "Timeout": 900,
-      },
-      "Type": "AWS::Lambda::Function",
-    },
-    "stageThreecopyChunkServiceRole88E1F526": Object {
-      "Properties": Object {
-        "AssumeRolePolicyDocument": Object {
-          "Statement": Array [
-            Object {
-              "Action": "sts:AssumeRole",
-              "Effect": "Allow",
-              "Principal": Object {
-                "Service": "lambda.amazonaws.com",
-              },
-            },
-          ],
-          "Version": "2012-10-17",
-        },
-        "ManagedPolicyArns": Array [
-          Object {
-            "Fn::Join": Array [
-              "",
-              Array [
-                "arn:",
-                Object {
-                  "Ref": "AWS::Partition",
-                },
-                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
-              ],
-            ],
-          },
-        ],
-        "Tags": Array [
-          Object {
-            "Key": "solution",
-            "Value": "amazon-s3-glacier-refreezer",
-          },
-        ],
-      },
-      "Type": "AWS::IAM::Role",
-    },
-    "stageThreecopyChunkServiceRoleDefaultPolicyFDDCA56C": Object {
-      "Properties": Object {
-        "PolicyDocument": Object {
-          "Statement": Array [
-            Object {
-              "Action": Array [
-                "s3:GetObject*",
-                "s3:GetBucket*",
-                "s3:List*",
-                "s3:DeleteObject*",
-                "s3:PutObject*",
-                "s3:Abort*",
-              ],
-              "Effect": "Allow",
-              "Resource": Array [
-                Object {
-                  "Fn::GetAtt": Array [
-                    "stagingBucket",
-                    "Arn",
-                  ],
-                },
-                Object {
-                  "Fn::Join": Array [
-                    "",
-                    Array [
-                      Object {
-                        "Fn::GetAtt": Array [
-                          "stagingBucket",
-                          "Arn",
-                        ],
-                      },
-                      "/*",
-                    ],
-                  ],
-                },
-              ],
-            },
-            Object {
-              "Action": Array [
-                "dynamodb:BatchGetItem",
-                "dynamodb:GetRecords",
-                "dynamodb:GetShardIterator",
-                "dynamodb:Query",
-                "dynamodb:GetItem",
-                "dynamodb:Scan",
-                "dynamodb:BatchWriteItem",
-                "dynamodb:PutItem",
-                "dynamodb:UpdateItem",
-                "dynamodb:DeleteItem",
-              ],
-              "Effect": "Allow",
-              "Resource": Array [
-                Object {
-                  "Fn::GetAtt": Array [
-                    "dynamoDataCatalogstatusTableA9EC97D3",
-                    "Arn",
-                  ],
-                },
-                Object {
-                  "Fn::Join": Array [
-                    "",
-                    Array [
-                      Object {
-                        "Fn::GetAtt": Array [
-                          "dynamoDataCatalogstatusTableA9EC97D3",
-                          "Arn",
-                        ],
-                      },
-                      "/index/*",
-                    ],
-                  ],
-                },
-              ],
-            },
-            Object {
-              "Action": Array [
-                "glacier:GetJobOutput",
-                "glacier:InitiateJob",
-              ],
-              "Condition": Object {
-                "Bool": Object {
-                  "aws:SecureTransport": true,
-                },
-              },
-              "Effect": "Allow",
-              "Resource": Object {
-                "Fn::Join": Array [
-                  "",
-                  Array [
-                    "arn:aws:glacier:",
-                    Object {
-                      "Ref": "AWS::Region",
-                    },
-                    ":",
-                    Object {
-                      "Ref": "AWS::AccountId",
-                    },
-                    ":vaults/",
-                    Object {
-                      "Ref": "SourceVault",
-                    },
-                  ],
-                ],
-              },
-              "Sid": "permitGlacier",
-            },
-            Object {
-              "Action": Array [
-                "sqs:SendMessage",
-                "sqs:GetQueueAttributes",
-                "sqs:GetQueueUrl",
-              ],
-              "Effect": "Allow",
-              "Resource": Object {
-                "Fn::GetAtt": Array [
-                  "stageThreetreehashcalcqueue77403987",
-                  "Arn",
-                ],
-              },
-            },
-            Object {
-              "Action": Array [
-                "sqs:ReceiveMessage",
-                "sqs:ChangeMessageVisibility",
-                "sqs:GetQueueUrl",
-                "sqs:DeleteMessage",
-                "sqs:GetQueueAttributes",
-              ],
-              "Effect": "Allow",
-              "Resource": Object {
-                "Fn::GetAtt": Array [
-                  "stageThreechunkcopyqueue6E6E5A95",
-                  "Arn",
-                ],
-              },
-            },
-          ],
-          "Version": "2012-10-17",
-        },
-        "PolicyName": "stageThreecopyChunkServiceRoleDefaultPolicyFDDCA56C",
-        "Roles": Array [
-          Object {
-            "Ref": "stageThreecopyChunkServiceRole88E1F526",
-          },
-        ],
-      },
-      "Type": "AWS::IAM::Policy",
-    },
-    "stageThreecopyChunkSqsEventSourceteststackstageThreechunkcopyqueue346472D8BFACFC3D": Object {
-      "Properties": Object {
-        "BatchSize": 1,
-        "EventSourceArn": Object {
-          "Fn::GetAtt": Array [
-            "stageThreechunkcopyqueue6E6E5A95",
-            "Arn",
-          ],
-        },
-        "FunctionName": Object {
-          "Ref": "stageThreecopyChunk9A1B6F24",
-        },
-      },
-      "Type": "AWS::Lambda::EventSourceMapping",
-    },
     "stageThreetreehashcalcqueue77403987": Object {
+      "Metadata": Object {
+        "cfn_nag": Object {
+          "rules_to_suppress": Array [
+            Object {
+              "id": "W48",
+              "reason": "Non sensitive metadata - encryption is not required and cost inefficient",
+            },
+          ],
+        },
+      },
       "Properties": Object {
         "QueueName": Object {
           "Fn::Join": Array [
@@ -4379,23 +4661,24 @@ exports.handler = function(event, context) {
     },
     "stageTwoDeployGlueJobScriptD9AB96C6": Object {
       "DependsOn": Array [
-        "monitoringcalculateMetricsDynamoDBEventSourceteststackdynamoDataCatalogstatusTableDC30348BC2B7F631",
-        "monitoringcalculateMetrics2AD3D7FA",
-        "monitoringcalculateMetricsServiceRoleDefaultPolicyA9458FB6",
-        "monitoringcalculateMetricsServiceRole67BC8BC3",
+        "monitoringCalculateMetricsDynamoDBEventSourceteststackdynamoDataCatalogStatusTable4AFD52BCA4A6AAB1",
+        "monitoringCalculateMetrics1B70CF5B",
         "monitoringcalculateMetricsLogGroup9961A214",
+        "monitoringCalculateMetricsRoleDefaultPolicy22C0E657",
+        "monitoringCalculateMetricsRoleA76278A7",
+        "monitoringCalculateMetricsRolePolicy0C1EF64D",
         "monitoringcopyArchiveLogGroupBB702B1B",
         "monitoringcopyChunkLogGroup5D04918E",
         "monitoringdeployGlueJobScriptLogGroupAA50E4DE",
         "monitoringdownloadInventoryLogGroup2471C2FF",
         "monitoringdownloadInventoryPartLogGroupD9E69690",
         "monitoringglacierrefreezerdashboardE7F6D8AE",
-        "monitoringpostMetrics42F37764",
-        "monitoringpostMetricsServiceRoleDefaultPolicy8BA2D595",
-        "monitoringpostMetricsServiceRole67C38DA0",
-        "monitoringpostMetricScheduleAllowEventRuleteststackmonitoringpostMetricScheduleF95992D5AD258B19",
-        "monitoringpostMetricSchedule6EF27DB5",
+        "monitoringPostMetrics98F9F947",
+        "monitoringPostMetricScheduleAllowEventRuleteststackmonitoringPostMetricSchedule2E9FE30DD6019900",
+        "monitoringPostMetricSchedule8675C968",
         "monitoringpostMetricsLogGroup670566A8",
+        "monitoringPostMetricsRole87B61E7B",
+        "monitoringPostMetricsRolePolicy596F9F4D",
         "monitoringrequestArchivesLogGroup70D7C9C5",
         "monitoringrequestInventoryLogGroupB7C9607D",
         "monitoringsendAnonymousStatsLogGroup0C9968BB",
@@ -4403,10 +4686,20 @@ exports.handler = function(event, context) {
         "stageTwoDeployGlueJobScriptServiceRoleDefaultPolicyD6DC7335",
         "stageTwoDeployGlueJobScriptServiceRoleE1F020B7",
       ],
+      "Metadata": Object {
+        "cfn_nag": Object {
+          "rules_to_suppress": Array [
+            Object {
+              "id": "W58",
+              "reason": "cfn nag is unable to reason about CDK generated cloudwatch log permissions",
+            },
+          ],
+        },
+      },
       "Properties": Object {
         "Code": Object {
           "S3Bucket": Object {
-            "Ref": "AssetParametersdf4e3db5885ffe5c62d78b25fbb2dc530f67091b9eff658212e4b60f853e3d0fS3Bucket41EC0D75",
+            "Ref": "AssetParametersd299a6309a138f47087977694c8d405a90125341ea02fc1f0d8bd92e616688fbS3Bucket5D4C2E13",
           },
           "S3Key": Object {
             "Fn::Join": Array [
@@ -4419,7 +4712,7 @@ exports.handler = function(event, context) {
                       "Fn::Split": Array [
                         "||",
                         Object {
-                          "Ref": "AssetParametersdf4e3db5885ffe5c62d78b25fbb2dc530f67091b9eff658212e4b60f853e3d0fS3VersionKey5B00C857",
+                          "Ref": "AssetParametersd299a6309a138f47087977694c8d405a90125341ea02fc1f0d8bd92e616688fbS3VersionKey27175BCA",
                         },
                       ],
                     },
@@ -4432,7 +4725,7 @@ exports.handler = function(event, context) {
                       "Fn::Split": Array [
                         "||",
                         Object {
-                          "Ref": "AssetParametersdf4e3db5885ffe5c62d78b25fbb2dc530f67091b9eff658212e4b60f853e3d0fS3VersionKey5B00C857",
+                          "Ref": "AssetParametersd299a6309a138f47087977694c8d405a90125341ea02fc1f0d8bd92e616688fbS3VersionKey27175BCA",
                         },
                       ],
                     },
@@ -4481,23 +4774,24 @@ exports.handler = function(event, context) {
     },
     "stageTwoDeployGlueJobScriptServiceRoleDefaultPolicyD6DC7335": Object {
       "DependsOn": Array [
-        "monitoringcalculateMetricsDynamoDBEventSourceteststackdynamoDataCatalogstatusTableDC30348BC2B7F631",
-        "monitoringcalculateMetrics2AD3D7FA",
-        "monitoringcalculateMetricsServiceRoleDefaultPolicyA9458FB6",
-        "monitoringcalculateMetricsServiceRole67BC8BC3",
+        "monitoringCalculateMetricsDynamoDBEventSourceteststackdynamoDataCatalogStatusTable4AFD52BCA4A6AAB1",
+        "monitoringCalculateMetrics1B70CF5B",
         "monitoringcalculateMetricsLogGroup9961A214",
+        "monitoringCalculateMetricsRoleDefaultPolicy22C0E657",
+        "monitoringCalculateMetricsRoleA76278A7",
+        "monitoringCalculateMetricsRolePolicy0C1EF64D",
         "monitoringcopyArchiveLogGroupBB702B1B",
         "monitoringcopyChunkLogGroup5D04918E",
         "monitoringdeployGlueJobScriptLogGroupAA50E4DE",
         "monitoringdownloadInventoryLogGroup2471C2FF",
         "monitoringdownloadInventoryPartLogGroupD9E69690",
         "monitoringglacierrefreezerdashboardE7F6D8AE",
-        "monitoringpostMetrics42F37764",
-        "monitoringpostMetricsServiceRoleDefaultPolicy8BA2D595",
-        "monitoringpostMetricsServiceRole67C38DA0",
-        "monitoringpostMetricScheduleAllowEventRuleteststackmonitoringpostMetricScheduleF95992D5AD258B19",
-        "monitoringpostMetricSchedule6EF27DB5",
+        "monitoringPostMetrics98F9F947",
+        "monitoringPostMetricScheduleAllowEventRuleteststackmonitoringPostMetricSchedule2E9FE30DD6019900",
+        "monitoringPostMetricSchedule8675C968",
         "monitoringpostMetricsLogGroup670566A8",
+        "monitoringPostMetricsRole87B61E7B",
+        "monitoringPostMetricsRolePolicy596F9F4D",
         "monitoringrequestArchivesLogGroup70D7C9C5",
         "monitoringrequestInventoryLogGroupB7C9607D",
         "monitoringsendAnonymousStatsLogGroup0C9968BB",
@@ -4550,23 +4844,24 @@ exports.handler = function(event, context) {
     },
     "stageTwoDeployGlueJobScriptServiceRoleE1F020B7": Object {
       "DependsOn": Array [
-        "monitoringcalculateMetricsDynamoDBEventSourceteststackdynamoDataCatalogstatusTableDC30348BC2B7F631",
-        "monitoringcalculateMetrics2AD3D7FA",
-        "monitoringcalculateMetricsServiceRoleDefaultPolicyA9458FB6",
-        "monitoringcalculateMetricsServiceRole67BC8BC3",
+        "monitoringCalculateMetricsDynamoDBEventSourceteststackdynamoDataCatalogStatusTable4AFD52BCA4A6AAB1",
+        "monitoringCalculateMetrics1B70CF5B",
         "monitoringcalculateMetricsLogGroup9961A214",
+        "monitoringCalculateMetricsRoleDefaultPolicy22C0E657",
+        "monitoringCalculateMetricsRoleA76278A7",
+        "monitoringCalculateMetricsRolePolicy0C1EF64D",
         "monitoringcopyArchiveLogGroupBB702B1B",
         "monitoringcopyChunkLogGroup5D04918E",
         "monitoringdeployGlueJobScriptLogGroupAA50E4DE",
         "monitoringdownloadInventoryLogGroup2471C2FF",
         "monitoringdownloadInventoryPartLogGroupD9E69690",
         "monitoringglacierrefreezerdashboardE7F6D8AE",
-        "monitoringpostMetrics42F37764",
-        "monitoringpostMetricsServiceRoleDefaultPolicy8BA2D595",
-        "monitoringpostMetricsServiceRole67C38DA0",
-        "monitoringpostMetricScheduleAllowEventRuleteststackmonitoringpostMetricScheduleF95992D5AD258B19",
-        "monitoringpostMetricSchedule6EF27DB5",
+        "monitoringPostMetrics98F9F947",
+        "monitoringPostMetricScheduleAllowEventRuleteststackmonitoringPostMetricSchedule2E9FE30DD6019900",
+        "monitoringPostMetricSchedule8675C968",
         "monitoringpostMetricsLogGroup670566A8",
+        "monitoringPostMetricsRole87B61E7B",
+        "monitoringPostMetricsRolePolicy596F9F4D",
         "monitoringrequestArchivesLogGroup70D7C9C5",
         "monitoringrequestInventoryLogGroupB7C9607D",
         "monitoringsendAnonymousStatsLogGroup0C9968BB",
@@ -4608,30 +4903,41 @@ exports.handler = function(event, context) {
       },
       "Type": "AWS::IAM::Role",
     },
-    "stageTwoGluePartitionRole44AB165D": Object {
+    "stageTwoGlueJobRoleDEC61075": Object {
       "DependsOn": Array [
-        "monitoringcalculateMetricsDynamoDBEventSourceteststackdynamoDataCatalogstatusTableDC30348BC2B7F631",
-        "monitoringcalculateMetrics2AD3D7FA",
-        "monitoringcalculateMetricsServiceRoleDefaultPolicyA9458FB6",
-        "monitoringcalculateMetricsServiceRole67BC8BC3",
+        "monitoringCalculateMetricsDynamoDBEventSourceteststackdynamoDataCatalogStatusTable4AFD52BCA4A6AAB1",
+        "monitoringCalculateMetrics1B70CF5B",
         "monitoringcalculateMetricsLogGroup9961A214",
+        "monitoringCalculateMetricsRoleDefaultPolicy22C0E657",
+        "monitoringCalculateMetricsRoleA76278A7",
+        "monitoringCalculateMetricsRolePolicy0C1EF64D",
         "monitoringcopyArchiveLogGroupBB702B1B",
         "monitoringcopyChunkLogGroup5D04918E",
         "monitoringdeployGlueJobScriptLogGroupAA50E4DE",
         "monitoringdownloadInventoryLogGroup2471C2FF",
         "monitoringdownloadInventoryPartLogGroupD9E69690",
         "monitoringglacierrefreezerdashboardE7F6D8AE",
-        "monitoringpostMetrics42F37764",
-        "monitoringpostMetricsServiceRoleDefaultPolicy8BA2D595",
-        "monitoringpostMetricsServiceRole67C38DA0",
-        "monitoringpostMetricScheduleAllowEventRuleteststackmonitoringpostMetricScheduleF95992D5AD258B19",
-        "monitoringpostMetricSchedule6EF27DB5",
+        "monitoringPostMetrics98F9F947",
+        "monitoringPostMetricScheduleAllowEventRuleteststackmonitoringPostMetricSchedule2E9FE30DD6019900",
+        "monitoringPostMetricSchedule8675C968",
         "monitoringpostMetricsLogGroup670566A8",
+        "monitoringPostMetricsRole87B61E7B",
+        "monitoringPostMetricsRolePolicy596F9F4D",
         "monitoringrequestArchivesLogGroup70D7C9C5",
         "monitoringrequestInventoryLogGroupB7C9607D",
         "monitoringsendAnonymousStatsLogGroup0C9968BB",
         "monitoringstageTwoOrchestratorLogGroup62996996",
       ],
+      "Metadata": Object {
+        "cfn_nag": Object {
+          "rules_to_suppress": Array [
+            Object {
+              "id": "W28",
+              "reason": "Transient, one off solution - updates must be through deletion/redeployment of the stack only",
+            },
+          ],
+        },
+      },
       "Properties": Object {
         "AssumeRolePolicyDocument": Object {
           "Statement": Array [
@@ -4652,7 +4958,7 @@ exports.handler = function(event, context) {
               Object {
                 "Ref": "AWS::StackName",
               },
-              "-glue-repartition-role",
+              "-glue-job-role",
             ],
           ],
         },
@@ -4665,25 +4971,26 @@ exports.handler = function(event, context) {
       },
       "Type": "AWS::IAM::Role",
     },
-    "stageTwoGluePartitionRoleDefaultPolicyCB792103": Object {
+    "stageTwoGlueJobRoleDefaultPolicy6890375C": Object {
       "DependsOn": Array [
-        "monitoringcalculateMetricsDynamoDBEventSourceteststackdynamoDataCatalogstatusTableDC30348BC2B7F631",
-        "monitoringcalculateMetrics2AD3D7FA",
-        "monitoringcalculateMetricsServiceRoleDefaultPolicyA9458FB6",
-        "monitoringcalculateMetricsServiceRole67BC8BC3",
+        "monitoringCalculateMetricsDynamoDBEventSourceteststackdynamoDataCatalogStatusTable4AFD52BCA4A6AAB1",
+        "monitoringCalculateMetrics1B70CF5B",
         "monitoringcalculateMetricsLogGroup9961A214",
+        "monitoringCalculateMetricsRoleDefaultPolicy22C0E657",
+        "monitoringCalculateMetricsRoleA76278A7",
+        "monitoringCalculateMetricsRolePolicy0C1EF64D",
         "monitoringcopyArchiveLogGroupBB702B1B",
         "monitoringcopyChunkLogGroup5D04918E",
         "monitoringdeployGlueJobScriptLogGroupAA50E4DE",
         "monitoringdownloadInventoryLogGroup2471C2FF",
         "monitoringdownloadInventoryPartLogGroupD9E69690",
         "monitoringglacierrefreezerdashboardE7F6D8AE",
-        "monitoringpostMetrics42F37764",
-        "monitoringpostMetricsServiceRoleDefaultPolicy8BA2D595",
-        "monitoringpostMetricsServiceRole67C38DA0",
-        "monitoringpostMetricScheduleAllowEventRuleteststackmonitoringpostMetricScheduleF95992D5AD258B19",
-        "monitoringpostMetricSchedule6EF27DB5",
+        "monitoringPostMetrics98F9F947",
+        "monitoringPostMetricScheduleAllowEventRuleteststackmonitoringPostMetricSchedule2E9FE30DD6019900",
+        "monitoringPostMetricSchedule8675C968",
         "monitoringpostMetricsLogGroup670566A8",
+        "monitoringPostMetricsRole87B61E7B",
+        "monitoringPostMetricsRolePolicy596F9F4D",
         "monitoringrequestArchivesLogGroup70D7C9C5",
         "monitoringrequestInventoryLogGroupB7C9607D",
         "monitoringsendAnonymousStatsLogGroup0C9968BB",
@@ -4889,51 +5196,37 @@ exports.handler = function(event, context) {
               "Sid": "allowStagingAccess",
             },
             Object {
-              "Action": "logs:*",
-              "Effect": "Allow",
-              "Resource": Array [
-                Object {
-                  "Fn::Join": Array [
-                    "",
-                    Array [
-                      "arn:aws:logs:",
-                      Object {
-                        "Ref": "AWS::Region",
-                      },
-                      ":",
-                      Object {
-                        "Ref": "AWS::AccountId",
-                      },
-                      ":log-group:/cdk-glueJob:**",
-                    ],
-                  ],
-                },
-                Object {
-                  "Fn::Join": Array [
-                    "",
-                    Array [
-                      "arn:aws:logs:",
-                      Object {
-                        "Ref": "AWS::Region",
-                      },
-                      ":",
-                      Object {
-                        "Ref": "AWS::AccountId",
-                      },
-                      ":log-group:/aws-glue/*:**",
-                    ],
-                  ],
-                },
+              "Action": Array [
+                "logs:CreateLogGroup",
+                "logs:CreateLogStream",
+                "logs:PutLogEvents",
               ],
+              "Effect": "Allow",
+              "Resource": Object {
+                "Fn::Join": Array [
+                  "",
+                  Array [
+                    "arn:aws:logs:",
+                    Object {
+                      "Ref": "AWS::Region",
+                    },
+                    ":",
+                    Object {
+                      "Ref": "AWS::AccountId",
+                    },
+                    ":log-group:/aws-glue/jobs/*:**",
+                  ],
+                ],
+              },
               "Sid": "allowLogging",
             },
           ],
           "Version": "2012-10-17",
         },
-        "PolicyName": "stageTwoGluePartitionRoleDefaultPolicyCB792103",
+        "PolicyName": "stageTwoGlueJobRoleDefaultPolicy6890375C",
         "Roles": Array [
           Object {
-            "Ref": "stageTwoGluePartitionRole44AB165D",
+            "Ref": "stageTwoGlueJobRoleDEC61075",
           },
         ],
       },
@@ -4941,23 +5234,24 @@ exports.handler = function(event, context) {
     },
     "stageTwoGlueRepartitionJob3EB94529": Object {
       "DependsOn": Array [
-        "monitoringcalculateMetricsDynamoDBEventSourceteststackdynamoDataCatalogstatusTableDC30348BC2B7F631",
-        "monitoringcalculateMetrics2AD3D7FA",
-        "monitoringcalculateMetricsServiceRoleDefaultPolicyA9458FB6",
-        "monitoringcalculateMetricsServiceRole67BC8BC3",
+        "monitoringCalculateMetricsDynamoDBEventSourceteststackdynamoDataCatalogStatusTable4AFD52BCA4A6AAB1",
+        "monitoringCalculateMetrics1B70CF5B",
         "monitoringcalculateMetricsLogGroup9961A214",
+        "monitoringCalculateMetricsRoleDefaultPolicy22C0E657",
+        "monitoringCalculateMetricsRoleA76278A7",
+        "monitoringCalculateMetricsRolePolicy0C1EF64D",
         "monitoringcopyArchiveLogGroupBB702B1B",
         "monitoringcopyChunkLogGroup5D04918E",
         "monitoringdeployGlueJobScriptLogGroupAA50E4DE",
         "monitoringdownloadInventoryLogGroup2471C2FF",
         "monitoringdownloadInventoryPartLogGroupD9E69690",
         "monitoringglacierrefreezerdashboardE7F6D8AE",
-        "monitoringpostMetrics42F37764",
-        "monitoringpostMetricsServiceRoleDefaultPolicy8BA2D595",
-        "monitoringpostMetricsServiceRole67C38DA0",
-        "monitoringpostMetricScheduleAllowEventRuleteststackmonitoringpostMetricScheduleF95992D5AD258B19",
-        "monitoringpostMetricSchedule6EF27DB5",
+        "monitoringPostMetrics98F9F947",
+        "monitoringPostMetricScheduleAllowEventRuleteststackmonitoringPostMetricSchedule2E9FE30DD6019900",
+        "monitoringPostMetricSchedule8675C968",
         "monitoringpostMetricsLogGroup670566A8",
+        "monitoringPostMetricsRole87B61E7B",
+        "monitoringPostMetricsRolePolicy596F9F4D",
         "monitoringrequestArchivesLogGroup70D7C9C5",
         "monitoringrequestInventoryLogGroupB7C9607D",
         "monitoringsendAnonymousStatsLogGroup0C9968BB",
@@ -5019,7 +5313,7 @@ exports.handler = function(event, context) {
         },
         "Role": Object {
           "Fn::GetAtt": Array [
-            "stageTwoGluePartitionRole44AB165D",
+            "stageTwoGlueJobRoleDEC61075",
             "Arn",
           ],
         },
@@ -5031,29 +5325,30 @@ exports.handler = function(event, context) {
     },
     "stageTwoOrchestrator": Object {
       "DependsOn": Array [
-        "monitoringcalculateMetricsDynamoDBEventSourceteststackdynamoDataCatalogstatusTableDC30348BC2B7F631",
-        "monitoringcalculateMetrics2AD3D7FA",
-        "monitoringcalculateMetricsServiceRoleDefaultPolicyA9458FB6",
-        "monitoringcalculateMetricsServiceRole67BC8BC3",
+        "monitoringCalculateMetricsDynamoDBEventSourceteststackdynamoDataCatalogStatusTable4AFD52BCA4A6AAB1",
+        "monitoringCalculateMetrics1B70CF5B",
         "monitoringcalculateMetricsLogGroup9961A214",
+        "monitoringCalculateMetricsRoleDefaultPolicy22C0E657",
+        "monitoringCalculateMetricsRoleA76278A7",
+        "monitoringCalculateMetricsRolePolicy0C1EF64D",
         "monitoringcopyArchiveLogGroupBB702B1B",
         "monitoringcopyChunkLogGroup5D04918E",
         "monitoringdeployGlueJobScriptLogGroupAA50E4DE",
         "monitoringdownloadInventoryLogGroup2471C2FF",
         "monitoringdownloadInventoryPartLogGroupD9E69690",
         "monitoringglacierrefreezerdashboardE7F6D8AE",
-        "monitoringpostMetrics42F37764",
-        "monitoringpostMetricsServiceRoleDefaultPolicy8BA2D595",
-        "monitoringpostMetricsServiceRole67C38DA0",
-        "monitoringpostMetricScheduleAllowEventRuleteststackmonitoringpostMetricScheduleF95992D5AD258B19",
-        "monitoringpostMetricSchedule6EF27DB5",
+        "monitoringPostMetrics98F9F947",
+        "monitoringPostMetricScheduleAllowEventRuleteststackmonitoringPostMetricSchedule2E9FE30DD6019900",
+        "monitoringPostMetricSchedule8675C968",
         "monitoringpostMetricsLogGroup670566A8",
+        "monitoringPostMetricsRole87B61E7B",
+        "monitoringPostMetricsRolePolicy596F9F4D",
         "monitoringrequestArchivesLogGroup70D7C9C5",
         "monitoringrequestInventoryLogGroupB7C9607D",
         "monitoringsendAnonymousStatsLogGroup0C9968BB",
         "monitoringstageTwoOrchestratorLogGroup62996996",
-        "stageTwoStepfunctionsOrchestratorRoleDefaultPolicy6576A802",
         "stageTwoStepfunctionsOrchestratorRole1165D332",
+        "stageTwoStepfunctionsOrchestratorRolePolicyAAB3B86F",
       ],
       "Properties": Object {
         "DefinitionString": Object {
@@ -5114,7 +5409,7 @@ exports.handler = function(event, context) {
               },
               ":states:::dynamodb:putItem\\",\\"Parameters\\":{\\"Item\\":{\\"pk\\":{\\"S\\":\\"count\\"},\\"total\\":{\\"N.$\\":\\"$.inventoryTable.archiveCount\\"}},\\"TableName\\":\\"",
               Object {
-                "Ref": "dynamoDataCatalogmetricsTableD896DDA5",
+                "Ref": "dynamoDataCatalogMetricsTable174C007B",
               },
               "\\"}},\\"Send Anonymous Statistics\\":{\\"End\\":true,\\"Retry\\":[{\\"ErrorEquals\\":[\\"Lambda.ServiceException\\",\\"Lambda.AWSLambdaException\\",\\"Lambda.SdkClientException\\"],\\"IntervalSeconds\\":2,\\"MaxAttempts\\":6,\\"BackoffRate\\":2},{\\"ErrorEquals\\":[\\"States.ALL\\"],\\"IntervalSeconds\\":2,\\"MaxAttempts\\":6,\\"BackoffRate\\":2}],\\"Catch\\":[{\\"ErrorEquals\\":[\\"States.ALL\\"],\\"Next\\":\\"Ignore SendStats Errors\\"}],\\"Type\\":\\"Task\\",\\"InputPath\\":\\"$.inventoryTable\\",\\"Resource\\":\\"arn:",
               Object {
@@ -5222,157 +5517,87 @@ exports.handler = function(event, context) {
       },
       "Type": "AWS::StepFunctions::StateMachine",
     },
-    "stageTwoRequestArchives06ED0831": Object {
+    "stageTwoRequestArchiveRole00DF0F46": Object {
       "DependsOn": Array [
-        "monitoringcalculateMetricsDynamoDBEventSourceteststackdynamoDataCatalogstatusTableDC30348BC2B7F631",
-        "monitoringcalculateMetrics2AD3D7FA",
-        "monitoringcalculateMetricsServiceRoleDefaultPolicyA9458FB6",
-        "monitoringcalculateMetricsServiceRole67BC8BC3",
+        "monitoringCalculateMetricsDynamoDBEventSourceteststackdynamoDataCatalogStatusTable4AFD52BCA4A6AAB1",
+        "monitoringCalculateMetrics1B70CF5B",
         "monitoringcalculateMetricsLogGroup9961A214",
+        "monitoringCalculateMetricsRoleDefaultPolicy22C0E657",
+        "monitoringCalculateMetricsRoleA76278A7",
+        "monitoringCalculateMetricsRolePolicy0C1EF64D",
         "monitoringcopyArchiveLogGroupBB702B1B",
         "monitoringcopyChunkLogGroup5D04918E",
         "monitoringdeployGlueJobScriptLogGroupAA50E4DE",
         "monitoringdownloadInventoryLogGroup2471C2FF",
         "monitoringdownloadInventoryPartLogGroupD9E69690",
         "monitoringglacierrefreezerdashboardE7F6D8AE",
-        "monitoringpostMetrics42F37764",
-        "monitoringpostMetricsServiceRoleDefaultPolicy8BA2D595",
-        "monitoringpostMetricsServiceRole67C38DA0",
-        "monitoringpostMetricScheduleAllowEventRuleteststackmonitoringpostMetricScheduleF95992D5AD258B19",
-        "monitoringpostMetricSchedule6EF27DB5",
+        "monitoringPostMetrics98F9F947",
+        "monitoringPostMetricScheduleAllowEventRuleteststackmonitoringPostMetricSchedule2E9FE30DD6019900",
+        "monitoringPostMetricSchedule8675C968",
         "monitoringpostMetricsLogGroup670566A8",
+        "monitoringPostMetricsRole87B61E7B",
+        "monitoringPostMetricsRolePolicy596F9F4D",
         "monitoringrequestArchivesLogGroup70D7C9C5",
         "monitoringrequestInventoryLogGroupB7C9607D",
         "monitoringsendAnonymousStatsLogGroup0C9968BB",
         "monitoringstageTwoOrchestratorLogGroup62996996",
-        "stageTwoRequestArchivesServiceRoleDefaultPolicy194B1034",
-        "stageTwoRequestArchivesServiceRoleE1F1691B",
       ],
       "Properties": Object {
-        "Code": Object {
-          "S3Bucket": Object {
-            "Ref": "AssetParametersbbf61143dbfbe69ac56b90a0201339520aee10bb5286954f9545e5b5d9c98f30S3Bucket7AB0C263",
-          },
-          "S3Key": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": Array [
+          Object {
             "Fn::Join": Array [
               "",
               Array [
+                "arn:",
                 Object {
-                  "Fn::Select": Array [
-                    0,
-                    Object {
-                      "Fn::Split": Array [
-                        "||",
-                        Object {
-                          "Ref": "AssetParametersbbf61143dbfbe69ac56b90a0201339520aee10bb5286954f9545e5b5d9c98f30S3VersionKey5BC4A3EC",
-                        },
-                      ],
-                    },
-                  ],
+                  "Ref": "AWS::Partition",
                 },
-                Object {
-                  "Fn::Select": Array [
-                    1,
-                    Object {
-                      "Fn::Split": Array [
-                        "||",
-                        Object {
-                          "Ref": "AssetParametersbbf61143dbfbe69ac56b90a0201339520aee10bb5286954f9545e5b5d9c98f30S3VersionKey5BC4A3EC",
-                        },
-                      ],
-                    },
-                  ],
-                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
               ],
             ],
           },
-        },
-        "Environment": Object {
-          "Variables": Object {
-            "ATHENA_WORKGROUP": Object {
-              "Fn::Join": Array [
-                "",
-                Array [
-                  Object {
-                    "Ref": "AWS::StackName",
-                  },
-                  "-glacier-refreezer-sol",
-                ],
-              ],
-            },
-            "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
-            "DATABASE": Object {
-              "Ref": "glueDataCatalogInventoryDatabase96DE1AD3",
-            },
-            "PARTITIONED_INVENTORY_TABLE": Object {
-              "Ref": "glueDataCatalogPartitionedinventoryTable94032B41",
-            },
-            "SNS_TOPIC": Object {
-              "Ref": "stageThreearchiveNotificationTopic5D1E2506",
-            },
-            "STAGING_BUCKET": Object {
-              "Ref": "stagingBucket",
-            },
-            "STATUS_TABLE": Object {
-              "Ref": "dynamoDataCatalogstatusTableA9EC97D3",
-            },
-            "TIER": Object {
-              "Ref": "GlacierRetrievalTier",
-            },
-            "VAULT": Object {
-              "Ref": "SourceVault",
-            },
-          },
-        },
-        "FunctionName": Object {
-          "Fn::Join": Array [
-            "",
-            Array [
-              Object {
-                "Ref": "AWS::StackName",
-              },
-              "-requestArchives",
-            ],
-          ],
-        },
-        "Handler": "index.handler",
-        "MemorySize": 1024,
-        "Role": Object {
-          "Fn::GetAtt": Array [
-            "stageTwoRequestArchivesServiceRoleE1F1691B",
-            "Arn",
-          ],
-        },
-        "Runtime": "nodejs12.x",
+        ],
         "Tags": Array [
           Object {
             "Key": "solution",
             "Value": "amazon-s3-glacier-refreezer",
           },
         ],
-        "Timeout": 900,
       },
-      "Type": "AWS::Lambda::Function",
+      "Type": "AWS::IAM::Role",
     },
-    "stageTwoRequestArchivesServiceRoleDefaultPolicy194B1034": Object {
+    "stageTwoRequestArchiveRoleDefaultPolicy2CD86D07": Object {
       "DependsOn": Array [
-        "monitoringcalculateMetricsDynamoDBEventSourceteststackdynamoDataCatalogstatusTableDC30348BC2B7F631",
-        "monitoringcalculateMetrics2AD3D7FA",
-        "monitoringcalculateMetricsServiceRoleDefaultPolicyA9458FB6",
-        "monitoringcalculateMetricsServiceRole67BC8BC3",
+        "monitoringCalculateMetricsDynamoDBEventSourceteststackdynamoDataCatalogStatusTable4AFD52BCA4A6AAB1",
+        "monitoringCalculateMetrics1B70CF5B",
         "monitoringcalculateMetricsLogGroup9961A214",
+        "monitoringCalculateMetricsRoleDefaultPolicy22C0E657",
+        "monitoringCalculateMetricsRoleA76278A7",
+        "monitoringCalculateMetricsRolePolicy0C1EF64D",
         "monitoringcopyArchiveLogGroupBB702B1B",
         "monitoringcopyChunkLogGroup5D04918E",
         "monitoringdeployGlueJobScriptLogGroupAA50E4DE",
         "monitoringdownloadInventoryLogGroup2471C2FF",
         "monitoringdownloadInventoryPartLogGroupD9E69690",
         "monitoringglacierrefreezerdashboardE7F6D8AE",
-        "monitoringpostMetrics42F37764",
-        "monitoringpostMetricsServiceRoleDefaultPolicy8BA2D595",
-        "monitoringpostMetricsServiceRole67C38DA0",
-        "monitoringpostMetricScheduleAllowEventRuleteststackmonitoringpostMetricScheduleF95992D5AD258B19",
-        "monitoringpostMetricSchedule6EF27DB5",
+        "monitoringPostMetrics98F9F947",
+        "monitoringPostMetricScheduleAllowEventRuleteststackmonitoringPostMetricSchedule2E9FE30DD6019900",
+        "monitoringPostMetricSchedule8675C968",
         "monitoringpostMetricsLogGroup670566A8",
+        "monitoringPostMetricsRole87B61E7B",
+        "monitoringPostMetricsRolePolicy596F9F4D",
         "monitoringrequestArchivesLogGroup70D7C9C5",
         "monitoringrequestInventoryLogGroupB7C9607D",
         "monitoringsendAnonymousStatsLogGroup0C9968BB",
@@ -5414,6 +5639,83 @@ exports.handler = function(event, context) {
                 },
               ],
             },
+            Object {
+              "Action": Array [
+                "dynamodb:BatchGetItem",
+                "dynamodb:GetRecords",
+                "dynamodb:GetShardIterator",
+                "dynamodb:Query",
+                "dynamodb:GetItem",
+                "dynamodb:Scan",
+                "dynamodb:BatchWriteItem",
+                "dynamodb:PutItem",
+                "dynamodb:UpdateItem",
+                "dynamodb:DeleteItem",
+              ],
+              "Effect": "Allow",
+              "Resource": Array [
+                Object {
+                  "Fn::GetAtt": Array [
+                    "dynamoDataCatalogStatusTableE9ACB88F",
+                    "Arn",
+                  ],
+                },
+                Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      Object {
+                        "Fn::GetAtt": Array [
+                          "dynamoDataCatalogStatusTableE9ACB88F",
+                          "Arn",
+                        ],
+                      },
+                      "/index/*",
+                    ],
+                  ],
+                },
+              ],
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "stageTwoRequestArchiveRoleDefaultPolicy2CD86D07",
+        "Roles": Array [
+          Object {
+            "Ref": "stageTwoRequestArchiveRole00DF0F46",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "stageTwoRequestArchiveRolePolicy57718876": Object {
+      "DependsOn": Array [
+        "monitoringCalculateMetricsDynamoDBEventSourceteststackdynamoDataCatalogStatusTable4AFD52BCA4A6AAB1",
+        "monitoringCalculateMetrics1B70CF5B",
+        "monitoringcalculateMetricsLogGroup9961A214",
+        "monitoringCalculateMetricsRoleDefaultPolicy22C0E657",
+        "monitoringCalculateMetricsRoleA76278A7",
+        "monitoringCalculateMetricsRolePolicy0C1EF64D",
+        "monitoringcopyArchiveLogGroupBB702B1B",
+        "monitoringcopyChunkLogGroup5D04918E",
+        "monitoringdeployGlueJobScriptLogGroupAA50E4DE",
+        "monitoringdownloadInventoryLogGroup2471C2FF",
+        "monitoringdownloadInventoryPartLogGroupD9E69690",
+        "monitoringglacierrefreezerdashboardE7F6D8AE",
+        "monitoringPostMetrics98F9F947",
+        "monitoringPostMetricScheduleAllowEventRuleteststackmonitoringPostMetricSchedule2E9FE30DD6019900",
+        "monitoringPostMetricSchedule8675C968",
+        "monitoringpostMetricsLogGroup670566A8",
+        "monitoringPostMetricsRole87B61E7B",
+        "monitoringPostMetricsRolePolicy596F9F4D",
+        "monitoringrequestArchivesLogGroup70D7C9C5",
+        "monitoringrequestInventoryLogGroupB7C9607D",
+        "monitoringsendAnonymousStatsLogGroup0C9968BB",
+        "monitoringstageTwoOrchestratorLogGroup62996996",
+      ],
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
             Object {
               "Action": Array [
                 "athena:StartQueryExecution",
@@ -5525,40 +5827,28 @@ exports.handler = function(event, context) {
             },
             Object {
               "Action": Array [
-                "dynamodb:BatchGetItem",
-                "dynamodb:GetRecords",
-                "dynamodb:GetShardIterator",
-                "dynamodb:Query",
-                "dynamodb:GetItem",
-                "dynamodb:Scan",
-                "dynamodb:BatchWriteItem",
-                "dynamodb:PutItem",
-                "dynamodb:UpdateItem",
-                "dynamodb:DeleteItem",
+                "logs:CreateLogGroup",
+                "logs:CreateLogStream",
+                "logs:PutLogEvents",
               ],
               "Effect": "Allow",
-              "Resource": Array [
-                Object {
-                  "Fn::GetAtt": Array [
-                    "dynamoDataCatalogstatusTableA9EC97D3",
-                    "Arn",
+              "Resource": Object {
+                "Fn::Join": Array [
+                  "",
+                  Array [
+                    "arn:aws:logs:*:i",
+                    Object {
+                      "Ref": "AWS::AccountId",
+                    },
+                    ":log-group:/aws/lambda/",
+                    Object {
+                      "Ref": "AWS::StackName",
+                    },
+                    "-postMetrics",
                   ],
-                },
-                Object {
-                  "Fn::Join": Array [
-                    "",
-                    Array [
-                      Object {
-                        "Fn::GetAtt": Array [
-                          "dynamoDataCatalogstatusTableA9EC97D3",
-                          "Arn",
-                        ],
-                      },
-                      "/index/*",
-                    ],
-                  ],
-                },
-              ],
+                ],
+              },
+              "Sid": "allowCloudWatchLogs",
             },
             Object {
               "Action": Array [
@@ -5590,99 +5880,183 @@ exports.handler = function(event, context) {
                   ],
                 ],
               },
-              "Sid": "permitGlacier",
+              "Sid": "allowGlacierAccess",
             },
           ],
           "Version": "2012-10-17",
         },
-        "PolicyName": "stageTwoRequestArchivesServiceRoleDefaultPolicy194B1034",
+        "PolicyName": "stageTwoRequestArchiveRolePolicy57718876",
         "Roles": Array [
           Object {
-            "Ref": "stageTwoRequestArchivesServiceRoleE1F1691B",
+            "Ref": "stageTwoRequestArchiveRole00DF0F46",
           },
         ],
       },
       "Type": "AWS::IAM::Policy",
     },
-    "stageTwoRequestArchivesServiceRoleE1F1691B": Object {
+    "stageTwoRequestArchives06ED0831": Object {
       "DependsOn": Array [
-        "monitoringcalculateMetricsDynamoDBEventSourceteststackdynamoDataCatalogstatusTableDC30348BC2B7F631",
-        "monitoringcalculateMetrics2AD3D7FA",
-        "monitoringcalculateMetricsServiceRoleDefaultPolicyA9458FB6",
-        "monitoringcalculateMetricsServiceRole67BC8BC3",
+        "monitoringCalculateMetricsDynamoDBEventSourceteststackdynamoDataCatalogStatusTable4AFD52BCA4A6AAB1",
+        "monitoringCalculateMetrics1B70CF5B",
         "monitoringcalculateMetricsLogGroup9961A214",
+        "monitoringCalculateMetricsRoleDefaultPolicy22C0E657",
+        "monitoringCalculateMetricsRoleA76278A7",
+        "monitoringCalculateMetricsRolePolicy0C1EF64D",
         "monitoringcopyArchiveLogGroupBB702B1B",
         "monitoringcopyChunkLogGroup5D04918E",
         "monitoringdeployGlueJobScriptLogGroupAA50E4DE",
         "monitoringdownloadInventoryLogGroup2471C2FF",
         "monitoringdownloadInventoryPartLogGroupD9E69690",
         "monitoringglacierrefreezerdashboardE7F6D8AE",
-        "monitoringpostMetrics42F37764",
-        "monitoringpostMetricsServiceRoleDefaultPolicy8BA2D595",
-        "monitoringpostMetricsServiceRole67C38DA0",
-        "monitoringpostMetricScheduleAllowEventRuleteststackmonitoringpostMetricScheduleF95992D5AD258B19",
-        "monitoringpostMetricSchedule6EF27DB5",
+        "monitoringPostMetrics98F9F947",
+        "monitoringPostMetricScheduleAllowEventRuleteststackmonitoringPostMetricSchedule2E9FE30DD6019900",
+        "monitoringPostMetricSchedule8675C968",
         "monitoringpostMetricsLogGroup670566A8",
+        "monitoringPostMetricsRole87B61E7B",
+        "monitoringPostMetricsRolePolicy596F9F4D",
         "monitoringrequestArchivesLogGroup70D7C9C5",
         "monitoringrequestInventoryLogGroupB7C9607D",
         "monitoringsendAnonymousStatsLogGroup0C9968BB",
         "monitoringstageTwoOrchestratorLogGroup62996996",
+        "stageTwoRequestArchiveRoleDefaultPolicy2CD86D07",
+        "stageTwoRequestArchiveRole00DF0F46",
       ],
-      "Properties": Object {
-        "AssumeRolePolicyDocument": Object {
-          "Statement": Array [
+      "Metadata": Object {
+        "cfn_nag": Object {
+          "rules_to_suppress": Array [
             Object {
-              "Action": "sts:AssumeRole",
-              "Effect": "Allow",
-              "Principal": Object {
-                "Service": "lambda.amazonaws.com",
-              },
+              "id": "W58",
+              "reason": "cfn nag is unable to reason about CDK generated cloudwatch log permissions",
             },
           ],
-          "Version": "2012-10-17",
         },
-        "ManagedPolicyArns": Array [
-          Object {
+      },
+      "Properties": Object {
+        "Code": Object {
+          "S3Bucket": Object {
+            "Ref": "AssetParametersbbf61143dbfbe69ac56b90a0201339520aee10bb5286954f9545e5b5d9c98f30S3Bucket7AB0C263",
+          },
+          "S3Key": Object {
             "Fn::Join": Array [
               "",
               Array [
-                "arn:",
                 Object {
-                  "Ref": "AWS::Partition",
+                  "Fn::Select": Array [
+                    0,
+                    Object {
+                      "Fn::Split": Array [
+                        "||",
+                        Object {
+                          "Ref": "AssetParametersbbf61143dbfbe69ac56b90a0201339520aee10bb5286954f9545e5b5d9c98f30S3VersionKey5BC4A3EC",
+                        },
+                      ],
+                    },
+                  ],
                 },
-                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+                Object {
+                  "Fn::Select": Array [
+                    1,
+                    Object {
+                      "Fn::Split": Array [
+                        "||",
+                        Object {
+                          "Ref": "AssetParametersbbf61143dbfbe69ac56b90a0201339520aee10bb5286954f9545e5b5d9c98f30S3VersionKey5BC4A3EC",
+                        },
+                      ],
+                    },
+                  ],
+                },
               ],
             ],
           },
-        ],
+        },
+        "Environment": Object {
+          "Variables": Object {
+            "ATHENA_WORKGROUP": Object {
+              "Fn::Join": Array [
+                "",
+                Array [
+                  Object {
+                    "Ref": "AWS::StackName",
+                  },
+                  "-glacier-refreezer-sol",
+                ],
+              ],
+            },
+            "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
+            "DATABASE": Object {
+              "Ref": "glueDataCatalogInventoryDatabase96DE1AD3",
+            },
+            "PARTITIONED_INVENTORY_TABLE": Object {
+              "Ref": "glueDataCatalogPartitionedinventoryTable94032B41",
+            },
+            "SNS_TOPIC": Object {
+              "Ref": "stageThreearchiveNotificationTopic5D1E2506",
+            },
+            "STAGING_BUCKET": Object {
+              "Ref": "stagingBucket",
+            },
+            "STATUS_TABLE": Object {
+              "Ref": "dynamoDataCatalogStatusTableE9ACB88F",
+            },
+            "TIER": Object {
+              "Ref": "GlacierRetrievalTier",
+            },
+            "VAULT": Object {
+              "Ref": "SourceVault",
+            },
+          },
+        },
+        "FunctionName": Object {
+          "Fn::Join": Array [
+            "",
+            Array [
+              Object {
+                "Ref": "AWS::StackName",
+              },
+              "-requestArchives",
+            ],
+          ],
+        },
+        "Handler": "index.handler",
+        "MemorySize": 1024,
+        "Role": Object {
+          "Fn::GetAtt": Array [
+            "stageTwoRequestArchiveRole00DF0F46",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs12.x",
         "Tags": Array [
           Object {
             "Key": "solution",
             "Value": "amazon-s3-glacier-refreezer",
           },
         ],
+        "Timeout": 900,
       },
-      "Type": "AWS::IAM::Role",
+      "Type": "AWS::Lambda::Function",
     },
     "stageTwoStepfunctionsOrchestratorRole1165D332": Object {
       "DependsOn": Array [
-        "monitoringcalculateMetricsDynamoDBEventSourceteststackdynamoDataCatalogstatusTableDC30348BC2B7F631",
-        "monitoringcalculateMetrics2AD3D7FA",
-        "monitoringcalculateMetricsServiceRoleDefaultPolicyA9458FB6",
-        "monitoringcalculateMetricsServiceRole67BC8BC3",
+        "monitoringCalculateMetricsDynamoDBEventSourceteststackdynamoDataCatalogStatusTable4AFD52BCA4A6AAB1",
+        "monitoringCalculateMetrics1B70CF5B",
         "monitoringcalculateMetricsLogGroup9961A214",
+        "monitoringCalculateMetricsRoleDefaultPolicy22C0E657",
+        "monitoringCalculateMetricsRoleA76278A7",
+        "monitoringCalculateMetricsRolePolicy0C1EF64D",
         "monitoringcopyArchiveLogGroupBB702B1B",
         "monitoringcopyChunkLogGroup5D04918E",
         "monitoringdeployGlueJobScriptLogGroupAA50E4DE",
         "monitoringdownloadInventoryLogGroup2471C2FF",
         "monitoringdownloadInventoryPartLogGroupD9E69690",
         "monitoringglacierrefreezerdashboardE7F6D8AE",
-        "monitoringpostMetrics42F37764",
-        "monitoringpostMetricsServiceRoleDefaultPolicy8BA2D595",
-        "monitoringpostMetricsServiceRole67C38DA0",
-        "monitoringpostMetricScheduleAllowEventRuleteststackmonitoringpostMetricScheduleF95992D5AD258B19",
-        "monitoringpostMetricSchedule6EF27DB5",
+        "monitoringPostMetrics98F9F947",
+        "monitoringPostMetricScheduleAllowEventRuleteststackmonitoringPostMetricSchedule2E9FE30DD6019900",
+        "monitoringPostMetricSchedule8675C968",
         "monitoringpostMetricsLogGroup670566A8",
+        "monitoringPostMetricsRole87B61E7B",
+        "monitoringPostMetricsRolePolicy596F9F4D",
         "monitoringrequestArchivesLogGroup70D7C9C5",
         "monitoringrequestInventoryLogGroupB7C9607D",
         "monitoringsendAnonymousStatsLogGroup0C9968BB",
@@ -5721,72 +6095,85 @@ exports.handler = function(event, context) {
       },
       "Type": "AWS::IAM::Role",
     },
-    "stageTwoStepfunctionsOrchestratorRoleDefaultPolicy6576A802": Object {
+    "stageTwoStepfunctionsOrchestratorRolePolicyAAB3B86F": Object {
       "DependsOn": Array [
-        "monitoringcalculateMetricsDynamoDBEventSourceteststackdynamoDataCatalogstatusTableDC30348BC2B7F631",
-        "monitoringcalculateMetrics2AD3D7FA",
-        "monitoringcalculateMetricsServiceRoleDefaultPolicyA9458FB6",
-        "monitoringcalculateMetricsServiceRole67BC8BC3",
+        "monitoringCalculateMetricsDynamoDBEventSourceteststackdynamoDataCatalogStatusTable4AFD52BCA4A6AAB1",
+        "monitoringCalculateMetrics1B70CF5B",
         "monitoringcalculateMetricsLogGroup9961A214",
+        "monitoringCalculateMetricsRoleDefaultPolicy22C0E657",
+        "monitoringCalculateMetricsRoleA76278A7",
+        "monitoringCalculateMetricsRolePolicy0C1EF64D",
         "monitoringcopyArchiveLogGroupBB702B1B",
         "monitoringcopyChunkLogGroup5D04918E",
         "monitoringdeployGlueJobScriptLogGroupAA50E4DE",
         "monitoringdownloadInventoryLogGroup2471C2FF",
         "monitoringdownloadInventoryPartLogGroupD9E69690",
         "monitoringglacierrefreezerdashboardE7F6D8AE",
-        "monitoringpostMetrics42F37764",
-        "monitoringpostMetricsServiceRoleDefaultPolicy8BA2D595",
-        "monitoringpostMetricsServiceRole67C38DA0",
-        "monitoringpostMetricScheduleAllowEventRuleteststackmonitoringpostMetricScheduleF95992D5AD258B19",
-        "monitoringpostMetricSchedule6EF27DB5",
+        "monitoringPostMetrics98F9F947",
+        "monitoringPostMetricScheduleAllowEventRuleteststackmonitoringPostMetricSchedule2E9FE30DD6019900",
+        "monitoringPostMetricSchedule8675C968",
         "monitoringpostMetricsLogGroup670566A8",
+        "monitoringPostMetricsRole87B61E7B",
+        "monitoringPostMetricsRolePolicy596F9F4D",
         "monitoringrequestArchivesLogGroup70D7C9C5",
         "monitoringrequestInventoryLogGroupB7C9607D",
         "monitoringsendAnonymousStatsLogGroup0C9968BB",
         "monitoringstageTwoOrchestratorLogGroup62996996",
       ],
+      "Metadata": Object {
+        "cfn_nag": Object {
+          "rules_to_suppress": Array [
+            Object {
+              "id": "W12",
+              "reason": "[*] Access granted as per documentation: https://docs.aws.amazon.com/step-functions/latest/dg/cw-logs.html",
+            },
+            Object {
+              "id": "W76",
+              "reason": "SPCM complexity greater then 25 is appropriate for the logic implemented",
+            },
+          ],
+        },
+      },
       "Properties": Object {
         "PolicyDocument": Object {
           "Statement": Array [
             Object {
-              "Action": "lambda:InvokeFunction",
-              "Effect": "Allow",
-              "Resource": Object {
-                "Fn::GetAtt": Array [
-                  "stageTwoRequestArchives06ED0831",
-                  "Arn",
-                ],
-              },
-            },
-            Object {
-              "Action": "lambda:InvokeFunction",
-              "Effect": "Allow",
-              "Resource": Object {
-                "Fn::GetAtt": Array [
-                  "statisticsSendAnonymousStatsD2E34707",
-                  "Arn",
-                ],
-              },
-            },
-            Object {
               "Action": Array [
-                "dynamodb:BatchWriteItem",
-                "dynamodb:PutItem",
-                "dynamodb:UpdateItem",
-                "dynamodb:DeleteItem",
+                "s3:ListBucket",
+                "s3:ListBucketVersions",
+                "s3:GetBucketLocation",
+                "s3:GetObject",
+                "s3:GetObjectAcl",
+                "s3:PutObject",
+                "s3:DeleteObject",
+                "s3:ListBucketMultipartUploads",
+                "s3:ListMultipartUploadParts",
+                "s3:AbortMultipartUpload",
               ],
               "Effect": "Allow",
               "Resource": Array [
                 Object {
                   "Fn::GetAtt": Array [
-                    "dynamoDataCatalogmetricsTableD896DDA5",
+                    "stagingBucket",
                     "Arn",
                   ],
                 },
                 Object {
-                  "Ref": "AWS::NoValue",
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      Object {
+                        "Fn::GetAtt": Array [
+                          "stagingBucket",
+                          "Arn",
+                        ],
+                      },
+                      "/*",
+                    ],
+                  ],
                 },
               ],
+              "Sid": "allowS3ReadWrite",
             },
             Object {
               "Action": Array [
@@ -5954,6 +6341,69 @@ exports.handler = function(event, context) {
               "Sid": "allowGlueJobRun",
             },
             Object {
+              "Action": "lambda:InvokeFunction",
+              "Effect": "Allow",
+              "Resource": Array [
+                Object {
+                  "Fn::GetAtt": Array [
+                    "stageTwoRequestArchives06ED0831",
+                    "Arn",
+                  ],
+                },
+                Object {
+                  "Fn::GetAtt": Array [
+                    "statisticsSendAnonymousStatsD2E34707",
+                    "Arn",
+                  ],
+                },
+              ],
+              "Sid": "allowLambdaInvocations",
+            },
+            Object {
+              "Action": "dynamodb:PutItem",
+              "Effect": "Allow",
+              "Resource": Object {
+                "Fn::GetAtt": Array [
+                  "dynamoDataCatalogMetricsTable174C007B",
+                  "Arn",
+                ],
+              },
+              "Sid": "allowPutTotalArchiveMetric",
+            },
+            Object {
+              "Action": Array [
+                "logs:CreateLogGroup",
+                "logs:CreateLogStream",
+                "logs:PutLogEvents",
+              ],
+              "Effect": "Allow",
+              "Resource": Object {
+                "Fn::Join": Array [
+                  "",
+                  Array [
+                    "arn:",
+                    Object {
+                      "Ref": "AWS::Partition",
+                    },
+                    ":logs:",
+                    Object {
+                      "Ref": "AWS::Region",
+                    },
+                    ":",
+                    Object {
+                      "Ref": "AWS::AccountId",
+                    },
+                    ":log-group:/aws/states/",
+                    Object {
+                      "Ref": "AWS::StackName",
+                    },
+                    "-stageTwoOrchestrator:*",
+                  ],
+                ],
+              },
+              "Sid": "allowLogOutput",
+            },
+            Object {
               "Action": Array [
                 "logs:CreateLogDelivery",
                 "logs:GetLogDelivery",
@@ -5966,277 +6416,12 @@ exports.handler = function(event, context) {
               ],
               "Effect": "Allow",
               "Resource": "*",
-            },
-            Object {
-              "Action": Array [
-                "athena:getDataCatalog",
-                "athena:startQueryExecution",
-                "athena:getQueryExecution",
-              ],
-              "Effect": "Allow",
-              "Resource": Array [
-                Object {
-                  "Fn::Join": Array [
-                    "",
-                    Array [
-                      "arn:",
-                      Object {
-                        "Ref": "AWS::Partition",
-                      },
-                      ":athena:",
-                      Object {
-                        "Ref": "AWS::Region",
-                      },
-                      ":",
-                      Object {
-                        "Ref": "AWS::AccountId",
-                      },
-                      ":datacatalog/AwsDataCatalog",
-                    ],
-                  ],
-                },
-                Object {
-                  "Fn::Join": Array [
-                    "",
-                    Array [
-                      "arn:",
-                      Object {
-                        "Ref": "AWS::Partition",
-                      },
-                      ":athena:",
-                      Object {
-                        "Ref": "AWS::Region",
-                      },
-                      ":",
-                      Object {
-                        "Ref": "AWS::AccountId",
-                      },
-                      ":workgroup/",
-                      Object {
-                        "Ref": "AWS::StackName",
-                      },
-                      "-glacier-refreezer-sol",
-                    ],
-                  ],
-                },
-              ],
-            },
-            Object {
-              "Action": Array [
-                "s3:CreateBucket",
-                "s3:ListBucket",
-                "s3:GetBucketLocation",
-                "s3:GetObject",
-              ],
-              "Effect": "Allow",
-              "Resource": "*",
-            },
-            Object {
-              "Action": Array [
-                "s3:AbortMultipartUpload",
-                "s3:ListBucketMultipartUploads",
-                "s3:ListMultipartUploadParts",
-                "s3:PutObject",
-              ],
-              "Effect": "Allow",
-              "Resource": "*",
-            },
-            Object {
-              "Action": "lakeformation:GetDataAccess",
-              "Effect": "Allow",
-              "Resource": "*",
-            },
-            Object {
-              "Action": Array [
-                "glue:BatchCreatePartition",
-                "glue:BatchDeletePartition",
-                "glue:BatchDeleteTable",
-                "glue:BatchGetPartition",
-                "glue:CreateDatabase",
-                "glue:CreatePartition",
-                "glue:CreateTable",
-                "glue:DeleteDatabase",
-                "glue:DeletePartition",
-                "glue:DeleteTable",
-                "glue:GetDatabase",
-                "glue:GetDatabases",
-                "glue:GetPartition",
-                "glue:GetPartitions",
-                "glue:GetTable",
-                "glue:GetTables",
-                "glue:UpdateDatabase",
-                "glue:UpdatePartition",
-                "glue:UpdateTable",
-              ],
-              "Effect": "Allow",
-              "Resource": Array [
-                Object {
-                  "Fn::Join": Array [
-                    "",
-                    Array [
-                      "arn:",
-                      Object {
-                        "Ref": "AWS::Partition",
-                      },
-                      ":glue:",
-                      Object {
-                        "Ref": "AWS::Region",
-                      },
-                      ":",
-                      Object {
-                        "Ref": "AWS::AccountId",
-                      },
-                      ":catalog",
-                    ],
-                  ],
-                },
-                Object {
-                  "Fn::Join": Array [
-                    "",
-                    Array [
-                      "arn:",
-                      Object {
-                        "Ref": "AWS::Partition",
-                      },
-                      ":glue:",
-                      Object {
-                        "Ref": "AWS::Region",
-                      },
-                      ":",
-                      Object {
-                        "Ref": "AWS::AccountId",
-                      },
-                      ":database/",
-                      Object {
-                        "Ref": "glueDataCatalogInventoryDatabase96DE1AD3",
-                      },
-                    ],
-                  ],
-                },
-                Object {
-                  "Fn::Join": Array [
-                    "",
-                    Array [
-                      "arn:",
-                      Object {
-                        "Ref": "AWS::Partition",
-                      },
-                      ":glue:",
-                      Object {
-                        "Ref": "AWS::Region",
-                      },
-                      ":",
-                      Object {
-                        "Ref": "AWS::AccountId",
-                      },
-                      ":table/",
-                      Object {
-                        "Ref": "glueDataCatalogInventoryDatabase96DE1AD3",
-                      },
-                      "/*",
-                    ],
-                  ],
-                },
-                Object {
-                  "Fn::Join": Array [
-                    "",
-                    Array [
-                      "arn:",
-                      Object {
-                        "Ref": "AWS::Partition",
-                      },
-                      ":glue:",
-                      Object {
-                        "Ref": "AWS::Region",
-                      },
-                      ":",
-                      Object {
-                        "Ref": "AWS::AccountId",
-                      },
-                      ":userDefinedFunction/",
-                      Object {
-                        "Ref": "glueDataCatalogInventoryDatabase96DE1AD3",
-                      },
-                      "/*",
-                    ],
-                  ],
-                },
-              ],
-            },
-            Object {
-              "Action": "athena:getQueryResults",
-              "Effect": "Allow",
-              "Resource": "*",
-            },
-            Object {
-              "Action": "s3:GetObject",
-              "Effect": "Allow",
-              "Resource": "*",
-            },
-            Object {
-              "Action": Array [
-                "glue:StartJobRun",
-                "glue:GetJobRun",
-                "glue:GetJobRuns",
-                "glue:BatchStopJobRun",
-              ],
-              "Effect": "Allow",
-              "Resource": Object {
-                "Fn::Join": Array [
-                  "",
-                  Array [
-                    "arn:",
-                    Object {
-                      "Ref": "AWS::Partition",
-                    },
-                    ":glue:",
-                    Object {
-                      "Ref": "AWS::Region",
-                    },
-                    ":",
-                    Object {
-                      "Ref": "AWS::AccountId",
-                    },
-                    ":job/",
-                    Object {
-                      "Ref": "AWS::StackName",
-                    },
-                    "-glacier-refreezer",
-                  ],
-                ],
-              },
-            },
-            Object {
-              "Action": "dynamodb:PutItem",
-              "Effect": "Allow",
-              "Resource": Object {
-                "Fn::Join": Array [
-                  "",
-                  Array [
-                    "arn:",
-                    Object {
-                      "Ref": "AWS::Partition",
-                    },
-                    ":dynamodb:",
-                    Object {
-                      "Ref": "AWS::Region",
-                    },
-                    ":",
-                    Object {
-                      "Ref": "AWS::AccountId",
-                    },
-                    ":table/",
-                    Object {
-                      "Ref": "dynamoDataCatalogmetricsTableD896DDA5",
-                    },
-                  ],
-                ],
-              },
+              "Sid": "allowLogDelivery",
             },
           ],
           "Version": "2012-10-17",
         },
-        "PolicyName": "stageTwoStepfunctionsOrchestratorRoleDefaultPolicy6576A802",
+        "PolicyName": "stageTwoStepfunctionsOrchestratorRolePolicyAAB3B86F",
         "Roles": Array [
           Object {
             "Ref": "stageTwoStepfunctionsOrchestratorRole1165D332",
@@ -6248,23 +6433,24 @@ exports.handler = function(event, context) {
     "stageTwodeployGlueJobScriptTriggerBF203D6E": Object {
       "DeletionPolicy": "Delete",
       "DependsOn": Array [
-        "monitoringcalculateMetricsDynamoDBEventSourceteststackdynamoDataCatalogstatusTableDC30348BC2B7F631",
-        "monitoringcalculateMetrics2AD3D7FA",
-        "monitoringcalculateMetricsServiceRoleDefaultPolicyA9458FB6",
-        "monitoringcalculateMetricsServiceRole67BC8BC3",
+        "monitoringCalculateMetricsDynamoDBEventSourceteststackdynamoDataCatalogStatusTable4AFD52BCA4A6AAB1",
+        "monitoringCalculateMetrics1B70CF5B",
         "monitoringcalculateMetricsLogGroup9961A214",
+        "monitoringCalculateMetricsRoleDefaultPolicy22C0E657",
+        "monitoringCalculateMetricsRoleA76278A7",
+        "monitoringCalculateMetricsRolePolicy0C1EF64D",
         "monitoringcopyArchiveLogGroupBB702B1B",
         "monitoringcopyChunkLogGroup5D04918E",
         "monitoringdeployGlueJobScriptLogGroupAA50E4DE",
         "monitoringdownloadInventoryLogGroup2471C2FF",
         "monitoringdownloadInventoryPartLogGroupD9E69690",
         "monitoringglacierrefreezerdashboardE7F6D8AE",
-        "monitoringpostMetrics42F37764",
-        "monitoringpostMetricsServiceRoleDefaultPolicy8BA2D595",
-        "monitoringpostMetricsServiceRole67C38DA0",
-        "monitoringpostMetricScheduleAllowEventRuleteststackmonitoringpostMetricScheduleF95992D5AD258B19",
-        "monitoringpostMetricSchedule6EF27DB5",
+        "monitoringPostMetrics98F9F947",
+        "monitoringPostMetricScheduleAllowEventRuleteststackmonitoringPostMetricSchedule2E9FE30DD6019900",
+        "monitoringPostMetricSchedule8675C968",
         "monitoringpostMetricsLogGroup670566A8",
+        "monitoringPostMetricsRole87B61E7B",
+        "monitoringPostMetricsRolePolicy596F9F4D",
         "monitoringrequestArchivesLogGroup70D7C9C5",
         "monitoringrequestInventoryLogGroupB7C9607D",
         "monitoringsendAnonymousStatsLogGroup0C9968BB",
@@ -6369,10 +6555,160 @@ exports.handler = function(event, context) {
       },
       "Type": "AWS::S3::BucketPolicy",
     },
+    "statisticsGenerateUuidF0CAA49C": Object {
+      "DependsOn": Array [
+        "statisticsGenerateUuidRole2A541B74",
+      ],
+      "Metadata": Object {
+        "cfn_nag": Object {
+          "rules_to_suppress": Array [
+            Object {
+              "id": "W58",
+              "reason": "cfn nag is unable to reason about CDK generated cloudwatch log permissions",
+            },
+          ],
+        },
+      },
+      "Properties": Object {
+        "Code": Object {
+          "S3Bucket": Object {
+            "Ref": "AssetParametersf9bb0c009ec5f621cba3fcfea4f56330abcb2a532d3f2622e1253d0a03653299S3Bucket98EC60A2",
+          },
+          "S3Key": Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                Object {
+                  "Fn::Select": Array [
+                    0,
+                    Object {
+                      "Fn::Split": Array [
+                        "||",
+                        Object {
+                          "Ref": "AssetParametersf9bb0c009ec5f621cba3fcfea4f56330abcb2a532d3f2622e1253d0a03653299S3VersionKeyA219EACB",
+                        },
+                      ],
+                    },
+                  ],
+                },
+                Object {
+                  "Fn::Select": Array [
+                    1,
+                    Object {
+                      "Fn::Split": Array [
+                        "||",
+                        Object {
+                          "Ref": "AssetParametersf9bb0c009ec5f621cba3fcfea4f56330abcb2a532d3f2622e1253d0a03653299S3VersionKeyA219EACB",
+                        },
+                      ],
+                    },
+                  ],
+                },
+              ],
+            ],
+          },
+        },
+        "Description": "This function generates UUID for each deployment",
+        "FunctionName": Object {
+          "Fn::Join": Array [
+            "",
+            Array [
+              Object {
+                "Ref": "AWS::StackName",
+              },
+              "-generateUuid",
+            ],
+          ],
+        },
+        "Handler": "index.handler",
+        "MemorySize": 256,
+        "Role": Object {
+          "Fn::GetAtt": Array [
+            "statisticsGenerateUuidRole2A541B74",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs12.x",
+        "Tags": Array [
+          Object {
+            "Key": "solution",
+            "Value": "amazon-s3-glacier-refreezer",
+          },
+        ],
+        "Timeout": 20,
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "statisticsGenerateUuidLogGroup7741FD49": Object {
+      "Properties": Object {
+        "LogGroupName": Object {
+          "Fn::Join": Array [
+            "",
+            Array [
+              "/aws/lambda/",
+              Object {
+                "Ref": "AWS::StackName",
+              },
+              "-generateUuid",
+            ],
+          ],
+        },
+      },
+      "Type": "AWS::Logs::LogGroup",
+    },
+    "statisticsGenerateUuidRole2A541B74": Object {
+      "DependsOn": Array [
+        "statisticsGenerateUuidLogGroup7741FD49",
+      ],
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "Tags": Array [
+          Object {
+            "Key": "solution",
+            "Value": "amazon-s3-glacier-refreezer",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "statisticsGenerateUuidTriggerAFF2A046": Object {
+      "DeletionPolicy": "Delete",
+      "Properties": Object {
+        "ServiceToken": Object {
+          "Fn::GetAtt": Array [
+            "statisticsGenerateUuidF0CAA49C",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "AWS::CloudFormation::CustomResource",
+      "UpdateReplacePolicy": "Delete",
+    },
     "statisticsSendAnonymousStatsD2E34707": Object {
       "DependsOn": Array [
         "statisticsSendAnonymousStatsServiceRoleFEE7F44D",
       ],
+      "Metadata": Object {
+        "cfn_nag": Object {
+          "rules_to_suppress": Array [
+            Object {
+              "id": "W58",
+              "reason": "cfn nag is unable to reason about CDK generated cloudwatch log permissions",
+            },
+          ],
+        },
+      },
       "Properties": Object {
         "Code": Object {
           "S3Bucket": Object {
@@ -6434,7 +6770,7 @@ exports.handler = function(event, context) {
             },
             "UUID": Object {
               "Fn::GetAtt": Array [
-                "statisticsgenerateUuidTriggerC26142B4",
+                "statisticsGenerateUuidTriggerAFF2A046",
                 "UUID",
               ],
             },
@@ -6508,160 +6844,41 @@ exports.handler = function(event, context) {
       },
       "Type": "AWS::IAM::Role",
     },
-    "statisticsgenerateUuidD1DABEF9": Object {
-      "DependsOn": Array [
-        "statisticsgenerateUuidRole29E0057A",
-      ],
-      "Properties": Object {
-        "Code": Object {
-          "S3Bucket": Object {
-            "Ref": "AssetParametersf9bb0c009ec5f621cba3fcfea4f56330abcb2a532d3f2622e1253d0a03653299S3Bucket98EC60A2",
-          },
-          "S3Key": Object {
-            "Fn::Join": Array [
-              "",
-              Array [
-                Object {
-                  "Fn::Select": Array [
-                    0,
-                    Object {
-                      "Fn::Split": Array [
-                        "||",
-                        Object {
-                          "Ref": "AssetParametersf9bb0c009ec5f621cba3fcfea4f56330abcb2a532d3f2622e1253d0a03653299S3VersionKeyA219EACB",
-                        },
-                      ],
-                    },
-                  ],
-                },
-                Object {
-                  "Fn::Select": Array [
-                    1,
-                    Object {
-                      "Fn::Split": Array [
-                        "||",
-                        Object {
-                          "Ref": "AssetParametersf9bb0c009ec5f621cba3fcfea4f56330abcb2a532d3f2622e1253d0a03653299S3VersionKeyA219EACB",
-                        },
-                      ],
-                    },
-                  ],
-                },
-              ],
-            ],
-          },
-        },
-        "Description": "This function generates UUID for each deployment",
-        "FunctionName": Object {
-          "Fn::Join": Array [
-            "",
-            Array [
-              Object {
-                "Ref": "AWS::StackName",
-              },
-              "-generateUuid",
-            ],
-          ],
-        },
-        "Handler": "index.handler",
-        "MemorySize": 256,
-        "Role": Object {
-          "Fn::GetAtt": Array [
-            "statisticsgenerateUuidRole29E0057A",
-            "Arn",
-          ],
-        },
-        "Runtime": "nodejs12.x",
-        "Tags": Array [
-          Object {
-            "Key": "solution",
-            "Value": "amazon-s3-glacier-refreezer",
-          },
-        ],
-        "Timeout": 20,
-      },
-      "Type": "AWS::Lambda::Function",
-    },
-    "statisticsgenerateUuidLogGroup5803AF62": Object {
-      "Properties": Object {
-        "LogGroupName": Object {
-          "Fn::Join": Array [
-            "",
-            Array [
-              "/aws/lambda/",
-              Object {
-                "Ref": "AWS::StackName",
-              },
-              "-generateUuid",
-            ],
-          ],
-        },
-      },
-      "Type": "AWS::Logs::LogGroup",
-    },
-    "statisticsgenerateUuidRole29E0057A": Object {
-      "DependsOn": Array [
-        "statisticsgenerateUuidLogGroup5803AF62",
-      ],
-      "Properties": Object {
-        "AssumeRolePolicyDocument": Object {
-          "Statement": Array [
-            Object {
-              "Action": "sts:AssumeRole",
-              "Effect": "Allow",
-              "Principal": Object {
-                "Service": "lambda.amazonaws.com",
-              },
-            },
-          ],
-          "Version": "2012-10-17",
-        },
-        "Tags": Array [
-          Object {
-            "Key": "solution",
-            "Value": "amazon-s3-glacier-refreezer",
-          },
-        ],
-      },
-      "Type": "AWS::IAM::Role",
-    },
-    "statisticsgenerateUuidTriggerC26142B4": Object {
-      "DeletionPolicy": "Delete",
-      "Properties": Object {
-        "ServiceToken": Object {
-          "Fn::GetAtt": Array [
-            "statisticsgenerateUuidD1DABEF9",
-            "Arn",
-          ],
-        },
-      },
-      "Type": "AWS::CloudFormation::CustomResource",
-      "UpdateReplacePolicy": "Delete",
-    },
     "vaultInventoryTopic": Object {
       "DependsOn": Array [
-        "monitoringcalculateMetricsDynamoDBEventSourceteststackdynamoDataCatalogstatusTableDC30348BC2B7F631",
-        "monitoringcalculateMetrics2AD3D7FA",
-        "monitoringcalculateMetricsServiceRoleDefaultPolicyA9458FB6",
-        "monitoringcalculateMetricsServiceRole67BC8BC3",
+        "monitoringCalculateMetricsDynamoDBEventSourceteststackdynamoDataCatalogStatusTable4AFD52BCA4A6AAB1",
+        "monitoringCalculateMetrics1B70CF5B",
         "monitoringcalculateMetricsLogGroup9961A214",
+        "monitoringCalculateMetricsRoleDefaultPolicy22C0E657",
+        "monitoringCalculateMetricsRoleA76278A7",
+        "monitoringCalculateMetricsRolePolicy0C1EF64D",
         "monitoringcopyArchiveLogGroupBB702B1B",
         "monitoringcopyChunkLogGroup5D04918E",
         "monitoringdeployGlueJobScriptLogGroupAA50E4DE",
         "monitoringdownloadInventoryLogGroup2471C2FF",
         "monitoringdownloadInventoryPartLogGroupD9E69690",
         "monitoringglacierrefreezerdashboardE7F6D8AE",
-        "monitoringpostMetrics42F37764",
-        "monitoringpostMetricsServiceRoleDefaultPolicy8BA2D595",
-        "monitoringpostMetricsServiceRole67C38DA0",
-        "monitoringpostMetricScheduleAllowEventRuleteststackmonitoringpostMetricScheduleF95992D5AD258B19",
-        "monitoringpostMetricSchedule6EF27DB5",
+        "monitoringPostMetrics98F9F947",
+        "monitoringPostMetricScheduleAllowEventRuleteststackmonitoringPostMetricSchedule2E9FE30DD6019900",
+        "monitoringPostMetricSchedule8675C968",
         "monitoringpostMetricsLogGroup670566A8",
+        "monitoringPostMetricsRole87B61E7B",
+        "monitoringPostMetricsRolePolicy596F9F4D",
         "monitoringrequestArchivesLogGroup70D7C9C5",
         "monitoringrequestInventoryLogGroupB7C9607D",
         "monitoringsendAnonymousStatsLogGroup0C9968BB",
         "monitoringstageTwoOrchestratorLogGroup62996996",
       ],
+      "Metadata": Object {
+        "cfn_nag": Object {
+          "rules_to_suppress": Array [
+            Object {
+              "id": "W47",
+              "reason": "Non sensitive metadata - encryption is not required and cost inefficient",
+            },
+          ],
+        },
+      },
       "Properties": Object {
         "Tags": Array [
           Object {

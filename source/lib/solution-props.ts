@@ -11,6 +11,12 @@
  *  and limitations under the License.                                                                                *
  *********************************************************************************************************************/
 
+/**
+ * @author Solution Builders
+ */
+
+'use strict';
+
 import * as cdk from '@aws-cdk/core';
 
 export interface SolutionStackProps extends cdk.StackProps {

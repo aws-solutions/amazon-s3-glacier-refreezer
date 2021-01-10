@@ -10,18 +10,25 @@
  *  OR CONDITIONS OF ANY KIND, express or implied. See the License for the specific language governing permissions    *
  *  and limitations under the License.                                                                                *
  *********************************************************************************************************************/
+
+/**
+ * @author Solution Builders
+ */
+
+'use strict';
+
 import * as cdk from '@aws-cdk/core';
 import * as sqs from '@aws-cdk/aws-sqs';
 import * as s3 from '@aws-cdk/aws-s3';
 import * as lambda from '@aws-cdk/aws-lambda';
-import * as iamSec from './iam-security';
+import * as iamSec from './iam-permissions';
 import * as path from 'path';
 import * as dynamo from "@aws-cdk/aws-dynamodb";
 import {SqsEventSource} from '@aws-cdk/aws-lambda-event-sources';
+import {CfnNagSuppressor} from "./cfn-nag-suppressor";
 
 export interface StageFourProps {
     readonly stagingBucket: s3.IBucket;
-    readonly iamSecurity: iamSec.IamSecurity;
     readonly destinationBucket: string,
     readonly destinationStorageClass: string,
     readonly treehashCalcQueue: sqs.IQueue;
@@ -56,9 +63,9 @@ export class StageFour extends cdk.Construct {
         });
 
         props.stagingBucket.grantReadWrite(calculateTreehash);
-        s3.Bucket.fromBucketName(this, 'destinationBucket', props.destinationBucket).grantReadWrite(calculateTreehash);
         props.statusTable.grantReadWriteData(calculateTreehash);
-
+        s3.Bucket.fromBucketName(this, 'destinationBucket', props.destinationBucket).grantReadWrite(calculateTreehash);
         calculateTreehash.addEventSource(new SqsEventSource(props.treehashCalcQueue, {batchSize: 1}));
+        CfnNagSuppressor.addW58Suppression(calculateTreehash);
     }
 }
