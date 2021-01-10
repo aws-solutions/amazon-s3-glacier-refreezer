@@ -21,14 +21,17 @@ import * as cdk from '@aws-cdk/core';
 import * as lambda from '@aws-cdk/aws-lambda';
 import * as logs from '@aws-cdk/aws-logs';
 import * as iam from '@aws-cdk/aws-iam';
+import * as s3 from '@aws-cdk/aws-s3';
 import * as sfn from '@aws-cdk/aws-stepfunctions';
 import * as tasks from '@aws-cdk/aws-stepfunctions-tasks';
-import * as iamSec from './iam-security';
+import * as iamSec from './iam-permissions';
 import {GlueDataCatalog} from "./glue-data-catalog";
 import {DynamoDataCatalog} from "./ddb-data-catalog";
 import {AthenaGetQueryResultsSelector} from "./athena-query-result-selector";
+import {CfnNagSuppressor} from "./cfn-nag-suppressor";
 
 export interface StageTwoOrchestratorProps {
+    readonly stagingBucket: s3.IBucket;
     readonly glueDataCatalog: GlueDataCatalog;
     readonly dynamoDataCatalog: DynamoDataCatalog;
     readonly sendAnonymousStats: lambda.IFunction;
@@ -215,50 +218,132 @@ export class StageTwoOrchestrator extends cdk.Construct {
                 .otherwise(taskRequestArchives)); // loop
 
         // -------------------------------------------------------------------------------------------
+        // Stage Two Orchestrator
+        const stageTwoOrchestratorLogGroup = logs.LogGroup.fromLogGroupName(this, 'Orchestrator', `/aws/states/${cdk.Aws.STACK_NAME}-stageTwoOrchestrator`);
+
         // Stage Two Orchestrator :: IAM
-        const stageTwoOrechestratorRole = new iam.Role(this, 'OrchestratorRole', {
+        const stageTwoOrchestratorRole = new iam.Role(this, 'OrchestratorRole', {
             assumedBy: new iam.ServicePrincipal('states.amazonaws.com')
         });
 
-        props.requestArchives.grantInvoke(stageTwoOrechestratorRole);
-        props.sendAnonymousStats.grantInvoke(stageTwoOrechestratorRole);
-        props.dynamoDataCatalog.metricTable.grantWriteData(stageTwoOrechestratorRole);
+        const stageTwoOrchestratorRolePolicy = new iam.Policy(this, 'OrchestratorRolePolicy');
 
-        stageTwoOrechestratorRole.addToPolicy(iamSec.IamSecurity.athenaPermissions(
+        stageTwoOrchestratorRolePolicy.addStatements(
+            new iam.PolicyStatement({
+                sid: 'allowS3ReadWrite',
+                effect: iam.Effect.ALLOW,
+                actions: [
+                    's3:ListBucket',
+                    's3:ListBucketVersions',
+                    's3:GetBucketLocation',
+                    's3:GetObject',
+                    's3:GetObjectAcl',
+                    's3:PutObject',
+                    's3:DeleteObject',
+                    's3:ListBucketMultipartUploads',
+                    's3:ListMultipartUploadParts',
+                    's3:AbortMultipartUpload'
+                ],
+                resources: [
+                    props.stagingBucket.bucketArn,
+                    `${props.stagingBucket.bucketArn}/*`,
+                ]}),
+            iamSec.IamPermissions.athena(
+                [
+                    props.glueDataCatalog.inventoryDatabase.catalogArn,
+                    props.glueDataCatalog.inventoryDatabase.databaseArn,
+                    `arn:aws:athena:*:${cdk.Aws.ACCOUNT_ID}:workgroup/${props.glueDataCatalog.athenaWorkgroup.name}`,
+                    props.glueDataCatalog.inventoryTable.tableArn,
+                    props.glueDataCatalog.partitionedInventoryTable.tableArn
+                ]
+            ),
+            new iam.PolicyStatement({
+                sid: 'allowGlueJobRun',
+                effect: iam.Effect.ALLOW,
+                actions: [
+                    'glue:StartJobRun',
+                    'glue:GetJobRun',
+                    'glue:GetJobRuns'
+                ],
+                resources: [`arn:aws:glue:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:job/${props.glueJobName}`],
+            }),
+            new iam.PolicyStatement({
+                sid: 'allowLambdaInvocations',
+                effect: iam.Effect.ALLOW,
+                actions: [
+                    'lambda:InvokeFunction'
+                ],
+                resources: [
+                    props.requestArchives.functionArn,
+                    props.sendAnonymousStats.functionArn
+                ]
+            }),
+            new iam.PolicyStatement({
+                sid: 'allowPutTotalArchiveMetric',
+                effect: iam.Effect.ALLOW,
+                actions: [
+                    'dynamodb:PutItem'
+                ],
+                resources: [
+                    props.dynamoDataCatalog.metricTable.tableArn
+                ]
+            }),
+            new iam.PolicyStatement({
+                sid: 'allowLogOutput',
+                effect: iam.Effect.ALLOW,
+                actions: [
+                    'logs:CreateLogGroup',
+                    'logs:CreateLogStream',
+                    'logs:PutLogEvents'
+                ],
+                resources: [
+                    stageTwoOrchestratorLogGroup.logGroupArn,
+                ]
+            }),
+            new iam.PolicyStatement({
+                sid: 'allowLogDelivery',
+                effect: iam.Effect.ALLOW,
+                actions: [
+                    'logs:CreateLogDelivery',
+                    'logs:GetLogDelivery',
+                    'logs:UpdateLogDelivery',
+                    'logs:DeleteLogDelivery',
+                    'logs:ListLogDeliveries',
+                    'logs:PutResourcePolicy',
+                    'logs:DescribeResourcePolicies',
+                    'logs:DescribeLogGroups'
+                ],
+                resources: [
+                    '*'
+                ]
+            }),
+        );
+        stageTwoOrchestratorRolePolicy.attachToRole(stageTwoOrchestratorRole);
+        CfnNagSuppressor.addSuppressions(stageTwoOrchestratorRolePolicy,
             [
-                props.glueDataCatalog.inventoryDatabase.catalogArn,
-                props.glueDataCatalog.inventoryDatabase.databaseArn,
-                `arn:aws:athena:*:${cdk.Aws.ACCOUNT_ID}:workgroup/${props.glueDataCatalog.athenaWorkgroup.name}`,
-                props.glueDataCatalog.inventoryTable.tableArn,
-                props.glueDataCatalog.partitionedInventoryTable.tableArn
+                {
+                    id: 'W12',
+                    reason: '[*] Access granted as per documentation: https://docs.aws.amazon.com/step-functions/latest/dg/cw-logs.html'
+                },
+                {
+                    id: 'W76',
+                    reason: 'SPCM complexity greater then 25 is appropriate for the logic implemented'
+                }
             ]
-        ));
+        );
 
-        stageTwoOrechestratorRole.addToPolicy(new iam.PolicyStatement({
-            sid: 'allowGlueJobRun',
-            effect: iam.Effect.ALLOW,
-            actions: [
-                'glue:StartJobRun',
-                'glue:GetJobRun',
-                'glue:GetJobRuns'
-            ],
-            resources: [`arn:aws:glue:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:job/${props.glueJobName}`]
-        }));
-
-        // -------------------------------------------------------------------------------------------
         // Stage Two Orchestrator :: StepFunction
-        const stageTwoSfLogGroup = logs.LogGroup.fromLogGroupName(this, 'Orchestrator', `/aws/states/${cdk.Aws.STACK_NAME}-stageTwoOrchestrator`);
-
         this.stateMachine = new sfn.StateMachine(this, 'StageTwoOrchestrator', {
             stateMachineName: `${cdk.Aws.STACK_NAME}-stageTwoOrchestrator`,
             stateMachineType: sfn.StateMachineType.STANDARD,
             definition: graphDefinition,
-            role: stageTwoOrechestratorRole,
+            role: stageTwoOrchestratorRole.withoutPolicyUpdates(),
             logs: {
-                destination: stageTwoSfLogGroup,
+                destination: stageTwoOrchestratorLogGroup,
                 level: sfn.LogLevel.ALL,
             }
         });
         (this.stateMachine.node.defaultChild as sfn.CfnStateMachine).overrideLogicalId(`stageTwoOrchestrator`);
+        this.stateMachine.node.addDependency(stageTwoOrchestratorRolePolicy);
     }
 }

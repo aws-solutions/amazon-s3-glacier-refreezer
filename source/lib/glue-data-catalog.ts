@@ -11,6 +11,12 @@
  *  and limitations under the License.                                                                                *
  *********************************************************************************************************************/
 
+/**
+ * @author Solution Builders
+ */
+
+'use strict';
+
 import * as cdk from '@aws-cdk/core';
 import * as s3 from '@aws-cdk/aws-s3';
 import * as glue from '@aws-cdk/aws-glue';
@@ -19,6 +25,7 @@ import * as athena from '@aws-cdk/aws-athena';
 import { readFileSync } from 'fs';
 import * as logs from "@aws-cdk/aws-logs";
 import * as iam from "@aws-cdk/aws-iam";
+import {CfnNagSuppressor} from "./cfn-nag-suppressor";
 
 export interface GlueDataProps {
     readonly stagingBucket: s3.IBucket;
@@ -52,6 +59,7 @@ export class GlueDataCatalog extends cdk.Construct {
             code: lambda.Code.fromInline(readFileSync('lambda/toLowercase/index.js', 'utf-8')) 
         });
         toLowercase.node.addDependency(toLowercaseRole);
+        CfnNagSuppressor.addW58Suppression(toLowercase);
 
         const toLowercaseTrigger = new cdk.CustomResource(this, 'toLowercaseTrigger', {
             serviceToken: toLowercase.functionArn,

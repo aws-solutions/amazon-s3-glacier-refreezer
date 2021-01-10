@@ -11,10 +11,17 @@
  *  and limitations under the License.                                                                                *
  *********************************************************************************************************************/
 
+/**
+ * @author Solution Builders
+ */
+
+'use strict';
+
 import * as cdk from '@aws-cdk/core';
 import * as lambda from '@aws-cdk/aws-lambda';
 import * as iam from "@aws-cdk/aws-iam";
 import * as logs from "@aws-cdk/aws-logs";
+import {CfnNagSuppressor} from "./cfn-nag-suppressor";
 
 export interface AnonymousStatisticsProps {
     readonly solutionId: string;
@@ -30,17 +37,17 @@ export class AnonymousStatistics extends cdk.Construct {
     constructor(scope: cdk.Construct, id: string, props: AnonymousStatisticsProps) {
         super(scope, id);
 
-        const generateUuidLogGroup = new logs.CfnLogGroup(this, `generateUuidLogGroup`, {
+        const generateUuidLogGroup = new logs.CfnLogGroup(this, `GenerateUuidLogGroup`, {
             logGroupName:  `/aws/lambda/${cdk.Aws.STACK_NAME}-generateUuid`
         });
 
         // The role is declared explicitly to orchestrate the deletion of the log group in order
-        const generateUuidRole = new iam.Role(this,'generateUuidRole',{
+        const generateUuidRole = new iam.Role(this,'GenerateUuidRole',{
             assumedBy: new iam.ServicePrincipal('lambda.amazonaws.com')
         });
         generateUuidRole.node.addDependency(generateUuidLogGroup);
 
-        const generateUuid = new lambda.Function(this, 'generateUuid', {
+        const generateUuid = new lambda.Function(this, 'GenerateUuid', {
             functionName: `${cdk.Aws.STACK_NAME}-generateUuid`,
             description: 'This function generates UUID for each deployment',
             runtime: lambda.Runtime.NODEJS_12_X,
@@ -51,8 +58,9 @@ export class AnonymousStatistics extends cdk.Construct {
             code: lambda.Code.fromAsset('lambda/generateUuid')
         });
         generateUuid.node.addDependency(generateUuidRole);
+        CfnNagSuppressor.addW58Suppression(generateUuid);
 
-        const genereateUuidTrigger = new cdk.CustomResource(this, 'generateUuidTrigger', {
+        const genereateUuidTrigger = new cdk.CustomResource(this, 'GenerateUuidTrigger', {
             serviceToken: generateUuid.functionArn
         });
 
@@ -74,7 +82,7 @@ export class AnonymousStatistics extends cdk.Construct {
                 SEND_ANONYMOUS_STATISTICS: props.sendAnonymousSelection
             }
         });
-
+        CfnNagSuppressor.addW58Suppression(sendAnonymousStats);
         this.sendAnonymousStats = sendAnonymousStats;
     }
 }

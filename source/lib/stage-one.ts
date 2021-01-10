@@ -10,19 +10,27 @@
  *  OR CONDITIONS OF ANY KIND, express or implied. See the License for the specific language governing permissions    *
  *  and limitations under the License.                                                                                *
  *********************************************************************************************************************/
+
+/**
+ * @author Solution Builders
+ */
+
+'use strict';
+
 import * as cdk from '@aws-cdk/core';
 import * as sns from '@aws-cdk/aws-sns';
 import * as s3 from '@aws-cdk/aws-s3';
 import * as sfn from '@aws-cdk/aws-stepfunctions';
 import * as lambda from '@aws-cdk/aws-lambda';
 import {SnsEventSource} from '@aws-cdk/aws-lambda-event-sources';
-import * as iamSec from './iam-security';
+import * as iamSec from './iam-permissions';
+import {CfnNagSuppressor} from './cfn-nag-suppressor';
 import * as path from 'path';
+import {IamPermissions} from "./iam-permissions";
 
 export interface StageOneProps {
     readonly stagingBucket: s3.IBucket;
     readonly logBucket: s3.IBucket;
-    readonly iamSecurity: iamSec.IamSecurity;
     readonly sourceGlacierVault: string,
     readonly destinationBucket: string,
     readonly destinationStorageClass: string,
@@ -44,8 +52,9 @@ export class StageOne extends cdk.Construct {
         // overriding CDK name with CFN ID to enforce a random topic name generation
         // so if the same stack name has been deployed twice, each deployment will have only a single inventory alert
         (inventoryTopic.node.defaultChild as sns.CfnTopic).overrideLogicalId(`vaultInventoryTopic`);
-        inventoryTopic.addToResourcePolicy(iamSec.IamSecurity.snsDenyInsecureTransport(inventoryTopic));
-        inventoryTopic.addToResourcePolicy(iamSec.IamSecurity.snsPermitAccountAccess(inventoryTopic));
+        inventoryTopic.addToResourcePolicy(iamSec.IamPermissions.snsDenyInsecureTransport(inventoryTopic));
+        inventoryTopic.addToResourcePolicy(iamSec.IamPermissions.snsGlacierPublisher(inventoryTopic));
+        CfnNagSuppressor.addSuppression(inventoryTopic, 'W47', 'Non sensitive metadata - encryption is not required and cost inefficient');
 
         // -------------------------------------------------------------------------------------------
         // Request Inventory
@@ -73,8 +82,9 @@ export class StageOne extends cdk.Construct {
         props.stagingBucket.grantReadWrite(requestInventory);
         props.logBucket.grantReadWrite(requestInventory);
         s3.Bucket.fromBucketName(this, 'destinationBucket', props.destinationBucket).grantReadWrite(requestInventory);
-        requestInventory.addToRolePolicy(iamSec.IamSecurity.s3AssureSecureTransport([`arn:aws:s3:::${props.filelistS3location}`]));
-        requestInventory.addToRolePolicy(iamSec.IamSecurity.glacierPermitOperations(props.sourceGlacierVault));
+        requestInventory.addToRolePolicy(iamSec.IamPermissions.s3ReadOnly([`arn:aws:s3:::${props.filelistS3location}`]));
+        requestInventory.addToRolePolicy(iamSec.IamPermissions.glacier(props.sourceGlacierVault));
+        CfnNagSuppressor.addW58Suppression(requestInventory);
 
         const requestInventoryTrigger = new cdk.CustomResource(this, 'requestInventoryTrigger',
             {
@@ -83,7 +93,7 @@ export class StageOne extends cdk.Construct {
 
         // -------------------------------------------------------------------------------------------
         // Download Inventory Part
-        const glacierAccess = iamSec.IamSecurity.glacierPermitOperations(props.sourceGlacierVault);
+        const glacierAccess = iamSec.IamPermissions.glacier(props.sourceGlacierVault);
 
         const downloadInventoryPart = new lambda.Function(this, 'downloadInventoryPart', {
             functionName: `${cdk.Aws.STACK_NAME}-downloadInventoryPart`,
@@ -96,6 +106,7 @@ export class StageOne extends cdk.Construct {
 
         props.stagingBucket.grantReadWrite(downloadInventoryPart);
         downloadInventoryPart.addToRolePolicy(glacierAccess);
+        CfnNagSuppressor.addW58Suppression(downloadInventoryPart);
 
         // -------------------------------------------------------------------------------------------
         // Download Inventory
@@ -119,6 +130,7 @@ export class StageOne extends cdk.Construct {
         downloadInventory.addToRolePolicy(glacierAccess);
         downloadInventoryPart.grantInvoke(downloadInventory);
         props.stageTwoOrchestrator.grant(downloadInventory, 'states:StartExecution');
+        CfnNagSuppressor.addW58Suppression(downloadInventory);
 
         downloadInventory.addEventSource(new SnsEventSource(inventoryTopic));
     }

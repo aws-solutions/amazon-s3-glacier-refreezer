@@ -11,6 +11,12 @@
  *  and limitations under the License.                                                                                *
  *********************************************************************************************************************/
 
+/**
+ * @author Solution Builders
+ */
+
+'use strict';
+
 import * as cdk from '@aws-cdk/core';
 import * as dynamo from '@aws-cdk/aws-dynamodb';
 
@@ -26,16 +32,21 @@ export class DynamoDataCatalog extends cdk.Construct {
         super(scope, id);
 
         // [ STATUS TABLE ]
-        const statusTable = new dynamo.Table(this, "statusTable", {
+        const statusTable = new dynamo.Table(this, "StatusTable", {
             tableName: `${cdk.Aws.STACK_NAME}-grf-job-status`,
             partitionKey: {name: "aid", type: dynamo.AttributeType.STRING},
             removalPolicy: cdk.RemovalPolicy.DESTROY,
+            pointInTimeRecovery: true,
             billingMode: dynamo.BillingMode.PROVISIONED,
             readCapacity: 25,
             writeCapacity: 30,
             stream: dynamo.StreamViewType.NEW_AND_OLD_IMAGES
         });
-        this.statusTable=statusTable;
+        this.addCfnNagSuppressions(statusTable);
+        // CDK excludes the default option - PROVISIONED - from the generated CFN.
+        // Adding it explicitly to suppress automated review warning
+        (<cdk.CfnResource>statusTable.node.defaultChild).addOverride('Properties.BillingMode', 'PROVISIONED');
+        this.statusTable = statusTable;
 
         statusTable.autoScaleWriteCapacity({minCapacity: 30, maxCapacity: 500})
             .scaleOnUtilization({
@@ -61,7 +72,7 @@ export class DynamoDataCatalog extends cdk.Construct {
             readCapacity: 5,
             writeCapacity: 30
         });
-        DynamoDataCatalog.configureGsiAutoScaling(statusTable,'max-file-index', 5, 30 );
+        DynamoDataCatalog.configureGsiAutoScaling(statusTable, 'max-file-index', 5, 30);
 
         // status table: file-name GSI
         statusTable.addGlobalSecondaryIndex({
@@ -71,15 +82,17 @@ export class DynamoDataCatalog extends cdk.Construct {
             readCapacity: 15,
             writeCapacity: 30
         });
-        DynamoDataCatalog.configureGsiAutoScaling(statusTable,'name-index', 15, 30 );
+        DynamoDataCatalog.configureGsiAutoScaling(statusTable, 'name-index', 15, 30);
 
         // [ METRICS TABLE ]
-        const metricsTable = new dynamo.Table(this, 'metricsTable', {
+        const metricsTable = new dynamo.Table(this, 'MetricsTable', {
             tableName: `${cdk.Aws.STACK_NAME}-grf-job-metrics`,
             partitionKey: {name: "pk", type: dynamo.AttributeType.STRING},
             removalPolicy: cdk.RemovalPolicy.DESTROY,
+            pointInTimeRecovery: true,
             billingMode: dynamo.BillingMode.PAY_PER_REQUEST
         });
+        this.addCfnNagSuppressions(metricsTable);
         this.metricTable = metricsTable;
     }
 
@@ -101,5 +114,20 @@ export class DynamoDataCatalog extends cdk.Construct {
             scaleOutCooldown: cdk.Duration.seconds(SCALING_OUT_COOLDOWN_SEC),
             scaleInCooldown: cdk.Duration.seconds(SCALING_IN_COOLDOWN_SEC)
         });
+    }
+
+    private addCfnNagSuppressions(table: dynamo.ITable) {
+        const rules = [{
+            id: 'W28', reason: 'Transient table - updates must be through deletion/redeployment of the stack only'
+        }, {
+            id: 'W74', reason: 'Metadata table - no encryption required'
+        }];
+
+        const cfnTable = table.node.defaultChild as dynamo.CfnTable;
+        cfnTable.cfnOptions.metadata = {
+            cfn_nag: {
+                rules_to_suppress: rules
+            }
+        };
     }
 }

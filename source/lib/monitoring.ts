@@ -10,6 +10,13 @@
  *  OR CONDITIONS OF ANY KIND, express or implied. See the License for the specific language governing permissions    *
  *  and limitations under the License.                                                                                *
  *********************************************************************************************************************/
+
+/**
+ * @author Solution Builders
+ */
+
+'use strict';
+
 import * as cdk from '@aws-cdk/core';
 import * as cloudwatch from '@aws-cdk/aws-cloudwatch';
 import * as lambda from '@aws-cdk/aws-lambda';
@@ -18,14 +25,14 @@ import * as logs from "@aws-cdk/aws-logs";
 import * as targets from "@aws-cdk/aws-events-targets";
 import * as eventsource from '@aws-cdk/aws-lambda-event-sources';
 import * as iam from '@aws-cdk/aws-iam';
-import * as iamSec from './iam-security';
+import * as iamSec from './iam-permissions';
 import * as path from 'path';
 import * as fs from 'fs';
 import * as dynamo from "@aws-cdk/aws-dynamodb";
+import {CfnNagSuppressor} from "./cfn-nag-suppressor";
 
 export interface MonitoringProps {
-    readonly iamSecurity: iamSec.IamSecurity;
-    readonly statusTable: dynamo.ITable
+    readonly statusTable: dynamo.ITable,
     readonly metricTable: dynamo.ITable
 }
 
@@ -38,16 +45,30 @@ export class Monitoring extends cdk.Construct {
 
         // -------------------------------------------------------------------------------------------
         // Calculate Metrics
-        const calculateMetrics = new lambda.Function(this, 'calculateMetrics', {
-            functionName: `${cdk.Aws.STACK_NAME}-calculateMetrics`,
-            runtime: lambda.Runtime.NODEJS_12_X,
-            handler: 'index.handler',
-            code: lambda.Code.fromAsset(path.join(__dirname, '../lambda/calculateMetrics')),
-            environment:
-                {
-                    METRICS_TABLE: props.metricTable.tableName
-                }
+        const calculateMetricsRole = new iam.Role(this, 'CalculateMetricsRole', {
+            assumedBy: new iam.ServicePrincipal('lambda.amazonaws.com')
         });
+
+        // Declaring the policy explicitly to minimize permissions and reduce cfn_nag warnings
+        const calculateMetricsRolePolicy = new iam.Policy(this, 'CalculateMetricsRolePolicy', {
+            statements: [
+                iamSec.IamPermissions.lambdaLogGroup(`${cdk.Aws.STACK_NAME}-calculateMetrics`),
+                new iam.PolicyStatement({
+                    resources: [
+                        `${props.statusTable.tableArn}/stream/*`
+                    ],
+                    actions: [
+                        'dynamodb:ListStreams',
+                        'dynamodb:DescribeStream',
+                        'dynamodb:GetRecords',
+                        'dynamodb:GetShardIterator',
+                        'dynamodb:ListShards'
+                    ]
+                })
+            ]
+        });
+        props.metricTable.grantReadWriteData(calculateMetricsRole);
+        calculateMetricsRolePolicy.attachToRole(calculateMetricsRole);
 
         const statusTableEventStream = new eventsource.DynamoEventSource(props.statusTable, {
             startingPosition: lambda.StartingPosition.TRIM_HORIZON,
@@ -56,16 +77,57 @@ export class Monitoring extends cdk.Construct {
             batchSize: 1000
         });
 
-        props.metricTable.grantReadWriteData(calculateMetrics);
-        statusTableEventStream.bind(calculateMetrics);
+        const calculateMetrics = new lambda.Function(this, 'CalculateMetrics', {
+            functionName: `${cdk.Aws.STACK_NAME}-calculateMetrics`,
+            runtime: lambda.Runtime.NODEJS_12_X,
+            handler: 'index.handler',
+            code: lambda.Code.fromAsset(path.join(__dirname, '../lambda/calculateMetrics')),
+            role: calculateMetricsRole.withoutPolicyUpdates(),
+            environment:
+                {
+                    METRICS_TABLE: props.metricTable.tableName
+                },
+            events: [statusTableEventStream]
+        });
+        calculateMetrics.node.addDependency(calculateMetricsRolePolicy);
+        CfnNagSuppressor.addW58Suppression(calculateMetrics);
 
         // -------------------------------------------------------------------------------------------
         // Post Metrics
-        const postMetrics = new lambda.Function(this, 'postMetrics', {
+        const postMetricsRole = new iam.Role(this, 'PostMetricsRole', {
+            assumedBy: new iam.ServicePrincipal('lambda.amazonaws.com')
+        });
+
+        // Declaring the policy granting access to the stream explicitly to minimize permissions
+        const postMetricsRolePolicy = new iam.Policy(this, 'PostMetricsRolePolicy', {
+            statements: [
+                new iam.PolicyStatement({
+                    resources: [props.metricTable.tableArn],
+                    actions: ['dynamodb:Query']
+                }),
+                new iam.PolicyStatement({
+                    sid: 'permitPostMetrics',
+                    effect: iam.Effect.ALLOW,
+                    actions: ['cloudwatch:PutMetricData'],
+                    resources: ['*'],
+                    conditions: {
+                        StringEquals: {
+                            'cloudwatch:namespace': 'AmazonS3GlacierReFreezer'
+                        }
+                    }
+                }),
+                iamSec.IamPermissions.lambdaLogGroup(`${cdk.Aws.STACK_NAME}-postMetrics`)
+            ]
+        });
+        postMetricsRolePolicy.attachToRole(postMetricsRole);
+        CfnNagSuppressor.addSuppression(postMetricsRolePolicy, 'W12', 'CloudWatch does not support metric ARNs. Using Namespace condition');
+
+        const postMetrics = new lambda.Function(this, 'PostMetrics', {
             functionName: `${cdk.Aws.STACK_NAME}-postMetrics`,
             runtime: lambda.Runtime.NODEJS_12_X,
             handler: 'index.handler',
             code: lambda.Code.fromAsset(path.join(__dirname, '../lambda/postMetrics')),
+            role: postMetricsRole,
             environment:
                 {
                     METRICS_TABLE: props.metricTable.tableName,
@@ -73,27 +135,17 @@ export class Monitoring extends cdk.Construct {
                     STACK_NAME: cdk.Aws.STACK_NAME
                 }
         });
+        postMetrics.node.addDependency(postMetricsRolePolicy);
+        CfnNagSuppressor.addW58Suppression(postMetrics);
 
-        const postMetricSchedule = new events.Rule(this, 'postMetricSchedule', {
+        const postMetricSchedule = new events.Rule(this, 'PostMetricSchedule', {
             schedule: {
                 expressionString: 'rate(1 minute)'
             }
         });
         postMetricSchedule.addTarget(new targets.LambdaFunction(postMetrics));
 
-        props.metricTable.grantReadData(postMetrics);
-        postMetrics.addToRolePolicy(
-            new iam.PolicyStatement({
-                sid: 'permitPostMetrics',
-                effect: iam.Effect.ALLOW,
-                actions: ['cloudwatch:PutMetricData'],
-                resources: ['*'],
-                conditions: {
-                    StringEquals: {
-                        'cloudwatch:namespace': 'AmazonS3GlacierReFreezer'
-                    }
-                }
-            }));
+        // props.metricTable.grantReadData(postMetrics);
 
         // -------------------------------------------------------------------------------------------
         // Dashboard
@@ -123,7 +175,6 @@ export class Monitoring extends cdk.Construct {
                 validated
             ]
         });
-        //singleValueFullPrecision
 
         // progress line
         const graphWidget = new cloudwatch.GraphWidget({
@@ -142,8 +193,10 @@ export class Monitoring extends cdk.Construct {
 
         // Log Groups and Log Widget
         // Pre-creating all log groups explicitly to remove them on Stack deletion automatically
+        // Collecting logGroupNames to include into the dashboard
         const logGroupNames: string[] = [
-            Monitoring.createStackLogGroup(this, '/aws/states','stageTwoOrchestrator'),
+            Monitoring.createStackLogGroup(this, '/aws/states', 'stageTwoOrchestrator'),
+            `/aws/lambda/${cdk.Aws.STACK_NAME}-calculateTreehash`
         ];
 
         const directoryPath = path.join(__dirname, '../lambda');
@@ -151,8 +204,8 @@ export class Monitoring extends cdk.Construct {
             if (fs.lstatSync(directoryPath + '/' + entry).isDirectory()) {
                 if (entry === 'toLowercase') return;  // created in glue-data-catalog.ts
                 if (entry === 'generateUuid') return;  // created in solution-builders-anonymous-statistics.cs
-                if (entry === 'calculateTreehash') return;  // Preserving the log file to assist with possible troubleshooting 
-                                                            // in cases when stagingdata folder is not empty yet stack has been deleted.
+                if (entry === 'calculateTreehash') return;  // Preserving the log file to assist with possible troubleshooting
+                                                            // in cases when 'stagingdata' folder is not empty yet stack has been deleted.
                 logGroupNames.push(Monitoring.createStackLogGroup(this, '/aws/lambda', entry))
             }
         });

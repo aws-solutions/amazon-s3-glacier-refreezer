@@ -10,21 +10,29 @@
  *  OR CONDITIONS OF ANY KIND, express or implied. See the License for the specific language governing permissions    *
  *  and limitations under the License.                                                                                *
  *********************************************************************************************************************/
+
+/**
+ * @author Solution Builders
+ */
+
+'use strict';
+
 import * as cdk from '@aws-cdk/core';
 import * as sqs from '@aws-cdk/aws-sqs';
 import * as sns from '@aws-cdk/aws-sns';
 import * as subscriptions from '@aws-cdk/aws-sns-subscriptions';
 import * as s3 from '@aws-cdk/aws-s3';
 import * as lambda from '@aws-cdk/aws-lambda';
-import * as iamSec from './iam-security';
+import * as iamSec from './iam-permissions';
 import * as path from 'path';
 import * as dynamo from "@aws-cdk/aws-dynamodb";
 import {SqsEventSource} from '@aws-cdk/aws-lambda-event-sources';
+import {CfnNagSuppressor} from "./cfn-nag-suppressor";
+import * as iam from "@aws-cdk/aws-iam";
 
 export interface StageThreeProps {
     readonly sourceVault: string;
     readonly stagingBucket: s3.IBucket;
-    readonly iamSecurity: iamSec.IamSecurity;
     readonly statusTable: dynamo.ITable
 }
 
@@ -45,18 +53,18 @@ export class StageThree extends cdk.Construct {
                 visibilityTimeout: cdk.Duration.seconds(905)
             }
         );
-
-        treehashCalcQueue.addToResourcePolicy(iamSec.IamSecurity.sqsDenyInsecureTransport(treehashCalcQueue));
+        CfnNagSuppressor.addSuppression(treehashCalcQueue, 'W48', 'Non sensitive metadata - encryption is not required and cost inefficient');
+        treehashCalcQueue.addToResourcePolicy(iamSec.IamPermissions.sqsDenyInsecureTransport(treehashCalcQueue));
         this.treehashCalcQueue = treehashCalcQueue;
 
         // -------------------------------------------------------------------------------------------
         // Archive Notification Topic
-        const archiveNotificationTopic = new sns.Topic(this, 'archiveNotificationTopic',{
+        const archiveNotificationTopic = new sns.Topic(this, 'archiveNotificationTopic', {
             topicName: `${cdk.Aws.STACK_NAME}-archive-retrieval-notification`,
         });
-
-        archiveNotificationTopic.addToResourcePolicy(iamSec.IamSecurity.snsPermitAccountAccess(archiveNotificationTopic));
-        archiveNotificationTopic.addToResourcePolicy(iamSec.IamSecurity.snsDenyInsecureTransport(archiveNotificationTopic));
+        CfnNagSuppressor.addSuppression(archiveNotificationTopic, 'W47', 'Non sensitive metadata - encryption is not required and cost inefficient');
+        archiveNotificationTopic.addToResourcePolicy(iamSec.IamPermissions.snsGlacierPublisher(archiveNotificationTopic));
+        archiveNotificationTopic.addToResourcePolicy(iamSec.IamPermissions.snsDenyInsecureTransport(archiveNotificationTopic));
         this.archiveNotificationTopic = archiveNotificationTopic;
 
         // -------------------------------------------------------------------------------------------
@@ -67,8 +75,8 @@ export class StageThree extends cdk.Construct {
                 visibilityTimeout: cdk.Duration.seconds(905)
             }
         );
-
-        archiveNotificationQueue.addToResourcePolicy(iamSec.IamSecurity.sqsDenyInsecureTransport(archiveNotificationQueue));
+        CfnNagSuppressor.addSuppression(archiveNotificationQueue, 'W48', 'Non sensitive metadata - encryption is not required and cost inefficient');
+        archiveNotificationQueue.addToResourcePolicy(iamSec.IamPermissions.sqsDenyInsecureTransport(archiveNotificationQueue));
         archiveNotificationTopic.addSubscription(new subscriptions.SqsSubscription(archiveNotificationQueue));
 
         this.archiveNotificationQueue = archiveNotificationQueue;
@@ -81,12 +89,32 @@ export class StageThree extends cdk.Construct {
                 visibilityTimeout: cdk.Duration.seconds(905)
             }
         );
-
-        chunkCopyQueue.addToResourcePolicy(iamSec.IamSecurity.sqsDenyInsecureTransport(chunkCopyQueue));
+        CfnNagSuppressor.addSuppression(chunkCopyQueue, 'W48', 'Non sensitive metadata - encryption is not required and cost inefficient');
+        chunkCopyQueue.addToResourcePolicy(iamSec.IamPermissions.sqsDenyInsecureTransport(chunkCopyQueue));
 
         // -------------------------------------------------------------------------------------------
         // Copy Archive
-        const copyArchive = new lambda.Function(this, 'copyArchive', {
+        const copyArchiveRole = new iam.Role(this, 'CopyArchiveRole', {
+            assumedBy: new iam.ServicePrincipal('lambda.amazonaws.com')
+        });
+
+        // Declaring the policy granting access to the stream explicitly to minimize permissions
+        const copyArchiveRolePolicy = new iam.Policy(this, 'CopyArchiveRolePolicy', {
+            statements: [
+                iamSec.IamPermissions.lambdaLogGroup(`${cdk.Aws.STACK_NAME}-copyArchive`),
+                iamSec.IamPermissions.glacier(props.sourceVault),
+                iamSec.IamPermissions.sqsSubscriber(archiveNotificationQueue)
+           ]
+        });
+        copyArchiveRolePolicy.attachToRole(copyArchiveRole);
+
+        props.stagingBucket.grantReadWrite(copyArchiveRole);
+        props.statusTable.grantReadWriteData(copyArchiveRole);
+        chunkCopyQueue.grantSendMessages(copyArchiveRole);
+        treehashCalcQueue.grantSendMessages(copyArchiveRole);
+        // archiveNotificationQueue.grantConsumeMessages(copyArchiveRole);
+
+        const copyArchive = new lambda.Function(this, 'CopyArchive', {
             functionName: `${cdk.Aws.STACK_NAME}-copyArchive`,
             runtime: lambda.Runtime.NODEJS_12_X,
             handler: 'index.handler',
@@ -94,6 +122,7 @@ export class StageThree extends cdk.Construct {
             timeout: cdk.Duration.minutes(15),
             reservedConcurrentExecutions: 50,
             code: lambda.Code.fromAsset(path.join(__dirname, '../lambda/copyArchive')),
+            role: copyArchiveRole.withoutPolicyUpdates(),
             environment:
                 {
                     VAULT: props.sourceVault,
@@ -104,24 +133,39 @@ export class StageThree extends cdk.Construct {
                     SQS_HASH: treehashCalcQueue.queueName
                 }
         });
-
-        props.stagingBucket.grantReadWrite(copyArchive);
-        props.statusTable.grantReadWriteData(copyArchive);
-        copyArchive.addToRolePolicy(iamSec.IamSecurity.glacierPermitOperations(props.sourceVault));
-        chunkCopyQueue.grantSendMessages(copyArchive);
-        treehashCalcQueue.grantSendMessages(copyArchive);
-
-        copyArchive.addEventSource(new SqsEventSource(archiveNotificationQueue,{ batchSize: 1 }));
+        copyArchive.node.addDependency(copyArchiveRolePolicy);
+        copyArchive.addEventSource(new SqsEventSource(archiveNotificationQueue, {batchSize: 1}));
+        CfnNagSuppressor.addW58Suppression(copyArchive);
 
         // -------------------------------------------------------------------------------------------
-        // Copy Archive
-        const copyChunk = new lambda.Function(this, 'copyChunk', {
+        // Copy Chunk
+        const copyChunkRole = new iam.Role(this, 'CopyChunkRole', {
+            assumedBy: new iam.ServicePrincipal('lambda.amazonaws.com')
+        });
+
+        // Declaring the policy granting access to the stream explicitly to minimize permissions
+        const copyChunkRolePolicy = new iam.Policy(this, 'CopyChunkRolePolicy', {
+            statements: [
+                iamSec.IamPermissions.lambdaLogGroup(`${cdk.Aws.STACK_NAME}-copyChunk`),
+                iamSec.IamPermissions.glacier(props.sourceVault),
+                iamSec.IamPermissions.sqsSubscriber(chunkCopyQueue)
+            ]
+        });
+        copyChunkRolePolicy.attachToRole(copyChunkRole);
+
+        props.stagingBucket.grantReadWrite(copyChunkRole);
+        props.statusTable.grantReadWriteData(copyChunkRole);
+        treehashCalcQueue.grantSendMessages(copyChunkRole);
+        // archiveNotificationQueue.grantConsumeMessages(copyArchiveRole);
+
+        const copyChunk = new lambda.Function(this, 'CopyChunk', {
             functionName: `${cdk.Aws.STACK_NAME}-copyChunk`,
             runtime: lambda.Runtime.NODEJS_12_X,
             handler: 'index.handler',
             memorySize: 1024,
             timeout: cdk.Duration.minutes(15),
             reservedConcurrentExecutions: 30,
+            role: copyChunkRole.withoutPolicyUpdates(),
             code: lambda.Code.fromAsset(path.join(__dirname, '../lambda/copyChunk')),
             environment:
                 {
@@ -132,12 +176,7 @@ export class StageThree extends cdk.Construct {
                     SQS_HASH: treehashCalcQueue.queueName
                 }
         });
-
-        props.stagingBucket.grantReadWrite(copyChunk);
-        props.statusTable.grantReadWriteData(copyChunk);
-        copyChunk.addToRolePolicy(iamSec.IamSecurity.glacierPermitOperations(props.sourceVault));
-        treehashCalcQueue.grantSendMessages(copyChunk);
-
-        copyChunk.addEventSource(new SqsEventSource(chunkCopyQueue,{ batchSize: 1 }));
+        CfnNagSuppressor.addW58Suppression(copyChunk);
+        copyChunk.addEventSource(new SqsEventSource(chunkCopyQueue, {batchSize: 1}));
     }
 }

@@ -17,32 +17,43 @@
 
 'use strict';
 
-import {AthenaGetQueryResults} from "@aws-cdk/aws-stepfunctions-tasks";
-import {Construct} from "@aws-cdk/core";
-import {AthenaGetQueryResultsProps} from "@aws-cdk/aws-stepfunctions-tasks/lib/athena/get-query-results";
+import * as cdk from '@aws-cdk/core';
 
-export interface AthenaGetQueryResultPropsSelector extends AthenaGetQueryResultsProps{
-    readonly resultSelector?: object
-}
+export class CfnNagSuppressor extends cdk.Construct {
 
-/**
- * Custom Task so we can use ResultSelector
- * See https://github.com/aws/aws-cdk/issues/9904
- */
-export class AthenaGetQueryResultsSelector extends AthenaGetQueryResults {
-    private readonly resultSelector?: object
-
-    constructor(scope: Construct, id: string, props: AthenaGetQueryResultPropsSelector) {
-        super(scope, id, props);
-
-        this.resultSelector = props.resultSelector
+    constructor(scope: cdk.Construct, id: string) {
+        super(scope, id);
     }
 
-    public toStateJson(): object {
-        const stateJson: any = super.toStateJson();
-        if (this.resultSelector !== undefined) {
-            stateJson.ResultSelector = this.resultSelector
-        }
-        return stateJson
+    static addSuppression(resource: cdk.Resource, id: string, reason: string) {
+        (<cdk.CfnResource>resource.node.defaultChild).cfnOptions.metadata = {
+            cfn_nag: {
+                rules_to_suppress:
+                    [{
+                        id,
+                        reason
+                    }]
+            }
+        };
     }
+    static addSuppressions(resource: cdk.Resource, rules_to_suppress: Array<object>) {
+        (<cdk.CfnResource>resource.node.defaultChild).cfnOptions.metadata = {
+            cfn_nag: {
+                rules_to_suppress
+            }
+        };
+    }
+
+    static addW58Suppression(resource: cdk.Resource) {
+        (<cdk.CfnResource>resource.node.defaultChild).cfnOptions.metadata = {
+            cfn_nag: {
+                rules_to_suppress:
+                    [{
+                        id: 'W58',
+                        reason: 'cfn nag is unable to reason about CDK generated cloudwatch log permissions'
+                    }]
+            }
+        };
+    }
+
 }
