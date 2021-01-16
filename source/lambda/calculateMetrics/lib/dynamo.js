@@ -20,45 +20,37 @@
 const AWS = require('aws-sdk');
 const dynamodb = new AWS.DynamoDB();
 
-const moment = require('moment')
-
 const {
-    STATUS_TABLE
+    METRICS_TABLE
 } = process.env;
 
-async function getStatusRecord(archiveId) {
-    return await dynamodb.getItem(
-        {
-            TableName: STATUS_TABLE,
-            Key: {
-                'aid': { S: archiveId },
-            }
-        }
-    ).promise()
+function checkField(record, field) {
+    if ((!record.dynamodb.OldImage || !record.dynamodb.OldImage[field]) &&
+        record.dynamodb.NewImage[field]) {
+        return 1;
+    }
+    return 0;
 }
 
-// started   - psdt
-// completed - sgt
-async function setTimestampNow(archiveId, field) {
-    const now = moment().format()
-    return await dynamodb.updateItem(
-        {
-            TableName: STATUS_TABLE,
-            Key: {
-                aid: { S: archiveId }
-            },
-            UpdateExpression: "set #t = :val",
-            ExpressionAttributeNames: {
-                "#t": field
-            },
-            ExpressionAttributeValues: {
-                ":val": { S: now }
-            },
-            ReturnValues: "ALL_NEW"
-        }).promise();
+async function incrementCount(requested, staged, validated, copied) {
+    await dynamodb.updateItem({
+        TableName: METRICS_TABLE,
+        Key: {
+            pk: {
+                S: "count"
+            }
+        },
+        ExpressionAttributeValues: {
+            ":requested": { N: `${requested}` },
+            ":staged": { N: `${staged}` },
+            ":validated": { N: `${validated}` },
+            ":copied": { N: `${copied}` }
+        },
+        UpdateExpression: "ADD requested :requested, staged :staged, validated :validated, copied :copied"
+    }).promise();
 }
 
 module.exports = {
-    setTimestampNow,
-    getStatusRecord
-};
+    incrementCount,
+    checkField
+}

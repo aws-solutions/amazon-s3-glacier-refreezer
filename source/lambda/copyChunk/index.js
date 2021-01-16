@@ -45,13 +45,13 @@ async function handler(event){
 
     console.log(`chunk upload ${key} - ${partNo} : ${startByte}-${endByte}`)
 
-    // if cpdt present, all chunks have been copied (and multipart closed!)
+    // if sgt present, all chunks have been copied (and multipart closed!)
     // but the message has been triggered, indicating retry. Proceed to trigger Treehash
     // if UplaodId exists - upload part
     let statusRecord = await db.getStatusRecord(archiveId)
 
     statusRecord.Attributes = statusRecord.Item
-    if (statusRecord.Attributes.cpdt && statusRecord.Attributes.cpdt.S) {
+    if (statusRecord.Attributes.sgt && statusRecord.Attributes.sgt.S) {
         console.log(`${key} : upload has already been processed`)
         await trigger.calcHash(statusRecord)
         return
@@ -95,7 +95,7 @@ async function handler(event){
     await closeMultipartUpload(key, uploadId, statusRecord)
 
     console.log(`${key} : setting complete timestamp`)
-    await db.setTimestampNow(statusRecord.Attributes.aid.S, "cpdt")
+    await db.setTimestampNow(statusRecord.Attributes.aid.S, "sgt")
 
     await trigger.calcHash(statusRecord)
 }

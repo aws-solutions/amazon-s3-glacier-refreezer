@@ -34,7 +34,7 @@ async function getStatusRecord(archiveId) {
 }
 
 // started   - psdt
-// completed - cpdt
+// staged - sgt
 async function setTimestampNow(archiveId, field) {
     const now = moment().format();
     return await dynamodb
@@ -74,7 +74,7 @@ async function updateChunkStatusGetLatest(archiveId, partNumber, val) {
     return await dynamodb.updateItem(params).promise();
 }
 
-async function setRetryCount(archiveId, field) {
+async function incrementRetryCount(archiveId, field) {
     let params = {
         TableName: STATUS_TABLE,
         Key: {
@@ -94,5 +94,5 @@ module.exports = {
     setTimestampNow,
     updateChunkStatusGetLatest,
     getStatusRecord,
-    setRetryCount,
+    incrementRetryCount
 };

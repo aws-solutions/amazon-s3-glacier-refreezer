@@ -47,7 +47,7 @@ async function handler(event) {
     console.log("SNS Message body: " + snsBody);
     let glacierRetrievalStatus = JSON.parse(snsBody);
 
-    // if cpdt present, all chunks have been copied and multipart closed
+    // if sgt present, all chunks have been copied and multipart closed
     // but the message has been triggered, indicating retry. Proceed to trigger Treehash
     // if UplaodId exists - upload part
     let resultRecord = await db.getStatusRecord(glacierRetrievalStatus.ArchiveId);
@@ -58,7 +58,7 @@ async function handler(event) {
 
     //Remove this condition to check action flag.
     if (glacierRetrievalStatus.Action != "RetryRequest") {
-        if (resultRecord.Attributes.cpdt && resultRecord.Attributes.cpdt.S) {
+        if (resultRecord.Attributes.sgt && resultRecord.Attributes.sgt.S) {
             console.log(`${key} : upload has already been processed`);
             if (!resultRecord.Attributes.vdt) {
                 console.log(`${key} : re requesting treehash calc`);
@@ -78,7 +78,7 @@ async function handler(event) {
     } else {
         await singlePart(glacierRetrievalStatus, key);
     }
-};
+}
 
 async function singlePart(glacierRetrievalStatus, key) {
     console.log(`${key} : single part`);
@@ -105,7 +105,7 @@ async function singlePart(glacierRetrievalStatus, key) {
     console.log(`${key} : etag : ${etag}`);
     let statusRecord = await db.setTimestampNow(
         glacierRetrievalStatus.ArchiveId,
-        "cpdt"
+        "sgt"
     );
     await trigger.calcHash(statusRecord);
 }
@@ -171,7 +171,7 @@ function sendChunkMessage(queueUrl, jobId, uploadId, archiveId, key, partNo, sta
             QueueUrl: queueUrl,
             MessageBody: messageBody,
         }).promise();
-};
+}
 
 module.exports = {
     handler

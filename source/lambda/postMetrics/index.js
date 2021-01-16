@@ -17,34 +17,34 @@
 
 'use strict';
 
-const AWS = require('aws-sdk');
-const { 
-    getCount,
-    publishMetric 
-} = require('./lib/publishMetric.js')
+const dynamo = require('./lib/dynamo.js');
+const metrics = require('./lib/metrics.js');
 
 async function handler() {
 
-    const progressCount = await getCount();
+    const progressCount = await dynamo.getCount();
+    let restored =  await metrics.getNumberOfMessagesPublishedIn30Days();
 
-    let archivesTotal = progressCount && progressCount.requested ? progressCount.total.N : null;
-    let archivesRequested = progressCount && progressCount.requested ? progressCount.requested.N : 0;
-    let archivesInitiated = progressCount && progressCount.started ? progressCount.started.N : 0;
-    let archivesCompleted = progressCount && progressCount.completed ? progressCount.completed.N : 0;
-    let treehashValidated = progressCount && progressCount.validated ? progressCount.validated.N : 0;
+    let total = progressCount && progressCount.total ? progressCount.total.N : null;
+    let requested = progressCount && progressCount.requested ? progressCount.requested.N : 0;
+    let staged = progressCount && progressCount.staged ? progressCount.staged.N : 0;
+    let validated = progressCount && progressCount.validated ? progressCount.validated.N : 0;
+    let copied = progressCount && progressCount.copied ? progressCount.copied.N : 0;
 
-    if (archivesTotal) {
-        archivesRequested = archivesRequested > archivesTotal ? archivesTotal : archivesRequested;
-        archivesInitiated = archivesInitiated > archivesTotal ? archivesTotal : archivesInitiated;
-        archivesCompleted = archivesCompleted > archivesTotal ? archivesTotal : archivesCompleted;
-        treehashValidated = treehashValidated > archivesTotal ? archivesTotal : treehashValidated;
+    if (total) {
+        requested = requested > total ? total : requested;
+        restored = restored > total ? total : restored;
+        staged = staged > total ? total : staged;
+        validated = validated > total ? total : validated;
+        copied = copied > total ? total : copied;
     }
 
-    await publishMetric('Total Archives', archivesTotal);
-    await publishMetric('Requested from Glacier', archivesRequested);
-    await publishMetric('Copy Initiated', archivesInitiated);
-    await publishMetric('Copy Completed', archivesCompleted);
-    await publishMetric('Hashes Validated', treehashValidated);
+    await metrics.publishMetric('Total Archives', total);
+    await metrics.publishMetric('Requested from Glacier', requested);
+    await metrics.publishMetric('Restored', restored);
+    await metrics.publishMetric('Staged', staged);
+    await metrics.publishMetric('Hashes Validated', validated);
+    await metrics.publishMetric('Copied to Destination', copied);
 }
 
 module.exports = {

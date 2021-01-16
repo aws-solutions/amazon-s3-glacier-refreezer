@@ -30,13 +30,13 @@ const CHUNK_SIZE = 2 * 1024 * 1024 * 1024
 async function copyKeyToDestinationBucket(key, size) {
 
     const currentStorageClass = await this.getKeyStorageClass(key)
-    // Assumption - Staging bucket object will always be of STANDARD storage class
+    // Staging bucket object must always be of STANDARD storage class
     // If the entry does not exist - the file does not exist
     if (!currentStorageClass) {
         console.error(`${key} : 
         Unable to copy to the destination bucket as staging bucket doesn't have the specified file. 
         Can be false positive, when invoked on retry. 
-        Please check the destinatin bucket.`);
+        Please check the destination bucket.`);
     }
 
     if (size < CHUNK_SIZE) {

@@ -29,6 +29,9 @@ import {StageFour} from "./stage-four";
 import {SolutionStackProps} from './solution-props';
 import {StageTwo} from "./stage-two";
 import {AnonymousStatistics} from "./solution-builders-anonymous-statistics";
+import * as sns from "@aws-cdk/aws-sns";
+import {CfnNagSuppressor} from "./cfn-nag-suppressor";
+import * as iamSec from "./iam-permissions";
 
 export class AmazonS3GlacierRefreezerStack extends cdk.Stack {
     constructor(scope: cdk.Construct, id: string, props: SolutionStackProps) {
@@ -147,11 +150,25 @@ export class AmazonS3GlacierRefreezerStack extends cdk.Stack {
         // IAM Permissions
         const iamPermissions = new IamPermissions(this, 'iamPermissions');
 
+        // -------------------------------------------------------------------------------------------
+        // Archive Notification Topic
+        // Declaring at the stack level as it is shared between at Monitoring, Stage Two and  and Stage Three
+
+        const archiveNotificationTopic = new sns.Topic(this, 'ArchiveNotifications');
+        // overriding CDK name with CFN ID to enforce a random topic name generation
+        // so even if the same stack name has been reused, each deployment will be isolated
+        // Used as a safeguard for deployments and metric isolation
+        (archiveNotificationTopic.node.defaultChild as sns.CfnTopic).overrideLogicalId(`archiveNotifications`);
+        CfnNagSuppressor.addSuppression(archiveNotificationTopic, 'W47', 'Non sensitive metadata - encryption is not required and cost inefficient');
+        archiveNotificationTopic.addToResourcePolicy(iamSec.IamPermissions.snsGlacierPublisher(archiveNotificationTopic));
+        archiveNotificationTopic.addToResourcePolicy(iamSec.IamPermissions.snsDenyInsecureTransport(archiveNotificationTopic));
+
         //---------------------------------------------------------------------
         // Monitoring
         const monitoring = new Monitoring(this, `monitoring`, {
             statusTable: dynamoDataCatalog.statusTable,
-            metricTable: dynamoDataCatalog.metricTable
+            metricTable: dynamoDataCatalog.metricTable,
+            archiveNotificationTopic
         })
 
         //---------------------------------------------------------------------
@@ -173,7 +190,8 @@ export class AmazonS3GlacierRefreezerStack extends cdk.Stack {
         const stageThree = new StageThree(this, 'stageThree', {
             stagingBucket: stagingBucket.Bucket,
             sourceVault: sourceVault.valueAsString,
-            statusTable: dynamoDataCatalog.statusTable
+            statusTable: dynamoDataCatalog.statusTable,
+            archiveNotificationTopic
         });
 
         //---------------------------------------------------------------------
@@ -182,10 +200,10 @@ export class AmazonS3GlacierRefreezerStack extends cdk.Stack {
             stagingBucket: stagingBucket.Bucket,
             glacierSourceVault: sourceVault.valueAsString,
             glacierRetrievalTier: glacierRetrievalTier.valueAsString,
-            archiveNotificationTopic: stageThree.archiveNotificationTopic,
             glueDataCatalog: glueDataCatalog,
             dynamoDataCatalog: dynamoDataCatalog,
-            sendAnonymousStats: statistics.sendAnonymousStats
+            sendAnonymousStats: statistics.sendAnonymousStats,
+            archiveNotificationTopic
         });
         stageTwo.node.addDependency(monitoring);
 

@@ -47,10 +47,10 @@ export class StageOne extends cdk.Construct {
 
         // -------------------------------------------------------------------------------------------
         // Inventory SNS Topic
-        const inventoryTopic = new sns.Topic(this, 'vaultInventoryTopic');
+        const inventoryTopic = new sns.Topic(this, 'InventoryNotification');
         // overriding CDK name with CFN ID to enforce a random topic name generation
         // so if the same stack name has been deployed twice, each deployment will have only a single inventory alert
-        (inventoryTopic.node.defaultChild as sns.CfnTopic).overrideLogicalId(`vaultInventoryTopic`);
+        (inventoryTopic.node.defaultChild as sns.CfnTopic).overrideLogicalId(`inventoryNotification`);
         inventoryTopic.addToResourcePolicy(iamSec.IamPermissions.snsDenyInsecureTransport(inventoryTopic));
         inventoryTopic.addToResourcePolicy(iamSec.IamPermissions.snsGlacierPublisher(inventoryTopic));
         CfnNagSuppressor.addSuppression(inventoryTopic, 'W47', 'Non sensitive metadata - encryption is not required and cost inefficient');

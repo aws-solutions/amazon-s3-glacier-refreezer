@@ -38,17 +38,6 @@ export class AnonymousStatistics extends cdk.Construct {
     constructor(scope: cdk.Construct, id: string, props: AnonymousStatisticsProps) {
         super(scope, id);
 
-        const generateUuidLogGroup = new logs.CfnLogGroup(this, `GenerateUuidLogGroup`, {
-            logGroupName:  `/aws/lambda/${cdk.Aws.STACK_NAME}-generateUuid`
-        });
-
-        // The role is declared explicitly to orchestrate the deletion of the log group in order
-        const generateUuidRole = new iam.Role(this,'GenerateUuidRole',{
-            assumedBy: new iam.ServicePrincipal('lambda.amazonaws.com')
-        });
-        generateUuidRole.addToPolicy(iamSec.IamPermissions.lambdaLogGroup(`${cdk.Aws.STACK_NAME}-generateUuid`));
-        generateUuidRole.node.addDependency(generateUuidLogGroup);
-
         const generateUuid = new lambda.Function(this, 'GenerateUuid', {
             functionName: `${cdk.Aws.STACK_NAME}-generateUuid`,
             description: 'This function generates UUID for each deployment',
@@ -56,10 +45,8 @@ export class AnonymousStatistics extends cdk.Construct {
             handler: 'index.handler',
             memorySize: 256,
             timeout: cdk.Duration.seconds(20),
-            role: generateUuidRole,
             code: lambda.Code.fromAsset('lambda/generateUuid')
         });
-        generateUuid.node.addDependency(generateUuidRole);
         CfnNagSuppressor.addW58Suppression(generateUuid);
 
         const genereateUuidTrigger = new cdk.CustomResource(this, 'GenerateUuidTrigger', {
