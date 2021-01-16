@@ -72,8 +72,8 @@ async function getNumberOfMessagesPublishedIn30Days() {
                 Name: 'TopicName',
                 Value: ARCHIVE_NOTIFICATIONS_TOPIC
             }],
-            Statistics: [ cloudwatch.Statistics.SUM ],
-            Unit: cloudwatch.Unit.COUNT
+            Statistics: [ 'Sum' ],
+            Unit: 'Count'
         }).promise();
 
     // No data
