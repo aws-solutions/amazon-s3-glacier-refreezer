@@ -72,10 +72,7 @@ export class StageTwo extends cdk.Construct {
         // -------------------------------------------------------------------------------------------
         // Request Archives
         const requestArchivesRole = new iam.Role(this, 'RequestArchiveRole', {
-            assumedBy: new iam.ServicePrincipal('lambda.amazonaws.com'),
-            managedPolicies: [
-                iam.ManagedPolicy.fromAwsManagedPolicyName('service-role/AWSLambdaBasicExecutionRole'),
-            ],
+            assumedBy: new iam.ServicePrincipal('lambda.amazonaws.com')
         });
 
         // Declaring the policy granting access to the stream explicitly to minimize permissions
@@ -87,7 +84,7 @@ export class StageTwo extends cdk.Construct {
                     `arn:aws:athena:*:${cdk.Aws.ACCOUNT_ID}:workgroup/${props.glueDataCatalog.athenaWorkgroup.name}`,
                     props.glueDataCatalog.partitionedInventoryTable.tableArn
                 ]),
-                iamSec.IamPermissions.lambdaLogGroup(`${cdk.Aws.STACK_NAME}-postMetrics`),
+                iamSec.IamPermissions.lambdaLogGroup(`${cdk.Aws.STACK_NAME}-requestArchives`),
                 iamSec.IamPermissions.glacier(props.glacierSourceVault),
            ]
         });

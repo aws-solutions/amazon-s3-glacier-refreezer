@@ -55,7 +55,7 @@ describe('-- Calculate TreeHash Test --', () => {
                     "aid": { "S": validArchiveId },
                     "cc": 1,
                     "cdt": "2020-08-23T10:18:22+00:00",
-                    "cpdt": "2020-08-23T14:00:24+00:00",
+                    "sgt": "2020-08-23T14:00:24+00:00",
                     "descr": "data01/Objectv40682",
                     "fname": { "S": "data01/Objectv40682" },
                     "ifn": 2683,

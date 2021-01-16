@@ -22,11 +22,8 @@ import * as s3 from '@aws-cdk/aws-s3';
 import * as glue from '@aws-cdk/aws-glue';
 import * as lambda from '@aws-cdk/aws-lambda';
 import * as athena from '@aws-cdk/aws-athena';
-import { readFileSync } from 'fs';
-import * as logs from "@aws-cdk/aws-logs";
-import * as iam from "@aws-cdk/aws-iam";
+import {readFileSync} from 'fs';
 import {CfnNagSuppressor} from "./cfn-nag-suppressor";
-import * as iamSec from './iam-permissions';
 
 export interface GlueDataProps {
     readonly stagingBucket: s3.IBucket;
@@ -42,25 +39,12 @@ export class GlueDataCatalog extends cdk.Construct {
     constructor(scope: cdk.Construct, id: string, props: GlueDataProps) {
         super(scope, id);
 
-        const toLowerLogGroup = new logs.CfnLogGroup(this, `toLowercaseLogGroup`, {
-            logGroupName:  `/aws/lambda/${cdk.Aws.STACK_NAME}-toLowercase`
-        });
-
-        // The role is declared explicitly to orchestrate the deletion of the log group in order
-        const toLowercaseRole = new iam.Role(this,'toLowercaseRole',{
-            assumedBy: new iam.ServicePrincipal('lambda.amazonaws.com')
-        });
-        toLowercaseRole.node.addDependency(toLowerLogGroup);
-        toLowercaseRole.addToPolicy(iamSec.IamPermissions.lambdaLogGroup(`${cdk.Aws.STACK_NAME}-toLowercase`))
-
         const toLowercase = new lambda.Function(this, 'toLowercase', {
             functionName: `${cdk.Aws.STACK_NAME}-toLowercase`,
             runtime: lambda.Runtime.NODEJS_12_X,
             handler: 'index.handler',
-            role: toLowercaseRole,
-            code: lambda.Code.fromInline(readFileSync('lambda/toLowercase/index.js', 'utf-8')) 
+            code: lambda.Code.fromInline(readFileSync('lambda/toLowercase/index.js', 'utf-8'))
         });
-        toLowercase.node.addDependency(toLowercaseRole);
         CfnNagSuppressor.addW58Suppression(toLowercase);
 
         const toLowercaseTrigger = new cdk.CustomResource(this, 'toLowercaseTrigger', {
@@ -71,7 +55,7 @@ export class GlueDataCatalog extends cdk.Construct {
         // database
         this.inventoryDatabase = new glue.Database(this, 'InventoryDatabase', 
         {
-            databaseName: `refreezer-inventory-${toLowercaseTrigger.getAttString('stack_name')}`
+            databaseName: `${toLowercaseTrigger.getAttString('stack_name')}-inventory`
         });
 
         // inventory table

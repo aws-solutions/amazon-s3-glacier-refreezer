@@ -43,26 +43,19 @@ async function handler(event) {
         return;
     }
 
-    const file = await fileExists(DESTINATION_BUCKET, key);
-    if (file) {
-        console.error(`${key} : already exists in the target bucket. Not overwriting: ${file.StorageClass}`);
-        await db.setTimestampNow(aid, "vdt");
-        return;
-    }
-
     let cc = parseInt(resultRecord.Item.cc.N);
 
-    let keyHash = await treehash.getChunkHash(key, partNo, startByte, endByte);
+    let chunkHash = await treehash.getChunkHash(key, partNo, startByte, endByte);
 
-    // Single Part
-    if (cc == 1) {
+    // Single Chunk
+    if (cc === 1) {
         resultRecord.Attributes = resultRecord.Item;
-        await finalise(keyHash, resultRecord);
+        await validateTreehash(chunkHash, resultRecord);
         return;
     }
 
-    // Multi Part
-    let statusRecord = await db.updateChunkStatusGetLatest(aid, partNo, keyHash);
+    // Multi Chunk
+    let statusRecord = await db.updateChunkStatusGetLatest(aid, partNo, chunkHash);
 
     let count = 0;
     for (const entry in statusRecord.Attributes) {
@@ -77,21 +70,25 @@ async function handler(event) {
 
     if (count < cc) return; // not all chunks have yet been completed
 
-    let s3hash = treehash.calculateMultiPartHash(statusRecord);
-    await finalise(s3hash, statusRecord);
-};
+    let multiPartHash = treehash.calculateMultiPartHash(statusRecord);
 
-async function finalise(s3hash, statusRecord) {
+    await validateTreehash(multiPartHash, statusRecord);
+}
+
+async function validateTreehash(s3hash, statusRecord) {
     let key = statusRecord.Attributes.fname.S;
     let glacierHash = statusRecord.Attributes.sha.S;
 
-    if (s3hash != glacierHash) {
+    if (s3hash !== glacierHash) {
         console.error(`ERROR : sha256treehash validation failed : ${key}.\n`);
         console.log(`SHA256TreeHash Glacier : ${glacierHash}.`);
         console.log(`SHA256TreeHash S3      : ${s3hash}.`);
 
         let retryCount = parseInt(statusRecord.Attributes.rc.N);
         if (retryCount < 3) {
+            console.error(
+                `ERROR : sha256treehash validation failed for ${key}. Retry: ${retryCount}.\n`
+            );
             await failArchiveAndRetry(statusRecord, key);
             return;
         } else {
@@ -101,13 +98,21 @@ async function finalise(s3hash, statusRecord) {
             return;
         }
     }
+    await db.setTimestampNow(statusRecord.Attributes.aid.S, "vdt");
+
+    const file = await fileExists(DESTINATION_BUCKET, key);
+    if (file) {
+        console.error(`${key} : already exists in the target bucket. Not overwriting: ${file.StorageClass}`);
+        return;
+    }
+
     await copy.copyKeyToDestinationBucket(key, statusRecord.Attributes.sz.N);
     await closeOffRecord(statusRecord);
 }
 
 async function closeOffRecord(statusRecord) {
     let key = statusRecord.Attributes.fname.S;
-    await db.setTimestampNow(statusRecord.Attributes.aid.S, "vdt");
+    await db.setTimestampNow(statusRecord.Attributes.aid.S, "cpt");
     await s3.deleteObject({
         Bucket: STAGING_BUCKET,
         Key: `${STAGING_BUCKET_PREFIX}/${key}`
@@ -131,9 +136,7 @@ async function fileExists(Bucket, key) {
     return false;
 }
 
-// Retry when hash mismatch is found
 async function failArchiveAndRetry(statusRecord, key) {
-    // Delete file from STAGING bucket
     let params = {
         Bucket: STAGING_BUCKET,
         Key: key,
@@ -150,8 +153,7 @@ async function failArchiveAndRetry(statusRecord, key) {
         console.error(e);
     }
 
-    //Increment Retry Counter (rc) in db and get the new count
-    const updatedItem = await db.setRetryCount(
+    const updatedItem = await db.incrementRetryCount(
         statusRecord.Attributes.aid.S,
         "rc"
     );

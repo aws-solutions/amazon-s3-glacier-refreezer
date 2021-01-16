@@ -219,7 +219,7 @@ export class StageTwoOrchestrator extends cdk.Construct {
 
         // -------------------------------------------------------------------------------------------
         // Stage Two Orchestrator
-        const stageTwoOrchestratorLogGroup = logs.LogGroup.fromLogGroupName(this, 'Orchestrator', `/aws/states/${cdk.Aws.STACK_NAME}-stageTwoOrchestrator`);
+        const stageTwoOrchestratorLogGroup = logs.LogGroup.fromLogGroupName(this, 'Orchestrator', `/aws/vendedlogs/states/${cdk.Aws.STACK_NAME}-stageTwoOrchestrator`);
 
         // Stage Two Orchestrator :: IAM
         const stageTwoOrchestratorRole = new iam.Role(this, 'OrchestratorRole', {

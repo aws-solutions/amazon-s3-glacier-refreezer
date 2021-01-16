@@ -25,6 +25,7 @@ import * as logs from "@aws-cdk/aws-logs";
 import * as targets from "@aws-cdk/aws-events-targets";
 import * as eventsource from '@aws-cdk/aws-lambda-event-sources';
 import * as iam from '@aws-cdk/aws-iam';
+import * as sns from '@aws-cdk/aws-sns';
 import * as iamSec from './iam-permissions';
 import * as path from 'path';
 import * as fs from 'fs';
@@ -33,7 +34,8 @@ import {CfnNagSuppressor} from "./cfn-nag-suppressor";
 
 export interface MonitoringProps {
     readonly statusTable: dynamo.ITable,
-    readonly metricTable: dynamo.ITable
+    readonly metricTable: dynamo.ITable,
+    readonly archiveNotificationTopic: sns.ITopic
 }
 
 export class Monitoring extends cdk.Construct {
@@ -116,6 +118,12 @@ export class Monitoring extends cdk.Construct {
                         }
                     }
                 }),
+                new iam.PolicyStatement({
+                    sid: 'permitMetricStatistics',
+                    effect: iam.Effect.ALLOW,
+                    actions: ['cloudwatch:GetMetricStatistics'],
+                    resources: ['*']
+                }),
                 iamSec.IamPermissions.lambdaLogGroup(`${cdk.Aws.STACK_NAME}-postMetrics`)
             ]
         });
@@ -132,7 +140,8 @@ export class Monitoring extends cdk.Construct {
                 {
                     METRICS_TABLE: props.metricTable.tableName,
                     STATUS_TABLE: props.statusTable.tableName,
-                    STACK_NAME: cdk.Aws.STACK_NAME
+                    STACK_NAME: cdk.Aws.STACK_NAME,
+                    ARCHIVE_NOTIFICATIONS_TOPIC: props.archiveNotificationTopic.topicName
                 }
         });
         postMetrics.node.addDependency(postMetricsRolePolicy);
@@ -145,16 +154,15 @@ export class Monitoring extends cdk.Construct {
         });
         postMetricSchedule.addTarget(new targets.LambdaFunction(postMetrics));
 
-        // props.metricTable.grantReadData(postMetrics);
-
         // -------------------------------------------------------------------------------------------
         // Dashboard
 
-        const totalArchives = Monitoring.createRefreezerMetric('Total Archives');
+        const total = Monitoring.createRefreezerMetric('Total Archives');
         const requested = Monitoring.createRefreezerMetric('Requested from Glacier');
-        const initiated = Monitoring.createRefreezerMetric('Copy Initiated');
-        const completed = Monitoring.createRefreezerMetric('Copy Completed');
+        const restored = Monitoring.createRefreezerMetric('Restored');
+        const staged = Monitoring.createRefreezerMetric('Staged');
         const validated = Monitoring.createRefreezerMetric('Hashes Validated');
+        const copied = Monitoring.createRefreezerMetric('Copied to Destination');
 
         this.dashboardName = `${cdk.Aws.STACK_NAME}-Amazon-S3-Glacier-ReFreezer`;
         const dashboard = new cloudwatch.Dashboard(this, 'glacier-refreezer-dashboard',
@@ -164,54 +172,51 @@ export class Monitoring extends cdk.Construct {
 
         // single value
         const singleValueWidget = new cloudwatch.SingleValueWidget({
-            width: 20,
+            width: 24,
             height: 3,
             title: `Amazon S3 Glacier Re:Freezer Progress Metrics : ${cdk.Aws.STACK_NAME}`,
             metrics: [
-                totalArchives,
+                total,
                 requested,
-                initiated,
-                completed,
-                validated
+                restored,
+                staged,
+                validated,
+                copied
             ]
         });
 
         // progress line
         const graphWidget = new cloudwatch.GraphWidget({
             title: 'Timeline',
-            width: 20,
+            width: 24,
             height: 6,
             view: cloudwatch.GraphWidgetView.TIME_SERIES,
             left: [
-                totalArchives,
+                total,
                 requested,
-                initiated,
-                completed,
-                validated
+                restored,
+                staged,
+                validated,
+                copied
             ]
         });
 
         // Log Groups and Log Widget
-        // Pre-creating all log groups explicitly to remove them on Stack deletion automatically
+        // Pre-creating all log groups explicitly to allow Log Insights search
         // Collecting logGroupNames to include into the dashboard
         const logGroupNames: string[] = [
-            Monitoring.createStackLogGroup(this, '/aws/states', 'stageTwoOrchestrator'),
-            `/aws/lambda/${cdk.Aws.STACK_NAME}-calculateTreehash`
+            Monitoring.createStackLogGroup(this, '/aws/vendedlogs/states', 'stageTwoOrchestrator')
         ];
 
         const directoryPath = path.join(__dirname, '../lambda');
         fs.readdirSync(directoryPath).map(entry => {
             if (fs.lstatSync(directoryPath + '/' + entry).isDirectory()) {
-                if (entry === 'toLowercase') return;  // created in glue-data-catalog.ts
-                if (entry === 'generateUuid') return;  // created in solution-builders-anonymous-statistics.cs
-                if (entry === 'calculateTreehash') return;  // Preserving the log file to assist with possible troubleshooting
-                                                            // in cases when 'stagingdata' folder is not empty yet stack has been deleted.
                 logGroupNames.push(Monitoring.createStackLogGroup(this, '/aws/lambda', entry))
             }
         });
 
         const logWidget = new cloudwatch.LogQueryWidget({
-            width: 20,
+            width: 24,
             height: 6,
             title: 'Errors',
             logGroupNames,
@@ -223,15 +228,15 @@ export class Monitoring extends cdk.Construct {
             ]
         });
 
-        // Oldest SQS Message Widget
+        // Oldest Retrieved but not copied to Staging Bucket Archive
         const sqsOldestMessageWidget = new cloudwatch.GraphWidget({
             title: 'Oldest SQS Message',
-            width: 20,
+            width: 24,
             height: 6,
             view: cloudwatch.GraphWidgetView.TIME_SERIES,
             left: [
-                Monitoring.createSqsMetric(`${cdk.Aws.STACK_NAME}-archiveQueue`),
-                Monitoring.createSqsMetric(`${cdk.Aws.STACK_NAME}-chunkQueue`)
+                Monitoring.createSqsMetric(`${cdk.Aws.STACK_NAME}-archive-notification-queue`),
+                Monitoring.createSqsMetric(`${cdk.Aws.STACK_NAME}-chunk-copy-queue`)
             ]
         });
 
@@ -254,22 +259,24 @@ export class Monitoring extends cdk.Construct {
 
     private static createRefreezerMetric(metricName: string) {
         return new cloudwatch.Metric({
-            unit: cloudwatch.Unit.NONE,
+            unit: cloudwatch.Unit.COUNT,
             metricName,
             namespace: 'AmazonS3GlacierReFreezer',
             dimensions: {
                 'CloudFormation Stack': cdk.Aws.STACK_NAME
             },
             account: cdk.Aws.ACCOUNT_ID,
-            statistic: "max",
-            period: cdk.Duration.minutes(5)
+            statistic: cloudwatch.Statistic.MAXIMUM,
+            period: cdk.Duration.seconds(300)
         });
     }
 
     private static createStackLogGroup(construct: cdk.Construct, prefix: string, name: string) {
-        // Using direct CFN construct to enforce Log Group cleanup on stack deletion
         const logGroupName = `${prefix}/${cdk.Aws.STACK_NAME}-${name}`;
-        new logs.CfnLogGroup(construct, `${name}LogGroup`, {logGroupName});
+        new logs.CfnLogGroup(construct, `${name}LogGroup`, {
+            logGroupName,
+            retentionInDays: 90
+        });
         return logGroupName;
     }
 }

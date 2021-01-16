@@ -18,36 +18,16 @@
 'use strict';
 
 const AWS = require('aws-sdk');
-const dynamodb = new AWS.DynamoDB();
 const cloudwatch = new AWS.CloudWatch();
+const moment = require('moment');
 
 const {
-    METRICS_TABLE,
+    ARCHIVE_NOTIFICATIONS_TOPIC,
     STACK_NAME
 } = process.env;
 
 const CLOUDWATCH_DIMENSIONS_NAME = 'CloudFormation Stack';
 const CLOUDWATCH_NAMESPACE = 'AmazonS3GlacierReFreezer';
-
-async function getCount() {
-    try {
-        const params = {
-            KeyConditionExpression: 'pk = :pk',
-            ExpressionAttributeValues: {
-                ':pk': { S: 'count' }
-            },
-            TableName: METRICS_TABLE
-        };
-        const data = await dynamodb.query(params).promise();
-        if (Array.isArray(data.Items) && data.Items.length) {
-            return data.Items[0];
-        } else {
-            return null
-        }
-    } catch (error) {
-        console.error('getCount.error', error);
-    }
-}
 
 // publish a cloudwatch metric with a name and value
 async function publishMetric(metricName, metricValue) {
@@ -69,14 +49,42 @@ async function publishMetric(metricName, metricValue) {
             ],
             Namespace: CLOUDWATCH_NAMESPACE
         };
-        const response = await cloudwatch.putMetricData(params).promise();
+        await cloudwatch.putMetricData(params).promise();
     } catch (error) {
         console.error('publishMetric.error', error);
         console.error('publishMetric.params', metricName, metricValue);
     }
 }
 
+async function getNumberOfMessagesPublishedIn30Days() {
+
+    const now = new Date();
+    const startDate = moment(new Date()).subtract(30, 'days').toDate();
+
+    let response = await cloudwatch.getMetricStatistics(
+        {
+            StartTime: startDate.toISOString(),
+            EndTime: now.toISOString(),
+            Namespace: 'AWS/SNS',
+            MetricName: 'NumberOfMessagesPublished',
+            Period: 2419200,
+            Dimensions: [{
+                Name: 'TopicName',
+                Value: ARCHIVE_NOTIFICATIONS_TOPIC
+            }],
+            Statistics: [ cloudwatch.Statistics.SUM ],
+            Unit: cloudwatch.Unit.COUNT
+        }).promise();
+
+    // No data
+    if (!response.Datapoints[0]){
+        return 0;
+    }
+
+    return response.Datapoints[0].Sum;
+}
+
 module.exports = { 
-    getCount,
-    publishMetric 
+    publishMetric,
+    getNumberOfMessagesPublishedIn30Days
 };

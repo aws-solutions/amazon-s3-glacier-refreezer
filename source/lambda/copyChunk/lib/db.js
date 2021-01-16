@@ -38,7 +38,7 @@ async function getStatusRecord(archiveId) {
 }
 
 // started   - psdt
-// completed - cpdt
+// completed - sgt
 async function setTimestampNow(archiveId, field) {
     const now = moment().format()
     return await dynamodb.updateItem(

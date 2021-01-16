@@ -17,63 +17,29 @@
 
 'use strict';
 
-const AWS = require('aws-sdk');
-const dynamodb = new AWS.DynamoDB();
-
-const {
-    METRICS_TABLE
-} = process.env;
+const dynamo = require("./lib/dynamo.js");
 
 async function handler(event) {
 
     let requested = 0;
-    let copyStarted = 0;
-    let copyCompleted = 0;
+    let staged = 0;
     let validated = 0;
+    let copied = 0;
 
     for (const record of event.Records) {
         if (record.eventName === "REMOVE") continue;
-        requested += checkField(record, "aid");
-        copyStarted += checkField(record, "psdt");
-        copyCompleted += checkField(record, "cpdt");
-        validated += checkField(record, "vdt");
+        requested += dynamo.checkField(record, "aid");
+        staged += dynamo.checkField(record, "sgt");
+        validated += dynamo.checkField(record, "vdt");
+        copied += dynamo.checkField(record, "cpt");
     }
 
-    if (requested > 0 || copyStarted > 0 || copyCompleted > 0 || validated > 0) {
-        console.log(`r: ${requested} s: ${copyStarted} c: ${copyCompleted} v: ${validated}`);
-        await incrementCount(requested, copyStarted, copyCompleted, validated);
+    if (requested > 0 || staged > 0 || validated > 0 || copied > 0 ) {
+        console.log(`r: ${requested} s: ${staged} v: ${validated} c: ${copied} `);
+        await dynamo.incrementCount(requested, staged, validated, copied);
     }
-}
-
-function checkField(record, field) {
-    if ((!record.dynamodb.OldImage || !record.dynamodb.OldImage[field]) &&
-        record.dynamodb.NewImage[field]) {
-        return 1;
-    }
-    return 0;
-}
-
-async function incrementCount(requested, started, completed, validated) {
-    await dynamodb.updateItem({
-        TableName: METRICS_TABLE,
-        Key: {
-            pk: {
-                S: "count"
-            }
-        },
-        ExpressionAttributeValues: {
-            ":requested": { N: `${requested}` },
-            ":started": { N: `${started}` },
-            ":completed": { N: `${completed}` },
-            ":validated": {
-                N: `${validated}`
-            }
-        },
-        UpdateExpression: "ADD requested :requested, started :started, completed :completed, validated :validated"
-    }).promise();
 }
 
 module.exports = {
-    handler,
-    incrementCount
+    handler
 };

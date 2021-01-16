@@ -34,6 +34,7 @@ export interface StageThreeProps {
     readonly sourceVault: string;
     readonly stagingBucket: s3.IBucket;
     readonly statusTable: dynamo.ITable
+    readonly archiveNotificationTopic: sns.ITopic
 }
 
 export class StageThree extends cdk.Construct {
@@ -58,16 +59,6 @@ export class StageThree extends cdk.Construct {
         this.treehashCalcQueue = treehashCalcQueue;
 
         // -------------------------------------------------------------------------------------------
-        // Archive Notification Topic
-        const archiveNotificationTopic = new sns.Topic(this, 'archiveNotificationTopic', {
-            topicName: `${cdk.Aws.STACK_NAME}-archive-retrieval-notification`,
-        });
-        CfnNagSuppressor.addSuppression(archiveNotificationTopic, 'W47', 'Non sensitive metadata - encryption is not required and cost inefficient');
-        archiveNotificationTopic.addToResourcePolicy(iamSec.IamPermissions.snsGlacierPublisher(archiveNotificationTopic));
-        archiveNotificationTopic.addToResourcePolicy(iamSec.IamPermissions.snsDenyInsecureTransport(archiveNotificationTopic));
-        this.archiveNotificationTopic = archiveNotificationTopic;
-
-        // -------------------------------------------------------------------------------------------
         // Archive Notification Queue
         const archiveNotificationQueue = new sqs.Queue(this, 'archive-notification-queue',
             {
@@ -77,8 +68,7 @@ export class StageThree extends cdk.Construct {
         );
         CfnNagSuppressor.addSuppression(archiveNotificationQueue, 'W48', 'Non sensitive metadata - encryption is not required and cost inefficient');
         archiveNotificationQueue.addToResourcePolicy(iamSec.IamPermissions.sqsDenyInsecureTransport(archiveNotificationQueue));
-        archiveNotificationTopic.addSubscription(new subscriptions.SqsSubscription(archiveNotificationQueue));
-
+        props.archiveNotificationTopic.addSubscription(new subscriptions.SqsSubscription(archiveNotificationQueue));
         this.archiveNotificationQueue = archiveNotificationQueue;
 
         // -------------------------------------------------------------------------------------------

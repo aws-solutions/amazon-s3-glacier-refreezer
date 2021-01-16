@@ -21,29 +21,29 @@ const AWS = require('aws-sdk');
 const dynamodb = new AWS.DynamoDB();
 
 const {
-    METRICS_TABLE
+    METRICS_TABLE,
 } = process.env;
 
-async function incrementCount(requested, started, completed, validated) {
-    await dynamodb.updateItem({
-        TableName: METRICS_TABLE,
-        Key: {
-            pk: {
-                S: "processProgress"
-            }
-        },
-        ExpressionAttributeValues: {
-            ":requested": { N: `${requested}` },
-            ":started": { N: `${started}` },
-            ":completed": { N: `${completed}` },
-            ":validated": {
-                N: `${validated}`
-            }
-        },
-        UpdateExpression: "ADD requested :requested, started :started, completed :completed, validated :validated"
-    }).promise();
+async function getCount() {
+    try {
+        const params = {
+            KeyConditionExpression: 'pk = :pk',
+            ExpressionAttributeValues: {
+                ':pk': { S: 'count' }
+            },
+            TableName: METRICS_TABLE
+        };
+        const data = await dynamodb.query(params).promise();
+        if (Array.isArray(data.Items) && data.Items.length) {
+            return data.Items[0];
+        } else {
+            return null
+        }
+    } catch (error) {
+        console.error('getCount.error', error);
+    }
 }
 
-module.exports = {
-    incrementCount
-}
+module.exports = { 
+    getCount
+};

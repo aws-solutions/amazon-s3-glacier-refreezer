@@ -50,27 +50,27 @@ describe('-- Calculate Metrics Test --', () => {
         //Matchers
         result = {
             Item: {
-                "completed": 0,
-                "pk": "processProgress",
+                "copied": 0,
+                "pk": "count",
                 "requested": 0,
-                "started": 0,
+                "staged": 0,
                 "validated": 0
             }
         }
         updateItemFunc.withArgs(sinon.match.any).returns(
             {
                 promise: () => {
-                    result.Item.completed += increment;
                     result.Item.requested += increment;
-                    result.Item.started += increment;
+                    result.Item.staged += increment;
                     result.Item.validated += increment;
+                    result.Item.copied += increment;
                     return result
                 }
             }
         )
 
         // Overwrite internal references with mock proxies
-        index = proxyquire('../index.js', {
+        index = proxyquire('../lib/dynamo.js', {
             'aws-sdk': AWS
         })
     })
@@ -78,9 +78,9 @@ describe('-- Calculate Metrics Test --', () => {
     //Tests
     it('Should increment records in Dynamo DB', async () => {
         const response = await index.incrementCount(increment, increment, increment, increment);
-        expect(result.Item.completed).to.be.equal(increment);
+        expect(result.Item.copied).to.be.equal(increment);
         expect(result.Item.requested).to.be.equal(increment);
-        expect(result.Item.started).to.be.equal(increment);
+        expect(result.Item.staged).to.be.equal(increment);
         expect(result.Item.validated).to.be.equal(increment);
     })
 });

@@ -44,8 +44,7 @@ describe('-- Copy Archive Test --', () => {
         var originalDateVal = '2020-01-01T01:00:24+00:00';
         var exepectedFName = 'data01/Objectv40682';
         var numberOfChunks = 1234;
-        var partNumber = 50;
-        var partValue = 10000;
+
         //Init
         before(function () {
             updateItemFunc = sinon.stub();
@@ -62,7 +61,7 @@ describe('-- Copy Archive Test --', () => {
                     "aid": { "S": validArchiveId },
                     "cc": { "N": 1 },
                     "cdt": "2020-08-23T10:18:22+00:00",
-                    "cpdt": "2020-08-23T14:00:24+00:00",
+                    "sgt": "2020-08-23T14:00:24+00:00",
                     "descr": "data01/Objectv40682",
                     "fname": { "S": exepectedFName },
                     "ifn": 2683,
@@ -78,7 +77,7 @@ describe('-- Copy Archive Test --', () => {
                     "aid": { "S": validArchiveId },
                     "cc": { "N": 1 },
                     "cdt": "2020-08-23T10:18:22+00:00",
-                    "cpdt": "2020-08-23T14:00:24+00:00",
+                    "sgt": "2020-08-23T14:00:24+00:00",
                     "descr": "data01/Objectv40682",
                     "fname": { "S": exepectedFName },
                     "ifn": 2683,
