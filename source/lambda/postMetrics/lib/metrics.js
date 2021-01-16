@@ -19,7 +19,6 @@
 
 const AWS = require('aws-sdk');
 const cloudwatch = new AWS.CloudWatch();
-const moment = require('moment');
 
 const {
     ARCHIVE_NOTIFICATIONS_TOPIC,

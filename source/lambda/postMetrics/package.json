@@ -8,9 +8,6 @@
   "scripts": {
     "test": "mocha --timeout 10000 'tests/**/*.js'"
   },
-  "dependencies": {
-    "moment": "^2.29.1"
-  },
   "devDependencies": {
     "aws-sdk": "^2.792.0",
     "chai": "^4.2.0",
