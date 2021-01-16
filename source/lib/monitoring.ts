@@ -118,12 +118,6 @@ export class Monitoring extends cdk.Construct {
                         }
                     }
                 }),
-                new iam.PolicyStatement({
-                    sid: 'permitMetricStatistics',
-                    effect: iam.Effect.ALLOW,
-                    actions: ['cloudwatch:GetMetricStatistics'],
-                    resources: ['*']
-                }),
                 iamSec.IamPermissions.lambdaLogGroup(`${cdk.Aws.STACK_NAME}-postMetrics`)
             ]
         });
@@ -159,7 +153,6 @@ export class Monitoring extends cdk.Construct {
 
         const total = Monitoring.createRefreezerMetric('Total Archives');
         const requested = Monitoring.createRefreezerMetric('Requested from Glacier');
-        const restored = Monitoring.createRefreezerMetric('Restored');
         const staged = Monitoring.createRefreezerMetric('Staged');
         const validated = Monitoring.createRefreezerMetric('Hashes Validated');
         const copied = Monitoring.createRefreezerMetric('Copied to Destination');
@@ -178,7 +171,6 @@ export class Monitoring extends cdk.Construct {
             metrics: [
                 total,
                 requested,
-                restored,
                 staged,
                 validated,
                 copied
@@ -194,7 +186,6 @@ export class Monitoring extends cdk.Construct {
             left: [
                 total,
                 requested,
-                restored,
                 staged,
                 validated,
                 copied

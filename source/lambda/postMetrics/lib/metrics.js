@@ -56,35 +56,6 @@ async function publishMetric(metricName, metricValue) {
     }
 }
 
-async function getNumberOfMessagesPublishedIn30Days() {
-
-    const now = new Date();
-    const startDate = moment(new Date()).subtract(30, 'days').toDate();
-
-    let response = await cloudwatch.getMetricStatistics(
-        {
-            StartTime: startDate.toISOString(),
-            EndTime: now.toISOString(),
-            Namespace: 'AWS/SNS',
-            MetricName: 'NumberOfMessagesPublished',
-            Period: 2419200,
-            Dimensions: [{
-                Name: 'TopicName',
-                Value: ARCHIVE_NOTIFICATIONS_TOPIC
-            }],
-            Statistics: [ 'Sum' ],
-            Unit: 'Count'
-        }).promise();
-
-    // No data
-    if (!response.Datapoints[0]){
-        return 0;
-    }
-
-    return response.Datapoints[0].Sum;
-}
-
 module.exports = { 
-    publishMetric,
-    getNumberOfMessagesPublishedIn30Days
+    publishMetric
 };

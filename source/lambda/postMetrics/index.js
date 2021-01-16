@@ -23,7 +23,6 @@ const metrics = require('./lib/metrics.js');
 async function handler() {
 
     const progressCount = await dynamo.getCount();
-    let restored =  await metrics.getNumberOfMessagesPublishedIn30Days();
 
     let total = progressCount && progressCount.total ? progressCount.total.N : null;
     let requested = progressCount && progressCount.requested ? progressCount.requested.N : 0;
@@ -33,7 +32,6 @@ async function handler() {
 
     if (total) {
         requested = requested > total ? total : requested;
-        restored = restored > total ? total : restored;
         staged = staged > total ? total : staged;
         validated = validated > total ? total : validated;
         copied = copied > total ? total : copied;
@@ -41,7 +39,6 @@ async function handler() {
 
     await metrics.publishMetric('Total Archives', total);
     await metrics.publishMetric('Requested from Glacier', requested);
-    await metrics.publishMetric('Restored', restored);
     await metrics.publishMetric('Staged', staged);
     await metrics.publishMetric('Hashes Validated', validated);
     await metrics.publishMetric('Copied to Destination', copied);
