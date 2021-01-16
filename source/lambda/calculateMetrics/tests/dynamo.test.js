@@ -31,7 +31,7 @@ sinon.stub(console, 'error');
 describe('-- Calculate Metrics Test --', () => {
     var AWS;
 
-    var index;
+    var dynamo;
     var result;
     var updateItemFunc;
 
@@ -70,14 +70,14 @@ describe('-- Calculate Metrics Test --', () => {
         )
 
         // Overwrite internal references with mock proxies
-        index = proxyquire('../lib/dynamo.js', {
+        dynamo = proxyquire('../lib/dynamo.js', {
             'aws-sdk': AWS
         })
     })
 
     //Tests
     it('Should increment records in Dynamo DB', async () => {
-        const response = await index.incrementCount(increment, increment, increment, increment);
+        const response = await dynamo.incrementCount(increment, increment, increment, increment);
         expect(result.Item.copied).to.be.equal(increment);
         expect(result.Item.requested).to.be.equal(increment);
         expect(result.Item.staged).to.be.equal(increment);
