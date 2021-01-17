@@ -1,4 +1,7 @@
 # Amazon S3 Glacier Re:Freezer 
+The Amazon S3 Glacier Re:Freezer is a serverless solution that seamlessly copies all 
+Amazon S3 Glacier Vault’s archives to a selected Amazon S3 bucket.
+
 Customers have used Amazon S3 Glacier based Vaults as a cost effective and durable
 target to store their long term archive data. The release of Amazon S3 Glacier Deep
 Archive as the lowest cost Amazon S3 storage class raised interest from the existing
@@ -9,10 +12,7 @@ their Amazon S3 Glacier Vaults to the Amazon S3 Glacier Deep Archive storage cla
 The Amazon S3 Glacier Re:Freezer solution was built to directly address this customer
 requirement.
 
-The Amazon S3 Glacier Re:Freezer is a serverless solution that seamlessly copies all 
-Amazon S3 Glacier Vault’s archives to a selected Amazon S3 bucket.
-
-With also configurable target storage class customers can select Amazon S3 Deep 
+With configurable target storage class customers can select Amazon S3 Deep 
 Archive for more cost efficient storage option or Amazon S3 Standard in the situations where 
 all-at-once backup restore is required.
 
