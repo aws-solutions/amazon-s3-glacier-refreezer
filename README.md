@@ -112,10 +112,8 @@ Please refer to [creating a custom build](#creating-a-custom-build) section belo
 ├── source
 │   ├── bin                  [Entrypoint of the CDK application]
 │   ├── images               [Assets referenced in the README file]
-│   ├── inline               [Javascript code for inline helper Lambda]
 │   ├── lambda               [Lambda processing logic]
 │   ├── lib                  [Constructs for the components of the solution]
-│   ├── template             [Stack definition]
 │   └── test                 [Unit tests]
 ```
 
