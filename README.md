@@ -50,12 +50,14 @@ In Stage Two the solution will then parse and partition the Glacier Vault invent
 **OBS! Retrieval can take up to 8 hours for Standard Tier and 12 hours for Bulk.**
 
 ### Stage Three: Copy Archives
+
 Once a Glacier Vault archive has been retrieved and is available for the download, the solution initiates the archive copy process to the staging S3 bucket's S3-Standard storage class.
 
-If the archive is larger than 4GB, the solution will make multiple asynchrnous lambda calls to copy 4GB chunks as part oif MultiPart upload.
+If the archive is larger than 4GB, the solution calculate the number of the chunks, open a multipart upload request and submit the each chunk request into a separate download-chunk-queue. A separate asynchrnous lambda function will read from the queue, download each chunk separately, and, if the chunk is identified to be the last one through the DynamoDB status table, close off the multi part upload.
 
 ### Stage Four: Validation and Final Move
-On completion of the copy process, the solution calculates a SHA256 Treehash of the copied object, and matches it to the SHA256 Treehash as recorded by Glacier in the Glacier Vault inventory list. Once the SHA256 Treehash has been validated, the object is finally moved from the staging bucket to the destination bucket and destination storage class. The final move consistency relies on the validation check performed by the Amazon S3 Service.
+
+On completion of the copy process, the solution calculates a SHA256 Treehash of the copied object, and matches it to the SHA256 Treehash as recorded by Glacier in the Glacier Vault inventory list. Once the SHA256 Treehash has been validated, the object is finally moved from the staging bucket to the destination bucket and the destination storage class. The final move consistency relies on the validation check performed by the Amazon S3 Service.
 
 During the copy operation process, Amazon DynamoDB is used to keep track of the status of the archive copies, where the copy operation progress is visibile through the provided Amazon CloudWatch dashboard.
 
