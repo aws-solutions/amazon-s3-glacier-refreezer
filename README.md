@@ -53,7 +53,7 @@ In Stage Two the solution will then parse and partition the Glacier Vault invent
 
 Once a Glacier Vault archive has been retrieved and is available for the download, the solution initiates the archive copy process to the staging S3 bucket's S3-Standard storage class.
 
-If the archive is larger than 4GB, the solution calculate the number of the chunks, open a multipart upload request and submit the each chunk request into a separate download-chunk-queue. A separate asynchrnous lambda function will read from the queue, download each chunk separately, and, if the chunk is identified to be the last one through the DynamoDB status table, close off the multi part upload.
+If the archive is larger than 4GB, the solution calculates the number of the 4 GB chunks, opens a multipart upload request and submits each chunk as a separate request into a download-chunk-queue. Another asynchrnous lambda function will read from the queue, download each chunk, and, if the chunk has identified to be the last one through the DynamoDB status table, close off the multi part upload.
 
 ### Stage Four: Validation and Final Move
 
