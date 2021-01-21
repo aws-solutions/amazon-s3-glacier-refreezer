@@ -59,55 +59,61 @@ If the archive is larger than 4GB, the solution calculates the number of the 4 G
 
 On completion of the copy process, the solution calculates a SHA256 Treehash of the copied object, and matches it to the SHA256 Treehash as recorded by Glacier in the Glacier Vault inventory list. Once the SHA256 Treehash has been validated, the object is finally moved from the staging bucket to the destination bucket and the destination storage class. The final move consistency relies on the validation check performed by the Amazon S3 Service.
 
+### State management and Progress Tracking
+
 During the copy operation process, Amazon DynamoDB is used to keep track of the status of the archive copies, where the copy operation progress is visibile through the provided Amazon CloudWatch dashboard.
-
-![Amazon S3 Glacier Re:Freezer Progress Metrics](source/images/dashboard.png)
-
 
 ## Deployment
 
 > **Please ensure you test the solutions prior running it against any production vaults.**
 
-The solution supports two deployment options
+The solution supports two deployment options:
 
 ### Option 1. Solution Builders Template
 
 You can launch this solution with one click from the [solution home page](https://aws.amazon.com/solutions/implementations/amazon-s3-glacier-refreezer).
 
-The solution requires the following parameters to be specified:
+### Option 2. Custom Build
 
-Parameters to be configured on deployment:
+Please refer to [creating a custom build](#creating-a-custom-build) section below.
+
+### Deployment Configuration 
+
+The solution requires the following input parameters to be provided at CloudFromation stack deployment:
+
 - Source Amazon S3 Glacier Vault
 - Amazon S3 Glacier Retrieval Tier
 - Target Amazon S3 Destination Bucket (should be pre-created before deployment)
 - Target Amazon S3 Storage Class
 
-Cost acknowledgement:
-- Vault defauilt SNS Topic confirmation 
-   To confirm that there is no default notification topic configured. Or if there is one, it is OK to proceed as every archive retrieval API call will result in a notification.
+Cost acknowledgements:
+- Vault default SNS Topic confirmation <br>
+  To confirm that there is no default notification topic configured. Or if there is one, it is OK to proceed with every archive retrieval API call resulting in an SNS notification.
 
-- CloudTrail configuration confirmation
-  Validation that there is only a single cloud trail export configured against the account where Glacier Vault resides. Glacier API calls are classified as management API calls and incur CloudTrail charges for each additional CloudTrail export configured in addition to the first one which is free.
+- CloudTrail configuration confirmation <br>
+  To confirm that there is only a single cloud trail export configured against the AWS account containing the source Glacier Vault. Glacier API calls are classified as management API calls and incur CloudTrail charges for each additional CloudTrail export configured in addition to the first one (which is free).
 
 [Optional]:
 - ArchiveDescription override filename location in the format: mybucket/myfile.csv
   The location of the file that provides ArchiveDescription override for the Vault archives. 
 
+### Progress Tracking
+
 Once deployed, the CloudFromation Output tab will have the link to Amazon CloudWatch progress dashboard - <STACK_NAME>-Amazon-S3-Glacier-ReFreezer.
+
+![Amazon S3 Glacier Re:Freezer Progress Metrics](source/images/dashboard.png)
 
 ### Anonymous Statistics Collection
 
-The solution will collect anonymously the following data points: 
+The deployment will collect and send anonymously to the AWS Solution Builders team the following data points: 
+
 - Region 
 - Target Storage Class
 - Vault Archive Count
-- Vault Size.**
-
-### Option 2. Custom CDK Deploy
-
-Please refer to [creating a custom build](#creating-a-custom-build) section below.
+- Vault Size
 
 ## Project structure
+
 ```
 ├── deployment
 │   └── cdk-solution-helper  [Lightweight helper that cleans-up synthesized templates from the CDK and removes Standard and Expedited options]
@@ -164,17 +170,30 @@ Bootstrap CDK, if required
 cdk bootstrap
 ```
 
-Deploy the solution:
+Deploy the solution.
+
+Set environment variable GRF_STACK_NAME with the name of cloudformation stack. Replace my-stack-1 with a name of your choice.
 
 ```
-export GRF_STACK_NAME=my-stack-1
-cdk deploy  --parameters SourceVault=my-source-vault  \
-            --parameters DestinationBucket=my-destination-bucket \
+export GRF_STACK_NAME=<<my-stack-1>>
+```
+
+Replace the parameter placeholders designated as <<>>. Provide name of the source glacier vault, name of the destination S3 bucket, the destination storage class (e.g. DEEP_ARCHIVE, STANDARD, etc.) and the optional parameter - Amazon S3 location where you have stored the mapping file.
+
+```
+cdk deploy  --parameters SourceVault=<<my-source-vault>>  \
+            --parameters DestinationBucket=<<my-destination-bucket>> \
             --parameters DestinationStorageClass=DEEP_ARCHIVE \
             --parameters GlacierRetrievalTier=Bulk \
             --parameters CloudTrailExportConfirmation=Yes \
             --parameters SNSTopicForVaultConfirmation=Yes \
-            --parameters FilelistS3Location=my-filelist-override-bucket/my-override-filename.csv
+            --parameters FilelistS3Location=<<my-filelist-override-bucket/my-override-filename.csv>>
+```
+
+Leave FilelistS3Location (optional parameter) empty if you are not providing a mapping file. 
+
+```
+            --parameters FilelistS3Location=
 ```
 
 ### 5. Prepare Cloudformation Template
@@ -192,28 +211,30 @@ To prepare the template:
 cd ./deployment
 chmod +x ./*.sh
 
-BUCKET_BASE=my-glacier-refreezer   # S3 bucket name base where the template will be uploaded
-SOLUTION_NAME=my-solution-name     # customized solution name
-VERSION=my-version                 # version number for the customized code
+BUCKET_BASE=my-glacier-refreezer   # S3 bucket name BASE 
+                                   # i.e. without the region designator 
+SOLUTION_NAME=my-solution-name     # custom solution name
+VERSION=my-version                 # custom version number
 
 ./build-s3-dist.sh $BUCKET_BASE $SOLUTION_NAME $VERSION
 ```
 
 ### 6. Upload deployment assets to your Amazon S3 buckets
+
 Create the CloudFormation bucket as defined above in the region you wish to deploy. 
+
 The CloudFormation templates are configured to pull the Lambda deployment packages from Amazon S3 bucket in the region the template is being launched in.
 
 ```
 aws s3 mb s3://$BUCKET_BASE-ap-southeast-2 --region ap-southeast-2
 ```
 
-
 To upload the template to the regional bucket:
 
 ```
 BUCKET_NAME=my-glacier-refreezer-ap-southeast-2    # full regional bucket name
-SOLUTION_NAME=my-solution-name                     # customized solution name
-VERSION=my-version                                 # version number for the customized code
+SOLUTION_NAME=my-solution-name                     # custom solution name
+VERSION=my-version                                 # custom version number
 
 aws s3 cp ./global-s3-assets/   s3://${BUCKET}/${SOLUTION}/${VERSION} --recursive --acl public-read --acl bucket-owner-full-control
 aws s3 cp ./regional-s3-assets/ s3://${BUCKET}/${SOLUTION}/${VERSION} --recursive --acl public-read --acl bucket-owner-full-control 
@@ -222,6 +243,7 @@ echo "https://${BUCKET_NAME}.s3.amazonaws.com/${SOLUTION_NAME}/${VERSION}/${SOLU
 ```
 
 ### 7. Launch the CloudFormation template
+
 * Get the link of the template uploaded to your Amazon S3 bucket (created as $BUCKET_NAME in the previous step)
 * Deploy the solution to your account by launching a new AWS CloudFormation stack
 

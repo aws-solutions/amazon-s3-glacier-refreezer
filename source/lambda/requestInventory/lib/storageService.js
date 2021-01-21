@@ -22,8 +22,7 @@ const s3 = new AWS.S3();
 
 const {
     STAGING_BUCKET,
-    STAGING_LIST_PREFIX,
-    LOG_BUCKET
+    STAGING_LIST_PREFIX
 } = process.env;
 
 const CHUNK_SIZE = 2 * 1024 * 1024 * 1024

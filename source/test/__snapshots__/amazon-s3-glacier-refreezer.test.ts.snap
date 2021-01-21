@@ -80,12 +80,6 @@ Object {
         "Ref": "SNSTopicForVaultConfirmation",
       },
     },
-    "StagingAccessLogBucketName": Object {
-      "Description": "Staging Access Logs Bucket Name",
-      "Value": Object {
-        "Ref": "AccessLogs",
-      },
-    },
     "StagingBucketName": Object {
       "Description": "Staging Bucket Name",
       "Value": Object {
@@ -144,18 +138,6 @@ Object {
       "Description": "S3 key for asset version \\"34132d8973b239bae52839a3e0de484c1a2009749a6de081e0dbc35986309d38\\"",
       "Type": "String",
     },
-    "AssetParameters37166b550e37e3e319474c320f574a0a8dd7716352b537d0b1380943cfd12692ArtifactHash5E00F33E": Object {
-      "Description": "Artifact hash for asset \\"37166b550e37e3e319474c320f574a0a8dd7716352b537d0b1380943cfd12692\\"",
-      "Type": "String",
-    },
-    "AssetParameters37166b550e37e3e319474c320f574a0a8dd7716352b537d0b1380943cfd12692S3BucketB349740A": Object {
-      "Description": "S3 bucket for asset \\"37166b550e37e3e319474c320f574a0a8dd7716352b537d0b1380943cfd12692\\"",
-      "Type": "String",
-    },
-    "AssetParameters37166b550e37e3e319474c320f574a0a8dd7716352b537d0b1380943cfd12692S3VersionKey04D7F443": Object {
-      "Description": "S3 key for asset version \\"37166b550e37e3e319474c320f574a0a8dd7716352b537d0b1380943cfd12692\\"",
-      "Type": "String",
-    },
     "AssetParameters4992e7a127be7e52d20430a45e3d8b21285eeed4f46c2b372446c4746686136cArtifactHashE6E78177": Object {
       "Description": "Artifact hash for asset \\"4992e7a127be7e52d20430a45e3d8b21285eeed4f46c2b372446c4746686136c\\"",
       "Type": "String",
@@ -202,6 +184,18 @@ Object {
     },
     "AssetParameters9c418765360203db23688f787750133b3d8ee07175b1c1823d5c4a5a12eaf015S3VersionKey24F7715E": Object {
       "Description": "S3 key for asset version \\"9c418765360203db23688f787750133b3d8ee07175b1c1823d5c4a5a12eaf015\\"",
+      "Type": "String",
+    },
+    "AssetParameters9f6b7ffc85c095e494bc8b4b5ae93246e8cdc433691acd63810212edcc117648ArtifactHashCE12328D": Object {
+      "Description": "Artifact hash for asset \\"9f6b7ffc85c095e494bc8b4b5ae93246e8cdc433691acd63810212edcc117648\\"",
+      "Type": "String",
+    },
+    "AssetParameters9f6b7ffc85c095e494bc8b4b5ae93246e8cdc433691acd63810212edcc117648S3BucketC4BBE848": Object {
+      "Description": "S3 bucket for asset \\"9f6b7ffc85c095e494bc8b4b5ae93246e8cdc433691acd63810212edcc117648\\"",
+      "Type": "String",
+    },
+    "AssetParameters9f6b7ffc85c095e494bc8b4b5ae93246e8cdc433691acd63810212edcc117648S3VersionKeyFF732AF1": Object {
+      "Description": "S3 key for asset version \\"9f6b7ffc85c095e494bc8b4b5ae93246e8cdc433691acd63810212edcc117648\\"",
       "Type": "String",
     },
     "AssetParametersb4683815cb570fade1cad19e231cd6bbb9196627cb9c181ab9e7ffabc5d71449ArtifactHashB193DB99": Object {
@@ -313,49 +307,6 @@ Object {
     },
   },
   "Resources": Object {
-    "AccessLogs": Object {
-      "DeletionPolicy": "Delete",
-      "Metadata": Object {
-        "cfn_nag": Object {
-          "rules_to_suppress": Array [
-            Object {
-              "id": "W51",
-              "reason": "This bucket does not need a bucket policy",
-            },
-            Object {
-              "id": "W35",
-              "reason": "This bucket is used to store access logs for another bucket",
-            },
-          ],
-        },
-      },
-      "Properties": Object {
-        "AccessControl": "LogDeliveryWrite",
-        "BucketEncryption": Object {
-          "ServerSideEncryptionConfiguration": Array [
-            Object {
-              "ServerSideEncryptionByDefault": Object {
-                "SSEAlgorithm": "AES256",
-              },
-            },
-          ],
-        },
-        "PublicAccessBlockConfiguration": Object {
-          "BlockPublicAcls": true,
-          "BlockPublicPolicy": true,
-          "IgnorePublicAcls": true,
-          "RestrictPublicBuckets": true,
-        },
-        "Tags": Array [
-          Object {
-            "Key": "solution",
-            "Value": "amazon-s3-glacier-refreezer",
-          },
-        ],
-      },
-      "Type": "AWS::S3::Bucket",
-      "UpdateReplacePolicy": "Delete",
-    },
     "ArchiveNotificationsPolicyB2E509DE": Object {
       "Properties": Object {
         "PolicyDocument": Object {
@@ -3489,7 +3440,7 @@ exports.handler = function(event, context) {
       "Properties": Object {
         "Code": Object {
           "S3Bucket": Object {
-            "Ref": "AssetParameters37166b550e37e3e319474c320f574a0a8dd7716352b537d0b1380943cfd12692S3BucketB349740A",
+            "Ref": "AssetParameters9f6b7ffc85c095e494bc8b4b5ae93246e8cdc433691acd63810212edcc117648S3BucketC4BBE848",
           },
           "S3Key": Object {
             "Fn::Join": Array [
@@ -3502,7 +3453,7 @@ exports.handler = function(event, context) {
                       "Fn::Split": Array [
                         "||",
                         Object {
-                          "Ref": "AssetParameters37166b550e37e3e319474c320f574a0a8dd7716352b537d0b1380943cfd12692S3VersionKey04D7F443",
+                          "Ref": "AssetParameters9f6b7ffc85c095e494bc8b4b5ae93246e8cdc433691acd63810212edcc117648S3VersionKeyFF732AF1",
                         },
                       ],
                     },
@@ -3515,7 +3466,7 @@ exports.handler = function(event, context) {
                       "Fn::Split": Array [
                         "||",
                         Object {
-                          "Ref": "AssetParameters37166b550e37e3e319474c320f574a0a8dd7716352b537d0b1380943cfd12692S3VersionKey04D7F443",
+                          "Ref": "AssetParameters9f6b7ffc85c095e494bc8b4b5ae93246e8cdc433691acd63810212edcc117648S3VersionKeyFF732AF1",
                         },
                       ],
                     },
@@ -3535,9 +3486,6 @@ exports.handler = function(event, context) {
             },
             "FILELIST_LOCATION": Object {
               "Ref": "FilelistS3Location",
-            },
-            "LOG_BUCKET": Object {
-              "Ref": "AccessLogs",
             },
             "SNS_TOPIC_ARN": Object {
               "Ref": "inventoryNotification",
@@ -3703,39 +3651,6 @@ exports.handler = function(event, context) {
                       Object {
                         "Fn::GetAtt": Array [
                           "stagingBucket",
-                          "Arn",
-                        ],
-                      },
-                      "/*",
-                    ],
-                  ],
-                },
-              ],
-            },
-            Object {
-              "Action": Array [
-                "s3:GetObject*",
-                "s3:GetBucket*",
-                "s3:List*",
-                "s3:DeleteObject*",
-                "s3:PutObject*",
-                "s3:Abort*",
-              ],
-              "Effect": "Allow",
-              "Resource": Array [
-                Object {
-                  "Fn::GetAtt": Array [
-                    "AccessLogs",
-                    "Arn",
-                  ],
-                },
-                Object {
-                  "Fn::Join": Array [
-                    "",
-                    Array [
-                      Object {
-                        "Fn::GetAtt": Array [
-                          "AccessLogs",
                           "Arn",
                         ],
                       },
@@ -6673,6 +6588,10 @@ exports.handler = function(event, context) {
               "id": "W51",
               "reason": "This bucket does not need a bucket policy",
             },
+            Object {
+              "id": "W35",
+              "reason": "Temporary storage - access logs are not required. EngSec exemption received.",
+            },
           ],
         },
       },
@@ -6685,11 +6604,6 @@ exports.handler = function(event, context) {
               },
             },
           ],
-        },
-        "LoggingConfiguration": Object {
-          "DestinationBucketName": Object {
-            "Ref": "AccessLogs",
-          },
         },
         "PublicAccessBlockConfiguration": Object {
           "BlockPublicAcls": true,

@@ -32,16 +32,7 @@ export class StagingBucket extends cdk.Construct {
             blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
             encryption: s3.BucketEncryption.S3_MANAGED,
             removalPolicy: cdk.RemovalPolicy.DESTROY
-        }
-
-        const accessLogsBucket = new s3.Bucket(this, 'AccessLogsBucket',{
-            blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
-            encryption: s3.BucketEncryption.S3_MANAGED,
-            removalPolicy: cdk.RemovalPolicy.DESTROY
-        });
-        (accessLogsBucket.node.defaultChild as s3.CfnBucket).overrideLogicalId('AccessLogs');
-        this.addCfnNagSuppressions(accessLogsBucket, true);
-        this.LogBucket = accessLogsBucket;
+        };
 
         const rules: s3.LifecycleRule[] = [{
             id: 'multipart-upload-rule',
@@ -51,7 +42,6 @@ export class StagingBucket extends cdk.Construct {
 
         this.Bucket = new s3.Bucket(this, 'StagingBucket', {
             ...securitySettings,
-            serverAccessLogsBucket: accessLogsBucket
         });
         (this.Bucket.node.defaultChild as s3.CfnBucket).overrideLogicalId('stagingBucket');
         this.addCfnNagSuppressions(this.Bucket);
@@ -76,19 +66,17 @@ export class StagingBucket extends cdk.Construct {
         this.addCfnNagSuppressions(this.Bucket);
     }
 
-
-    private addCfnNagSuppressions(bucket: s3.IBucket, includeW35?: boolean) {
-        const rules = [{
-            id: 'W51',
-            reason: 'This bucket does not need a bucket policy'
-        }];
-
-        if (includeW35) {
-            rules.push({
+    private addCfnNagSuppressions(bucket: s3.IBucket) {
+        const rules = [
+            {
+                id: 'W51',
+                reason: 'This bucket does not need a bucket policy'
+            },
+            {
                 id: 'W35',
-                reason: 'This bucket is used to store access logs for another bucket'
-            });
-        }
+                reason: 'Temporary storage - access logs are not required. EngSec exemption received.'
+            }
+        ];
 
         const cfnBucket = bucket.node.defaultChild as s3.CfnBucket;
         cfnBucket.cfnOptions.metadata = {

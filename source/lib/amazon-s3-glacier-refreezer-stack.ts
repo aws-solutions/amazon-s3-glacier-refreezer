@@ -211,7 +211,6 @@ export class AmazonS3GlacierRefreezerStack extends cdk.Stack {
         // Stage One: Get Inventory
         const stageOne = new StageOne(this, 'stageOne', {
             stagingBucket: stagingBucket.Bucket,
-            logBucket: stagingBucket.LogBucket,
             sourceGlacierVault: sourceVault.valueAsString,
             destinationBucket: destinationBucket.valueAsString,
             destinationStorageClass: destinationStorageClass.valueAsString,
@@ -253,11 +252,6 @@ export class AmazonS3GlacierRefreezerStack extends cdk.Stack {
         new cdk.CfnOutput(this, 'StagingBucketName', {
             description: 'Staging Bucket Name',
             value: stagingBucket.Bucket.bucketName
-        });
-
-        new cdk.CfnOutput(this, 'StagingAccessLogBucketName', {
-            description: 'Staging Access Logs Bucket Name',
-            value: stagingBucket.LogBucket.bucketName
         });
 
         new cdk.CfnOutput(this, 'dashboardUrl', {
