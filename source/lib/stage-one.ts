@@ -29,7 +29,6 @@ import * as path from 'path';
 
 export interface StageOneProps {
     readonly stagingBucket: s3.IBucket;
-    readonly logBucket: s3.IBucket;
     readonly sourceGlacierVault: string,
     readonly destinationBucket: string,
     readonly destinationStorageClass: string,
@@ -68,7 +67,6 @@ export class StageOne extends cdk.Construct {
                 {
                     SOURCE_VAULT: props.sourceGlacierVault,
                     STAGING_BUCKET: props.stagingBucket.bucketName,
-                    LOG_BUCKET: props.logBucket.bucketName,
                     STAGING_LIST_PREFIX: 'filelist',
                     FILELIST_LOCATION: props.filelistS3location,
                     DESTINATION_BUCKET: props.destinationBucket,
@@ -79,7 +77,6 @@ export class StageOne extends cdk.Construct {
         });
 
         props.stagingBucket.grantReadWrite(requestInventory);
-        props.logBucket.grantReadWrite(requestInventory);
         s3.Bucket.fromBucketName(this, 'destinationBucket', props.destinationBucket).grantReadWrite(requestInventory);
         requestInventory.addToRolePolicy(iamSec.IamPermissions.s3ReadOnly([`arn:aws:s3:::${props.filelistS3location}`]));
         requestInventory.addToRolePolicy(iamSec.IamPermissions.glacier(props.sourceGlacierVault));
