@@ -1878,6 +1878,16 @@ exports.handler = function(event, context) {
       "Type": "AWS::IAM::Policy",
     },
     "monitoringcalculateMetricsLogGroup9961A214": Object {
+      "Metadata": Object {
+        "cfn_nag": Object {
+          "rules_to_suppress": Array [
+            Object {
+              "id": "W84",
+              "reason": "The solution is a temporary, one off deployment. No sensitive or PII data logged.",
+            },
+          ],
+        },
+      },
       "Properties": Object {
         "LogGroupName": Object {
           "Fn::Join": Array [
@@ -1896,6 +1906,16 @@ exports.handler = function(event, context) {
       "Type": "AWS::Logs::LogGroup",
     },
     "monitoringcalculateTreehashLogGroup6FC738B3": Object {
+      "Metadata": Object {
+        "cfn_nag": Object {
+          "rules_to_suppress": Array [
+            Object {
+              "id": "W84",
+              "reason": "The solution is a temporary, one off deployment. No sensitive or PII data logged.",
+            },
+          ],
+        },
+      },
       "Properties": Object {
         "LogGroupName": Object {
           "Fn::Join": Array [
@@ -1914,6 +1934,16 @@ exports.handler = function(event, context) {
       "Type": "AWS::Logs::LogGroup",
     },
     "monitoringcopyArchiveLogGroupBB702B1B": Object {
+      "Metadata": Object {
+        "cfn_nag": Object {
+          "rules_to_suppress": Array [
+            Object {
+              "id": "W84",
+              "reason": "The solution is a temporary, one off deployment. No sensitive or PII data logged.",
+            },
+          ],
+        },
+      },
       "Properties": Object {
         "LogGroupName": Object {
           "Fn::Join": Array [
@@ -1932,6 +1962,16 @@ exports.handler = function(event, context) {
       "Type": "AWS::Logs::LogGroup",
     },
     "monitoringcopyChunkLogGroup5D04918E": Object {
+      "Metadata": Object {
+        "cfn_nag": Object {
+          "rules_to_suppress": Array [
+            Object {
+              "id": "W84",
+              "reason": "The solution is a temporary, one off deployment. No sensitive or PII data logged.",
+            },
+          ],
+        },
+      },
       "Properties": Object {
         "LogGroupName": Object {
           "Fn::Join": Array [
@@ -1950,6 +1990,16 @@ exports.handler = function(event, context) {
       "Type": "AWS::Logs::LogGroup",
     },
     "monitoringdeployGlueJobScriptLogGroupAA50E4DE": Object {
+      "Metadata": Object {
+        "cfn_nag": Object {
+          "rules_to_suppress": Array [
+            Object {
+              "id": "W84",
+              "reason": "The solution is a temporary, one off deployment. No sensitive or PII data logged.",
+            },
+          ],
+        },
+      },
       "Properties": Object {
         "LogGroupName": Object {
           "Fn::Join": Array [
@@ -1968,6 +2018,16 @@ exports.handler = function(event, context) {
       "Type": "AWS::Logs::LogGroup",
     },
     "monitoringdownloadInventoryLogGroup2471C2FF": Object {
+      "Metadata": Object {
+        "cfn_nag": Object {
+          "rules_to_suppress": Array [
+            Object {
+              "id": "W84",
+              "reason": "The solution is a temporary, one off deployment. No sensitive or PII data logged.",
+            },
+          ],
+        },
+      },
       "Properties": Object {
         "LogGroupName": Object {
           "Fn::Join": Array [
@@ -1986,6 +2046,16 @@ exports.handler = function(event, context) {
       "Type": "AWS::Logs::LogGroup",
     },
     "monitoringdownloadInventoryPartLogGroupD9E69690": Object {
+      "Metadata": Object {
+        "cfn_nag": Object {
+          "rules_to_suppress": Array [
+            Object {
+              "id": "W84",
+              "reason": "The solution is a temporary, one off deployment. No sensitive or PII data logged.",
+            },
+          ],
+        },
+      },
       "Properties": Object {
         "LogGroupName": Object {
           "Fn::Join": Array [
@@ -2004,6 +2074,16 @@ exports.handler = function(event, context) {
       "Type": "AWS::Logs::LogGroup",
     },
     "monitoringgenerateUuidLogGroup18A074CF": Object {
+      "Metadata": Object {
+        "cfn_nag": Object {
+          "rules_to_suppress": Array [
+            Object {
+              "id": "W84",
+              "reason": "The solution is a temporary, one off deployment. No sensitive or PII data logged.",
+            },
+          ],
+        },
+      },
       "Properties": Object {
         "LogGroupName": Object {
           "Fn::Join": Array [
@@ -2210,6 +2290,16 @@ exports.handler = function(event, context) {
       "Type": "AWS::CloudWatch::Dashboard",
     },
     "monitoringpostMetricsLogGroup670566A8": Object {
+      "Metadata": Object {
+        "cfn_nag": Object {
+          "rules_to_suppress": Array [
+            Object {
+              "id": "W84",
+              "reason": "The solution is a temporary, one off deployment. No sensitive or PII data logged.",
+            },
+          ],
+        },
+      },
       "Properties": Object {
         "LogGroupName": Object {
           "Fn::Join": Array [
@@ -2228,6 +2318,16 @@ exports.handler = function(event, context) {
       "Type": "AWS::Logs::LogGroup",
     },
     "monitoringrequestArchivesLogGroup70D7C9C5": Object {
+      "Metadata": Object {
+        "cfn_nag": Object {
+          "rules_to_suppress": Array [
+            Object {
+              "id": "W84",
+              "reason": "The solution is a temporary, one off deployment. No sensitive or PII data logged.",
+            },
+          ],
+        },
+      },
       "Properties": Object {
         "LogGroupName": Object {
           "Fn::Join": Array [
@@ -2246,6 +2346,16 @@ exports.handler = function(event, context) {
       "Type": "AWS::Logs::LogGroup",
     },
     "monitoringrequestInventoryLogGroupB7C9607D": Object {
+      "Metadata": Object {
+        "cfn_nag": Object {
+          "rules_to_suppress": Array [
+            Object {
+              "id": "W84",
+              "reason": "The solution is a temporary, one off deployment. No sensitive or PII data logged.",
+            },
+          ],
+        },
+      },
       "Properties": Object {
         "LogGroupName": Object {
           "Fn::Join": Array [
@@ -2264,6 +2374,16 @@ exports.handler = function(event, context) {
       "Type": "AWS::Logs::LogGroup",
     },
     "monitoringsendAnonymousStatsLogGroup0C9968BB": Object {
+      "Metadata": Object {
+        "cfn_nag": Object {
+          "rules_to_suppress": Array [
+            Object {
+              "id": "W84",
+              "reason": "The solution is a temporary, one off deployment. No sensitive or PII data logged.",
+            },
+          ],
+        },
+      },
       "Properties": Object {
         "LogGroupName": Object {
           "Fn::Join": Array [
@@ -2282,6 +2402,16 @@ exports.handler = function(event, context) {
       "Type": "AWS::Logs::LogGroup",
     },
     "monitoringstageTwoOrchestratorLogGroup62996996": Object {
+      "Metadata": Object {
+        "cfn_nag": Object {
+          "rules_to_suppress": Array [
+            Object {
+              "id": "W84",
+              "reason": "The solution is a temporary, one off deployment. No sensitive or PII data logged.",
+            },
+          ],
+        },
+      },
       "Properties": Object {
         "LogGroupName": Object {
           "Fn::Join": Array [
@@ -2300,6 +2430,16 @@ exports.handler = function(event, context) {
       "Type": "AWS::Logs::LogGroup",
     },
     "monitoringtoLowercaseLogGroupC05CBA29": Object {
+      "Metadata": Object {
+        "cfn_nag": Object {
+          "rules_to_suppress": Array [
+            Object {
+              "id": "W84",
+              "reason": "The solution is a temporary, one off deployment. No sensitive or PII data logged.",
+            },
+          ],
+        },
+      },
       "Properties": Object {
         "LogGroupName": Object {
           "Fn::Join": Array [

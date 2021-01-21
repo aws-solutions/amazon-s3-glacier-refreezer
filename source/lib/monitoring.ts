@@ -274,7 +274,7 @@ export class Monitoring extends cdk.Construct {
                 rules_to_suppress:
                     [{
                         id: 'W84',
-                        reason: 'Solution is a temporary, one off deployment. No sensitive or PII data'
+                        reason: 'The solution is a temporary, one off deployment. No sensitive or PII data logged.'
                     }]
             }
         };
