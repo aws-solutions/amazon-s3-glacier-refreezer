@@ -1,6 +1,6 @@
 {
   "name": "amazon-s3-glacier-refreezer",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "bin": {
     "amazon-s3-glacier-refreezer": "bin/amazon-s3-glacier-refreezer.js"
   },
