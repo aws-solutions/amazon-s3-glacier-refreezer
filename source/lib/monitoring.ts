@@ -264,10 +264,21 @@ export class Monitoring extends cdk.Construct {
 
     private static createStackLogGroup(construct: cdk.Construct, prefix: string, name: string) {
         const logGroupName = `${prefix}/${cdk.Aws.STACK_NAME}-${name}`;
-        new logs.CfnLogGroup(construct, `${name}LogGroup`, {
+        const logGroup = new logs.CfnLogGroup(construct, `${name}LogGroup`, {
             logGroupName,
             retentionInDays: 90
         });
+
+        logGroup.cfnOptions.metadata = {
+            cfn_nag: {
+                rules_to_suppress:
+                    [{
+                        id: 'W84',
+                        reason: 'Solution is a temporary, one off deployment. No sensitive or PII data'
+                    }]
+            }
+        };
+
         return logGroupName;
     }
 }
