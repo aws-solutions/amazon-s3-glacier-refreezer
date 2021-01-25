@@ -32,10 +32,9 @@ fi
 # Get reference for all important folders
 source_template_dir="$PWD"
 dist_dir="$source_template_dir/open-source"
-dist_template_dir="$dist_dir/deployment"
+dist_template_dir="$dist_dir/deployment/"
 source_dir="$source_template_dir/../source"
 github_dir="$source_template_dir/../.github"
-repositories_dir="$source_template_dir/../repositories"
 
 echo "------------------------------------------------------------------------------"
 echo "[Init] Remove any old dist files from previous runs"
@@ -45,6 +44,8 @@ echo "rm -rf $dist_dir"
 rm -rf $dist_dir
 echo "mkdir -p $dist_dir"
 mkdir -p $dist_dir
+echo "mkdir -p $dist_template_dir"
+mkdir -p $dist_template_dir
 
 echo "------------------------------------------------------------------------------"
 echo "[Packing] GitHub templates"
@@ -56,9 +57,9 @@ cp -r $github_dir $dist_dir
 echo "------------------------------------------------------------------------------"
 echo "[Packing] Copying build script"
 echo "------------------------------------------------------------------------------"
-cp $source_template_dir/build-s3-dist.sh $dist_template_dir
-cp -r $source_template_dir/cdk-solution-helper $dist_template_dir
-cp -r $source_template_dir/framework-nuke $dist_template_dir
+cp $source_template_dir/build-s3-dist.sh $dist_template_dir/
+cp $source_template_dir/upload-to-single-regional-bucket.sh $dist_template_dir/
+cp -r $source_template_dir/cdk-solution-helper $dist_template_dir/
 
 echo "------------------------------------------------------------------------------"
 echo "[Packing] Source folder"
@@ -66,13 +67,6 @@ echo "--------------------------------------------------------------------------
 
 echo "cp -r $source_dir $dist_dir"
 cp -r $source_dir $dist_dir
-
-echo "------------------------------------------------------------------------------"
-echo "[Packing] Repositories folder"
-echo "------------------------------------------------------------------------------"
-
-echo "cp -r $repositories_dir $dist_dir"
-cp -r $repositories_dir $dist_dir
 
 echo "------------------------------------------------------------------------------"
 echo "[Packing] Files from the root level of the project"
@@ -103,11 +97,9 @@ echo "--------------------------------------------------------------------------
 echo "[Packing] Clean up the open-source distributable"
 echo "------------------------------------------------------------------------------"
 echo $dist_dir
-# General cleanup of node_modules and package-lock.json files
+# General cleanup of node_modules
 echo "find $dist_dir -iname "node_modules" -type d -exec rm -rf "{}" \; 2> /dev/null"
 find $dist_dir -iname "node_modules" -type d -exec rm -rf "{}" \; 2> /dev/null
-echo "find $dist_dir -iname "package-lock.json" -type f -exec rm -f "{}" \; 2> /dev/null"
-find $dist_dir -iname "package-lock.json" -type f -exec rm -f "{}" \; 2> /dev/null
 
 echo "------------------------------------------------------------------------------"
 echo "[Packing] Create GitHub (open-source) zip file"
