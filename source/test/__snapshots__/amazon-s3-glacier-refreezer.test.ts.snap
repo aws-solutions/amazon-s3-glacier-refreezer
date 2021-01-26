@@ -1878,6 +1878,7 @@ exports.handler = function(event, context) {
       "Type": "AWS::IAM::Policy",
     },
     "monitoringcalculateMetricsLogGroup9961A214": Object {
+      "DeletionPolicy": "Retain",
       "Metadata": Object {
         "cfn_nag": Object {
           "rules_to_suppress": Array [
@@ -1906,6 +1907,7 @@ exports.handler = function(event, context) {
       "Type": "AWS::Logs::LogGroup",
     },
     "monitoringcalculateTreehashLogGroup6FC738B3": Object {
+      "DeletionPolicy": "Retain",
       "Metadata": Object {
         "cfn_nag": Object {
           "rules_to_suppress": Array [
@@ -1934,6 +1936,7 @@ exports.handler = function(event, context) {
       "Type": "AWS::Logs::LogGroup",
     },
     "monitoringcopyArchiveLogGroupBB702B1B": Object {
+      "DeletionPolicy": "Retain",
       "Metadata": Object {
         "cfn_nag": Object {
           "rules_to_suppress": Array [
@@ -1962,6 +1965,7 @@ exports.handler = function(event, context) {
       "Type": "AWS::Logs::LogGroup",
     },
     "monitoringcopyChunkLogGroup5D04918E": Object {
+      "DeletionPolicy": "Retain",
       "Metadata": Object {
         "cfn_nag": Object {
           "rules_to_suppress": Array [
@@ -1990,6 +1994,7 @@ exports.handler = function(event, context) {
       "Type": "AWS::Logs::LogGroup",
     },
     "monitoringdeployGlueJobScriptLogGroupAA50E4DE": Object {
+      "DeletionPolicy": "Retain",
       "Metadata": Object {
         "cfn_nag": Object {
           "rules_to_suppress": Array [
@@ -2018,6 +2023,7 @@ exports.handler = function(event, context) {
       "Type": "AWS::Logs::LogGroup",
     },
     "monitoringdownloadInventoryLogGroup2471C2FF": Object {
+      "DeletionPolicy": "Retain",
       "Metadata": Object {
         "cfn_nag": Object {
           "rules_to_suppress": Array [
@@ -2046,6 +2052,7 @@ exports.handler = function(event, context) {
       "Type": "AWS::Logs::LogGroup",
     },
     "monitoringdownloadInventoryPartLogGroupD9E69690": Object {
+      "DeletionPolicy": "Retain",
       "Metadata": Object {
         "cfn_nag": Object {
           "rules_to_suppress": Array [
@@ -2074,6 +2081,7 @@ exports.handler = function(event, context) {
       "Type": "AWS::Logs::LogGroup",
     },
     "monitoringgenerateUuidLogGroup18A074CF": Object {
+      "DeletionPolicy": "Retain",
       "Metadata": Object {
         "cfn_nag": Object {
           "rules_to_suppress": Array [
@@ -2290,6 +2298,7 @@ exports.handler = function(event, context) {
       "Type": "AWS::CloudWatch::Dashboard",
     },
     "monitoringpostMetricsLogGroup670566A8": Object {
+      "DeletionPolicy": "Retain",
       "Metadata": Object {
         "cfn_nag": Object {
           "rules_to_suppress": Array [
@@ -2318,6 +2327,7 @@ exports.handler = function(event, context) {
       "Type": "AWS::Logs::LogGroup",
     },
     "monitoringrequestArchivesLogGroup70D7C9C5": Object {
+      "DeletionPolicy": "Retain",
       "Metadata": Object {
         "cfn_nag": Object {
           "rules_to_suppress": Array [
@@ -2346,6 +2356,7 @@ exports.handler = function(event, context) {
       "Type": "AWS::Logs::LogGroup",
     },
     "monitoringrequestInventoryLogGroupB7C9607D": Object {
+      "DeletionPolicy": "Retain",
       "Metadata": Object {
         "cfn_nag": Object {
           "rules_to_suppress": Array [
@@ -2374,6 +2385,7 @@ exports.handler = function(event, context) {
       "Type": "AWS::Logs::LogGroup",
     },
     "monitoringsendAnonymousStatsLogGroup0C9968BB": Object {
+      "DeletionPolicy": "Retain",
       "Metadata": Object {
         "cfn_nag": Object {
           "rules_to_suppress": Array [
@@ -2402,6 +2414,7 @@ exports.handler = function(event, context) {
       "Type": "AWS::Logs::LogGroup",
     },
     "monitoringstageTwoOrchestratorLogGroup62996996": Object {
+      "DeletionPolicy": "Retain",
       "Metadata": Object {
         "cfn_nag": Object {
           "rules_to_suppress": Array [
@@ -2430,6 +2443,7 @@ exports.handler = function(event, context) {
       "Type": "AWS::Logs::LogGroup",
     },
     "monitoringtoLowercaseLogGroupC05CBA29": Object {
+      "DeletionPolicy": "Retain",
       "Metadata": Object {
         "cfn_nag": Object {
           "rules_to_suppress": Array [

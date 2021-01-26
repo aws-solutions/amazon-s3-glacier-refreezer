@@ -268,6 +268,7 @@ export class Monitoring extends cdk.Construct {
             logGroupName,
             retentionInDays: 90
         });
+        logGroup.addOverride('DeletionPolicy',cdk.CfnDeletionPolicy.RETAIN);
 
         logGroup.cfnOptions.metadata = {
             cfn_nag: {
