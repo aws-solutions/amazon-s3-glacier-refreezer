@@ -138,8 +138,8 @@ async function getObjectList(Bucket, Prefix) {
     while(true){
         const result = await s3.listObjectsV2(params).promise()
         result.Contents.forEach(entry => objectList.push(entry.Key))
-        if (!result.ContinuationToken) break
-        params.ContinuationToken = result.ContinuationToken
+        if (!result.NextContinuationToken) break
+        params.ContinuationToken = result.NextContinuationToken
     }
     return objectList
 }
@@ -151,17 +151,22 @@ async function cleanupStagingBucket() {
     objectList = objectList.concat(await getObjectList(STAGING_BUCKET, "inventory"))
     objectList = objectList.concat(await getObjectList(STAGING_BUCKET, STAGING_LIST_PREFIX))
     objectList = objectList.concat(await getObjectList(STAGING_BUCKET, "glue"))
-    const delList = []
-    objectList.forEach(Key => delList.push({Key}))
-    await deleteBucketKeys(STAGING_BUCKET, delList)
-}
 
-async function cleanupLogBucket() {
-    let objectList = []
-    objectList = objectList.concat(await getObjectList(LOG_BUCKET, ""))
-    const delList = []
-    objectList.forEach(Key => delList.push({Key}))
-    await deleteBucketKeys(LOG_BUCKET, delList)
+    let delList = []
+    let count = 0
+    while (count < objectList.length) {
+        delList.push({
+            Key: objectList[count]
+        })
+        count++
+        if (((count + 1) % 1000) === 0) {
+            console.log(`Deleting batch ${Math.round(count/999)}`)
+            await deleteBucketKeys(STAGING_BUCKET, delList)
+            delList = []
+        }
+    }
+    console.log("Deleting last batch")
+    await deleteBucketKeys(STAGING_BUCKET, delList)
 }
 
 async function deleteBucketKeys(Bucket, Objects){
@@ -178,6 +183,5 @@ async function deleteBucketKeys(Bucket, Objects){
 module.exports = {
     checkBucketExists,
     copyFilelist,
-    cleanupStagingBucket,
-    cleanupLogBucket
+    cleanupStagingBucket
 }
