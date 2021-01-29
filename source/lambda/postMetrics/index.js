@@ -24,11 +24,11 @@ async function handler() {
 
     const progressCount = await dynamo.getCount();
 
-    let total = progressCount && progressCount.total ? progressCount.total.N : null;
-    let requested = progressCount && progressCount.requested ? progressCount.requested.N : 0;
-    let staged = progressCount && progressCount.staged ? progressCount.staged.N : 0;
-    let validated = progressCount && progressCount.validated ? progressCount.validated.N : 0;
-    let copied = progressCount && progressCount.copied ? progressCount.copied.N : 0;
+    let total = progressCount && progressCount.total ? parseInt(progressCount.total.N) : null;
+    let requested = progressCount && progressCount.requested ? parseInt(progressCount.requested.N) : 0;
+    let staged = progressCount && progressCount.staged ? parseInt(progressCount.staged.N) : 0;
+    let validated = progressCount && progressCount.validated ? parseInt(progressCount.validated.N) : 0;
+    let copied = progressCount && progressCount.copied ? parseInt(progressCount.copied.N) : 0;
 
     if (total) {
         requested = requested > total ? total : requested;
