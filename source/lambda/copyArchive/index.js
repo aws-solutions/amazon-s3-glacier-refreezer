@@ -44,7 +44,6 @@ async function handler(event) {
 
     let snsMessage = JSON.parse(event.Records[0].body);
     let snsBody = snsMessage.Message;
-    console.log("SNS Message body: " + snsBody);
     let glacierRetrievalStatus = JSON.parse(snsBody);
 
     // if sgt present, all chunks have been copied and multipart closed
