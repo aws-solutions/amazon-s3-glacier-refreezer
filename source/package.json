@@ -14,15 +14,15 @@
     "cdk": "cdk"
   },
   "devDependencies": {
+    "@aws-cdk/assert": "1.80.0",
     "@types/jest": "^26.0.10",
     "@types/node": "10.17.27",
+    "aws-cdk": "1.80.0",
     "esbuild": "^0.8.15",
     "jest": "^26.4.2",
     "ts-jest": "^26.2.0",
     "ts-node": "^8.1.0",
-    "typescript": "~3.9.7",
-    "@aws-cdk/assert": "1.80.0",
-    "aws-cdk": "1.80.0"
+    "typescript": "~3.9.7"
   },
   "dependencies": {
     "@aws-cdk/aws-athena": "1.80.0",
