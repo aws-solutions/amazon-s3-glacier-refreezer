@@ -30,9 +30,7 @@ const {
     SEND_ANONYMOUS_STATISTICS
 } = process.env;
 
-const SOLUTION_BUILDERS_ENDPOINT = 'https://dlh6h8hek6.execute-api.ap-southeast-2.amazonaws.com/generic';
-
-// const SOLUTION_BUILDERS_ENDPOINT='https://metrics.awssolutionsbuilder.com/generic';
+const SOLUTION_BUILDERS_ENDPOINT='https://metrics.awssolutionsbuilder.com/generic';
 
 async function handler(event, context) {
     console.log(`${JSON.stringify(event)}`);

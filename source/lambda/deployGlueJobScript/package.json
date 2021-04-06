@@ -4,6 +4,9 @@
   "version": "1.0.0",
   "description": "Deploys Glue Job Script to the Staging Bucket",
   "license": "Apache-2.0",
+  "scripts": {
+    "test": "echo \"OK: no test specified\" && exit 0"
+  },
   "repository": {},
   "dependencies": {
     "axios": "^0.21.1"

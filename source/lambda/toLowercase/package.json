@@ -4,6 +4,9 @@
   "version": "0.0.1",
   "description": "Converts input string to lowercase and respond to CloudFormation",
   "license": "Apache-2.0",
+  "scripts": {
+    "test": "echo \"OK: no test specified\" && exit 0"
+  },
   "repository": {},
   "devDependencies": {
     "cfn-response": "^1.0.1"
