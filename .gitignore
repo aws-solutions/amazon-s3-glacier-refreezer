@@ -1,0 +1,17 @@
+**/.DS_Store
+**/.idea
+**/.vscode
+**/.settings
+**/.project
+**/.classpath
+**/cdk.out
+**/*.d.ts
+**/node_modules
+**/build
+**/cdk.out
+deployment/global-s3-assets
+deployment/regional-s3-assets
+deployment/open-source
+source/lib/*.js
+source/patterns/*.js
+source/test/*.js

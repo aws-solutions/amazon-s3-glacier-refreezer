@@ -1,0 +1,15 @@
+{
+  "name": "generate-deployment-uuid",
+  "main": "index.js",
+  "version": "1.0.0",
+  "description": "Generates UUID for the CloudFormation deployment",
+  "license": "Apache-2.0",
+  "scripts": {
+    "test": "echo \"OK: no test specified\" && exit 0"
+  },
+  "repository": {},
+  "dependencies": {
+    "axios": "^0.21.0",
+    "uuid": "^8.3.1"
+  }
+}
