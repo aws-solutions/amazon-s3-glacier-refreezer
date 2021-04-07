@@ -92,7 +92,7 @@ export class Monitoring extends cdk.Construct {
             events: [statusTableEventStream]
         });
         calculateMetrics.node.addDependency(calculateMetricsRolePolicy);
-        CfnNagSuppressor.addW58Suppression(calculateMetrics);
+        CfnNagSuppressor.addLambdaSuppression(calculateMetrics);
 
         // -------------------------------------------------------------------------------------------
         // Post Metrics
@@ -139,7 +139,7 @@ export class Monitoring extends cdk.Construct {
                 }
         });
         postMetrics.node.addDependency(postMetricsRolePolicy);
-        CfnNagSuppressor.addW58Suppression(postMetrics);
+        CfnNagSuppressor.addLambdaSuppression(postMetrics);
 
         const postMetricSchedule = new events.Rule(this, 'PostMetricSchedule', {
             schedule: {

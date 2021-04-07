@@ -45,7 +45,7 @@ export class GlueDataCatalog extends cdk.Construct {
             handler: 'index.handler',
             code: lambda.Code.fromInline(readFileSync('lambda/toLowercase/index.js', 'utf-8'))
         });
-        CfnNagSuppressor.addW58Suppression(toLowercase);
+        CfnNagSuppressor.addLambdaSuppression(toLowercase);
 
         const toLowercaseTrigger = new cdk.CustomResource(this, 'toLowercaseTrigger', {
             serviceToken: toLowercase.functionArn,

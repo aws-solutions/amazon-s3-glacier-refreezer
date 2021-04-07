@@ -44,13 +44,17 @@ export class CfnNagSuppressor extends cdk.Construct {
         };
     }
 
-    static addW58Suppression(resource: cdk.Resource) {
+    static addLambdaSuppression(resource: cdk.Resource) {
         (<cdk.CfnResource>resource.node.defaultChild).cfnOptions.metadata = {
             cfn_nag: {
                 rules_to_suppress:
                     [{
                         id: 'W58',
                         reason: 'cfn nag is unable to reason about CDK generated cloudwatch log permissions'
+                    },
+                    {
+                        id: 'W89',
+                        reason: 'This is a fully serverless solution - no VPC is required'
                     }]
             }
         };

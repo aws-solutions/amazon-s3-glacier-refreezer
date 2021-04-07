@@ -80,7 +80,7 @@ export class StageOne extends cdk.Construct {
         s3.Bucket.fromBucketName(this, 'destinationBucket', props.destinationBucket).grantReadWrite(requestInventory);
         requestInventory.addToRolePolicy(iamSec.IamPermissions.s3ReadOnly([`arn:aws:s3:::${props.filelistS3location}`]));
         requestInventory.addToRolePolicy(iamSec.IamPermissions.glacier(props.sourceGlacierVault));
-        CfnNagSuppressor.addW58Suppression(requestInventory);
+        CfnNagSuppressor.addLambdaSuppression(requestInventory);
 
         const requestInventoryTrigger = new cdk.CustomResource(this, 'requestInventoryTrigger',
             {
@@ -102,7 +102,7 @@ export class StageOne extends cdk.Construct {
 
         props.stagingBucket.grantReadWrite(downloadInventoryPart);
         downloadInventoryPart.addToRolePolicy(glacierAccess);
-        CfnNagSuppressor.addW58Suppression(downloadInventoryPart);
+        CfnNagSuppressor.addLambdaSuppression(downloadInventoryPart);
 
         // -------------------------------------------------------------------------------------------
         // Download Inventory
@@ -126,7 +126,7 @@ export class StageOne extends cdk.Construct {
         downloadInventory.addToRolePolicy(glacierAccess);
         downloadInventoryPart.grantInvoke(downloadInventory);
         props.stageTwoOrchestrator.grant(downloadInventory, 'states:StartExecution');
-        CfnNagSuppressor.addW58Suppression(downloadInventory);
+        CfnNagSuppressor.addLambdaSuppression(downloadInventory);
 
         downloadInventory.addEventSource(new SnsEventSource(inventoryTopic));
     }

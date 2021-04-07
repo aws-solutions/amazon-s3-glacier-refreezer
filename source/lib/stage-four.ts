@@ -66,6 +66,6 @@ export class StageFour extends cdk.Construct {
         props.statusTable.grantReadWriteData(calculateTreehash);
         s3.Bucket.fromBucketName(this, 'destinationBucket', props.destinationBucket).grantReadWrite(calculateTreehash);
         calculateTreehash.addEventSource(new SqsEventSource(props.treehashCalcQueue, {batchSize: 1}));
-        CfnNagSuppressor.addW58Suppression(calculateTreehash);
+        CfnNagSuppressor.addLambdaSuppression(calculateTreehash);
     }
 }

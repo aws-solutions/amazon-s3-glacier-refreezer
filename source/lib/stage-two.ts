@@ -62,7 +62,7 @@ export class StageTwo extends cdk.Construct {
                 }
         });
         props.stagingBucket.grantWrite(deployGlueJobScript);
-        CfnNagSuppressor.addW58Suppression(deployGlueJobScript);
+        CfnNagSuppressor.addLambdaSuppression(deployGlueJobScript);
 
         const deployGlueJobScriptTrigger = new cdk.CustomResource(this, 'deployGlueJobScriptTrigger',
             {
@@ -113,7 +113,7 @@ export class StageTwo extends cdk.Construct {
                     PARTITIONED_INVENTORY_TABLE: props.glueDataCatalog.partitionedInventoryTable.tableName
                 }
         });
-        CfnNagSuppressor.addW58Suppression(requestArchives);
+        CfnNagSuppressor.addLambdaSuppression(requestArchives);
 
         // -------------------------------------------------------------------------------------------
         // Glue Partitioning Job

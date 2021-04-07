@@ -125,7 +125,7 @@ export class StageThree extends cdk.Construct {
         });
         copyArchive.node.addDependency(copyArchiveRolePolicy);
         copyArchive.addEventSource(new SqsEventSource(archiveNotificationQueue, {batchSize: 1}));
-        CfnNagSuppressor.addW58Suppression(copyArchive);
+        CfnNagSuppressor.addLambdaSuppression(copyArchive);
 
         // -------------------------------------------------------------------------------------------
         // Copy Chunk
@@ -166,7 +166,7 @@ export class StageThree extends cdk.Construct {
                     SQS_HASH: treehashCalcQueue.queueName
                 }
         });
-        CfnNagSuppressor.addW58Suppression(copyChunk);
+        CfnNagSuppressor.addLambdaSuppression(copyChunk);
         copyChunk.addEventSource(new SqsEventSource(chunkCopyQueue, {batchSize: 1}));
     }
 }

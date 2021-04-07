@@ -47,7 +47,7 @@ export class AnonymousStatistics extends cdk.Construct {
             timeout: cdk.Duration.seconds(20),
             code: lambda.Code.fromAsset('lambda/generateUuid')
         });
-        CfnNagSuppressor.addW58Suppression(generateUuid);
+        CfnNagSuppressor.addLambdaSuppression(generateUuid);
 
         const genereateUuidTrigger = new cdk.CustomResource(this, 'GenerateUuidTrigger', {
             serviceToken: generateUuid.functionArn
@@ -71,7 +71,7 @@ export class AnonymousStatistics extends cdk.Construct {
                 SEND_ANONYMOUS_STATISTICS: props.sendAnonymousSelection
             }
         });
-        CfnNagSuppressor.addW58Suppression(sendAnonymousStats);
+        CfnNagSuppressor.addLambdaSuppression(sendAnonymousStats);
         this.sendAnonymousStats = sendAnonymousStats;
     }
 }
