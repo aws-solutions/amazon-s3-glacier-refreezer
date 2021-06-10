@@ -38,10 +38,13 @@ const {
     SNS_TOPIC,
     DATABASE,
     PARTITIONED_INVENTORY_TABLE,
-    ATHENA_WORKGROUP
+    ATHENA_WORKGROUP,
+    DQL
 } = process.env;
 
 async function handler(payload) {
+    const startTime = new Date().getTime();
+
     // Using an array to supplement DynamoDB check for the recently updated files.
     // Just in case the GSI index has not been synced for the recently added filename
     const processed = [];
@@ -61,6 +64,8 @@ async function handler(payload) {
     console.log(`Reading athena results file: ${resultsCSV}`);
 
     const lines = await readResultsCSV(resultsCSV);
+
+    let processedSize = Number(0);
 
     for (const line of lines) {
         const {
@@ -122,14 +127,31 @@ async function handler(payload) {
             })
             .promise();
 
+        processedSize += sz
+
         processed.push(fname);
         partitionMaxProcessedFileNumber = ifn;
     }
 
     // Increment Processed Partition Count
     payload.nextPartition = pid + 1;
+
+    // Calculate timeout prior the next batch
+    const dailyQuota = Number(DQL)
+    const endTime = new Date().getTime();
+    const timeTaken = Math.floor((endTime-startTime)/1000);
+
+    const processedShare = processedSize / dailyQuota
+    let timeout = Math.round( 86400 * processedShare) - timeTaken;
+    timeout = timeout < 0 ? 0 : timeout;
+    payload.timeout = timeout
+
+    console.log(`Processed: ${processedSize}`)
+    console.log(`Processed Share: ${processedShare}`)
+    console.log(`Timeout: ${timeout}`)
+
     return payload;
-};
+}
 
 async function readAthenaPartition(partNumber) {
     console.log("Starting query");
@@ -199,7 +221,7 @@ async function getPartitionMaxProcessedFileNumber(pid) {
             ExpressionAttributeValues: {
                 ":pid": {N: pid.toString()},
             },
-            ProjectionExpression: "ifn",
+            ProjectionExpression: "ifn, aid",
             ScanIndexForward: false,
             Limit: 1,
         })
@@ -212,8 +234,9 @@ async function getPartitionMaxProcessedFileNumber(pid) {
         return 0;
     }
 
-    const lastIfn = parseInt(result.LastEvaluatedKey.ifn.N);
-    const aid = result.LastEvaluatedKey.aid.S;
+    const lastIfn =  result.Items[0].ifn.N;
+    const aid =  result.Items[0].aid.S;
+
     console.log(`Last registered item is ${lastIfn}. ArchiveID (aid): ${aid} `);
     return lastIfn;
 }

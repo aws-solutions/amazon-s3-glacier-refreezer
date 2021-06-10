@@ -55,6 +55,10 @@ export class CfnNagSuppressor extends cdk.Construct {
                     {
                         id: 'W89',
                         reason: 'This is a fully serverless solution - no VPC is required'
+                    },
+                    {
+                        id: 'W92',
+                        reason: 'Reserved Concurrency is set on high priority functions only by design'
                     }]
             }
         };
