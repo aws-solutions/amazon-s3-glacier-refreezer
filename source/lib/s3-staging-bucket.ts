@@ -23,7 +23,6 @@ import * as iam from '@aws-cdk/aws-iam';
 
 export class StagingBucket extends cdk.Construct {
     public readonly Bucket: s3.IBucket;
-    public readonly LogBucket: s3.IBucket;
 
     constructor(scope: cdk.Construct, id: string) {
         super(scope, id);

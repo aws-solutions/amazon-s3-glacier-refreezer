@@ -27,7 +27,6 @@ import * as tasks from '@aws-cdk/aws-stepfunctions-tasks';
 import * as iamSec from './iam-permissions';
 import {GlueDataCatalog} from "./glue-data-catalog";
 import {DynamoDataCatalog} from "./ddb-data-catalog";
-import {AthenaGetQueryResultsSelector} from "./athena-query-result-selector";
 import {CfnNagSuppressor} from "./cfn-nag-suppressor";
 
 export interface StageTwoOrchestratorProps {
@@ -82,9 +81,8 @@ export class StageTwoOrchestrator extends cdk.Construct {
             outputPath: '$.ResultSet.Rows[1]'
         });
 
-        // To be replaced with ResultSelect once available for Parallel Step
-        const taskMergeQueryResults = new sfn.Pass(this, 'Merge Query Results', {
-            parameters: {
+        const parallelQueries = new sfn.Parallel(this, 'Parallel Queries', {
+            resultSelector: {
                 inventoryTable: {
                     archiveCount: sfn.JsonPath.numberAt('$[0].Data[0].VarCharValue'),
                     vaultSize: sfn.JsonPath.numberAt('$[0].Data[1].VarCharValue')
@@ -92,19 +90,31 @@ export class StageTwoOrchestrator extends cdk.Construct {
                 partitionedTable: {
                     archiveCount: sfn.JsonPath.numberAt('$[1].Data[0].VarCharValue')
                 }
-            },
-            resultPath: '$',
+            }
         });
 
         const taskGluePartitioningJob = new tasks.GlueStartJobRun(this, 'Run Glue Partitioning', {
             integrationPattern: sfn.IntegrationPattern.RUN_JOB,
-            glueJobName: props.glueJobName
+            glueJobName: props.glueJobName,
+            arguments:
+              sfn.TaskInput.fromObject({
+                  '--ARCHIVE_COUNT.$': '$.inventoryTable.archiveCount',
+                  '--VAULT_SIZE.$': '$.inventoryTable.vaultSize'})
         });
 
-        const taskUpdateMetricTable = new tasks.DynamoPutItem(this, 'Update Metrics Table', {
+        const taskUpdateMetricCount = new tasks.DynamoPutItem(this, 'Update Count Metric', {
             item: {
                 pk: tasks.DynamoAttributeValue.fromString('count'),
                 total: tasks.DynamoAttributeValue.numberFromString(sfn.JsonPath.stringAt('$.inventoryTable.archiveCount'))
+            },
+            table: props.dynamoDataCatalog.metricTable,
+            resultPath: '$.putItemResult'
+        });
+
+        const taskUpdateMetricSize = new tasks.DynamoPutItem(this, 'Update Size Metric', {
+            item: {
+                pk: tasks.DynamoAttributeValue.fromString('size'),
+                total: tasks.DynamoAttributeValue.numberFromString(sfn.JsonPath.stringAt('$.inventoryTable.vaultSize'))
             },
             table: props.dynamoDataCatalog.metricTable,
             resultPath: '$.putItemResult'
@@ -137,8 +147,7 @@ export class StageTwoOrchestrator extends cdk.Construct {
             outputPath: '$.QueryExecution'
         });
 
-        // const taskGetMaxPartitionResult = new tasks.AthenaGetQueryResults(this, 'Get Max Partition Result', {
-        const taskGetMaxPartitionResult = new AthenaGetQueryResultsSelector(this, 'Get Max Partition Result', {
+        const taskGetMaxPartitionResult = new tasks.AthenaGetQueryResults(this, 'Get Max Partition Result', {
             queryExecutionId: sfn.JsonPath.stringAt('$.QueryExecutionId'),
             resultSelector: {
                 'result.$': 'States.StringToJson($.ResultSet.Rows[1].Data[0].VarCharValue)'
@@ -155,6 +164,10 @@ export class StageTwoOrchestrator extends cdk.Construct {
             maxAttempts: 10000,
             backoffRate: 1,
             interval: cdk.Duration.seconds(15)
+        });
+
+        const taskWaitX = new sfn.Wait(this, 'Wait X Seconds', {
+            time: sfn.WaitTime.secondsPath('$.timeout'),
         });
 
         // failures
@@ -179,7 +192,6 @@ export class StageTwoOrchestrator extends cdk.Construct {
         const isComplete = sfn.Condition.numberGreaterThanJsonPath('$.nextPartition', '$.maxPartition');
 
         // branching
-        const parallelQueries = new sfn.Parallel(this, 'Parallel Queries', {});
         const parallelPartitioning = new sfn.Parallel(this, 'Parallel Partitioning and Stats update', {});
         const checkPartitionStatus = new sfn.Choice(this, 'Partitioning Required ?');
         const checkInventory = new sfn.Choice(this, 'Check Inventory State');
@@ -191,7 +203,6 @@ export class StageTwoOrchestrator extends cdk.Construct {
         const graphDefinition = parallelQueries
             .branch(taskStartInventoryQuery.next(taskGetInventoryResults))
             .branch(taskStartPartitionedQuery.next(taskGetPartitionedResults))
-            .next(taskMergeQueryResults)
             .next(checkInventory);
 
         checkInventory
@@ -203,9 +214,13 @@ export class StageTwoOrchestrator extends cdk.Construct {
             .when(equalsPartitionedCountInventory, taskStartMaxPartitionQuery)
             .otherwise(parallelPartitioning);
 
+        taskUpdateMetricCount
+          .next(taskUpdateMetricSize)
+          .next(taskSubmitAnonymousStatistics)
+
         parallelPartitioning
             .branch(taskGluePartitioningJob)
-            .branch(taskUpdateMetricTable.next(taskSubmitAnonymousStatistics))
+            .branch(taskUpdateMetricCount)
             .next(taskStartMaxPartitionQuery);
 
         taskStartMaxPartitionQuery
@@ -215,7 +230,7 @@ export class StageTwoOrchestrator extends cdk.Construct {
         taskRequestArchives
             .next(new sfn.Choice(this, 'Is Complete?')
                 .when(isComplete, success)
-                .otherwise(taskRequestArchives)); // loop
+                .otherwise(taskWaitX.next(taskRequestArchives))); // loop
 
         // -------------------------------------------------------------------------------------------
         // Stage Two Orchestrator
