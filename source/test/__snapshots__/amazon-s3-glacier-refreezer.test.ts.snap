@@ -126,16 +126,28 @@ Object {
       "Description": "S3 key for asset version \\"002a4598945eb42fa37680b5e1c3d6ef8bcc6b819a5e114779971bff54596b1b\\"",
       "Type": "String",
     },
-    "AssetParameters1b4c7744303ba80b24f828bb073f1a4ce32a92c61e832280df8bc1fdf25b1153ArtifactHash2AE4CC1F": Object {
-      "Description": "Artifact hash for asset \\"1b4c7744303ba80b24f828bb073f1a4ce32a92c61e832280df8bc1fdf25b1153\\"",
+    "AssetParameters34f63c1cf26828f6a101fc7ce2d5458ea9879b1a7a100f5e222f07d102f1d47eArtifactHash883967AD": Object {
+      "Description": "Artifact hash for asset \\"34f63c1cf26828f6a101fc7ce2d5458ea9879b1a7a100f5e222f07d102f1d47e\\"",
       "Type": "String",
     },
-    "AssetParameters1b4c7744303ba80b24f828bb073f1a4ce32a92c61e832280df8bc1fdf25b1153S3BucketE856D09A": Object {
-      "Description": "S3 bucket for asset \\"1b4c7744303ba80b24f828bb073f1a4ce32a92c61e832280df8bc1fdf25b1153\\"",
+    "AssetParameters34f63c1cf26828f6a101fc7ce2d5458ea9879b1a7a100f5e222f07d102f1d47eS3Bucket4AF88D6C": Object {
+      "Description": "S3 bucket for asset \\"34f63c1cf26828f6a101fc7ce2d5458ea9879b1a7a100f5e222f07d102f1d47e\\"",
       "Type": "String",
     },
-    "AssetParameters1b4c7744303ba80b24f828bb073f1a4ce32a92c61e832280df8bc1fdf25b1153S3VersionKeyED29C0F3": Object {
-      "Description": "S3 key for asset version \\"1b4c7744303ba80b24f828bb073f1a4ce32a92c61e832280df8bc1fdf25b1153\\"",
+    "AssetParameters34f63c1cf26828f6a101fc7ce2d5458ea9879b1a7a100f5e222f07d102f1d47eS3VersionKey7F43C205": Object {
+      "Description": "S3 key for asset version \\"34f63c1cf26828f6a101fc7ce2d5458ea9879b1a7a100f5e222f07d102f1d47e\\"",
+      "Type": "String",
+    },
+    "AssetParameters3808d68b7a443eed00c0a77a9fc7fa4dc4ef9d74199eca486b44be60d4f204f9ArtifactHash1FCAA014": Object {
+      "Description": "Artifact hash for asset \\"3808d68b7a443eed00c0a77a9fc7fa4dc4ef9d74199eca486b44be60d4f204f9\\"",
+      "Type": "String",
+    },
+    "AssetParameters3808d68b7a443eed00c0a77a9fc7fa4dc4ef9d74199eca486b44be60d4f204f9S3Bucket3B97EFEB": Object {
+      "Description": "S3 bucket for asset \\"3808d68b7a443eed00c0a77a9fc7fa4dc4ef9d74199eca486b44be60d4f204f9\\"",
+      "Type": "String",
+    },
+    "AssetParameters3808d68b7a443eed00c0a77a9fc7fa4dc4ef9d74199eca486b44be60d4f204f9S3VersionKey84D58FAC": Object {
+      "Description": "S3 key for asset version \\"3808d68b7a443eed00c0a77a9fc7fa4dc4ef9d74199eca486b44be60d4f204f9\\"",
       "Type": "String",
     },
     "AssetParameters399d85bc756b64d30c74c45d859cf7dffb0ec9ebca63a3c5e9e5cc528ece691fArtifactHash7DD1357B": Object {
@@ -150,40 +162,28 @@ Object {
       "Description": "S3 key for asset version \\"399d85bc756b64d30c74c45d859cf7dffb0ec9ebca63a3c5e9e5cc528ece691f\\"",
       "Type": "String",
     },
-    "AssetParameters3a2f8eb604fb97b74db13020bfdc412654c69cf0df13e7b4614383be4b728f4dArtifactHashFEF1E4A2": Object {
-      "Description": "Artifact hash for asset \\"3a2f8eb604fb97b74db13020bfdc412654c69cf0df13e7b4614383be4b728f4d\\"",
+    "AssetParameters413f63b44088be9b746e261796589a1868948fca27d70caa8d78988b1d8064a5ArtifactHash3EAC2EFB": Object {
+      "Description": "Artifact hash for asset \\"413f63b44088be9b746e261796589a1868948fca27d70caa8d78988b1d8064a5\\"",
       "Type": "String",
     },
-    "AssetParameters3a2f8eb604fb97b74db13020bfdc412654c69cf0df13e7b4614383be4b728f4dS3BucketDAF63710": Object {
-      "Description": "S3 bucket for asset \\"3a2f8eb604fb97b74db13020bfdc412654c69cf0df13e7b4614383be4b728f4d\\"",
+    "AssetParameters413f63b44088be9b746e261796589a1868948fca27d70caa8d78988b1d8064a5S3BucketA2DDF570": Object {
+      "Description": "S3 bucket for asset \\"413f63b44088be9b746e261796589a1868948fca27d70caa8d78988b1d8064a5\\"",
       "Type": "String",
     },
-    "AssetParameters3a2f8eb604fb97b74db13020bfdc412654c69cf0df13e7b4614383be4b728f4dS3VersionKeyC295117A": Object {
-      "Description": "S3 key for asset version \\"3a2f8eb604fb97b74db13020bfdc412654c69cf0df13e7b4614383be4b728f4d\\"",
+    "AssetParameters413f63b44088be9b746e261796589a1868948fca27d70caa8d78988b1d8064a5S3VersionKey33EE99F2": Object {
+      "Description": "S3 key for asset version \\"413f63b44088be9b746e261796589a1868948fca27d70caa8d78988b1d8064a5\\"",
       "Type": "String",
     },
-    "AssetParameters52103ef3eece3dc54360cf8c630fef03d1b79f169fe428a3004dc676f9638da2ArtifactHashD75D17D8": Object {
-      "Description": "Artifact hash for asset \\"52103ef3eece3dc54360cf8c630fef03d1b79f169fe428a3004dc676f9638da2\\"",
+    "AssetParameters702acdf76b3cab1ef7cf2ea0384bf8cd2b1666b4fa903c651f997d6432b5efc2ArtifactHashE33A732E": Object {
+      "Description": "Artifact hash for asset \\"702acdf76b3cab1ef7cf2ea0384bf8cd2b1666b4fa903c651f997d6432b5efc2\\"",
       "Type": "String",
     },
-    "AssetParameters52103ef3eece3dc54360cf8c630fef03d1b79f169fe428a3004dc676f9638da2S3BucketA74D267C": Object {
-      "Description": "S3 bucket for asset \\"52103ef3eece3dc54360cf8c630fef03d1b79f169fe428a3004dc676f9638da2\\"",
+    "AssetParameters702acdf76b3cab1ef7cf2ea0384bf8cd2b1666b4fa903c651f997d6432b5efc2S3BucketC181DE9E": Object {
+      "Description": "S3 bucket for asset \\"702acdf76b3cab1ef7cf2ea0384bf8cd2b1666b4fa903c651f997d6432b5efc2\\"",
       "Type": "String",
     },
-    "AssetParameters52103ef3eece3dc54360cf8c630fef03d1b79f169fe428a3004dc676f9638da2S3VersionKeyC007F35A": Object {
-      "Description": "S3 key for asset version \\"52103ef3eece3dc54360cf8c630fef03d1b79f169fe428a3004dc676f9638da2\\"",
-      "Type": "String",
-    },
-    "AssetParameters6c576cab728bcb14c37035934e9db39b4f77dea00c13bc3e1a33219e74892aa5ArtifactHash3B54E47C": Object {
-      "Description": "Artifact hash for asset \\"6c576cab728bcb14c37035934e9db39b4f77dea00c13bc3e1a33219e74892aa5\\"",
-      "Type": "String",
-    },
-    "AssetParameters6c576cab728bcb14c37035934e9db39b4f77dea00c13bc3e1a33219e74892aa5S3BucketE71A0458": Object {
-      "Description": "S3 bucket for asset \\"6c576cab728bcb14c37035934e9db39b4f77dea00c13bc3e1a33219e74892aa5\\"",
-      "Type": "String",
-    },
-    "AssetParameters6c576cab728bcb14c37035934e9db39b4f77dea00c13bc3e1a33219e74892aa5S3VersionKey4387213B": Object {
-      "Description": "S3 key for asset version \\"6c576cab728bcb14c37035934e9db39b4f77dea00c13bc3e1a33219e74892aa5\\"",
+    "AssetParameters702acdf76b3cab1ef7cf2ea0384bf8cd2b1666b4fa903c651f997d6432b5efc2S3VersionKeyB6BBAB0D": Object {
+      "Description": "S3 key for asset version \\"702acdf76b3cab1ef7cf2ea0384bf8cd2b1666b4fa903c651f997d6432b5efc2\\"",
       "Type": "String",
     },
     "AssetParameters78cad70542d27bf9e0b04e7a303902fb586d5447224f739c37409448e6ba61cfArtifactHash99F6006D": Object {
@@ -210,16 +210,16 @@ Object {
       "Description": "S3 key for asset version \\"811bd05c0cb11cd6748a53603da2a229c065a81067578295caa267d26d1bc9bd\\"",
       "Type": "String",
     },
-    "AssetParameters95e4d0488902860692b66eb366e47ae053faf33cb1e5e369c333e285f3a0a214ArtifactHash5CD4A75B": Object {
-      "Description": "Artifact hash for asset \\"95e4d0488902860692b66eb366e47ae053faf33cb1e5e369c333e285f3a0a214\\"",
+    "AssetParameters9994c1f48a8e05f3371a72655057955e501b963e606eea3130bcf6bc50ce07ddArtifactHash982FFC1E": Object {
+      "Description": "Artifact hash for asset \\"9994c1f48a8e05f3371a72655057955e501b963e606eea3130bcf6bc50ce07dd\\"",
       "Type": "String",
     },
-    "AssetParameters95e4d0488902860692b66eb366e47ae053faf33cb1e5e369c333e285f3a0a214S3BucketB51CD3B0": Object {
-      "Description": "S3 bucket for asset \\"95e4d0488902860692b66eb366e47ae053faf33cb1e5e369c333e285f3a0a214\\"",
+    "AssetParameters9994c1f48a8e05f3371a72655057955e501b963e606eea3130bcf6bc50ce07ddS3BucketFFDC5E15": Object {
+      "Description": "S3 bucket for asset \\"9994c1f48a8e05f3371a72655057955e501b963e606eea3130bcf6bc50ce07dd\\"",
       "Type": "String",
     },
-    "AssetParameters95e4d0488902860692b66eb366e47ae053faf33cb1e5e369c333e285f3a0a214S3VersionKeyBA4753AC": Object {
-      "Description": "S3 key for asset version \\"95e4d0488902860692b66eb366e47ae053faf33cb1e5e369c333e285f3a0a214\\"",
+    "AssetParameters9994c1f48a8e05f3371a72655057955e501b963e606eea3130bcf6bc50ce07ddS3VersionKey43F14B6D": Object {
+      "Description": "S3 key for asset version \\"9994c1f48a8e05f3371a72655057955e501b963e606eea3130bcf6bc50ce07dd\\"",
       "Type": "String",
     },
     "AssetParametersb16d94b3dba48fce89b7ac63376998f606a61cbaf1a9ba5706f332c14d6367b5ArtifactHash2E0EA1ED": Object {
@@ -234,16 +234,16 @@ Object {
       "Description": "S3 key for asset version \\"b16d94b3dba48fce89b7ac63376998f606a61cbaf1a9ba5706f332c14d6367b5\\"",
       "Type": "String",
     },
-    "AssetParametersbfd61d60134265dd23ee62cfb89d5bef051f17b06ec9470bddb9f10918c29a37ArtifactHash359ED5A3": Object {
-      "Description": "Artifact hash for asset \\"bfd61d60134265dd23ee62cfb89d5bef051f17b06ec9470bddb9f10918c29a37\\"",
+    "AssetParameterse71d172c081ade26c113aa0587112c42db19a07a93253d23b48f7c9849edb597ArtifactHash9A82D5D0": Object {
+      "Description": "Artifact hash for asset \\"e71d172c081ade26c113aa0587112c42db19a07a93253d23b48f7c9849edb597\\"",
       "Type": "String",
     },
-    "AssetParametersbfd61d60134265dd23ee62cfb89d5bef051f17b06ec9470bddb9f10918c29a37S3Bucket2F51522E": Object {
-      "Description": "S3 bucket for asset \\"bfd61d60134265dd23ee62cfb89d5bef051f17b06ec9470bddb9f10918c29a37\\"",
+    "AssetParameterse71d172c081ade26c113aa0587112c42db19a07a93253d23b48f7c9849edb597S3Bucket54B2D69A": Object {
+      "Description": "S3 bucket for asset \\"e71d172c081ade26c113aa0587112c42db19a07a93253d23b48f7c9849edb597\\"",
       "Type": "String",
     },
-    "AssetParametersbfd61d60134265dd23ee62cfb89d5bef051f17b06ec9470bddb9f10918c29a37S3VersionKeyADB0F982": Object {
-      "Description": "S3 key for asset version \\"bfd61d60134265dd23ee62cfb89d5bef051f17b06ec9470bddb9f10918c29a37\\"",
+    "AssetParameterse71d172c081ade26c113aa0587112c42db19a07a93253d23b48f7c9849edb597S3VersionKeyA191D19F": Object {
+      "Description": "S3 key for asset version \\"e71d172c081ade26c113aa0587112c42db19a07a93253d23b48f7c9849edb597\\"",
       "Type": "String",
     },
     "AssetParametersf556c6bd3bb489fc42ce1c4ea0c21ad0c02b63a36c71bfd53cd103f197cfebb3ArtifactHash7C1FAC89": Object {
@@ -909,6 +909,10 @@ Object {
           },
         ],
         "WorkGroupConfiguration": Object {
+          "EnforceWorkGroupConfiguration": true,
+          "EngineVersion": Object {
+            "SelectedEngineVersion": "Athena engine version 2",
+          },
           "ResultConfiguration": Object {
             "OutputLocation": Object {
               "Fn::Join": Array [
@@ -1230,6 +1234,14 @@ Object {
               "id": "W58",
               "reason": "cfn nag is unable to reason about CDK generated cloudwatch log permissions",
             },
+            Object {
+              "id": "W89",
+              "reason": "This is a fully serverless solution - no VPC is required",
+            },
+            Object {
+              "id": "W92",
+              "reason": "Reserved Concurrency is set on high priority functions only by design",
+            },
           ],
         },
       },
@@ -1364,7 +1376,7 @@ exports.handler = function(event, context) {
         "monitoringgenerateUuidLogGroup18A074CF",
         "monitoringglacierrefreezerdashboardE7F6D8AE",
         "monitoringPostMetrics98F9F947",
-        "monitoringPostMetricScheduleAllowEventRuleteststackmonitoringPostMetricSchedule2E9FE30DD6019900",
+        "monitoringPostMetricScheduleAllowEventRuleteststackmonitoringPostMetrics8C0DEF1A842DEFFF",
         "monitoringPostMetricSchedule8675C968",
         "monitoringpostMetricsLogGroup670566A8",
         "monitoringPostMetricsRole87B61E7B",
@@ -1408,13 +1420,21 @@ exports.handler = function(event, context) {
               "id": "W58",
               "reason": "cfn nag is unable to reason about CDK generated cloudwatch log permissions",
             },
+            Object {
+              "id": "W89",
+              "reason": "This is a fully serverless solution - no VPC is required",
+            },
+            Object {
+              "id": "W92",
+              "reason": "Reserved Concurrency is set on high priority functions only by design",
+            },
           ],
         },
       },
       "Properties": Object {
         "Code": Object {
           "S3Bucket": Object {
-            "Ref": "AssetParameters52103ef3eece3dc54360cf8c630fef03d1b79f169fe428a3004dc676f9638da2S3BucketA74D267C",
+            "Ref": "AssetParameterse71d172c081ade26c113aa0587112c42db19a07a93253d23b48f7c9849edb597S3Bucket54B2D69A",
           },
           "S3Key": Object {
             "Fn::Join": Array [
@@ -1427,7 +1447,7 @@ exports.handler = function(event, context) {
                       "Fn::Split": Array [
                         "||",
                         Object {
-                          "Ref": "AssetParameters52103ef3eece3dc54360cf8c630fef03d1b79f169fe428a3004dc676f9638da2S3VersionKeyC007F35A",
+                          "Ref": "AssetParameterse71d172c081ade26c113aa0587112c42db19a07a93253d23b48f7c9849edb597S3VersionKeyA191D19F",
                         },
                       ],
                     },
@@ -1440,7 +1460,7 @@ exports.handler = function(event, context) {
                       "Fn::Split": Array [
                         "||",
                         Object {
-                          "Ref": "AssetParameters52103ef3eece3dc54360cf8c630fef03d1b79f169fe428a3004dc676f9638da2S3VersionKeyC007F35A",
+                          "Ref": "AssetParameterse71d172c081ade26c113aa0587112c42db19a07a93253d23b48f7c9849edb597S3VersionKeyA191D19F",
                         },
                       ],
                     },
@@ -1541,6 +1561,7 @@ exports.handler = function(event, context) {
                 "dynamodb:Query",
                 "dynamodb:GetItem",
                 "dynamodb:Scan",
+                "dynamodb:ConditionCheckItem",
                 "dynamodb:BatchWriteItem",
                 "dynamodb:PutItem",
                 "dynamodb:UpdateItem",
@@ -1658,7 +1679,7 @@ exports.handler = function(event, context) {
       },
       "Type": "AWS::Events::Rule",
     },
-    "monitoringPostMetricScheduleAllowEventRuleteststackmonitoringPostMetricSchedule2E9FE30DD6019900": Object {
+    "monitoringPostMetricScheduleAllowEventRuleteststackmonitoringPostMetrics8C0DEF1A842DEFFF": Object {
       "Properties": Object {
         "Action": "lambda:InvokeFunction",
         "FunctionName": Object {
@@ -1688,6 +1709,14 @@ exports.handler = function(event, context) {
             Object {
               "id": "W58",
               "reason": "cfn nag is unable to reason about CDK generated cloudwatch log permissions",
+            },
+            Object {
+              "id": "W89",
+              "reason": "This is a fully serverless solution - no VPC is required",
+            },
+            Object {
+              "id": "W92",
+              "reason": "Reserved Concurrency is set on high priority functions only by design",
             },
           ],
         },
@@ -2483,13 +2512,21 @@ exports.handler = function(event, context) {
               "id": "W58",
               "reason": "cfn nag is unable to reason about CDK generated cloudwatch log permissions",
             },
+            Object {
+              "id": "W89",
+              "reason": "This is a fully serverless solution - no VPC is required",
+            },
+            Object {
+              "id": "W92",
+              "reason": "Reserved Concurrency is set on high priority functions only by design",
+            },
           ],
         },
       },
       "Properties": Object {
         "Code": Object {
           "S3Bucket": Object {
-            "Ref": "AssetParametersbfd61d60134265dd23ee62cfb89d5bef051f17b06ec9470bddb9f10918c29a37S3Bucket2F51522E",
+            "Ref": "AssetParameters34f63c1cf26828f6a101fc7ce2d5458ea9879b1a7a100f5e222f07d102f1d47eS3Bucket4AF88D6C",
           },
           "S3Key": Object {
             "Fn::Join": Array [
@@ -2502,7 +2539,7 @@ exports.handler = function(event, context) {
                       "Fn::Split": Array [
                         "||",
                         Object {
-                          "Ref": "AssetParametersbfd61d60134265dd23ee62cfb89d5bef051f17b06ec9470bddb9f10918c29a37S3VersionKeyADB0F982",
+                          "Ref": "AssetParameters34f63c1cf26828f6a101fc7ce2d5458ea9879b1a7a100f5e222f07d102f1d47eS3VersionKey7F43C205",
                         },
                       ],
                     },
@@ -2515,7 +2552,7 @@ exports.handler = function(event, context) {
                       "Fn::Split": Array [
                         "||",
                         Object {
-                          "Ref": "AssetParametersbfd61d60134265dd23ee62cfb89d5bef051f17b06ec9470bddb9f10918c29a37S3VersionKeyADB0F982",
+                          "Ref": "AssetParameters34f63c1cf26828f6a101fc7ce2d5458ea9879b1a7a100f5e222f07d102f1d47eS3VersionKey7F43C205",
                         },
                       ],
                     },
@@ -2661,6 +2698,7 @@ exports.handler = function(event, context) {
                 "dynamodb:Query",
                 "dynamodb:GetItem",
                 "dynamodb:Scan",
+                "dynamodb:ConditionCheckItem",
                 "dynamodb:BatchWriteItem",
                 "dynamodb:PutItem",
                 "dynamodb:UpdateItem",
@@ -2794,7 +2832,7 @@ exports.handler = function(event, context) {
         "monitoringgenerateUuidLogGroup18A074CF",
         "monitoringglacierrefreezerdashboardE7F6D8AE",
         "monitoringPostMetrics98F9F947",
-        "monitoringPostMetricScheduleAllowEventRuleteststackmonitoringPostMetricSchedule2E9FE30DD6019900",
+        "monitoringPostMetricScheduleAllowEventRuleteststackmonitoringPostMetrics8C0DEF1A842DEFFF",
         "monitoringPostMetricSchedule8675C968",
         "monitoringpostMetricsLogGroup670566A8",
         "monitoringPostMetricsRole87B61E7B",
@@ -2887,7 +2925,7 @@ exports.handler = function(event, context) {
         "monitoringgenerateUuidLogGroup18A074CF",
         "monitoringglacierrefreezerdashboardE7F6D8AE",
         "monitoringPostMetrics98F9F947",
-        "monitoringPostMetricScheduleAllowEventRuleteststackmonitoringPostMetricSchedule2E9FE30DD6019900",
+        "monitoringPostMetricScheduleAllowEventRuleteststackmonitoringPostMetrics8C0DEF1A842DEFFF",
         "monitoringPostMetricSchedule8675C968",
         "monitoringpostMetricsLogGroup670566A8",
         "monitoringPostMetricsRole87B61E7B",
@@ -2906,6 +2944,14 @@ exports.handler = function(event, context) {
             Object {
               "id": "W58",
               "reason": "cfn nag is unable to reason about CDK generated cloudwatch log permissions",
+            },
+            Object {
+              "id": "W89",
+              "reason": "This is a fully serverless solution - no VPC is required",
+            },
+            Object {
+              "id": "W92",
+              "reason": "Reserved Concurrency is set on high priority functions only by design",
             },
           ],
         },
@@ -3013,7 +3059,7 @@ exports.handler = function(event, context) {
         "monitoringgenerateUuidLogGroup18A074CF",
         "monitoringglacierrefreezerdashboardE7F6D8AE",
         "monitoringPostMetrics98F9F947",
-        "monitoringPostMetricScheduleAllowEventRuleteststackmonitoringPostMetricSchedule2E9FE30DD6019900",
+        "monitoringPostMetricScheduleAllowEventRuleteststackmonitoringPostMetrics8C0DEF1A842DEFFF",
         "monitoringPostMetricSchedule8675C968",
         "monitoringpostMetricsLogGroup670566A8",
         "monitoringPostMetricsRole87B61E7B",
@@ -3056,7 +3102,7 @@ exports.handler = function(event, context) {
         "monitoringgenerateUuidLogGroup18A074CF",
         "monitoringglacierrefreezerdashboardE7F6D8AE",
         "monitoringPostMetrics98F9F947",
-        "monitoringPostMetricScheduleAllowEventRuleteststackmonitoringPostMetricSchedule2E9FE30DD6019900",
+        "monitoringPostMetricScheduleAllowEventRuleteststackmonitoringPostMetrics8C0DEF1A842DEFFF",
         "monitoringPostMetricSchedule8675C968",
         "monitoringpostMetricsLogGroup670566A8",
         "monitoringPostMetricsRole87B61E7B",
@@ -3098,7 +3144,7 @@ exports.handler = function(event, context) {
         "monitoringgenerateUuidLogGroup18A074CF",
         "monitoringglacierrefreezerdashboardE7F6D8AE",
         "monitoringPostMetrics98F9F947",
-        "monitoringPostMetricScheduleAllowEventRuleteststackmonitoringPostMetricSchedule2E9FE30DD6019900",
+        "monitoringPostMetricScheduleAllowEventRuleteststackmonitoringPostMetrics8C0DEF1A842DEFFF",
         "monitoringPostMetricSchedule8675C968",
         "monitoringpostMetricsLogGroup670566A8",
         "monitoringPostMetricsRole87B61E7B",
@@ -3117,6 +3163,14 @@ exports.handler = function(event, context) {
             Object {
               "id": "W58",
               "reason": "cfn nag is unable to reason about CDK generated cloudwatch log permissions",
+            },
+            Object {
+              "id": "W89",
+              "reason": "This is a fully serverless solution - no VPC is required",
+            },
+            Object {
+              "id": "W92",
+              "reason": "Reserved Concurrency is set on high priority functions only by design",
             },
           ],
         },
@@ -3207,7 +3261,7 @@ exports.handler = function(event, context) {
         "monitoringgenerateUuidLogGroup18A074CF",
         "monitoringglacierrefreezerdashboardE7F6D8AE",
         "monitoringPostMetrics98F9F947",
-        "monitoringPostMetricScheduleAllowEventRuleteststackmonitoringPostMetricSchedule2E9FE30DD6019900",
+        "monitoringPostMetricScheduleAllowEventRuleteststackmonitoringPostMetrics8C0DEF1A842DEFFF",
         "monitoringPostMetricSchedule8675C968",
         "monitoringpostMetricsLogGroup670566A8",
         "monitoringPostMetricsRole87B61E7B",
@@ -3271,7 +3325,7 @@ exports.handler = function(event, context) {
         "monitoringgenerateUuidLogGroup18A074CF",
         "monitoringglacierrefreezerdashboardE7F6D8AE",
         "monitoringPostMetrics98F9F947",
-        "monitoringPostMetricScheduleAllowEventRuleteststackmonitoringPostMetricSchedule2E9FE30DD6019900",
+        "monitoringPostMetricScheduleAllowEventRuleteststackmonitoringPostMetrics8C0DEF1A842DEFFF",
         "monitoringPostMetricSchedule8675C968",
         "monitoringpostMetricsLogGroup670566A8",
         "monitoringPostMetricsRole87B61E7B",
@@ -3379,7 +3433,7 @@ exports.handler = function(event, context) {
         "monitoringgenerateUuidLogGroup18A074CF",
         "monitoringglacierrefreezerdashboardE7F6D8AE",
         "monitoringPostMetrics98F9F947",
-        "monitoringPostMetricScheduleAllowEventRuleteststackmonitoringPostMetricSchedule2E9FE30DD6019900",
+        "monitoringPostMetricScheduleAllowEventRuleteststackmonitoringPostMetrics8C0DEF1A842DEFFF",
         "monitoringPostMetricSchedule8675C968",
         "monitoringpostMetricsLogGroup670566A8",
         "monitoringPostMetricsRole87B61E7B",
@@ -3443,7 +3497,7 @@ exports.handler = function(event, context) {
         "monitoringgenerateUuidLogGroup18A074CF",
         "monitoringglacierrefreezerdashboardE7F6D8AE",
         "monitoringPostMetrics98F9F947",
-        "monitoringPostMetricScheduleAllowEventRuleteststackmonitoringPostMetricSchedule2E9FE30DD6019900",
+        "monitoringPostMetricScheduleAllowEventRuleteststackmonitoringPostMetrics8C0DEF1A842DEFFF",
         "monitoringPostMetricSchedule8675C968",
         "monitoringpostMetricsLogGroup670566A8",
         "monitoringPostMetricsRole87B61E7B",
@@ -3568,7 +3622,7 @@ exports.handler = function(event, context) {
         "monitoringgenerateUuidLogGroup18A074CF",
         "monitoringglacierrefreezerdashboardE7F6D8AE",
         "monitoringPostMetrics98F9F947",
-        "monitoringPostMetricScheduleAllowEventRuleteststackmonitoringPostMetricSchedule2E9FE30DD6019900",
+        "monitoringPostMetricScheduleAllowEventRuleteststackmonitoringPostMetrics8C0DEF1A842DEFFF",
         "monitoringPostMetricSchedule8675C968",
         "monitoringpostMetricsLogGroup670566A8",
         "monitoringPostMetricsRole87B61E7B",
@@ -3587,6 +3641,14 @@ exports.handler = function(event, context) {
             Object {
               "id": "W58",
               "reason": "cfn nag is unable to reason about CDK generated cloudwatch log permissions",
+            },
+            Object {
+              "id": "W89",
+              "reason": "This is a fully serverless solution - no VPC is required",
+            },
+            Object {
+              "id": "W92",
+              "reason": "Reserved Concurrency is set on high priority functions only by design",
             },
           ],
         },
@@ -3703,7 +3765,7 @@ exports.handler = function(event, context) {
         "monitoringgenerateUuidLogGroup18A074CF",
         "monitoringglacierrefreezerdashboardE7F6D8AE",
         "monitoringPostMetrics98F9F947",
-        "monitoringPostMetricScheduleAllowEventRuleteststackmonitoringPostMetricSchedule2E9FE30DD6019900",
+        "monitoringPostMetricScheduleAllowEventRuleteststackmonitoringPostMetrics8C0DEF1A842DEFFF",
         "monitoringPostMetricSchedule8675C968",
         "monitoringpostMetricsLogGroup670566A8",
         "monitoringPostMetricsRole87B61E7B",
@@ -3767,7 +3829,7 @@ exports.handler = function(event, context) {
         "monitoringgenerateUuidLogGroup18A074CF",
         "monitoringglacierrefreezerdashboardE7F6D8AE",
         "monitoringPostMetrics98F9F947",
-        "monitoringPostMetricScheduleAllowEventRuleteststackmonitoringPostMetricSchedule2E9FE30DD6019900",
+        "monitoringPostMetricScheduleAllowEventRuleteststackmonitoringPostMetrics8C0DEF1A842DEFFF",
         "monitoringPostMetricSchedule8675C968",
         "monitoringpostMetricsLogGroup670566A8",
         "monitoringPostMetricsRole87B61E7B",
@@ -3947,7 +4009,7 @@ exports.handler = function(event, context) {
         "monitoringgenerateUuidLogGroup18A074CF",
         "monitoringglacierrefreezerdashboardE7F6D8AE",
         "monitoringPostMetrics98F9F947",
-        "monitoringPostMetricScheduleAllowEventRuleteststackmonitoringPostMetricSchedule2E9FE30DD6019900",
+        "monitoringPostMetricScheduleAllowEventRuleteststackmonitoringPostMetrics8C0DEF1A842DEFFF",
         "monitoringPostMetricSchedule8675C968",
         "monitoringpostMetricsLogGroup670566A8",
         "monitoringPostMetricsRole87B61E7B",
@@ -3982,13 +4044,21 @@ exports.handler = function(event, context) {
               "id": "W58",
               "reason": "cfn nag is unable to reason about CDK generated cloudwatch log permissions",
             },
+            Object {
+              "id": "W89",
+              "reason": "This is a fully serverless solution - no VPC is required",
+            },
+            Object {
+              "id": "W92",
+              "reason": "Reserved Concurrency is set on high priority functions only by design",
+            },
           ],
         },
       },
       "Properties": Object {
         "Code": Object {
           "S3Bucket": Object {
-            "Ref": "AssetParameters6c576cab728bcb14c37035934e9db39b4f77dea00c13bc3e1a33219e74892aa5S3BucketE71A0458",
+            "Ref": "AssetParameters702acdf76b3cab1ef7cf2ea0384bf8cd2b1666b4fa903c651f997d6432b5efc2S3BucketC181DE9E",
           },
           "S3Key": Object {
             "Fn::Join": Array [
@@ -4001,7 +4071,7 @@ exports.handler = function(event, context) {
                       "Fn::Split": Array [
                         "||",
                         Object {
-                          "Ref": "AssetParameters6c576cab728bcb14c37035934e9db39b4f77dea00c13bc3e1a33219e74892aa5S3VersionKey4387213B",
+                          "Ref": "AssetParameters702acdf76b3cab1ef7cf2ea0384bf8cd2b1666b4fa903c651f997d6432b5efc2S3VersionKeyB6BBAB0D",
                         },
                       ],
                     },
@@ -4014,7 +4084,7 @@ exports.handler = function(event, context) {
                       "Fn::Split": Array [
                         "||",
                         Object {
-                          "Ref": "AssetParameters6c576cab728bcb14c37035934e9db39b4f77dea00c13bc3e1a33219e74892aa5S3VersionKey4387213B",
+                          "Ref": "AssetParameters702acdf76b3cab1ef7cf2ea0384bf8cd2b1666b4fa903c651f997d6432b5efc2S3VersionKeyB6BBAB0D",
                         },
                       ],
                     },
@@ -4063,7 +4133,7 @@ exports.handler = function(event, context) {
         },
         "Handler": "index.handler",
         "MemorySize": 1024,
-        "ReservedConcurrentExecutions": 50,
+        "ReservedConcurrentExecutions": 40,
         "Role": Object {
           "Fn::GetAtt": Array [
             "stageThreeCopyArchiveRoleF6DAB445",
@@ -4126,6 +4196,7 @@ exports.handler = function(event, context) {
                 "dynamodb:Query",
                 "dynamodb:GetItem",
                 "dynamodb:Scan",
+                "dynamodb:ConditionCheckItem",
                 "dynamodb:BatchWriteItem",
                 "dynamodb:PutItem",
                 "dynamodb:UpdateItem",
@@ -4340,13 +4411,21 @@ exports.handler = function(event, context) {
               "id": "W58",
               "reason": "cfn nag is unable to reason about CDK generated cloudwatch log permissions",
             },
+            Object {
+              "id": "W89",
+              "reason": "This is a fully serverless solution - no VPC is required",
+            },
+            Object {
+              "id": "W92",
+              "reason": "Reserved Concurrency is set on high priority functions only by design",
+            },
           ],
         },
       },
       "Properties": Object {
         "Code": Object {
           "S3Bucket": Object {
-            "Ref": "AssetParameters95e4d0488902860692b66eb366e47ae053faf33cb1e5e369c333e285f3a0a214S3BucketB51CD3B0",
+            "Ref": "AssetParameters3808d68b7a443eed00c0a77a9fc7fa4dc4ef9d74199eca486b44be60d4f204f9S3Bucket3B97EFEB",
           },
           "S3Key": Object {
             "Fn::Join": Array [
@@ -4359,7 +4438,7 @@ exports.handler = function(event, context) {
                       "Fn::Split": Array [
                         "||",
                         Object {
-                          "Ref": "AssetParameters95e4d0488902860692b66eb366e47ae053faf33cb1e5e369c333e285f3a0a214S3VersionKeyBA4753AC",
+                          "Ref": "AssetParameters3808d68b7a443eed00c0a77a9fc7fa4dc4ef9d74199eca486b44be60d4f204f9S3VersionKey84D58FAC",
                         },
                       ],
                     },
@@ -4372,7 +4451,7 @@ exports.handler = function(event, context) {
                       "Fn::Split": Array [
                         "||",
                         Object {
-                          "Ref": "AssetParameters95e4d0488902860692b66eb366e47ae053faf33cb1e5e369c333e285f3a0a214S3VersionKeyBA4753AC",
+                          "Ref": "AssetParameters3808d68b7a443eed00c0a77a9fc7fa4dc4ef9d74199eca486b44be60d4f204f9S3VersionKey84D58FAC",
                         },
                       ],
                     },
@@ -4501,6 +4580,7 @@ exports.handler = function(event, context) {
                 "dynamodb:Query",
                 "dynamodb:GetItem",
                 "dynamodb:Scan",
+                "dynamodb:ConditionCheckItem",
                 "dynamodb:BatchWriteItem",
                 "dynamodb:PutItem",
                 "dynamodb:UpdateItem",
@@ -4664,6 +4744,7 @@ exports.handler = function(event, context) {
       "Type": "AWS::Lambda::EventSourceMapping",
     },
     "stageThreearchivenotificationqueue402FED49": Object {
+      "DeletionPolicy": "Delete",
       "Metadata": Object {
         "cfn_nag": Object {
           "rules_to_suppress": Array [
@@ -4695,6 +4776,7 @@ exports.handler = function(event, context) {
         "VisibilityTimeout": 905,
       },
       "Type": "AWS::SQS::Queue",
+      "UpdateReplacePolicy": "Delete",
     },
     "stageThreearchivenotificationqueuePolicy277C3061": Object {
       "Properties": Object {
@@ -4764,6 +4846,7 @@ exports.handler = function(event, context) {
       "Type": "AWS::SNS::Subscription",
     },
     "stageThreechunkcopyqueue6E6E5A95": Object {
+      "DeletionPolicy": "Delete",
       "Metadata": Object {
         "cfn_nag": Object {
           "rules_to_suppress": Array [
@@ -4795,6 +4878,7 @@ exports.handler = function(event, context) {
         "VisibilityTimeout": 905,
       },
       "Type": "AWS::SQS::Queue",
+      "UpdateReplacePolicy": "Delete",
     },
     "stageThreechunkcopyqueuePolicy1B170AFE": Object {
       "Properties": Object {
@@ -4829,6 +4913,7 @@ exports.handler = function(event, context) {
       "Type": "AWS::SQS::QueuePolicy",
     },
     "stageThreetreehashcalcqueue77403987": Object {
+      "DeletionPolicy": "Delete",
       "Metadata": Object {
         "cfn_nag": Object {
           "rules_to_suppress": Array [
@@ -4840,6 +4925,7 @@ exports.handler = function(event, context) {
         },
       },
       "Properties": Object {
+        "MessageRetentionPeriod": 1209600,
         "QueueName": Object {
           "Fn::Join": Array [
             "",
@@ -4860,6 +4946,7 @@ exports.handler = function(event, context) {
         "VisibilityTimeout": 905,
       },
       "Type": "AWS::SQS::Queue",
+      "UpdateReplacePolicy": "Delete",
     },
     "stageThreetreehashcalcqueuePolicyAC24B291": Object {
       "Properties": Object {
@@ -4910,7 +4997,7 @@ exports.handler = function(event, context) {
         "monitoringgenerateUuidLogGroup18A074CF",
         "monitoringglacierrefreezerdashboardE7F6D8AE",
         "monitoringPostMetrics98F9F947",
-        "monitoringPostMetricScheduleAllowEventRuleteststackmonitoringPostMetricSchedule2E9FE30DD6019900",
+        "monitoringPostMetricScheduleAllowEventRuleteststackmonitoringPostMetrics8C0DEF1A842DEFFF",
         "monitoringPostMetricSchedule8675C968",
         "monitoringpostMetricsLogGroup670566A8",
         "monitoringPostMetricsRole87B61E7B",
@@ -4930,13 +5017,21 @@ exports.handler = function(event, context) {
               "id": "W58",
               "reason": "cfn nag is unable to reason about CDK generated cloudwatch log permissions",
             },
+            Object {
+              "id": "W89",
+              "reason": "This is a fully serverless solution - no VPC is required",
+            },
+            Object {
+              "id": "W92",
+              "reason": "Reserved Concurrency is set on high priority functions only by design",
+            },
           ],
         },
       },
       "Properties": Object {
         "Code": Object {
           "S3Bucket": Object {
-            "Ref": "AssetParameters1b4c7744303ba80b24f828bb073f1a4ce32a92c61e832280df8bc1fdf25b1153S3BucketE856D09A",
+            "Ref": "AssetParameters9994c1f48a8e05f3371a72655057955e501b963e606eea3130bcf6bc50ce07ddS3BucketFFDC5E15",
           },
           "S3Key": Object {
             "Fn::Join": Array [
@@ -4949,7 +5044,7 @@ exports.handler = function(event, context) {
                       "Fn::Split": Array [
                         "||",
                         Object {
-                          "Ref": "AssetParameters1b4c7744303ba80b24f828bb073f1a4ce32a92c61e832280df8bc1fdf25b1153S3VersionKeyED29C0F3",
+                          "Ref": "AssetParameters9994c1f48a8e05f3371a72655057955e501b963e606eea3130bcf6bc50ce07ddS3VersionKey43F14B6D",
                         },
                       ],
                     },
@@ -4962,7 +5057,7 @@ exports.handler = function(event, context) {
                       "Fn::Split": Array [
                         "||",
                         Object {
-                          "Ref": "AssetParameters1b4c7744303ba80b24f828bb073f1a4ce32a92c61e832280df8bc1fdf25b1153S3VersionKeyED29C0F3",
+                          "Ref": "AssetParameters9994c1f48a8e05f3371a72655057955e501b963e606eea3130bcf6bc50ce07ddS3VersionKey43F14B6D",
                         },
                       ],
                     },
@@ -5026,7 +5121,7 @@ exports.handler = function(event, context) {
         "monitoringgenerateUuidLogGroup18A074CF",
         "monitoringglacierrefreezerdashboardE7F6D8AE",
         "monitoringPostMetrics98F9F947",
-        "monitoringPostMetricScheduleAllowEventRuleteststackmonitoringPostMetricSchedule2E9FE30DD6019900",
+        "monitoringPostMetricScheduleAllowEventRuleteststackmonitoringPostMetrics8C0DEF1A842DEFFF",
         "monitoringPostMetricSchedule8675C968",
         "monitoringpostMetricsLogGroup670566A8",
         "monitoringPostMetricsRole87B61E7B",
@@ -5099,7 +5194,7 @@ exports.handler = function(event, context) {
         "monitoringgenerateUuidLogGroup18A074CF",
         "monitoringglacierrefreezerdashboardE7F6D8AE",
         "monitoringPostMetrics98F9F947",
-        "monitoringPostMetricScheduleAllowEventRuleteststackmonitoringPostMetricSchedule2E9FE30DD6019900",
+        "monitoringPostMetricScheduleAllowEventRuleteststackmonitoringPostMetrics8C0DEF1A842DEFFF",
         "monitoringPostMetricSchedule8675C968",
         "monitoringpostMetricsLogGroup670566A8",
         "monitoringPostMetricsRole87B61E7B",
@@ -5163,7 +5258,7 @@ exports.handler = function(event, context) {
         "monitoringgenerateUuidLogGroup18A074CF",
         "monitoringglacierrefreezerdashboardE7F6D8AE",
         "monitoringPostMetrics98F9F947",
-        "monitoringPostMetricScheduleAllowEventRuleteststackmonitoringPostMetricSchedule2E9FE30DD6019900",
+        "monitoringPostMetricScheduleAllowEventRuleteststackmonitoringPostMetrics8C0DEF1A842DEFFF",
         "monitoringPostMetricSchedule8675C968",
         "monitoringpostMetricsLogGroup670566A8",
         "monitoringPostMetricsRole87B61E7B",
@@ -5234,7 +5329,7 @@ exports.handler = function(event, context) {
         "monitoringgenerateUuidLogGroup18A074CF",
         "monitoringglacierrefreezerdashboardE7F6D8AE",
         "monitoringPostMetrics98F9F947",
-        "monitoringPostMetricScheduleAllowEventRuleteststackmonitoringPostMetricSchedule2E9FE30DD6019900",
+        "monitoringPostMetricScheduleAllowEventRuleteststackmonitoringPostMetrics8C0DEF1A842DEFFF",
         "monitoringPostMetricSchedule8675C968",
         "monitoringpostMetricsLogGroup670566A8",
         "monitoringPostMetricsRole87B61E7B",
@@ -5498,7 +5593,7 @@ exports.handler = function(event, context) {
         "monitoringgenerateUuidLogGroup18A074CF",
         "monitoringglacierrefreezerdashboardE7F6D8AE",
         "monitoringPostMetrics98F9F947",
-        "monitoringPostMetricScheduleAllowEventRuleteststackmonitoringPostMetricSchedule2E9FE30DD6019900",
+        "monitoringPostMetricScheduleAllowEventRuleteststackmonitoringPostMetrics8C0DEF1A842DEFFF",
         "monitoringPostMetricSchedule8675C968",
         "monitoringpostMetricsLogGroup670566A8",
         "monitoringPostMetricsRole87B61E7B",
@@ -5529,6 +5624,7 @@ exports.handler = function(event, context) {
           "--DATABASE": Object {
             "Ref": "glueDataCatalogInventoryDatabase96DE1AD3",
           },
+          "--DQL": 65970697666560,
           "--FILENAME_TABLE": Object {
             "Ref": "glueDataCatalogFilelistTable2224351B",
           },
@@ -5592,7 +5688,7 @@ exports.handler = function(event, context) {
         "monitoringgenerateUuidLogGroup18A074CF",
         "monitoringglacierrefreezerdashboardE7F6D8AE",
         "monitoringPostMetrics98F9F947",
-        "monitoringPostMetricScheduleAllowEventRuleteststackmonitoringPostMetricSchedule2E9FE30DD6019900",
+        "monitoringPostMetricScheduleAllowEventRuleteststackmonitoringPostMetrics8C0DEF1A842DEFFF",
         "monitoringPostMetricSchedule8675C968",
         "monitoringpostMetricsLogGroup670566A8",
         "monitoringPostMetricsRole87B61E7B",
@@ -5610,7 +5706,7 @@ exports.handler = function(event, context) {
           "Fn::Join": Array [
             "",
             Array [
-              "{\\"StartAt\\":\\"Parallel Queries\\",\\"States\\":{\\"Parallel Queries\\":{\\"Type\\":\\"Parallel\\",\\"Next\\":\\"Merge Query Results\\",\\"Branches\\":[{\\"StartAt\\":\\"Start Inventory Query\\",\\"States\\":{\\"Start Inventory Query\\":{\\"Next\\":\\"Get Inventory Results\\",\\"Type\\":\\"Task\\",\\"OutputPath\\":\\"$.QueryExecution\\",\\"Resource\\":\\"arn:",
+              "{\\"StartAt\\":\\"Parallel Queries\\",\\"States\\":{\\"Parallel Queries\\":{\\"Type\\":\\"Parallel\\",\\"Next\\":\\"Check Inventory State\\",\\"Branches\\":[{\\"StartAt\\":\\"Start Inventory Query\\",\\"States\\":{\\"Start Inventory Query\\":{\\"Next\\":\\"Get Inventory Results\\",\\"Type\\":\\"Task\\",\\"OutputPath\\":\\"$.QueryExecution\\",\\"Resource\\":\\"arn:",
               Object {
                 "Ref": "AWS::Partition",
               },
@@ -5650,7 +5746,7 @@ exports.handler = function(event, context) {
               Object {
                 "Ref": "AWS::Partition",
               },
-              ":states:::athena:getQueryResults\\",\\"Parameters\\":{\\"QueryExecutionId.$\\":\\"$.QueryExecutionId\\"}}}}]},\\"Merge Query Results\\":{\\"Type\\":\\"Pass\\",\\"ResultPath\\":\\"$\\",\\"Parameters\\":{\\"inventoryTable\\":{\\"archiveCount.$\\":\\"$[0].Data[0].VarCharValue\\",\\"vaultSize.$\\":\\"$[0].Data[1].VarCharValue\\"},\\"partitionedTable\\":{\\"archiveCount.$\\":\\"$[1].Data[0].VarCharValue\\"}},\\"Next\\":\\"Check Inventory State\\"},\\"Check Inventory State\\":{\\"Type\\":\\"Choice\\",\\"Choices\\":[{\\"Variable\\":\\"$.inventoryTable.archiveCount\\",\\"StringEquals\\":\\"0\\",\\"Next\\":\\"FAIL: Inventory Empty\\"},{\\"And\\":[{\\"Not\\":{\\"Variable\\":\\"$.partitionedTable.archiveCount\\",\\"StringEquals\\":\\"0\\"}},{\\"Not\\":{\\"Variable\\":\\"$.inventoryTable.archiveCount\\",\\"StringEqualsPath\\":\\"$.partitionedTable.archiveCount\\"}}],\\"Next\\":\\"FAIL: Inventory-Partitioned Mismatch\\"}],\\"Default\\":\\"Partitioning Required ?\\"},\\"Partitioning Required ?\\":{\\"Type\\":\\"Choice\\",\\"Choices\\":[{\\"Variable\\":\\"$.inventoryTable.archiveCount\\",\\"StringEqualsPath\\":\\"$.partitionedTable.archiveCount\\",\\"Next\\":\\"Start Max Partition Query\\"}],\\"Default\\":\\"Parallel Partitioning and Stats update\\"},\\"Parallel Partitioning and Stats update\\":{\\"Type\\":\\"Parallel\\",\\"Next\\":\\"Start Max Partition Query\\",\\"Branches\\":[{\\"StartAt\\":\\"Run Glue Partitioning\\",\\"States\\":{\\"Run Glue Partitioning\\":{\\"End\\":true,\\"Type\\":\\"Task\\",\\"Resource\\":\\"arn:",
+              ":states:::athena:getQueryResults\\",\\"Parameters\\":{\\"QueryExecutionId.$\\":\\"$.QueryExecutionId\\"}}}}],\\"ResultSelector\\":{\\"inventoryTable\\":{\\"archiveCount.$\\":\\"$[0].Data[0].VarCharValue\\",\\"vaultSize.$\\":\\"$[0].Data[1].VarCharValue\\"},\\"partitionedTable\\":{\\"archiveCount.$\\":\\"$[1].Data[0].VarCharValue\\"}}},\\"Check Inventory State\\":{\\"Type\\":\\"Choice\\",\\"Choices\\":[{\\"Variable\\":\\"$.inventoryTable.archiveCount\\",\\"StringEquals\\":\\"0\\",\\"Next\\":\\"FAIL: Inventory Empty\\"},{\\"And\\":[{\\"Not\\":{\\"Variable\\":\\"$.partitionedTable.archiveCount\\",\\"StringEquals\\":\\"0\\"}},{\\"Not\\":{\\"Variable\\":\\"$.inventoryTable.archiveCount\\",\\"StringEqualsPath\\":\\"$.partitionedTable.archiveCount\\"}}],\\"Next\\":\\"FAIL: Inventory-Partitioned Mismatch\\"}],\\"Default\\":\\"Partitioning Required ?\\"},\\"Partitioning Required ?\\":{\\"Type\\":\\"Choice\\",\\"Choices\\":[{\\"Variable\\":\\"$.inventoryTable.archiveCount\\",\\"StringEqualsPath\\":\\"$.partitionedTable.archiveCount\\",\\"Next\\":\\"Start Max Partition Query\\"}],\\"Default\\":\\"Parallel Partitioning and Stats update\\"},\\"Parallel Partitioning and Stats update\\":{\\"Type\\":\\"Parallel\\",\\"Next\\":\\"Start Max Partition Query\\",\\"Branches\\":[{\\"StartAt\\":\\"Run Glue Partitioning\\",\\"States\\":{\\"Run Glue Partitioning\\":{\\"End\\":true,\\"Type\\":\\"Task\\",\\"Resource\\":\\"arn:",
               Object {
                 "Ref": "AWS::Partition",
               },
@@ -5658,11 +5754,19 @@ exports.handler = function(event, context) {
               Object {
                 "Ref": "AWS::StackName",
               },
-              "-glacier-refreezer\\"}}}},{\\"StartAt\\":\\"Update Metrics Table\\",\\"States\\":{\\"Update Metrics Table\\":{\\"Next\\":\\"Send Anonymous Statistics\\",\\"Type\\":\\"Task\\",\\"ResultPath\\":\\"$.putItemResult\\",\\"Resource\\":\\"arn:",
+              "-glacier-refreezer\\",\\"Arguments\\":{\\"--ARCHIVE_COUNT.$\\":\\"$.inventoryTable.archiveCount\\",\\"--VAULT_SIZE.$\\":\\"$.inventoryTable.vaultSize\\"}}}}},{\\"StartAt\\":\\"Update Count Metric\\",\\"States\\":{\\"Update Count Metric\\":{\\"Next\\":\\"Update Size Metric\\",\\"Type\\":\\"Task\\",\\"ResultPath\\":\\"$.putItemResult\\",\\"Resource\\":\\"arn:",
               Object {
                 "Ref": "AWS::Partition",
               },
               ":states:::dynamodb:putItem\\",\\"Parameters\\":{\\"Item\\":{\\"pk\\":{\\"S\\":\\"count\\"},\\"total\\":{\\"N.$\\":\\"$.inventoryTable.archiveCount\\"}},\\"TableName\\":\\"",
+              Object {
+                "Ref": "dynamoDataCatalogMetricsTable174C007B",
+              },
+              "\\"}},\\"Update Size Metric\\":{\\"Next\\":\\"Send Anonymous Statistics\\",\\"Type\\":\\"Task\\",\\"ResultPath\\":\\"$.putItemResult\\",\\"Resource\\":\\"arn:",
+              Object {
+                "Ref": "AWS::Partition",
+              },
+              ":states:::dynamodb:putItem\\",\\"Parameters\\":{\\"Item\\":{\\"pk\\":{\\"S\\":\\"size\\"},\\"total\\":{\\"N.$\\":\\"$.inventoryTable.vaultSize\\"}},\\"TableName\\":\\"",
               Object {
                 "Ref": "dynamoDataCatalogMetricsTable174C007B",
               },
@@ -5693,11 +5797,11 @@ exports.handler = function(event, context) {
               Object {
                 "Ref": "AWS::StackName",
               },
-              "-glacier-refreezer-sol\\"}},\\"Get Max Partition Result\\":{\\"Next\\":\\"Request Archives Retrieval\\",\\"Type\\":\\"Task\\",\\"OutputPath\\":\\"$.result\\",\\"Resource\\":\\"arn:",
+              "-glacier-refreezer-sol\\"}},\\"Get Max Partition Result\\":{\\"Next\\":\\"Request Archives Retrieval\\",\\"Type\\":\\"Task\\",\\"OutputPath\\":\\"$.result\\",\\"ResultSelector\\":{\\"result.$\\":\\"States.StringToJson($.ResultSet.Rows[1].Data[0].VarCharValue)\\"},\\"Resource\\":\\"arn:",
               Object {
                 "Ref": "AWS::Partition",
               },
-              ":states:::athena:getQueryResults\\",\\"Parameters\\":{\\"QueryExecutionId.$\\":\\"$.QueryExecutionId\\"},\\"ResultSelector\\":{\\"result.$\\":\\"States.StringToJson($.ResultSet.Rows[1].Data[0].VarCharValue)\\"}},\\"Request Archives Retrieval\\":{\\"Next\\":\\"Is Complete?\\",\\"Retry\\":[{\\"ErrorEquals\\":[\\"Lambda.ServiceException\\",\\"Lambda.AWSLambdaException\\",\\"Lambda.SdkClientException\\"],\\"IntervalSeconds\\":2,\\"MaxAttempts\\":6,\\"BackoffRate\\":2},{\\"ErrorEquals\\":[\\"States.ALL\\"],\\"IntervalSeconds\\":15,\\"MaxAttempts\\":10000,\\"BackoffRate\\":1}],\\"Type\\":\\"Task\\",\\"OutputPath\\":\\"$.Payload\\",\\"Resource\\":\\"arn:",
+              ":states:::athena:getQueryResults\\",\\"Parameters\\":{\\"QueryExecutionId.$\\":\\"$.QueryExecutionId\\"}},\\"Request Archives Retrieval\\":{\\"Next\\":\\"Is Complete?\\",\\"Retry\\":[{\\"ErrorEquals\\":[\\"Lambda.ServiceException\\",\\"Lambda.AWSLambdaException\\",\\"Lambda.SdkClientException\\"],\\"IntervalSeconds\\":2,\\"MaxAttempts\\":6,\\"BackoffRate\\":2},{\\"ErrorEquals\\":[\\"States.ALL\\"],\\"IntervalSeconds\\":15,\\"MaxAttempts\\":10000,\\"BackoffRate\\":1}],\\"Type\\":\\"Task\\",\\"OutputPath\\":\\"$.Payload\\",\\"Resource\\":\\"arn:",
               Object {
                 "Ref": "AWS::Partition",
               },
@@ -5708,7 +5812,7 @@ exports.handler = function(event, context) {
                   "Arn",
                 ],
               },
-              "\\",\\"Payload.$\\":\\"$\\"}},\\"Is Complete?\\":{\\"Type\\":\\"Choice\\",\\"Choices\\":[{\\"Variable\\":\\"$.nextPartition\\",\\"NumericGreaterThanPath\\":\\"$.maxPartition\\",\\"Next\\":\\"Success\\"}],\\"Default\\":\\"Request Archives Retrieval\\"},\\"Success\\":{\\"Type\\":\\"Succeed\\"},\\"FAIL: Inventory Empty\\":{\\"Type\\":\\"Fail\\",\\"Error\\":\\"Vault Inventory Table is empty. Has it been downloaded?\\"},\\"FAIL: Inventory-Partitioned Mismatch\\":{\\"Type\\":\\"Fail\\",\\"Error\\":\\"Inventory and Partitioned table counts are greater than 0 and do not match. Cannot proceed.\\"}}}",
+              "\\",\\"Payload.$\\":\\"$\\"}},\\"Wait X Seconds\\":{\\"Type\\":\\"Wait\\",\\"SecondsPath\\":\\"$.timeout\\",\\"Next\\":\\"Request Archives Retrieval\\"},\\"Is Complete?\\":{\\"Type\\":\\"Choice\\",\\"Choices\\":[{\\"Variable\\":\\"$.nextPartition\\",\\"NumericGreaterThanPath\\":\\"$.maxPartition\\",\\"Next\\":\\"Success\\"}],\\"Default\\":\\"Wait X Seconds\\"},\\"Success\\":{\\"Type\\":\\"Succeed\\"},\\"FAIL: Inventory Empty\\":{\\"Type\\":\\"Fail\\",\\"Error\\":\\"Vault Inventory Table is empty. Has it been downloaded?\\"},\\"FAIL: Inventory-Partitioned Mismatch\\":{\\"Type\\":\\"Fail\\",\\"Error\\":\\"Inventory and Partitioned table counts are greater than 0 and do not match. Cannot proceed.\\"}}}",
             ],
           ],
         },
@@ -5789,7 +5893,7 @@ exports.handler = function(event, context) {
         "monitoringgenerateUuidLogGroup18A074CF",
         "monitoringglacierrefreezerdashboardE7F6D8AE",
         "monitoringPostMetrics98F9F947",
-        "monitoringPostMetricScheduleAllowEventRuleteststackmonitoringPostMetricSchedule2E9FE30DD6019900",
+        "monitoringPostMetricScheduleAllowEventRuleteststackmonitoringPostMetrics8C0DEF1A842DEFFF",
         "monitoringPostMetricSchedule8675C968",
         "monitoringpostMetricsLogGroup670566A8",
         "monitoringPostMetricsRole87B61E7B",
@@ -5839,7 +5943,7 @@ exports.handler = function(event, context) {
         "monitoringgenerateUuidLogGroup18A074CF",
         "monitoringglacierrefreezerdashboardE7F6D8AE",
         "monitoringPostMetrics98F9F947",
-        "monitoringPostMetricScheduleAllowEventRuleteststackmonitoringPostMetricSchedule2E9FE30DD6019900",
+        "monitoringPostMetricScheduleAllowEventRuleteststackmonitoringPostMetrics8C0DEF1A842DEFFF",
         "monitoringPostMetricSchedule8675C968",
         "monitoringpostMetricsLogGroup670566A8",
         "monitoringPostMetricsRole87B61E7B",
@@ -5894,6 +5998,7 @@ exports.handler = function(event, context) {
                 "dynamodb:Query",
                 "dynamodb:GetItem",
                 "dynamodb:Scan",
+                "dynamodb:ConditionCheckItem",
                 "dynamodb:BatchWriteItem",
                 "dynamodb:PutItem",
                 "dynamodb:UpdateItem",
@@ -5952,7 +6057,7 @@ exports.handler = function(event, context) {
         "monitoringgenerateUuidLogGroup18A074CF",
         "monitoringglacierrefreezerdashboardE7F6D8AE",
         "monitoringPostMetrics98F9F947",
-        "monitoringPostMetricScheduleAllowEventRuleteststackmonitoringPostMetricSchedule2E9FE30DD6019900",
+        "monitoringPostMetricScheduleAllowEventRuleteststackmonitoringPostMetrics8C0DEF1A842DEFFF",
         "monitoringPostMetricSchedule8675C968",
         "monitoringpostMetricsLogGroup670566A8",
         "monitoringPostMetricsRole87B61E7B",
@@ -6165,7 +6270,7 @@ exports.handler = function(event, context) {
         "monitoringgenerateUuidLogGroup18A074CF",
         "monitoringglacierrefreezerdashboardE7F6D8AE",
         "monitoringPostMetrics98F9F947",
-        "monitoringPostMetricScheduleAllowEventRuleteststackmonitoringPostMetricSchedule2E9FE30DD6019900",
+        "monitoringPostMetricScheduleAllowEventRuleteststackmonitoringPostMetrics8C0DEF1A842DEFFF",
         "monitoringPostMetricSchedule8675C968",
         "monitoringpostMetricsLogGroup670566A8",
         "monitoringPostMetricsRole87B61E7B",
@@ -6185,13 +6290,21 @@ exports.handler = function(event, context) {
               "id": "W58",
               "reason": "cfn nag is unable to reason about CDK generated cloudwatch log permissions",
             },
+            Object {
+              "id": "W89",
+              "reason": "This is a fully serverless solution - no VPC is required",
+            },
+            Object {
+              "id": "W92",
+              "reason": "Reserved Concurrency is set on high priority functions only by design",
+            },
           ],
         },
       },
       "Properties": Object {
         "Code": Object {
           "S3Bucket": Object {
-            "Ref": "AssetParameters3a2f8eb604fb97b74db13020bfdc412654c69cf0df13e7b4614383be4b728f4dS3BucketDAF63710",
+            "Ref": "AssetParameters413f63b44088be9b746e261796589a1868948fca27d70caa8d78988b1d8064a5S3BucketA2DDF570",
           },
           "S3Key": Object {
             "Fn::Join": Array [
@@ -6204,7 +6317,7 @@ exports.handler = function(event, context) {
                       "Fn::Split": Array [
                         "||",
                         Object {
-                          "Ref": "AssetParameters3a2f8eb604fb97b74db13020bfdc412654c69cf0df13e7b4614383be4b728f4dS3VersionKeyC295117A",
+                          "Ref": "AssetParameters413f63b44088be9b746e261796589a1868948fca27d70caa8d78988b1d8064a5S3VersionKey33EE99F2",
                         },
                       ],
                     },
@@ -6217,7 +6330,7 @@ exports.handler = function(event, context) {
                       "Fn::Split": Array [
                         "||",
                         Object {
-                          "Ref": "AssetParameters3a2f8eb604fb97b74db13020bfdc412654c69cf0df13e7b4614383be4b728f4dS3VersionKeyC295117A",
+                          "Ref": "AssetParameters413f63b44088be9b746e261796589a1868948fca27d70caa8d78988b1d8064a5S3VersionKey33EE99F2",
                         },
                       ],
                     },
@@ -6244,6 +6357,7 @@ exports.handler = function(event, context) {
             "DATABASE": Object {
               "Ref": "glueDataCatalogInventoryDatabase96DE1AD3",
             },
+            "DQL": "65970697666560",
             "PARTITIONED_INVENTORY_TABLE": Object {
               "Ref": "glueDataCatalogPartitionedinventoryTable94032B41",
             },
@@ -6311,7 +6425,7 @@ exports.handler = function(event, context) {
         "monitoringgenerateUuidLogGroup18A074CF",
         "monitoringglacierrefreezerdashboardE7F6D8AE",
         "monitoringPostMetrics98F9F947",
-        "monitoringPostMetricScheduleAllowEventRuleteststackmonitoringPostMetricSchedule2E9FE30DD6019900",
+        "monitoringPostMetricScheduleAllowEventRuleteststackmonitoringPostMetrics8C0DEF1A842DEFFF",
         "monitoringPostMetricSchedule8675C968",
         "monitoringpostMetricsLogGroup670566A8",
         "monitoringPostMetricsRole87B61E7B",
@@ -6372,7 +6486,7 @@ exports.handler = function(event, context) {
         "monitoringgenerateUuidLogGroup18A074CF",
         "monitoringglacierrefreezerdashboardE7F6D8AE",
         "monitoringPostMetrics98F9F947",
-        "monitoringPostMetricScheduleAllowEventRuleteststackmonitoringPostMetricSchedule2E9FE30DD6019900",
+        "monitoringPostMetricScheduleAllowEventRuleteststackmonitoringPostMetrics8C0DEF1A842DEFFF",
         "monitoringPostMetricSchedule8675C968",
         "monitoringpostMetricsLogGroup670566A8",
         "monitoringPostMetricsRole87B61E7B",
@@ -6711,7 +6825,7 @@ exports.handler = function(event, context) {
         "monitoringgenerateUuidLogGroup18A074CF",
         "monitoringglacierrefreezerdashboardE7F6D8AE",
         "monitoringPostMetrics98F9F947",
-        "monitoringPostMetricScheduleAllowEventRuleteststackmonitoringPostMetricSchedule2E9FE30DD6019900",
+        "monitoringPostMetricScheduleAllowEventRuleteststackmonitoringPostMetrics8C0DEF1A842DEFFF",
         "monitoringPostMetricSchedule8675C968",
         "monitoringpostMetricsLogGroup670566A8",
         "monitoringPostMetricsRole87B61E7B",
@@ -6830,6 +6944,14 @@ exports.handler = function(event, context) {
             Object {
               "id": "W58",
               "reason": "cfn nag is unable to reason about CDK generated cloudwatch log permissions",
+            },
+            Object {
+              "id": "W89",
+              "reason": "This is a fully serverless solution - no VPC is required",
+            },
+            Object {
+              "id": "W92",
+              "reason": "Reserved Concurrency is set on high priority functions only by design",
             },
           ],
         },
@@ -6964,6 +7086,14 @@ exports.handler = function(event, context) {
             Object {
               "id": "W58",
               "reason": "cfn nag is unable to reason about CDK generated cloudwatch log permissions",
+            },
+            Object {
+              "id": "W89",
+              "reason": "This is a fully serverless solution - no VPC is required",
+            },
+            Object {
+              "id": "W92",
+              "reason": "Reserved Concurrency is set on high priority functions only by design",
             },
           ],
         },

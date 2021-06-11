@@ -41,10 +41,8 @@ describe('-- Request Archives Test --', () => {
     var getObjectFunc;
 
     var validArchiveId = '-_27G6RJ0mYFtcF4dF9_eWRPYFkndowEpxodhax26-t9UXFI-AaEZszxf80pu_4JCPvOGMIUA933I80uqRX9eZBhQN8umpBt1GXZUNeUGJKgYGJwA41cwqz7hFe4W5FZQoBMEpEdQA';
-    var originalDateVal = '2020-01-01T01:00:24+00:00';
-    var exepectedFName = 'data01/Objectv40682';
     var expectedQueryExecutionId = 'zbxcm3Z_3z5UkoroF7SuZKrxgGoDc3RloGduS7Eg-RO47Yc6FxsdGBgf_Q2DK5Ejh18CnTS5XW4_XqlNHS61dsO4CnMW';
-    var jobOutPutStream;
+
     //Init
     before(function () {
         queryFunc = sinon.stub();
@@ -79,25 +77,13 @@ describe('-- Request Archives Test --', () => {
             //Matchers 
             statusIndexTableItems = {
                 Items: [{
-                    LastEvaluatedKey: {
                         "aid": { "S": validArchiveId },
-                        "cc": { "N": 1 },
-                        "cdt": "2020-08-23T10:18:22+00:00",
-                        "sgt": "2020-08-23T14:00:24+00:00",
-                        "descr": "data01/Objectv40682",
-                        "fname": { "S": exepectedFName },
-                        "ifn": { 'N': expectedIFN },
-                        "pid": 100,
-                        "psdt": { 'S': originalDateVal },
-                        "sha": "40debdebbb7e575f781c8d90d4fa78de1b7cc6723988644db8e4271ef863f079",
-                        "sz": 1048576,
-                        "vdt": { 'S': "2020-08-23T14:00:24+00:00" }
-                    }
-                }]
+                        "ifn": { 'N': expectedIFN }
+                    }]
             }
 
             queryFunc.withArgs(sinon.match.any).returns({
-                promise: () => statusIndexTableItems.Items[0]
+                promise: () => statusIndexTableItems
             })
 
             // Overwrite internal references with mock proxies

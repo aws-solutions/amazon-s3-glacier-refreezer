@@ -40,7 +40,6 @@ export interface StageThreeProps {
 export class StageThree extends cdk.Construct {
 
     readonly treehashCalcQueue: sqs.IQueue;
-    readonly archiveNotificationTopic: sns.ITopic;
     readonly archiveNotificationQueue: sqs.IQueue;
 
     constructor(scope: cdk.Construct, id: string, props: StageThreeProps) {
@@ -51,6 +50,7 @@ export class StageThree extends cdk.Construct {
         const treehashCalcQueue = new sqs.Queue(this, 'treehash-calc-queue',
             {
                 queueName: `${cdk.Aws.STACK_NAME}-treehash-calc-queue`,
+                retentionPeriod: cdk.Duration.days(14),
                 visibilityTimeout: cdk.Duration.seconds(905)
             }
         );
@@ -102,7 +102,6 @@ export class StageThree extends cdk.Construct {
         props.statusTable.grantReadWriteData(copyArchiveRole);
         chunkCopyQueue.grantSendMessages(copyArchiveRole);
         treehashCalcQueue.grantSendMessages(copyArchiveRole);
-        // archiveNotificationQueue.grantConsumeMessages(copyArchiveRole);
 
         const copyArchive = new lambda.Function(this, 'CopyArchive', {
             functionName: `${cdk.Aws.STACK_NAME}-copyArchive`,
@@ -110,7 +109,7 @@ export class StageThree extends cdk.Construct {
             handler: 'index.handler',
             memorySize: 1024,
             timeout: cdk.Duration.minutes(15),
-            reservedConcurrentExecutions: 50,
+            reservedConcurrentExecutions: 40,
             code: lambda.Code.fromAsset(path.join(__dirname, '../lambda/copyArchive')),
             role: copyArchiveRole.withoutPolicyUpdates(),
             environment:
@@ -146,7 +145,6 @@ export class StageThree extends cdk.Construct {
         props.stagingBucket.grantReadWrite(copyChunkRole);
         props.statusTable.grantReadWriteData(copyChunkRole);
         treehashCalcQueue.grantSendMessages(copyChunkRole);
-        // archiveNotificationQueue.grantConsumeMessages(copyArchiveRole);
 
         const copyChunk = new lambda.Function(this, 'CopyChunk', {
             functionName: `${cdk.Aws.STACK_NAME}-copyChunk`,

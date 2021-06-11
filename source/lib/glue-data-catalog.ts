@@ -53,13 +53,13 @@ export class GlueDataCatalog extends cdk.Construct {
         })
 
         // database
-        this.inventoryDatabase = new glue.Database(this, 'InventoryDatabase', 
+        this.inventoryDatabase = new glue.Database(this, 'InventoryDatabase',
         {
             databaseName: `${toLowercaseTrigger.getAttString('stack_name')}-inventory`
         });
 
         // inventory table
-        const inventoryTable = new glue.Table(this, 'InventoryTable', 
+        const inventoryTable = new glue.Table(this, 'InventoryTable',
         {
             tableName: `${toLowercaseTrigger.getAttString('stack_name')}-grf-inventory`,
             database: this.inventoryDatabase,
@@ -94,7 +94,7 @@ export class GlueDataCatalog extends cdk.Construct {
         cfnInventoryTable.addOverride('Properties.TableInput.StorageDescriptor.SerdeInfo.Parameters.quoteChar','"');
 
         // filename override table
-        const filelistTable = new glue.Table(this, 'FilelistTable', 
+        const filelistTable = new glue.Table(this, 'FilelistTable',
         {
             tableName:  `${toLowercaseTrigger.getAttString('stack_name')}-grf-filelist`,
             database: this.inventoryDatabase,
@@ -115,7 +115,7 @@ export class GlueDataCatalog extends cdk.Construct {
         });
 
         // partitioned inventory table
-        const partitionedinventoryTable = new glue.Table(this, 'PartitionedinventoryTable', 
+        const partitionedinventoryTable = new glue.Table(this, 'PartitionedinventoryTable',
         {
             tableName:  `${toLowercaseTrigger.getAttString('stack_name')}-grf-inventory-partitioned`,
             database: this.inventoryDatabase,
@@ -159,17 +159,20 @@ export class GlueDataCatalog extends cdk.Construct {
         this.partitionedInventoryTable = partitionedinventoryTable;
 
         // Athena Workgroup
-        this.athenaWorkgroup = new athena.CfnWorkGroup(this, 'AthenaWorkgroup', 
+        this.athenaWorkgroup = new athena.CfnWorkGroup(this, 'AthenaWorkgroup',
         {
            name: `${cdk.Aws.STACK_NAME}-glacier-refreezer-sol`,
            recursiveDeleteOption: true,
            state: 'ENABLED',
            workGroupConfiguration:
-            {
+             {
+                enforceWorkGroupConfiguration: true,
                 resultConfiguration: {
                     outputLocation: `s3://${props.stagingBucket.bucketName}/results`
                 }
-            }
+             }
         });
+
+        this.athenaWorkgroup.addOverride('Properties.WorkGroupConfiguration.EngineVersion.SelectedEngineVersion','Athena engine version 2');
     }
 }

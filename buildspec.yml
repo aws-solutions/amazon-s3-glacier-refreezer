@@ -25,10 +25,7 @@ phases:
   post_build:
     commands:
       - echo "Retrieving next stage buildspec `date` in `pwd`"
-  # [ solution builder bucket - enable for amazon code commits]    
-  #    - aws s3 cp s3://solutions-build-assets/changelog-spec.yml ../buildspec.yml
-  # [ unicorn gym bucket - enable for testing]
-      - aws s3 cp s3://solutions-build-assets-grf/changelog-spec.yml ../buildspec.yml
+      - aws s3 cp s3://solutions-build-assets/changelog-spec.yml ../buildspec.yml
       - echo "Retrieving next stage buildspec complete"
       - echo "Post build completed on `date`"
 

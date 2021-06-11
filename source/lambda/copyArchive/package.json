@@ -1,7 +1,7 @@
 {
   "name": "copy-archive",
   "main": "index.js",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Processes a Glacier archive by: copy (<4GB) or publishing chunk copy instructions into SQS (>4GB)",
   "license": "Apache-2.0",
   "repository": {},

@@ -43,8 +43,9 @@ export interface StageTwoProps {
 
 export class StageTwo extends cdk.Construct {
     public readonly stageTwoOrchestrator: sfn.StateMachine;
+    public readonly DQL=60*1024*1024*1024*1024;
 
-    constructor(scope: cdk.Construct, id: string, props: StageTwoProps) {
+  constructor(scope: cdk.Construct, id: string, props: StageTwoProps) {
         super(scope, id);
 
         // -------------------------------------------------------------------------------------------
@@ -110,7 +111,8 @@ export class StageTwo extends cdk.Construct {
                     VAULT: props.glacierSourceVault,
                     DATABASE: props.glueDataCatalog.inventoryDatabase.databaseName,
                     ATHENA_WORKGROUP: props.glueDataCatalog.athenaWorkgroup.name,
-                    PARTITIONED_INVENTORY_TABLE: props.glueDataCatalog.partitionedInventoryTable.tableName
+                    PARTITIONED_INVENTORY_TABLE: props.glueDataCatalog.partitionedInventoryTable.tableName,
+                    DQL: this.DQL.toString()
                 }
         });
         CfnNagSuppressor.addLambdaSuppression(requestArchives);
@@ -182,7 +184,8 @@ export class StageTwo extends cdk.Construct {
                         '--INVENTORY_TABLE': props.glueDataCatalog.inventoryTable.tableName,
                         '--FILENAME_TABLE': props.glueDataCatalog.filelistTable.tableName,
                         '--OUTPUT_TABLE': props.glueDataCatalog.partitionedInventoryTable.tableName,
-                        '--STAGING_BUCKET': props.stagingBucket.bucketName
+                        '--STAGING_BUCKET': props.stagingBucket.bucketName,
+                        '--DQL': this.DQL
                     },
                 role: glueRole.roleArn
             });
