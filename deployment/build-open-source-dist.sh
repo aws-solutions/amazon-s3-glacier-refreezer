@@ -58,7 +58,6 @@ echo "--------------------------------------------------------------------------
 echo "[Packing] Copying build script"
 echo "------------------------------------------------------------------------------"
 cp $source_template_dir/build-s3-dist.sh $dist_template_dir/
-cp $source_template_dir/upload-to-single-regional-bucket.sh $dist_template_dir/
 cp -r $source_template_dir/cdk-solution-helper $dist_template_dir/
 
 echo "------------------------------------------------------------------------------"
