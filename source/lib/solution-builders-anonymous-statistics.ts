@@ -41,7 +41,7 @@ export class AnonymousStatistics extends cdk.Construct {
         const generateUuid = new lambda.Function(this, 'GenerateUuid', {
             functionName: `${cdk.Aws.STACK_NAME}-generateUuid`,
             description: 'This function generates UUID for each deployment',
-            runtime: lambda.Runtime.NODEJS_12_X,
+            runtime: lambda.Runtime.NODEJS_14_X,
             handler: 'index.handler',
             memorySize: 256,
             timeout: cdk.Duration.seconds(20),
@@ -56,7 +56,7 @@ export class AnonymousStatistics extends cdk.Construct {
         const sendAnonymousStats = new lambda.Function(this, 'SendAnonymousStats', {
             functionName: `${cdk.Aws.STACK_NAME}-sendAnonymousStats`,
             description: 'This function sends anonymous statistics to the AWS Solutions Builders team',
-            runtime: lambda.Runtime.NODEJS_12_X,
+            runtime: lambda.Runtime.NODEJS_14_X,
             handler: 'index.handler',
             memorySize: 128,
             timeout: cdk.Duration.minutes(5),

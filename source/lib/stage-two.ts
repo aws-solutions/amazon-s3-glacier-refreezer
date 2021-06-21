@@ -52,7 +52,7 @@ export class StageTwo extends cdk.Construct {
         // Deploy Glue Job Script
         const deployGlueJobScript = new lambda.Function(this, 'DeployGlueJobScript', {
             functionName: `${cdk.Aws.STACK_NAME}-deployGlueJobScript`,
-            runtime: lambda.Runtime.NODEJS_12_X,
+            runtime: lambda.Runtime.NODEJS_14_X,
             handler: 'index.handler',
             timeout: cdk.Duration.minutes(1),
             memorySize: 128,
@@ -95,7 +95,7 @@ export class StageTwo extends cdk.Construct {
 
         const requestArchives = new lambda.Function(this, 'RequestArchives', {
             functionName: `${cdk.Aws.STACK_NAME}-requestArchives`,
-            runtime: lambda.Runtime.NODEJS_12_X,
+            runtime: lambda.Runtime.NODEJS_14_X,
             handler: 'index.handler',
             memorySize: 1024,
             timeout: cdk.Duration.minutes(15),
