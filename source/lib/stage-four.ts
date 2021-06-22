@@ -49,7 +49,7 @@ export class StageFour extends cdk.Construct {
             handler: 'index.handler',
             memorySize: 1024,
             timeout: cdk.Duration.minutes(15),
-            reservedConcurrentExecutions: 50,
+            reservedConcurrentExecutions: 55,
             code: lambda.Code.fromAsset(path.join(__dirname, '../lambda/calculateTreehash')),
             environment:
                 {
