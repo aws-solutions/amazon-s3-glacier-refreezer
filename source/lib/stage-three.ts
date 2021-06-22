@@ -152,7 +152,7 @@ export class StageThree extends cdk.Construct {
             handler: 'index.handler',
             memorySize: 1024,
             timeout: cdk.Duration.minutes(15),
-            reservedConcurrentExecutions: 30,
+            reservedConcurrentExecutions: 35,
             role: copyChunkRole.withoutPolicyUpdates(),
             code: lambda.Code.fromAsset(path.join(__dirname, '../lambda/copyChunk')),
             environment:
