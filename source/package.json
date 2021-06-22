@@ -1,6 +1,6 @@
 {
   "name": "amazon-s3-glacier-refreezer",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "Amazon S3 Glacier Re:Freezer",
   "license": "Apache-2.0",
   "repository": {},

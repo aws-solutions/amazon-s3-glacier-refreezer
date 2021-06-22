@@ -1,7 +1,7 @@
 {
   "name": "download-inventory",
   "main": "index.js",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Downloads inventory file from Glacier to Staging Bucket",
   "license": "Apache-2.0",
   "repository": {},
