@@ -81,7 +81,7 @@ export class Monitoring extends cdk.Construct {
 
         const calculateMetrics = new lambda.Function(this, 'CalculateMetrics', {
             functionName: `${cdk.Aws.STACK_NAME}-calculateMetrics`,
-            runtime: lambda.Runtime.NODEJS_12_X,
+            runtime: lambda.Runtime.NODEJS_14_X,
             handler: 'index.handler',
             code: lambda.Code.fromAsset(path.join(__dirname, '../lambda/calculateMetrics')),
             role: calculateMetricsRole.withoutPolicyUpdates(),
@@ -126,7 +126,7 @@ export class Monitoring extends cdk.Construct {
 
         const postMetrics = new lambda.Function(this, 'PostMetrics', {
             functionName: `${cdk.Aws.STACK_NAME}-postMetrics`,
-            runtime: lambda.Runtime.NODEJS_12_X,
+            runtime: lambda.Runtime.NODEJS_14_X,
             handler: 'index.handler',
             code: lambda.Code.fromAsset(path.join(__dirname, '../lambda/postMetrics')),
             role: postMetricsRole,

@@ -58,7 +58,7 @@ export class StageOne extends cdk.Construct {
         // Request Inventory
         const requestInventory = new lambda.Function(this, 'requestInventory', {
             functionName: `${cdk.Aws.STACK_NAME}-requestInventory`,
-            runtime: lambda.Runtime.NODEJS_12_X,
+            runtime: lambda.Runtime.NODEJS_14_X,
             handler: 'index.handler',
             memorySize: 256,
             timeout: cdk.Duration.minutes(15),
@@ -93,7 +93,7 @@ export class StageOne extends cdk.Construct {
 
         const downloadInventoryPart = new lambda.Function(this, 'downloadInventoryPart', {
             functionName: `${cdk.Aws.STACK_NAME}-downloadInventoryPart`,
-            runtime: lambda.Runtime.NODEJS_12_X,
+            runtime: lambda.Runtime.NODEJS_14_X,
             handler: 'index.handler',
             memorySize: 1024,
             timeout: cdk.Duration.minutes(15),
@@ -108,7 +108,7 @@ export class StageOne extends cdk.Construct {
         // Download Inventory
         const downloadInventory = new lambda.Function(this, 'downloadInventory', {
             functionName: `${cdk.Aws.STACK_NAME}-downloadInventory`,
-            runtime: lambda.Runtime.NODEJS_12_X,
+            runtime: lambda.Runtime.NODEJS_14_X,
             handler: 'index.handler',
             memorySize: 1024,
             timeout: cdk.Duration.minutes(15),

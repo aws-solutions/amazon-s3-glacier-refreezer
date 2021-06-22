@@ -17,20 +17,38 @@
 
 'use strict';
 
-const cloudformation = require('./lib/cloudformation')
+const axios = require('axios');
 
-exports.handler = function(event, context) {
-    console.log(JSON.stringify(event))
-    let responseData = {}
-    for(const [key, val] of Object.entries(event.ResourceProperties)) {
-        responseData[key] = val.toLowerCase();
-      }
-    console.log(responseData)
+async function sendResponse(event, context, responseStatus, responseData) {
+    let data;
     try {
-      cloudformation.sendResponse(event, context, "SUCCESS", responseData);
+        let responseBody = JSON.stringify({
+            Status: responseStatus,
+            Reason: "See the details in CloudWatch Log Stream: " + context.logGroupName + "/" + context.logStreamName,
+            PhysicalResourceId: context.functionName,
+            StackId: event.StackId,
+            RequestId: event.RequestId,
+            LogicalResourceId: event.LogicalResourceId,
+            Data: responseData
+        });
+        let params = {
+            url: event.ResponseURL,
+            port: 443,
+            method: "put",
+            headers: {
+                "content-type": "",
+                "content-length": responseBody.length
+            },
+            data: responseBody
+        };
+        data = await axios(params);
     } catch (err) {
-      console.error(err);
-      cloudformation.sendResponse(event, context, "FAILED",
-      {message: `${JSON.stringify(err)}`});
-    }     
+        throw err;
+    }
+    console.log(`Send response : ${data.status}`)
+    return data.status;
+}
+
+module.exports = {
+   sendResponse
 };

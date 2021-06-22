@@ -77,6 +77,8 @@ async function handler(payload) {
             creationdate: creationdate,
         } = line;
 
+        processedSize += sz
+
         if (ifn <= partitionMaxProcessedFileNumber) {
             continue;
         }
@@ -126,8 +128,6 @@ async function handler(payload) {
                 TableName: STATUS_TABLE,
             })
             .promise();
-
-        processedSize += sz
 
         processed.push(fname);
         partitionMaxProcessedFileNumber = ifn;
