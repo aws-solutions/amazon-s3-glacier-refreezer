@@ -45,7 +45,7 @@ export class StageFour extends cdk.Construct {
         // Calculate Treehash and move archive from Staging to Destination
         const calculateTreehash = new lambda.Function(this, 'calculateTreehash', {
             functionName: `${cdk.Aws.STACK_NAME}-calculateTreehash`,
-            runtime: lambda.Runtime.NODEJS_12_X,
+            runtime: lambda.Runtime.NODEJS_14_X,
             handler: 'index.handler',
             memorySize: 1024,
             timeout: cdk.Duration.minutes(15),
