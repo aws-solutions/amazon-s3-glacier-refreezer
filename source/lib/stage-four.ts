@@ -21,7 +21,6 @@ import * as cdk from '@aws-cdk/core';
 import * as sqs from '@aws-cdk/aws-sqs';
 import * as s3 from '@aws-cdk/aws-s3';
 import * as lambda from '@aws-cdk/aws-lambda';
-import * as iamSec from './iam-permissions';
 import * as path from 'path';
 import * as dynamo from "@aws-cdk/aws-dynamodb";
 import {SqsEventSource} from '@aws-cdk/aws-lambda-event-sources';
