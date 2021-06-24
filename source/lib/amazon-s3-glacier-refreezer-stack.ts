@@ -230,7 +230,8 @@ export class AmazonS3GlacierRefreezerStack extends cdk.Stack {
             treehashCalcQueue: stageThree.treehashCalcQueue,
             destinationBucket: destinationBucket.valueAsString,
             destinationStorageClass: destinationStorageClass.valueAsString,
-            archiveNotificationQueue: stageThree.archiveNotificationQueue
+            archiveNotificationQueue: stageThree.archiveNotificationQueue,
+            copyToDestinationBucketQueue: stageThree.copyToDestinationBucketQueue,
         });
 
         //---------------------------------------------------------------------

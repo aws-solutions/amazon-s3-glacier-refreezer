@@ -33,7 +33,8 @@ export interface StageFourProps {
     readonly destinationStorageClass: string,
     readonly treehashCalcQueue: sqs.IQueue;
     readonly archiveNotificationQueue: sqs.IQueue;
-    readonly statusTable: dynamo.ITable
+    readonly statusTable: dynamo.ITable;
+    readonly copyToDestinationBucketQueue: sqs.IQueue;
 }
 
 export class StageFour extends cdk.Construct {
@@ -42,7 +43,7 @@ export class StageFour extends cdk.Construct {
         super(scope, id);
 
         // -------------------------------------------------------------------------------------------
-        // Calculate Treehash and move archive from Staging to Destination
+        // Calculate Treehash and verify SHA256TreeHash Glacier == SHA256TreeHash S3
         const calculateTreehash = new lambda.Function(this, 'calculateTreehash', {
             functionName: `${cdk.Aws.STACK_NAME}-calculateTreehash`,
             runtime: lambda.Runtime.NODEJS_14_X,
@@ -58,14 +59,41 @@ export class StageFour extends cdk.Construct {
                     STAGING_BUCKET: props.stagingBucket.bucketName,
                     STAGING_BUCKET_PREFIX: 'stagingdata',
                     STATUS_TABLE: props.statusTable.tableName,
-                    SQS_ARCHIVE_NOTIFICATION: props.archiveNotificationQueue.queueName
+                    SQS_ARCHIVE_NOTIFICATION: props.archiveNotificationQueue.queueName,
+                    SQS_COPY_TO_DESTINATION_NOTIFICATION: props.copyToDestinationBucketQueue.queueName
                 }
         });
 
         props.stagingBucket.grantReadWrite(calculateTreehash);
         props.statusTable.grantReadWriteData(calculateTreehash);
-        s3.Bucket.fromBucketName(this, 'destinationBucket', props.destinationBucket).grantReadWrite(calculateTreehash);
+        props.copyToDestinationBucketQueue.grantSendMessages(calculateTreehash);
         calculateTreehash.addEventSource(new SqsEventSource(props.treehashCalcQueue, {batchSize: 1}));
         CfnNagSuppressor.addLambdaSuppression(calculateTreehash);
+
+        // -------------------------------------------------------------------------------------------
+        // Create copyFinalToDestinationBucket function and copy archive from Staging to Destination
+        const copyToDestinationBucket = new lambda.Function(this, 'copyToDestinationBucket', {
+            functionName: `${cdk.Aws.STACK_NAME}-copyToDestinationBucket`,
+            runtime: lambda.Runtime.NODEJS_14_X,
+            handler: 'index.handler',
+            memorySize: 128,
+            timeout: cdk.Duration.minutes(15),
+            reservedConcurrentExecutions: 55,
+            code: lambda.Code.fromAsset(path.join(__dirname, '../lambda/copyToDestinationBucket')),
+            environment:
+                {
+                    DESTINATION_BUCKET: props.destinationBucket,
+                    STORAGE_CLASS: props.destinationStorageClass,
+                    STAGING_BUCKET: props.stagingBucket.bucketName,
+                    STAGING_BUCKET_PREFIX: 'stagingdata',
+                    STATUS_TABLE: props.statusTable.tableName               
+                }
+        });
+
+        props.stagingBucket.grantReadWrite(copyToDestinationBucket);
+        props.statusTable.grantReadWriteData(copyToDestinationBucket);
+        s3.Bucket.fromBucketName(this, 'destinationBucket', props.destinationBucket).grantReadWrite(copyToDestinationBucket);
+        copyToDestinationBucket.addEventSource(new SqsEventSource(props.copyToDestinationBucketQueue, {batchSize: 1}));
+        CfnNagSuppressor.addLambdaSuppression(copyToDestinationBucket);
     }
 }

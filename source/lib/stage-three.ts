@@ -41,6 +41,7 @@ export class StageThree extends cdk.Construct {
 
     readonly treehashCalcQueue: sqs.IQueue;
     readonly archiveNotificationQueue: sqs.IQueue;
+    readonly copyToDestinationBucketQueue: sqs.IQueue;
 
     constructor(scope: cdk.Construct, id: string, props: StageThreeProps) {
         super(scope, id);
@@ -57,6 +58,20 @@ export class StageThree extends cdk.Construct {
         CfnNagSuppressor.addSuppression(treehashCalcQueue, 'W48', 'Non sensitive metadata - encryption is not required and cost inefficient');
         treehashCalcQueue.addToResourcePolicy(iamSec.IamPermissions.sqsDenyInsecureTransport(treehashCalcQueue));
         this.treehashCalcQueue = treehashCalcQueue;
+
+        // -------------------------------------------------------------------------------------------
+        // copyToDestinationBucketQueue Queue
+        const copyToDestinationBucketQueue = new sqs.Queue(this, 'copyToDestinationBucketQueue',
+            {
+                queueName: `${cdk.Aws.STACK_NAME}-copyToDestinationBucketQueue`,
+                retentionPeriod: cdk.Duration.days(14),
+                visibilityTimeout: cdk.Duration.seconds(905)
+            }
+        );
+        CfnNagSuppressor.addSuppression(copyToDestinationBucketQueue, 'W48', 'Non sensitive metadata - encryption is not required and cost inefficient');
+        copyToDestinationBucketQueue.addToResourcePolicy(iamSec.IamPermissions.sqsDenyInsecureTransport(copyToDestinationBucketQueue));
+        this.copyToDestinationBucketQueue = copyToDestinationBucketQueue;
+
 
         // -------------------------------------------------------------------------------------------
         // Archive Notification Queue
@@ -102,6 +117,7 @@ export class StageThree extends cdk.Construct {
         props.statusTable.grantReadWriteData(copyArchiveRole);
         chunkCopyQueue.grantSendMessages(copyArchiveRole);
         treehashCalcQueue.grantSendMessages(copyArchiveRole);
+
 
         const copyArchive = new lambda.Function(this, 'CopyArchive', {
             functionName: `${cdk.Aws.STACK_NAME}-copyArchive`,
