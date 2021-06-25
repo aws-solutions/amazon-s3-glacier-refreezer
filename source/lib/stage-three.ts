@@ -103,7 +103,6 @@ export class StageThree extends cdk.Construct {
         chunkCopyQueue.grantSendMessages(copyArchiveRole);
         treehashCalcQueue.grantSendMessages(copyArchiveRole);
 
-
         const copyArchive = new lambda.Function(this, 'CopyArchive', {
             functionName: `${cdk.Aws.STACK_NAME}-copyArchive`,
             runtime: lambda.Runtime.NODEJS_14_X,
