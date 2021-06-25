@@ -37,36 +37,32 @@ async function handler() {
     let validatedBytes = progressVolume && progressVolume.validated ? parseInt(progressVolume.validated.N) : 0;
     let copiedBytes = progressVolume && progressVolume.copied ? parseInt(progressVolume.copied.N) : 0;
 
-    let metricList = [];
-
     if (totalCount) {
         requestedCount = requestedCount > totalCount ? totalCount : requestedCount;
         stagedCount = stagedCount > totalCount ? totalCount : stagedCount;
         validatedCount = validatedCount > totalCount ? totalCount : validatedCount;
         copiedCount = copiedCount > totalCount ? totalCount : copiedCount;
 
-        metricList.push({metricName: "ArchiveCountTotal", metricValue: totalCount});
-        metricList.push({metricName: "ArchiveCountRequested", metricValue: requestedCount});
-        metricList.push({metricName: "ArchiveCountStaged", metricValue: stagedCount});
-        metricList.push({metricName: "ArchiveCountValidated", metricValue: validatedCount});
-        metricList.push({metricName: "ArchiveCountCompleted", metricValue: copiedCount});
-    }
-
-    if (totalBytes) {
         requestedBytes = requestedBytes > totalBytes ? totalBytes : requestedBytes;
         stagedBytes = stagedBytes > totalBytes ? totalBytes : stagedBytes;
         validatedBytes = validatedBytes > totalBytes ? totalBytes : validatedBytes;
         copiedBytes = copiedBytes > totalBytes ? totalBytes : copiedBytes;
-        
-        metricList.push({metricName: "BytesTotal", metricValue: totalBytes});
-        metricList.push({metricName: "BytesRequested", metricValue: requestedBytes});
-        metricList.push({metricName: "BytesStaged", metricValue: stagedBytes});
-        metricList.push({metricName: "BytesValidated", metricValue: validatedBytes});
-        metricList.push({metricName: "BytesCompleted", metricValue: copiedBytes});
     }
+        
+    let metricList = [];
+
+    metricList.push({metricName: "ArchiveCountTotal", metricValue: totalCount});
+    metricList.push({metricName: "ArchiveCountRequested", metricValue: requestedCount});
+    metricList.push({metricName: "ArchiveCountStaged", metricValue: stagedCount});
+    metricList.push({metricName: "ArchiveCountValidated", metricValue: validatedCount});
+    metricList.push({metricName: "ArchiveCountCompleted", metricValue: copiedCount});
+    metricList.push({metricName: "BytesTotal", metricValue: totalBytes});
+    metricList.push({metricName: "BytesRequested", metricValue: requestedBytes});
+    metricList.push({metricName: "BytesStaged", metricValue: stagedBytes});
+    metricList.push({metricName: "BytesValidated", metricValue: validatedBytes});
+    metricList.push({metricName: "BytesCompleted", metricValue: copiedBytes});
 
     await metrics.publishMetric(metricList);
-
 }
 
 module.exports = {

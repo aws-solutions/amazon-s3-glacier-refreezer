@@ -23,12 +23,10 @@ const sqs = new AWS.SQS();
 
 const db = require("./lib/db.js");
 const treehash = require("./lib/treehash.js");
-const copy = require("./lib/copy.js");
+const trigger = require("./lib/trigger.js");
 
 const {
-    DESTINATION_BUCKET,
     STAGING_BUCKET,
-    STAGING_BUCKET_PREFIX,
     SQS_ARCHIVE_NOTIFICATION,
 } = process.env;
 
@@ -98,43 +96,13 @@ async function validateTreehash(s3hash, statusRecord) {
             return;
         }
     }
+    // now that TreeHash is successfully verified, we start the copy to destination bucket via sending a message to the SQS
+    await trigger.triggerCopyToDestinationBucket(statusRecord);
+
+    // after successful sending of message to SQS, we update vdt
     await db.setTimestampNow(statusRecord.Attributes.aid.S, "vdt");
 
-    const file = await fileExists(DESTINATION_BUCKET, key);
-    if (file) {
-        console.error(`${key} : already exists in the target bucket. Not overwriting: ${file.StorageClass}`);
-        return;
     }
-
-    await copy.copyKeyToDestinationBucket(key, statusRecord.Attributes.sz.N);
-    await closeOffRecord(statusRecord);
-}
-
-async function closeOffRecord(statusRecord) {
-    let key = statusRecord.Attributes.fname.S;
-    await db.setTimestampNow(statusRecord.Attributes.aid.S, "cpt");
-    await s3.deleteObject({
-        Bucket: STAGING_BUCKET,
-        Key: `${STAGING_BUCKET_PREFIX}/${key}`
-    }).promise();
-}
-
-async function fileExists(Bucket, key) {
-    let objects = await s3
-        .listObjectsV2({
-            Bucket,
-            Prefix: key,
-        }).promise();
-
-    for (let r of objects.Contents) {
-        console.log(r.Key);
-        if (r.Key === key) {
-            return r;
-        }
-    }
-
-    return false;
-}
 
 async function failArchiveAndRetry(statusRecord, key) {
     let params = {
