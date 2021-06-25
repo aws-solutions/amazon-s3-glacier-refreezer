@@ -41,7 +41,6 @@ export class StageThree extends cdk.Construct {
 
     readonly treehashCalcQueue: sqs.IQueue;
     readonly archiveNotificationQueue: sqs.IQueue;
-    readonly copyToDestinationBucketQueue: sqs.IQueue;
 
     constructor(scope: cdk.Construct, id: string, props: StageThreeProps) {
         super(scope, id);
