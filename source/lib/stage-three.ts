@@ -60,20 +60,6 @@ export class StageThree extends cdk.Construct {
         this.treehashCalcQueue = treehashCalcQueue;
 
         // -------------------------------------------------------------------------------------------
-        // copyToDestinationBucketQueue Queue
-        const copyToDestinationBucketQueue = new sqs.Queue(this, 'copyToDestinationBucketQueue',
-            {
-                queueName: `${cdk.Aws.STACK_NAME}-copyToDestinationBucketQueue`,
-                retentionPeriod: cdk.Duration.days(14),
-                visibilityTimeout: cdk.Duration.seconds(905)
-            }
-        );
-        CfnNagSuppressor.addSuppression(copyToDestinationBucketQueue, 'W48', 'Non sensitive metadata - encryption is not required and cost inefficient');
-        copyToDestinationBucketQueue.addToResourcePolicy(iamSec.IamPermissions.sqsDenyInsecureTransport(copyToDestinationBucketQueue));
-        this.copyToDestinationBucketQueue = copyToDestinationBucketQueue;
-
-
-        // -------------------------------------------------------------------------------------------
         // Archive Notification Queue
         const archiveNotificationQueue = new sqs.Queue(this, 'archive-notification-queue',
             {

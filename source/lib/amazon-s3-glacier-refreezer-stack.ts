@@ -231,7 +231,6 @@ export class AmazonS3GlacierRefreezerStack extends cdk.Stack {
             destinationBucket: destinationBucket.valueAsString,
             destinationStorageClass: destinationStorageClass.valueAsString,
             archiveNotificationQueue: stageThree.archiveNotificationQueue,
-            copyToDestinationBucketQueue: stageThree.copyToDestinationBucketQueue,
         });
 
         //---------------------------------------------------------------------

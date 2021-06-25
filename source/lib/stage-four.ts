@@ -34,7 +34,6 @@ export interface StageFourProps {
     readonly treehashCalcQueue: sqs.IQueue;
     readonly archiveNotificationQueue: sqs.IQueue;
     readonly statusTable: dynamo.ITable;
-    readonly copyToDestinationBucketQueue: sqs.IQueue;
 }
 
 export class StageFour extends cdk.Construct {
@@ -42,6 +41,18 @@ export class StageFour extends cdk.Construct {
     constructor(scope: cdk.Construct, id: string, props: StageFourProps) {
         super(scope, id);
 
+        // -------------------------------------------------------------------------------------------
+        // copyToDestinationBucketQueue Queue
+        const copyToDestinationBucketQueue = new sqs.Queue(this, 'destination-copy-queue',
+            {
+                queueName: `${cdk.Aws.STACK_NAME}-destination-copy-queue`,
+                retentionPeriod: cdk.Duration.days(14),
+                visibilityTimeout: cdk.Duration.seconds(905)
+            }
+        );
+        CfnNagSuppressor.addSuppression(copyToDestinationBucketQueue, 'W48', 'Non sensitive metadata - encryption is not required and cost inefficient');
+        copyToDestinationBucketQueue.addToResourcePolicy(iamSec.IamPermissions.sqsDenyInsecureTransport(copyToDestinationBucketQueue));
+    
         // -------------------------------------------------------------------------------------------
         // Calculate Treehash and verify SHA256TreeHash Glacier == SHA256TreeHash S3
         const calculateTreehash = new lambda.Function(this, 'calculateTreehash', {
@@ -60,18 +71,18 @@ export class StageFour extends cdk.Construct {
                     STAGING_BUCKET_PREFIX: 'stagingdata',
                     STATUS_TABLE: props.statusTable.tableName,
                     SQS_ARCHIVE_NOTIFICATION: props.archiveNotificationQueue.queueName,
-                    SQS_COPY_TO_DESTINATION_NOTIFICATION: props.copyToDestinationBucketQueue.queueName
+                    SQS_COPY_TO_DESTINATION_NOTIFICATION: copyToDestinationBucketQueue.queueName
                 }
         });
 
         props.stagingBucket.grantReadWrite(calculateTreehash);
         props.statusTable.grantReadWriteData(calculateTreehash);
-        props.copyToDestinationBucketQueue.grantSendMessages(calculateTreehash);
+        copyToDestinationBucketQueue.grantSendMessages(calculateTreehash);
         calculateTreehash.addEventSource(new SqsEventSource(props.treehashCalcQueue, {batchSize: 1}));
         CfnNagSuppressor.addLambdaSuppression(calculateTreehash);
 
         // -------------------------------------------------------------------------------------------
-        // Create copyFinalToDestinationBucket function and copy archive from Staging to Destination
+        // Copy archive from Staging to Destination and delete Staging thereafter
         const copyToDestinationBucket = new lambda.Function(this, 'copyToDestinationBucket', {
             functionName: `${cdk.Aws.STACK_NAME}-copyToDestinationBucket`,
             runtime: lambda.Runtime.NODEJS_14_X,
@@ -93,7 +104,7 @@ export class StageFour extends cdk.Construct {
         props.stagingBucket.grantReadWrite(copyToDestinationBucket);
         props.statusTable.grantReadWriteData(copyToDestinationBucket);
         s3.Bucket.fromBucketName(this, 'destinationBucket', props.destinationBucket).grantReadWrite(copyToDestinationBucket);
-        copyToDestinationBucket.addEventSource(new SqsEventSource(props.copyToDestinationBucketQueue, {batchSize: 1}));
+        copyToDestinationBucket.addEventSource(new SqsEventSource(copyToDestinationBucketQueue, {batchSize: 1}));
         CfnNagSuppressor.addLambdaSuppression(copyToDestinationBucket);
     }
 }

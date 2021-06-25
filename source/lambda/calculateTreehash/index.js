@@ -28,7 +28,6 @@ const trigger = require("./lib/trigger.js");
 const {
     STAGING_BUCKET,
     SQS_ARCHIVE_NOTIFICATION,
-    SQS_COPY_TO_DESTINATION_NOTIFICATION,
 } = process.env;
 
 async function handler(event) {
@@ -97,30 +96,12 @@ async function validateTreehash(s3hash, statusRecord) {
             return;
         }
     }
-    await db.setTimestampNow(statusRecord.Attributes.aid.S, "vdt");
-
     // now that TreeHash is successfully verified, we start the copy to destination bucket via sending a message to the SQS
     await trigger.triggerCopyToDestinationBucket(statusRecord);
-//     let queueUrl = await sqs.getQueueUrl({ QueueName: SQS_COPY_TO_DESTINATION_NOTIFICATION }).promise();
-//     await sendMessageToCopyQueue(
-//         queueUrl.QueueUrl,
-//         key,
-//         statusRecord.Attributes.aid.S
-//     );
-// }
 
-// function sendMessageToCopyQueue(queueUrl, key, aid) {
-//     let messageBody = JSON.stringify({
-//         key,
-//         aid,
-//     });
-//     console.log(messageBody);
-//     console.log(queueUrl)
-//     return sqs.sendMessage({
-//         QueueUrl: queueUrl,
-//         MessageBody: messageBody,
-//     }).promise();
-// };
+    // after successful sending of message to SQS, we update vdt
+    await db.setTimestampNow(statusRecord.Attributes.aid.S, "vdt");
+
     }
 
 async function failArchiveAndRetry(statusRecord, key) {

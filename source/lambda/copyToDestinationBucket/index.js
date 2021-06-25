@@ -31,8 +31,6 @@ const {
 } = process.env;
 
 async function handler(event) {
-    console.log("Starting final step... Copying staging file to destination bucket.")
-
     let {key, aid} = JSON.parse(event.Records[0].body);
 
     const file = await fileExists(DESTINATION_BUCKET, key);
@@ -40,6 +38,8 @@ async function handler(event) {
         console.error(`${key} : already exists in the target bucket. Not overwriting: ${file.StorageClass}`);
         return;
     }
+
+    console.log(`${key} : copy started`);
 
     let statusRecord = await db.getStatusRecord(aid);
     await copy.copyKeyToDestinationBucket(key, parseInt(statusRecord.Item.sz.N));
