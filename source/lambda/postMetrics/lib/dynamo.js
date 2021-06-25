@@ -24,12 +24,12 @@ const {
     METRICS_TABLE,
 } = process.env;
 
-async function getCount() {
+async function getItem(key) {
     try {
         const params = {
             KeyConditionExpression: 'pk = :pk',
             ExpressionAttributeValues: {
-                ':pk': { S: 'count' }
+                ':pk': { S: key }
             },
             TableName: METRICS_TABLE
         };
@@ -40,10 +40,10 @@ async function getCount() {
             return null
         }
     } catch (error) {
-        console.error('getCount.error', error);
+        console.error('getItem.error', error);
     }
 }
 
 module.exports = { 
-    getCount
+    getItem
 };

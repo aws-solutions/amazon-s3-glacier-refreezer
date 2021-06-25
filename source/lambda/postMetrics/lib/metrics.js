@@ -25,33 +25,38 @@ const {
     STACK_NAME
 } = process.env;
 
-const CLOUDWATCH_DIMENSIONS_NAME = 'CloudFormation Stack';
+const CLOUDWATCH_DIMENSIONS_NAME = 'CloudFormationStack';
 const CLOUDWATCH_NAMESPACE = 'AmazonS3GlacierReFreezer';
 
 // publish a cloudwatch metric with a name and value
-async function publishMetric(metricName, metricValue) {
-    // Not posting undefined value.
-    if (metricValue==null) return;
+async function publishMetric(metricList) {
+    // return if no metrics to be pushed.
+    if (metricList.length == 0) return;
+
+    let metricDataList = [];
+    for (const metric of metricList) {
+        metricDataList.push(
+            {
+                MetricName: metric.metricName,
+                Dimensions: [{
+                    Name: CLOUDWATCH_DIMENSIONS_NAME,
+                    Value: STACK_NAME
+                }],
+                Unit: 'None',
+                Value: metric.metricValue,
+            }
+        );
+    }
 
     try {
         const params = {
-            MetricData: [
-                {
-                    MetricName: metricName,
-                    Dimensions: [{
-                        Name: CLOUDWATCH_DIMENSIONS_NAME,
-                        Value: STACK_NAME
-                    }],
-                    Unit: 'None',
-                    Value: metricValue,
-                },
-            ],
+            MetricData: metricDataList,
             Namespace: CLOUDWATCH_NAMESPACE
         };
         await cloudwatch.putMetricData(params).promise();
     } catch (error) {
         console.error('publishMetric.error', error);
-        console.error('publishMetric.params', metricName, metricValue);
+        console.error('publishMetric.params', metricList);
     }
 }
 
