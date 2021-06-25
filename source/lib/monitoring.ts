@@ -152,7 +152,7 @@ export class Monitoring extends cdk.Construct {
         // Dashboard
 
         const total = Monitoring.createRefreezerMetric('ArchiveCountTotal', 'Total Archives');
-        const requested = Monitoring.createRefreezerMetric('ArchiveCountRequested', 'Request from Glacier');
+        const requested = Monitoring.createRefreezerMetric('ArchiveCountRequested', 'Requested from Glacier');
         const staged = Monitoring.createRefreezerMetric('ArchiveCountStaged', 'Staged');
         const validated = Monitoring.createRefreezerMetric('ArchiveCountValidated', 'Hashes Validated');
         const copied = Monitoring.createRefreezerMetric('ArchiveCountCompleted', 'Copied to Destination');
