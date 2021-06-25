@@ -151,11 +151,11 @@ export class Monitoring extends cdk.Construct {
         // -------------------------------------------------------------------------------------------
         // Dashboard
 
-        const total = Monitoring.createRefreezerMetric('Total Archives');
-        const requested = Monitoring.createRefreezerMetric('Requested from Glacier');
-        const staged = Monitoring.createRefreezerMetric('Staged');
-        const validated = Monitoring.createRefreezerMetric('Hashes Validated');
-        const copied = Monitoring.createRefreezerMetric('Copied to Destination');
+        const total = Monitoring.createRefreezerMetric('ArchiveCountTotal', 'Total Archives');
+        const requested = Monitoring.createRefreezerMetric('ArchiveCountRequested', 'Request from Glacier');
+        const staged = Monitoring.createRefreezerMetric('ArchiveCountStaged', 'Staged');
+        const validated = Monitoring.createRefreezerMetric('ArchiveCountValidated', 'Hashes Validated');
+        const copied = Monitoring.createRefreezerMetric('ArchiveCountCompleted', 'Copied to Destination');
 
         this.dashboardName = `${cdk.Aws.STACK_NAME}-Amazon-S3-Glacier-ReFreezer`;
         const dashboard = new cloudwatch.Dashboard(this, 'glacier-refreezer-dashboard',
@@ -248,13 +248,14 @@ export class Monitoring extends cdk.Construct {
         });
     }
 
-    private static createRefreezerMetric(metricName: string) {
+    private static createRefreezerMetric(metricName: string, metricLabel: string) {
         return new cloudwatch.Metric({
             unit: cloudwatch.Unit.COUNT,
             metricName,
             namespace: 'AmazonS3GlacierReFreezer',
+            label: metricLabel,
             dimensions: {
-                'CloudFormation Stack': cdk.Aws.STACK_NAME
+                'CloudFormationStack': cdk.Aws.STACK_NAME
             },
             account: cdk.Aws.ACCOUNT_ID,
             statistic: cloudwatch.Statistic.MAXIMUM,

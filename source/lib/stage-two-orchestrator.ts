@@ -113,7 +113,7 @@ export class StageTwoOrchestrator extends cdk.Construct {
 
         const taskUpdateMetricSize = new tasks.DynamoPutItem(this, 'Update Size Metric', {
             item: {
-                pk: tasks.DynamoAttributeValue.fromString('size'),
+                pk: tasks.DynamoAttributeValue.fromString('volume'),
                 total: tasks.DynamoAttributeValue.numberFromString(sfn.JsonPath.stringAt('$.inventoryTable.vaultSize'))
             },
             table: props.dynamoDataCatalog.metricTable,

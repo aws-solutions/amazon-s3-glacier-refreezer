@@ -26,11 +26,11 @@ const expect = chai.expect;
 chai.use(chaiAsPromised);
 
 describe('-- Calculate Metrics --', () => {
-    describe('-- Dynamo --', () => {
+    describe('-- Dynamo metric count--', () => {
         var AWS;
         var progressCount;
         var metricResult;
-        var finalMetricCount = 32000
+        var finalMetricCount = 32000;
         var dynamo;
         var queryFunc;
 
@@ -64,14 +64,6 @@ describe('-- Calculate Metrics --', () => {
                 }
             );
 
-            metricResult = {
-                'Total Archives': 0,
-                'Requested from Glacier': 0,
-                'Copy Initiated': 0,
-                'Copy Completed': 0,
-                'Hashes Validated': 0
-            };
-
             // Overwrite internal references with mock proxies
             dynamo = proxyquire('../lib/dynamo.js', {
                 'aws-sdk': AWS
@@ -80,12 +72,69 @@ describe('-- Calculate Metrics --', () => {
 
         describe('-- Dynamo --', () => {
             it('Should Dynamo return Processing Counts to expected metric values', async () => {
-                var res = await dynamo.getCount();
+                var res = await dynamo.getItem('count');
                 expect(res.total.N).to.be.equal(finalMetricCount);
                 expect(res.started.N).to.be.equal(finalMetricCount);
                 expect(res.requested.N).to.be.equal(finalMetricCount);
                 expect(res.completed.N).to.be.equal(finalMetricCount);
                 expect(res.validated.N).to.be.equal(finalMetricCount);
+            });
+        });
+    });
+
+    describe('-- Dynamo metric volume--', () => {
+        var AWS;
+        var progressVolume;
+        var metricResult;
+        var finalMetricVolume = 1000000;
+        var dynamo;
+        var queryFunc;
+
+        //Init
+        before(function () {
+            queryFunc = sinon.stub();
+
+            AWS = {
+                DynamoDB: sinon.stub().returns({
+                    query: queryFunc
+                })
+            };
+
+            progressVolume = {
+                Items: [{
+                    "pk": "volume",
+                    "total": {'N': finalMetricVolume},
+                    "completed": {'N': finalMetricVolume},
+                    "requested": {'N': finalMetricVolume},
+                    "started": {'N': finalMetricVolume},
+                    "validated": {'N': finalMetricVolume}
+                }]
+            };
+
+            //Matchers
+            queryFunc.withArgs(sinon.match(function (param) {
+                return param.ExpressionAttributeValues[Object.keys(param.ExpressionAttributeValues)[0]]['S'] === 'volume'
+            })).returns(
+                {
+                    promise: () => progressVolume
+                }
+            );
+
+            // Overwrite internal references with mock proxies
+            dynamo = proxyquire('../lib/dynamo.js', {
+                'aws-sdk': AWS
+            })
+        });
+
+        describe('-- Dynamo --', () => {
+
+            it('Should Dynamo return Processing Volumes to expected metric values', async () => {
+                var res = await dynamo.getItem('volume');
+                expect(res.total.N).to.be.equal(finalMetricVolume);
+                expect(res.started.N).to.be.equal(finalMetricVolume);
+                expect(res.requested.N).to.be.equal(finalMetricVolume);
+                expect(res.completed.N).to.be.equal(finalMetricVolume);
+                expect(res.validated.N).to.be.equal(finalMetricVolume);
             });
         });
     });
