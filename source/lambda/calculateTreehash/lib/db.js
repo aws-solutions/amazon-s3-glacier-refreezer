@@ -55,6 +55,22 @@ async function setTimestampNow(archiveId, field) {
         .promise();
 }
 
+async function deleteItem(archiveId, field) {
+    return await dynamodb
+        .updateItem({
+            TableName: STATUS_TABLE,
+            Key: {
+                aid: { S: archiveId },
+            },
+            UpdateExpression: "remove #t",
+            ExpressionAttributeNames: {
+                "#t": field,
+            },
+            ReturnValues: "ALL_NEW",
+        })
+        .promise();
+}
+
 async function updateChunkStatusGetLatest(archiveId, partNumber, val) {
     let params = {
         TableName: STATUS_TABLE,
@@ -94,5 +110,6 @@ module.exports = {
     setTimestampNow,
     updateChunkStatusGetLatest,
     getStatusRecord,
-    incrementRetryCount
+    incrementRetryCount,
+    deleteItem
 };

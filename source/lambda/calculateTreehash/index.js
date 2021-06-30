@@ -35,9 +35,14 @@ async function handler(event) {
 
     console.log(`${key} - ${partNo} hash : ${startByte}-${endByte}`);
 
+    // the only way vdt is present at this section of the code is if the treehash is successfully validated already, but 
+    // triggerCopyToDestinationBucket fails, hence retry triggerCopyToDestinationBucket.
     let resultRecord = await db.getStatusRecord(aid);
+    
     if (resultRecord.Item.vdt && resultRecord.Item.vdt.S) {
+        resultRecord.Attributes = resultRecord.Item;
         console.log(`${key} : treehash has already been processed. Skipping`);
+        await trigger.triggerCopyToDestinationBucket(resultRecord);
         return;
     }
 
@@ -97,10 +102,11 @@ async function validateTreehash(s3hash, statusRecord) {
         }
     }
     // now that TreeHash is successfully verified, we start the copy to destination bucket via sending a message to the SQS
-    await trigger.triggerCopyToDestinationBucket(statusRecord);
-
-    // after successful sending of message to SQS, we update vdt
+   
+    // setTimestampNow runs here because we want to mark the time when the validation was completed
     await db.setTimestampNow(statusRecord.Attributes.aid.S, "vdt");
+
+    await trigger.triggerCopyToDestinationBucket(statusRecord);
 
     }
 
@@ -129,6 +135,10 @@ async function failArchiveAndRetry(statusRecord, key) {
     console.error(
         `Submitting retry copy request message on SQS. New retry counter is ${retryCount} for ${key}`
     );
+
+    // wipe sgt and start over
+    db.deleteItem(statusRecord.Attributes.aid.S, "sgt");
+    console.log(`${key} : sgt deleted`);
 
     //Repost to SQS (ArchiveRetrievalNotificationQueue) archive id, job id to trigger another copy
     let messageBody = JSON.stringify({
