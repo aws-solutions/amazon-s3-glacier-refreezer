@@ -46,8 +46,7 @@ exports.triggerCopyToDestinationBucket = async (statusRecord) => {
             key,
             aid,
         });
-        console.log(messageBody);
-        console.log(queueUrl);
+        
         return sqs.sendMessage({
             QueueUrl: queueUrl,
             MessageBody: messageBody,

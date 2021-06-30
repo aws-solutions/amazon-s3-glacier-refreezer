@@ -84,37 +84,36 @@ export class StageThree extends cdk.Construct {
 
         // -------------------------------------------------------------------------------------------
         // Copy Archive
-        const copyArchiveRole = new iam.Role(this, 'CopyArchiveRole', {
+        const processArchiveRole = new iam.Role(this, 'ProcessArchiveRole', {
             assumedBy: new iam.ServicePrincipal('lambda.amazonaws.com')
         });
 
         // Declaring the policy granting access to the stream explicitly to minimize permissions
-        const copyArchiveRolePolicy = new iam.Policy(this, 'CopyArchiveRolePolicy', {
+        const processArchiveRolePolicy = new iam.Policy(this, 'ProcessArchiveRolePolicy', {
             statements: [
-                iamSec.IamPermissions.lambdaLogGroup(`${cdk.Aws.STACK_NAME}-copyArchive`),
+                iamSec.IamPermissions.lambdaLogGroup(`${cdk.Aws.STACK_NAME}-processArchive`),
                 iamSec.IamPermissions.glacier(props.sourceVault),
                 iamSec.IamPermissions.sqsSubscriber(archiveNotificationQueue)
            ]
         });
-        copyArchiveRolePolicy.attachToRole(copyArchiveRole);
+        processArchiveRolePolicy.attachToRole(processArchiveRole);
 
-        props.stagingBucket.grantReadWrite(copyArchiveRole);
-        props.statusTable.grantReadWriteData(copyArchiveRole);
-        chunkCopyQueue.grantSendMessages(copyArchiveRole);
-        treehashCalcQueue.grantSendMessages(copyArchiveRole);
+        props.stagingBucket.grantReadWrite(processArchiveRole);
+        props.statusTable.grantReadWriteData(processArchiveRole);
+        chunkCopyQueue.grantSendMessages(processArchiveRole);
+        treehashCalcQueue.grantSendMessages(processArchiveRole);
 
-        const copyArchive = new lambda.Function(this, 'CopyArchive', {
-            functionName: `${cdk.Aws.STACK_NAME}-copyArchive`,
+        const processArchive = new lambda.Function(this, 'ProcessArchive', {
+            functionName: `${cdk.Aws.STACK_NAME}-processArchive`,
             runtime: lambda.Runtime.NODEJS_14_X,
             handler: 'index.handler',
-            memorySize: 1024,
+            memorySize: 256,
             timeout: cdk.Duration.minutes(15),
-            reservedConcurrentExecutions: 40,
-            code: lambda.Code.fromAsset(path.join(__dirname, '../lambda/copyArchive')),
-            role: copyArchiveRole.withoutPolicyUpdates(),
+            reservedConcurrentExecutions: 45,
+            code: lambda.Code.fromAsset(path.join(__dirname, '../lambda/processArchive')),
+            role: processArchiveRole.withoutPolicyUpdates(),
             environment:
                 {
-                    VAULT: props.sourceVault,
                     STAGING_BUCKET: props.stagingBucket.bucketName,
                     STAGING_BUCKET_PREFIX: 'stagingdata',
                     STATUS_TABLE: props.statusTable.tableName,
@@ -122,9 +121,9 @@ export class StageThree extends cdk.Construct {
                     SQS_HASH: treehashCalcQueue.queueName
                 }
         });
-        copyArchive.node.addDependency(copyArchiveRolePolicy);
-        copyArchive.addEventSource(new SqsEventSource(archiveNotificationQueue, {batchSize: 1}));
-        CfnNagSuppressor.addLambdaSuppression(copyArchive);
+        processArchive.node.addDependency(processArchiveRolePolicy);
+        processArchive.addEventSource(new SqsEventSource(archiveNotificationQueue, {batchSize: 1}));
+        CfnNagSuppressor.addLambdaSuppression(processArchive);
 
         // -------------------------------------------------------------------------------------------
         // Copy Chunk
