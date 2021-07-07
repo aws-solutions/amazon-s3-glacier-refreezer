@@ -24,6 +24,7 @@ async function handler() {
 
     const progressCount = await dynamo.getItem('count');
     const progressVolume = await dynamo.getItem('volume');
+    const throttling = await dynamo.getItem('throttling');
 
     let totalCount = progressCount && progressCount.total ? parseInt(progressCount.total.N) : null;
     let requestedCount = progressCount && progressCount.requested ? parseInt(progressCount.requested.N) : 0;
@@ -36,6 +37,9 @@ async function handler() {
     let stagedBytes = progressVolume && progressVolume.staged ? parseInt(progressVolume.staged.N) : 0;
     let validatedBytes = progressVolume && progressVolume.validated ? parseInt(progressVolume.validated.N) : 0;
     let copiedBytes = progressVolume && progressVolume.copied ? parseInt(progressVolume.copied.N) : 0;
+
+    let totalThrottledBytes = throttling && throttling.throttledBytes ? parseInt(throttling.throttledBytes.N) : null;
+    let totalThrottlingErrorCount = throttling && throttling.errorCount ? parseInt(throttling.errorCount.N) : null;
 
     let metricList = [];
 
@@ -52,6 +56,14 @@ async function handler() {
 
         metricList.push({metricName: "ArchiveCountTotal", metricValue: totalCount});
         metricList.push({metricName: "BytesTotal", metricValue: totalBytes});
+    }
+
+    if (totalThrottledBytes !== null) {
+        metricList.push({metricName: "ThrottledBytes", metricValue: totalThrottledBytes});
+    }
+
+    if (totalThrottlingErrorCount !== null) {
+        metricList.push({metricName: "ThrottledErrorCount", metricValue: totalThrottlingErrorCount});
     }
 
     metricList.push({metricName: "ArchiveCountRequested", metricValue: requestedCount});

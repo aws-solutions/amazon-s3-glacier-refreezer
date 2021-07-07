@@ -30,7 +30,7 @@ const {
     STAGING_BUCKET_PREFIX
 } = process.env;
 
-async function handler(event){
+async function handler(event, context, callback){
     let request = JSON.parse(event.Records[0].body)
     let {
         glacierRetrievalStatus,
@@ -43,11 +43,13 @@ async function handler(event){
 
     let jobId = glacierRetrievalStatus.JobId;
     let archiveId = glacierRetrievalStatus.ArchiveId;
+    
 
     // If sgt is present, it means that copy is already done 
     // but the calcHash failed (either single or multipart copy). 
     let statusRecord = await db.getStatusRecord(archiveId);
     statusRecord.Attributes = statusRecord.Item;
+    let archiveSize = statusRecord.Attributes.sz.N
     if (statusRecord.Attributes.sgt && statusRecord.Attributes.sgt.S) {
         console.log(`${key} : upload has already been processed`)
         await trigger.calcHash(statusRecord)
@@ -56,24 +58,48 @@ async function handler(event){
 
     //singleChunk has no uploadId
     if (uploadId == null){
-        await singleChunkCopy(glacierRetrievalStatus, jobId, archiveId, key, statusRecord)
+        await singleChunkCopy(glacierRetrievalStatus, jobId, archiveId, key, statusRecord, archiveSize, callback)
     } else {
-        await multiChunkCopy(uploadId, jobId, archiveId, key, partNo, startByte, endByte)
+        await multiChunkCopy(uploadId, jobId, archiveId, key, partNo, startByte, endByte, archiveSize, callback)
     }
 }
 
-async function singleChunkCopy(glacierRetrievalStatus, jobId, archiveId, key, statusRecord) {
- 
-    let glacierStream = glacier
-        .getJobOutput({
-            accountId: "-",
-            jobId: jobId,
-            vaultName: VAULT,
-        })
-        .createReadStream();
+
+function ErrorException(name, message) {
+    this.name = name;
+    this.message = message;
+}
+
+async function checkAndThrowException(exception, archiveId, archiveSize, callback){
+    if (exception === "ThrottlingException"){
+        // increment throttled bytes if throttling
+        await db.increaseThrottleAndErrorCount("throttling", "throttledBytes", archiveSize, "errorCount", "1");
+        ErrorException.prototype = new Error();
+        const err = new ErrorException(exception,"Detected throttling. Reducing rate of requests. No action is required.");
+        callback(err);
+    } else {
+        ErrorException.prototype = new Error();
+        const err = new ErrorException(exception,"Retry is automatic. No action is required.");
+        callback(err);
+    }
+}
+
+
+async function singleChunkCopy(glacierRetrievalStatus, jobId, archiveId, key, statusRecord, archiveSize, callback) {
+
+    let params = {
+        accountId: "-",
+        jobId: jobId,
+        vaultName: VAULT
+    };
+
+    let glacierStream = glacier.getJobOutput(params).
+        createReadStream().on('error', function (error){
+            checkAndThrowException(error.code, archiveId, archiveSize, callback)
+        });
     
     glacierStream.length = glacierRetrievalStatus.ArchiveSizeInBytes;
-
+    
     let copyResult = await s3
         .putObject({
             Bucket: STAGING_BUCKET,
@@ -89,7 +115,7 @@ async function singleChunkCopy(glacierRetrievalStatus, jobId, archiveId, key, st
     await trigger.calcHash(statusRecord);
 }
 
-async function multiChunkCopy(uploadId, jobId, archiveId, key, partNo, startByte, endByte) {
+async function multiChunkCopy(uploadId, jobId, archiveId, key, partNo, startByte, endByte, archiveSize, callback) {
     console.log(`chunk upload ${key} - ${partNo} : ${startByte}-${endByte}`)
 
     let glacierStream = glacier.getJobOutput({
@@ -97,7 +123,9 @@ async function multiChunkCopy(uploadId, jobId, archiveId, key, partNo, startByte
         jobId: jobId,
         range: `bytes=${startByte}-${endByte}`,
         vaultName: VAULT
-    }).createReadStream()
+    }).createReadStream().on('error', function (error){
+        checkAndThrowException(error.code, archiveId, archiveSize, callback)
+    });
 
     glacierStream.length = endByte - startByte + 1;
 

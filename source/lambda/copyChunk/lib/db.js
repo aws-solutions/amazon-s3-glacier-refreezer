@@ -23,7 +23,8 @@ const dynamodb = new AWS.DynamoDB();
 const moment = require('moment')
 
 const {
-    STATUS_TABLE
+    STATUS_TABLE,
+    METRIC_TABLE,
 } = process.env;
 
 async function getStatusRecord(archiveId) {
@@ -58,6 +59,27 @@ async function setTimestampNow(archiveId, field) {
         }).promise();
 }
 
+
+async function increaseThrottleAndErrorCount(throttled, nBytes, value, nCount, count) {
+    return await dynamodb.updateItem({
+        TableName: METRIC_TABLE,
+        Key: {
+            pk: {
+                S: throttled
+            }
+        },
+        ExpressionAttributeNames: {
+            "#t": nBytes,
+            "#f": nCount,
+            },
+        ExpressionAttributeValues: {
+            ":val": { N: value },
+            ":count": { N: count },
+        },
+        UpdateExpression: "ADD #t :val, #f :count"
+    }).promise();
+}
+
 async function updateChunkStatusGetLatest(archiveId, partNumber, val) {
     let params = {
         TableName: STATUS_TABLE,
@@ -81,5 +103,6 @@ async function updateChunkStatusGetLatest(archiveId, partNumber, val) {
 module.exports = {
     setTimestampNow,
     updateChunkStatusGetLatest,
-    getStatusRecord
+    getStatusRecord,
+    increaseThrottleAndErrorCount
 }
