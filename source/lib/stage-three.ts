@@ -33,7 +33,8 @@ import * as iam from "@aws-cdk/aws-iam";
 export interface StageThreeProps {
     readonly sourceVault: string;
     readonly stagingBucket: s3.IBucket;
-    readonly statusTable: dynamo.ITable
+    readonly statusTable: dynamo.ITable;
+    readonly metricTable: dynamo.ITable;
     readonly archiveNotificationTopic: sns.ITopic
 }
 
@@ -143,6 +144,7 @@ export class StageThree extends cdk.Construct {
 
         props.stagingBucket.grantReadWrite(copyChunkRole);
         props.statusTable.grantReadWriteData(copyChunkRole);
+        props.metricTable.grantReadWriteData(copyChunkRole);
         treehashCalcQueue.grantSendMessages(copyChunkRole);
 
         const copyChunk = new lambda.Function(this, 'CopyChunk', {
@@ -160,6 +162,7 @@ export class StageThree extends cdk.Construct {
                     STAGING_BUCKET: props.stagingBucket.bucketName,
                     STAGING_BUCKET_PREFIX: 'stagingdata',
                     STATUS_TABLE: props.statusTable.tableName,
+                    METRIC_TABLE: props.metricTable.tableName,
                     SQS_HASH: treehashCalcQueue.queueName
                 }
         });

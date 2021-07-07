@@ -25,6 +25,7 @@ const athena = new AWS.Athena();
 
 const moment = require("moment");
 const csv = require("csv-parser");
+const db = require('./lib/db.js');
 
 var parseFileName = require("./lib/filenameparser.js").parseFileName;
 
@@ -55,7 +56,7 @@ async function handler(payload) {
 
     console.log(`Checking progress in DynamoDB`);
     const pid = payload.nextPartition;
-    var partitionMaxProcessedFileNumber = await getPartitionMaxProcessedFileNumber(
+    var partitionMaxProcessedFileNumber = await db.getPartitionMaxProcessedFileNumber(
         pid
     );
     console.log(`Max Processed File Number : ${partitionMaxProcessedFileNumber}`);
@@ -87,7 +88,7 @@ async function handler(payload) {
         let fname = parseFileName(aid, descr);
 
         // Duplicates - adding creation date suffix
-        if (processed.includes(fname) || (await filenameExists(fname))) {
+        if (processed.includes(fname) || (await db.filenameExists(fname))) {
             fname += `-${creationdate}`;
         }
 
@@ -136,19 +137,36 @@ async function handler(payload) {
     // Increment Processed Partition Count
     payload.nextPartition = pid + 1;
 
+    // read throttled bytes data from DDB and add it to the calculation
+    const throttledBytesItem = await db.getItem('throttling');
+    if (!Object.keys(throttledBytesItem).length == 0 && 'throttledBytes' in throttledBytesItem.Item) {
+        var throttledBytes = parseInt(throttledBytesItem.Item.throttledBytes.N);
+        var throttledErrorCount = parseInt(throttledBytesItem.Item.errorCount.N);
+    }
+    else {
+        var throttledBytes = 0;
+        var throttledErrorCount = 0;
+    }
+
     // Calculate timeout prior the next batch
     const dailyQuota = Number(DQL)
     const endTime = new Date().getTime();
     const timeTaken = Math.floor((endTime-startTime)/1000);
 
-    const processedShare = processedSize / dailyQuota
-    let timeout = Math.round( 86400 * processedShare) - timeTaken;
+    const processedShare = (processedSize + throttledBytes) / dailyQuota
+    let timeout = Math.round(86400 * processedShare) - timeTaken;
     timeout = timeout < 0 ? 0 : timeout;
-    payload.timeout = timeout
+    payload.timeout = timeout;
 
-    console.log(`Processed: ${processedSize}`)
-    console.log(`Processed Share: ${processedShare}`)
-    console.log(`Timeout: ${timeout}`)
+    console.log(`Processed: ${processedSize}`);
+    console.log(`Throttled Bytes: ${throttledBytes}`);
+    console.log(`Processed Share: ${processedShare}`);
+    console.log(`Timeout: ${timeout}`);
+
+    // decrement throttled bytes data on DDB
+    if (throttledBytes > 0) {
+        await db.decrementThrottledBytes(throttledBytes, throttledErrorCount);
+    }
 
     return payload;
 }
@@ -211,53 +229,6 @@ function readResultsCSV(key) {
     });
 }
 
-async function getPartitionMaxProcessedFileNumber(pid) {
-    console.log(`Checking last file number for partition : ${pid}`);
-    let result = await dynamodb
-        .query({
-            TableName: STATUS_TABLE,
-            IndexName: "max-file-index",
-            KeyConditionExpression: "pid = :pid",
-            ExpressionAttributeValues: {
-                ":pid": {N: pid.toString()},
-            },
-            ProjectionExpression: "ifn, aid",
-            ScanIndexForward: false,
-            Limit: 1,
-        })
-        .promise();
-
-    if (result.Count == 0) {
-        console.log(
-            `No records for partition ${pid} found. Setting the last item number to 0`
-        );
-        return 0;
-    }
-
-    const lastIfn =  result.Items[0].ifn.N;
-    const aid =  result.Items[0].aid.S;
-
-    console.log(`Last registered item is ${lastIfn}. ArchiveID (aid): ${aid} `);
-    return lastIfn;
-}
-
-const filenameExists = async (fname) => {
-    let result = await dynamodb
-        .query({
-            TableName: STATUS_TABLE,
-            IndexName: "name-index",
-            KeyConditionExpression: "fname = :fname",
-            ExpressionAttributeValues: {
-                ":fname": {S: fname},
-            },
-            Select: "COUNT",
-            Limit: 1,
-        })
-        .promise();
-
-    return result.Count !== 0;
-};
-
 function calculateNumberOfChunks(sizeInBytes) {
     let numberOfChunks = Math.floor(sizeInBytes / CHUNK_SIZE);
     if (sizeInBytes % CHUNK_SIZE !== 0) {
@@ -268,6 +239,5 @@ function calculateNumberOfChunks(sizeInBytes) {
 
 module.exports = {
     handler,
-    readAthenaPartition,
-    getPartitionMaxProcessedFileNumber
+    readAthenaPartition
 };

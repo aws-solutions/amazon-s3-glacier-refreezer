@@ -191,6 +191,7 @@ export class AmazonS3GlacierRefreezerStack extends cdk.Stack {
             stagingBucket: stagingBucket.Bucket,
             sourceVault: sourceVault.valueAsString,
             statusTable: dynamoDataCatalog.statusTable,
+            metricTable: dynamoDataCatalog.metricTable,
             archiveNotificationTopic
         });
 

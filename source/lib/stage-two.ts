@@ -91,6 +91,7 @@ export class StageTwo extends cdk.Construct {
         });
         props.stagingBucket.grantReadWrite(requestArchivesRole);
         props.dynamoDataCatalog.statusTable.grantReadWriteData(requestArchivesRole);
+        props.dynamoDataCatalog.metricTable.grantReadWriteData(requestArchivesRole);
         requestArchiveRolePolicy.attachToRole(requestArchivesRole);
 
         const requestArchives = new lambda.Function(this, 'RequestArchives', {
@@ -108,6 +109,7 @@ export class StageTwo extends cdk.Construct {
                     STAGING_BUCKET: props.stagingBucket.bucketName,
                     TIER: props.glacierRetrievalTier,
                     STATUS_TABLE: props.dynamoDataCatalog.statusTable.tableName,
+                    METRICS_TABLE: props.dynamoDataCatalog.metricTable.tableName,
                     VAULT: props.glacierSourceVault,
                     DATABASE: props.glueDataCatalog.inventoryDatabase.databaseName,
                     ATHENA_WORKGROUP: props.glueDataCatalog.athenaWorkgroup.name,
