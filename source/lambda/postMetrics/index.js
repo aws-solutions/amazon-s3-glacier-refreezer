@@ -25,6 +25,7 @@ async function handler() {
     const progressCount = await dynamo.getItem('count');
     const progressVolume = await dynamo.getItem('volume');
     const throttling = await dynamo.getItem('throttling');
+    const failedArchives = await dynamo.getItem('archives-failed');
 
     let totalCount = progressCount && progressCount.total ? parseInt(progressCount.total.N) : null;
     let requestedCount = progressCount && progressCount.requested ? parseInt(progressCount.requested.N) : 0;
@@ -40,10 +41,12 @@ async function handler() {
 
     let totalThrottledBytes = throttling && throttling.throttledBytes ? parseInt(throttling.throttledBytes.N) : null;
     let totalThrottlingErrorCount = throttling && throttling.errorCount ? parseInt(throttling.errorCount.N) : null;
+    let totalFailedArchivesBytes = failedArchives && failedArchives.failedBytes ? parseInt(failedArchives.failedBytes.N) : null;
+    let totalFailedArchivesErrorCount = failedArchives && failedArchives.errorCount ? parseInt(failedArchives.errorCount.N) : null;
 
     let metricList = [];
 
-    if (totalCount) {
+    if (totalCount !== null) {
         requestedCount = requestedCount > totalCount ? totalCount : requestedCount;
         stagedCount = stagedCount > totalCount ? totalCount : stagedCount;
         validatedCount = validatedCount > totalCount ? totalCount : validatedCount;
@@ -58,12 +61,14 @@ async function handler() {
         metricList.push({metricName: "BytesTotal", metricValue: totalBytes});
     }
 
-    if (totalThrottledBytes !== null) {
+    if (totalThrottlingErrorCount !== null) {
         metricList.push({metricName: "ThrottledBytes", metricValue: totalThrottledBytes});
+        metricList.push({metricName: "ThrottledErrorCount", metricValue: totalThrottlingErrorCount});
     }
 
-    if (totalThrottlingErrorCount !== null) {
-        metricList.push({metricName: "ThrottledErrorCount", metricValue: totalThrottlingErrorCount});
+    if (totalFailedArchivesErrorCount !== null) {
+        metricList.push({metricName: "FailedArchivesBytes", metricValue: totalFailedArchivesBytes});
+        metricList.push({metricName: "FailedArchivesErrorCount", metricValue: totalFailedArchivesErrorCount});
     }
 
     metricList.push({metricName: "ArchiveCountRequested", metricValue: requestedCount});

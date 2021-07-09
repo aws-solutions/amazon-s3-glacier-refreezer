@@ -95,6 +95,8 @@ async function validateTreehash(s3hash, statusRecord) {
             await failArchiveAndRetry(statusRecord, key);
             return;
         } else {
+            // on 3rd failed calcHash attempt, we log in db
+            await db.increaseArchiveFailedBytesAndErrorCount("archives-failed", "failedBytes", statusRecord.Attributes.sz.N, "errorCount", "1")
             console.error(
                 `ERROR : sha256treehash validation failed after MULTIPLE retry for ${key}. Manual intervention required.\n`
             );
@@ -109,6 +111,18 @@ async function validateTreehash(s3hash, statusRecord) {
     await trigger.triggerCopyToDestinationBucket(statusRecord);
 
     }
+
+async function getListOfChunks(statusRecord){
+    let cc = parseInt(statusRecord.Attributes.cc.N);
+    var chunkString = "chunk";
+    var finalChunkString= "";
+    for (var chunkNumber = 1; chunkNumber < cc ; chunkNumber ++){
+        finalChunkString = finalChunkString.concat(chunkString.concat(chunkNumber.toString()).concat(", "));
+    }
+    finalChunkString = finalChunkString.concat(chunkString.concat(cc.toString()));
+    return finalChunkString
+}
+
 
 async function failArchiveAndRetry(statusRecord, key) {
     let params = {
@@ -136,9 +150,10 @@ async function failArchiveAndRetry(statusRecord, key) {
         `Submitting retry copy request message on SQS. New retry counter is ${retryCount} for ${key}`
     );
 
-    // wipe sgt and start over
-    db.deleteItem(statusRecord.Attributes.aid.S, "sgt");
+    // wipe sgt and chunks' status and start over
+    await db.deleteItem(statusRecord.Attributes.aid.S, "sgt");
     console.log(`${key} : sgt deleted`);
+    await db.deleteChunkStatus(statusRecord.Attributes.aid.S, await getListOfChunks(statusRecord));
 
     //Repost to SQS (ArchiveRetrievalNotificationQueue) archive id, job id to trigger another copy
     let messageBody = JSON.stringify({

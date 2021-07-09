@@ -75,7 +75,7 @@ async function checkAndThrowException(exception, archiveId, archiveSize, callbac
         // increment throttled bytes if throttling
         await db.increaseThrottleAndErrorCount("throttling", "throttledBytes", archiveSize, "errorCount", "1");
         ErrorException.prototype = new Error();
-        const err = new ErrorException(exception,"Detected throttling. Reducing rate of requests. No action is required.");
+        const err = new ErrorException(exception,"The request has been throttled. No action required - it will be retried automatically.");
         callback(err);
     } else {
         ErrorException.prototype = new Error();
