@@ -34,6 +34,7 @@ export interface StageFourProps {
     readonly treehashCalcQueue: sqs.IQueue;
     readonly archiveNotificationQueue: sqs.IQueue;
     readonly statusTable: dynamo.ITable;
+    readonly metricTable: dynamo.ITable;
 }
 
 export class StageFour extends cdk.Construct {
@@ -70,6 +71,7 @@ export class StageFour extends cdk.Construct {
                     STAGING_BUCKET: props.stagingBucket.bucketName,
                     STAGING_BUCKET_PREFIX: 'stagingdata',
                     STATUS_TABLE: props.statusTable.tableName,
+                    METRIC_TABLE: props.metricTable.tableName,
                     SQS_ARCHIVE_NOTIFICATION: props.archiveNotificationQueue.queueName,
                     SQS_COPY_TO_DESTINATION_NOTIFICATION: copyToDestinationBucketQueue.queueName
                 }
@@ -77,6 +79,8 @@ export class StageFour extends cdk.Construct {
 
         props.stagingBucket.grantReadWrite(calculateTreehash);
         props.statusTable.grantReadWriteData(calculateTreehash);
+        props.metricTable.grantReadWriteData(calculateTreehash);
+        props.archiveNotificationQueue.grantSendMessages(calculateTreehash);
         copyToDestinationBucketQueue.grantSendMessages(calculateTreehash);
         calculateTreehash.addEventSource(new SqsEventSource(props.treehashCalcQueue, {batchSize: 1}));
         CfnNagSuppressor.addLambdaSuppression(calculateTreehash);
