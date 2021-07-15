@@ -213,8 +213,9 @@ export class Monitoring extends cdk.Construct {
             logGroupNames,
             view: cloudwatch.LogQueryVisualizationType.TABLE,
             queryLines: [
-                'fields @timestamp, @message ',
+                'fields @timestamp, @message',
                 'filter @message like /error/ or @message like /Error/ or @message like /ERROR/',
+                'filter @message not like /ThrottlingException/',
                 'sort by @timestamp desc'
             ]
         });

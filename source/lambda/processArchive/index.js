@@ -47,6 +47,12 @@ async function handler(event) {
     resultRecord.Attributes = resultRecord.Item;
 
     const key = resultRecord.Attributes.fname.S;
+
+    if (resultRecord.Attributes.psdt && resultRecord.Attributes.psdt.S) {
+        console.log(`${key} : processArchive has already started. Skipping`);
+        return;
+    }
+
     console.log(`${key} : copy started`);
 
     const numberOfChunks = parseInt(resultRecord.Attributes.cc.N);

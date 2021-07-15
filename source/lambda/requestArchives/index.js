@@ -30,6 +30,7 @@ const db = require('./lib/db.js');
 var parseFileName = require("./lib/filenameparser.js").parseFileName;
 
 const CHUNK_SIZE = 4 * 1024 * 1024 * 1024;
+const MIN_THROTTLING_DELAY = 960;
 
 const {
     STAGING_BUCKET,
@@ -156,6 +157,12 @@ async function handler(payload) {
     const processedShare = (processedSize + throttledBytes) / dailyQuota
     let timeout = Math.round(86400 * processedShare) - timeTaken;
     timeout = timeout < 0 ? 0 : timeout;
+
+    // if there are some throttled bytes but timeout is 0, set it to MIN_THROTTLING_DELAY in seconds
+    if (throttledBytes > 0 && timeout === 0) {
+        timeout = MIN_THROTTLING_DELAY;
+    }
+        
     payload.timeout = timeout;
 
     console.log(`Processed: ${processedSize}`);
