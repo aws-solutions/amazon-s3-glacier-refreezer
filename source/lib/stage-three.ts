@@ -84,35 +84,35 @@ export class StageThree extends cdk.Construct {
         chunkCopyQueue.addToResourcePolicy(iamSec.IamPermissions.sqsDenyInsecureTransport(chunkCopyQueue));
 
         // -------------------------------------------------------------------------------------------
-        // Copy Archive
-        const processArchiveRole = new iam.Role(this, 'ProcessArchiveRole', {
+        // Split Archive into Chunks
+        const splitArchiveRole = new iam.Role(this, 'splitArchiveRole', {
             assumedBy: new iam.ServicePrincipal('lambda.amazonaws.com')
         });
 
         // Declaring the policy granting access to the stream explicitly to minimize permissions
-        const processArchiveRolePolicy = new iam.Policy(this, 'ProcessArchiveRolePolicy', {
+        const splitArchiveRolePolicy = new iam.Policy(this, 'SplitArchiveRolePolicy', {
             statements: [
-                iamSec.IamPermissions.lambdaLogGroup(`${cdk.Aws.STACK_NAME}-processArchive`),
+                iamSec.IamPermissions.lambdaLogGroup(`${cdk.Aws.STACK_NAME}-splitArchive`),
                 iamSec.IamPermissions.glacier(props.sourceVault),
                 iamSec.IamPermissions.sqsSubscriber(archiveNotificationQueue)
            ]
         });
-        processArchiveRolePolicy.attachToRole(processArchiveRole);
+        splitArchiveRolePolicy.attachToRole(splitArchiveRole);
 
-        props.stagingBucket.grantReadWrite(processArchiveRole);
-        props.statusTable.grantReadWriteData(processArchiveRole);
-        chunkCopyQueue.grantSendMessages(processArchiveRole);
-        treehashCalcQueue.grantSendMessages(processArchiveRole);
+        props.stagingBucket.grantReadWrite(splitArchiveRole);
+        props.statusTable.grantReadWriteData(splitArchiveRole);
+        chunkCopyQueue.grantSendMessages(splitArchiveRole);
+        treehashCalcQueue.grantSendMessages(splitArchiveRole);
 
-        const processArchive = new lambda.Function(this, 'ProcessArchive', {
-            functionName: `${cdk.Aws.STACK_NAME}-processArchive`,
+        const splitArchive = new lambda.Function(this, 'SplitArchive', {
+            functionName: `${cdk.Aws.STACK_NAME}-splitArchive`,
             runtime: lambda.Runtime.NODEJS_14_X,
             handler: 'index.handler',
             memorySize: 256,
             timeout: cdk.Duration.minutes(15),
             reservedConcurrentExecutions: 45,
-            code: lambda.Code.fromAsset(path.join(__dirname, '../lambda/processArchive')),
-            role: processArchiveRole.withoutPolicyUpdates(),
+            code: lambda.Code.fromAsset(path.join(__dirname, '../lambda/splitArchive')),
+            role: splitArchiveRole.withoutPolicyUpdates(),
             environment:
                 {
                     STAGING_BUCKET: props.stagingBucket.bucketName,
@@ -122,9 +122,9 @@ export class StageThree extends cdk.Construct {
                     SQS_HASH: treehashCalcQueue.queueName
                 }
         });
-        processArchive.node.addDependency(processArchiveRolePolicy);
-        processArchive.addEventSource(new SqsEventSource(archiveNotificationQueue, {batchSize: 1}));
-        CfnNagSuppressor.addLambdaSuppression(processArchive);
+        splitArchive.node.addDependency(splitArchiveRolePolicy);
+        splitArchive.addEventSource(new SqsEventSource(archiveNotificationQueue, {batchSize: 1}));
+        CfnNagSuppressor.addLambdaSuppression(splitArchive);
 
         // -------------------------------------------------------------------------------------------
         // Copy Chunk

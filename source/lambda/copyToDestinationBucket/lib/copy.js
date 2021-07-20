@@ -40,7 +40,7 @@ async function copyKeyToDestinationBucket(key, size) {
     }
 
     if (size < CHUNK_SIZE) {
-        console.log(`Single part Storage Class change for : ${key} : ${STORAGE_CLASS}`)
+        console.log(`Single part copy for : ${key} : ${STORAGE_CLASS}`)
         await s3.copyObject({
             CopySource: encodeURIComponent(`${STAGING_BUCKET}/${STAGING_BUCKET_PREFIX}/${key}`),
             Bucket: DESTINATION_BUCKET,
@@ -65,7 +65,7 @@ function copyPart (uploadId, key, partNo, startByte, endByte) {
 }
 
 async function copyMultiPart(key, size) {
-    console.log(`Multipart Storage Class change for : ${key}`)
+    console.log(`Multipart copy for : ${key}`)
     let response = await s3.createMultipartUpload({
         Bucket: DESTINATION_BUCKET,
         Key: key,
