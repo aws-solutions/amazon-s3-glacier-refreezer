@@ -126,6 +126,18 @@ Object {
       "Description": "S3 key for asset version \\"02b3adb0cd35cbe8f7d90f7739b16bf707464eb922e170895bee6ea98402102d\\"",
       "Type": "String",
     },
+    "AssetParameters043b729be1ce011ecc2de0dd07838252047adcd38aa55d39a3783fb945037a0dArtifactHash2C58A0FC": Object {
+      "Description": "Artifact hash for asset \\"043b729be1ce011ecc2de0dd07838252047adcd38aa55d39a3783fb945037a0d\\"",
+      "Type": "String",
+    },
+    "AssetParameters043b729be1ce011ecc2de0dd07838252047adcd38aa55d39a3783fb945037a0dS3Bucket81EFEA7C": Object {
+      "Description": "S3 bucket for asset \\"043b729be1ce011ecc2de0dd07838252047adcd38aa55d39a3783fb945037a0d\\"",
+      "Type": "String",
+    },
+    "AssetParameters043b729be1ce011ecc2de0dd07838252047adcd38aa55d39a3783fb945037a0dS3VersionKeyB3BA6DCC": Object {
+      "Description": "S3 key for asset version \\"043b729be1ce011ecc2de0dd07838252047adcd38aa55d39a3783fb945037a0d\\"",
+      "Type": "String",
+    },
     "AssetParameters04c39b38ce7ed0cfddd5e58113e93521e95fd1c4e271b52c446fe87f9015720cArtifactHashC02A8EF3": Object {
       "Description": "Artifact hash for asset \\"04c39b38ce7ed0cfddd5e58113e93521e95fd1c4e271b52c446fe87f9015720c\\"",
       "Type": "String",
@@ -210,16 +222,16 @@ Object {
       "Description": "S3 key for asset version \\"5d0fa31cf847ea68ba796614bd7d27a6b732709f754be37d7eb06f790ae82886\\"",
       "Type": "String",
     },
-    "AssetParameters9b188253c3e9131c8b8c19ddaed3b26181f5432321a7ece288592914af2e2c91ArtifactHash024FF22C": Object {
-      "Description": "Artifact hash for asset \\"9b188253c3e9131c8b8c19ddaed3b26181f5432321a7ece288592914af2e2c91\\"",
+    "AssetParameters9cec17493c96aa5275f78ca0624353f9063846d4fc78e79a09aa3bf4852c41a5ArtifactHash2E597931": Object {
+      "Description": "Artifact hash for asset \\"9cec17493c96aa5275f78ca0624353f9063846d4fc78e79a09aa3bf4852c41a5\\"",
       "Type": "String",
     },
-    "AssetParameters9b188253c3e9131c8b8c19ddaed3b26181f5432321a7ece288592914af2e2c91S3BucketC6FC7553": Object {
-      "Description": "S3 bucket for asset \\"9b188253c3e9131c8b8c19ddaed3b26181f5432321a7ece288592914af2e2c91\\"",
+    "AssetParameters9cec17493c96aa5275f78ca0624353f9063846d4fc78e79a09aa3bf4852c41a5S3Bucket2155182A": Object {
+      "Description": "S3 bucket for asset \\"9cec17493c96aa5275f78ca0624353f9063846d4fc78e79a09aa3bf4852c41a5\\"",
       "Type": "String",
     },
-    "AssetParameters9b188253c3e9131c8b8c19ddaed3b26181f5432321a7ece288592914af2e2c91S3VersionKeyACB177B6": Object {
-      "Description": "S3 key for asset version \\"9b188253c3e9131c8b8c19ddaed3b26181f5432321a7ece288592914af2e2c91\\"",
+    "AssetParameters9cec17493c96aa5275f78ca0624353f9063846d4fc78e79a09aa3bf4852c41a5S3VersionKey3FE3BD25": Object {
+      "Description": "S3 key for asset version \\"9cec17493c96aa5275f78ca0624353f9063846d4fc78e79a09aa3bf4852c41a5\\"",
       "Type": "String",
     },
     "AssetParameters9fe8e874647cc119c4004969cbc38d6fabe04186f26482da678bd5361ca172acArtifactHash6F175D9C": Object {
@@ -234,18 +246,6 @@ Object {
       "Description": "S3 key for asset version \\"9fe8e874647cc119c4004969cbc38d6fabe04186f26482da678bd5361ca172ac\\"",
       "Type": "String",
     },
-    "AssetParametersab46b30669f11f3dea87cf69d6c7752a7c3033293be305fceaa4175880e9f494ArtifactHashE3C2849A": Object {
-      "Description": "Artifact hash for asset \\"ab46b30669f11f3dea87cf69d6c7752a7c3033293be305fceaa4175880e9f494\\"",
-      "Type": "String",
-    },
-    "AssetParametersab46b30669f11f3dea87cf69d6c7752a7c3033293be305fceaa4175880e9f494S3BucketC7D7DC6E": Object {
-      "Description": "S3 bucket for asset \\"ab46b30669f11f3dea87cf69d6c7752a7c3033293be305fceaa4175880e9f494\\"",
-      "Type": "String",
-    },
-    "AssetParametersab46b30669f11f3dea87cf69d6c7752a7c3033293be305fceaa4175880e9f494S3VersionKey5F0D23F3": Object {
-      "Description": "S3 key for asset version \\"ab46b30669f11f3dea87cf69d6c7752a7c3033293be305fceaa4175880e9f494\\"",
-      "Type": "String",
-    },
     "AssetParametersb10e5ae2ecfcab2122c4cc5105e89397cb11c146b3d2cfee778e7dc951149bc3ArtifactHash60D99560": Object {
       "Description": "Artifact hash for asset \\"b10e5ae2ecfcab2122c4cc5105e89397cb11c146b3d2cfee778e7dc951149bc3\\"",
       "Type": "String",
@@ -258,18 +258,6 @@ Object {
       "Description": "S3 key for asset version \\"b10e5ae2ecfcab2122c4cc5105e89397cb11c146b3d2cfee778e7dc951149bc3\\"",
       "Type": "String",
     },
-    "AssetParametersef741d22d22607e8147e3dd6c02cbffa98f2ec799cccb3dce300baf95e989b7bArtifactHash00306F31": Object {
-      "Description": "Artifact hash for asset \\"ef741d22d22607e8147e3dd6c02cbffa98f2ec799cccb3dce300baf95e989b7b\\"",
-      "Type": "String",
-    },
-    "AssetParametersef741d22d22607e8147e3dd6c02cbffa98f2ec799cccb3dce300baf95e989b7bS3BucketE16540AE": Object {
-      "Description": "S3 bucket for asset \\"ef741d22d22607e8147e3dd6c02cbffa98f2ec799cccb3dce300baf95e989b7b\\"",
-      "Type": "String",
-    },
-    "AssetParametersef741d22d22607e8147e3dd6c02cbffa98f2ec799cccb3dce300baf95e989b7bS3VersionKey9E294716": Object {
-      "Description": "S3 key for asset version \\"ef741d22d22607e8147e3dd6c02cbffa98f2ec799cccb3dce300baf95e989b7b\\"",
-      "Type": "String",
-    },
     "AssetParametersf9338979296fa16063a7a1dc3ace020d8683c07337e50a767d0744a0897a8621ArtifactHash287F8B20": Object {
       "Description": "Artifact hash for asset \\"f9338979296fa16063a7a1dc3ace020d8683c07337e50a767d0744a0897a8621\\"",
       "Type": "String",
@@ -280,6 +268,18 @@ Object {
     },
     "AssetParametersf9338979296fa16063a7a1dc3ace020d8683c07337e50a767d0744a0897a8621S3VersionKey968A245D": Object {
       "Description": "S3 key for asset version \\"f9338979296fa16063a7a1dc3ace020d8683c07337e50a767d0744a0897a8621\\"",
+      "Type": "String",
+    },
+    "AssetParametersfe1fd01da35f15a2b2b25fd6a90f410c10aad73dfa5474b85b3649c720ad61ebArtifactHash06227A48": Object {
+      "Description": "Artifact hash for asset \\"fe1fd01da35f15a2b2b25fd6a90f410c10aad73dfa5474b85b3649c720ad61eb\\"",
+      "Type": "String",
+    },
+    "AssetParametersfe1fd01da35f15a2b2b25fd6a90f410c10aad73dfa5474b85b3649c720ad61ebS3Bucket94026604": Object {
+      "Description": "S3 bucket for asset \\"fe1fd01da35f15a2b2b25fd6a90f410c10aad73dfa5474b85b3649c720ad61eb\\"",
+      "Type": "String",
+    },
+    "AssetParametersfe1fd01da35f15a2b2b25fd6a90f410c10aad73dfa5474b85b3649c720ad61ebS3VersionKeyCE20DDF2": Object {
+      "Description": "S3 key for asset version \\"fe1fd01da35f15a2b2b25fd6a90f410c10aad73dfa5474b85b3649c720ad61eb\\"",
       "Type": "String",
     },
     "CloudTrailExportConfirmation": Object {
@@ -1411,6 +1411,7 @@ Object {
         "monitoringpostMetricsLogGroup670566A8",
         "monitoringPostMetricsRole87B61E7B",
         "monitoringPostMetricsRolePolicy596F9F4D",
+        "monitoringprocessArchiveLogGroup6B2CC6B1",
         "monitoringrequestArchivesLogGroup70D7C9C5",
         "monitoringrequestInventoryLogGroupB7C9607D",
         "monitoringsendAnonymousStatsLogGroup0C9968BB",
@@ -2315,6 +2316,10 @@ Object {
               Object {
                 "Ref": "AWS::StackName",
               },
+              "-processArchive' | SOURCE '/aws/lambda/",
+              Object {
+                "Ref": "AWS::StackName",
+              },
               "-requestArchives' | SOURCE '/aws/lambda/",
               Object {
                 "Ref": "AWS::StackName",
@@ -2383,6 +2388,35 @@ Object {
                 "Ref": "AWS::StackName",
               },
               "-postMetrics",
+            ],
+          ],
+        },
+        "RetentionInDays": 90,
+      },
+      "Type": "AWS::Logs::LogGroup",
+    },
+    "monitoringprocessArchiveLogGroup6B2CC6B1": Object {
+      "DeletionPolicy": "Retain",
+      "Metadata": Object {
+        "cfn_nag": Object {
+          "rules_to_suppress": Array [
+            Object {
+              "id": "W84",
+              "reason": "The solution is a temporary, one off deployment. No sensitive or PII data logged.",
+            },
+          ],
+        },
+      },
+      "Properties": Object {
+        "LogGroupName": Object {
+          "Fn::Join": Array [
+            "",
+            Array [
+              "/aws/lambda/",
+              Object {
+                "Ref": "AWS::StackName",
+              },
+              "-processArchive",
             ],
           ],
         },
@@ -2925,7 +2959,7 @@ Object {
       "Properties": Object {
         "Code": Object {
           "S3Bucket": Object {
-            "Ref": "AssetParameters9b188253c3e9131c8b8c19ddaed3b26181f5432321a7ece288592914af2e2c91S3BucketC6FC7553",
+            "Ref": "AssetParameters9cec17493c96aa5275f78ca0624353f9063846d4fc78e79a09aa3bf4852c41a5S3Bucket2155182A",
           },
           "S3Key": Object {
             "Fn::Join": Array [
@@ -2938,7 +2972,7 @@ Object {
                       "Fn::Split": Array [
                         "||",
                         Object {
-                          "Ref": "AssetParameters9b188253c3e9131c8b8c19ddaed3b26181f5432321a7ece288592914af2e2c91S3VersionKeyACB177B6",
+                          "Ref": "AssetParameters9cec17493c96aa5275f78ca0624353f9063846d4fc78e79a09aa3bf4852c41a5S3VersionKey3FE3BD25",
                         },
                       ],
                     },
@@ -2951,7 +2985,7 @@ Object {
                       "Fn::Split": Array [
                         "||",
                         Object {
-                          "Ref": "AssetParameters9b188253c3e9131c8b8c19ddaed3b26181f5432321a7ece288592914af2e2c91S3VersionKeyACB177B6",
+                          "Ref": "AssetParameters9cec17493c96aa5275f78ca0624353f9063846d4fc78e79a09aa3bf4852c41a5S3VersionKey3FE3BD25",
                         },
                       ],
                     },
@@ -3298,6 +3332,7 @@ Object {
         "monitoringpostMetricsLogGroup670566A8",
         "monitoringPostMetricsRole87B61E7B",
         "monitoringPostMetricsRolePolicy596F9F4D",
+        "monitoringprocessArchiveLogGroup6B2CC6B1",
         "monitoringrequestArchivesLogGroup70D7C9C5",
         "monitoringrequestInventoryLogGroupB7C9607D",
         "monitoringsendAnonymousStatsLogGroup0C9968BB",
@@ -3392,6 +3427,7 @@ Object {
         "monitoringpostMetricsLogGroup670566A8",
         "monitoringPostMetricsRole87B61E7B",
         "monitoringPostMetricsRolePolicy596F9F4D",
+        "monitoringprocessArchiveLogGroup6B2CC6B1",
         "monitoringrequestArchivesLogGroup70D7C9C5",
         "monitoringrequestInventoryLogGroupB7C9607D",
         "monitoringsendAnonymousStatsLogGroup0C9968BB",
@@ -3527,6 +3563,7 @@ Object {
         "monitoringpostMetricsLogGroup670566A8",
         "monitoringPostMetricsRole87B61E7B",
         "monitoringPostMetricsRolePolicy596F9F4D",
+        "monitoringprocessArchiveLogGroup6B2CC6B1",
         "monitoringrequestArchivesLogGroup70D7C9C5",
         "monitoringrequestInventoryLogGroupB7C9607D",
         "monitoringsendAnonymousStatsLogGroup0C9968BB",
@@ -3571,6 +3608,7 @@ Object {
         "monitoringpostMetricsLogGroup670566A8",
         "monitoringPostMetricsRole87B61E7B",
         "monitoringPostMetricsRolePolicy596F9F4D",
+        "monitoringprocessArchiveLogGroup6B2CC6B1",
         "monitoringrequestArchivesLogGroup70D7C9C5",
         "monitoringrequestInventoryLogGroupB7C9607D",
         "monitoringsendAnonymousStatsLogGroup0C9968BB",
@@ -3614,6 +3652,7 @@ Object {
         "monitoringpostMetricsLogGroup670566A8",
         "monitoringPostMetricsRole87B61E7B",
         "monitoringPostMetricsRolePolicy596F9F4D",
+        "monitoringprocessArchiveLogGroup6B2CC6B1",
         "monitoringrequestArchivesLogGroup70D7C9C5",
         "monitoringrequestInventoryLogGroupB7C9607D",
         "monitoringsendAnonymousStatsLogGroup0C9968BB",
@@ -3732,6 +3771,7 @@ Object {
         "monitoringpostMetricsLogGroup670566A8",
         "monitoringPostMetricsRole87B61E7B",
         "monitoringPostMetricsRolePolicy596F9F4D",
+        "monitoringprocessArchiveLogGroup6B2CC6B1",
         "monitoringrequestArchivesLogGroup70D7C9C5",
         "monitoringrequestInventoryLogGroupB7C9607D",
         "monitoringsendAnonymousStatsLogGroup0C9968BB",
@@ -3797,6 +3837,7 @@ Object {
         "monitoringpostMetricsLogGroup670566A8",
         "monitoringPostMetricsRole87B61E7B",
         "monitoringPostMetricsRolePolicy596F9F4D",
+        "monitoringprocessArchiveLogGroup6B2CC6B1",
         "monitoringrequestArchivesLogGroup70D7C9C5",
         "monitoringrequestInventoryLogGroupB7C9607D",
         "monitoringsendAnonymousStatsLogGroup0C9968BB",
@@ -3906,6 +3947,7 @@ Object {
         "monitoringpostMetricsLogGroup670566A8",
         "monitoringPostMetricsRole87B61E7B",
         "monitoringPostMetricsRolePolicy596F9F4D",
+        "monitoringprocessArchiveLogGroup6B2CC6B1",
         "monitoringrequestArchivesLogGroup70D7C9C5",
         "monitoringrequestInventoryLogGroupB7C9607D",
         "monitoringsendAnonymousStatsLogGroup0C9968BB",
@@ -3971,6 +4013,7 @@ Object {
         "monitoringpostMetricsLogGroup670566A8",
         "monitoringPostMetricsRole87B61E7B",
         "monitoringPostMetricsRolePolicy596F9F4D",
+        "monitoringprocessArchiveLogGroup6B2CC6B1",
         "monitoringrequestArchivesLogGroup70D7C9C5",
         "monitoringrequestInventoryLogGroupB7C9607D",
         "monitoringsendAnonymousStatsLogGroup0C9968BB",
@@ -4097,6 +4140,7 @@ Object {
         "monitoringpostMetricsLogGroup670566A8",
         "monitoringPostMetricsRole87B61E7B",
         "monitoringPostMetricsRolePolicy596F9F4D",
+        "monitoringprocessArchiveLogGroup6B2CC6B1",
         "monitoringrequestArchivesLogGroup70D7C9C5",
         "monitoringrequestInventoryLogGroupB7C9607D",
         "monitoringsendAnonymousStatsLogGroup0C9968BB",
@@ -4241,6 +4285,7 @@ Object {
         "monitoringpostMetricsLogGroup670566A8",
         "monitoringPostMetricsRole87B61E7B",
         "monitoringPostMetricsRolePolicy596F9F4D",
+        "monitoringprocessArchiveLogGroup6B2CC6B1",
         "monitoringrequestArchivesLogGroup70D7C9C5",
         "monitoringrequestInventoryLogGroupB7C9607D",
         "monitoringsendAnonymousStatsLogGroup0C9968BB",
@@ -4306,6 +4351,7 @@ Object {
         "monitoringpostMetricsLogGroup670566A8",
         "monitoringPostMetricsRole87B61E7B",
         "monitoringPostMetricsRolePolicy596F9F4D",
+        "monitoringprocessArchiveLogGroup6B2CC6B1",
         "monitoringrequestArchivesLogGroup70D7C9C5",
         "monitoringrequestInventoryLogGroupB7C9607D",
         "monitoringsendAnonymousStatsLogGroup0C9968BB",
@@ -4487,6 +4533,7 @@ Object {
         "monitoringpostMetricsLogGroup670566A8",
         "monitoringPostMetricsRole87B61E7B",
         "monitoringPostMetricsRolePolicy596F9F4D",
+        "monitoringprocessArchiveLogGroup6B2CC6B1",
         "monitoringrequestArchivesLogGroup70D7C9C5",
         "monitoringrequestInventoryLogGroupB7C9607D",
         "monitoringsendAnonymousStatsLogGroup0C9968BB",
@@ -4906,7 +4953,7 @@ Object {
       "Properties": Object {
         "Code": Object {
           "S3Bucket": Object {
-            "Ref": "AssetParametersef741d22d22607e8147e3dd6c02cbffa98f2ec799cccb3dce300baf95e989b7bS3BucketE16540AE",
+            "Ref": "AssetParametersfe1fd01da35f15a2b2b25fd6a90f410c10aad73dfa5474b85b3649c720ad61ebS3Bucket94026604",
           },
           "S3Key": Object {
             "Fn::Join": Array [
@@ -4919,7 +4966,7 @@ Object {
                       "Fn::Split": Array [
                         "||",
                         Object {
-                          "Ref": "AssetParametersef741d22d22607e8147e3dd6c02cbffa98f2ec799cccb3dce300baf95e989b7bS3VersionKey9E294716",
+                          "Ref": "AssetParametersfe1fd01da35f15a2b2b25fd6a90f410c10aad73dfa5474b85b3649c720ad61ebS3VersionKeyCE20DDF2",
                         },
                       ],
                     },
@@ -4932,7 +4979,7 @@ Object {
                       "Fn::Split": Array [
                         "||",
                         Object {
-                          "Ref": "AssetParametersef741d22d22607e8147e3dd6c02cbffa98f2ec799cccb3dce300baf95e989b7bS3VersionKey9E294716",
+                          "Ref": "AssetParametersfe1fd01da35f15a2b2b25fd6a90f410c10aad73dfa5474b85b3649c720ad61ebS3VersionKeyCE20DDF2",
                         },
                       ],
                     },
@@ -5503,6 +5550,7 @@ Object {
         "monitoringpostMetricsLogGroup670566A8",
         "monitoringPostMetricsRole87B61E7B",
         "monitoringPostMetricsRolePolicy596F9F4D",
+        "monitoringprocessArchiveLogGroup6B2CC6B1",
         "monitoringrequestArchivesLogGroup70D7C9C5",
         "monitoringrequestInventoryLogGroupB7C9607D",
         "monitoringsendAnonymousStatsLogGroup0C9968BB",
@@ -5628,6 +5676,7 @@ Object {
         "monitoringpostMetricsLogGroup670566A8",
         "monitoringPostMetricsRole87B61E7B",
         "monitoringPostMetricsRolePolicy596F9F4D",
+        "monitoringprocessArchiveLogGroup6B2CC6B1",
         "monitoringrequestArchivesLogGroup70D7C9C5",
         "monitoringrequestInventoryLogGroupB7C9607D",
         "monitoringsendAnonymousStatsLogGroup0C9968BB",
@@ -5702,6 +5751,7 @@ Object {
         "monitoringpostMetricsLogGroup670566A8",
         "monitoringPostMetricsRole87B61E7B",
         "monitoringPostMetricsRolePolicy596F9F4D",
+        "monitoringprocessArchiveLogGroup6B2CC6B1",
         "monitoringrequestArchivesLogGroup70D7C9C5",
         "monitoringrequestInventoryLogGroupB7C9607D",
         "monitoringsendAnonymousStatsLogGroup0C9968BB",
@@ -5767,6 +5817,7 @@ Object {
         "monitoringpostMetricsLogGroup670566A8",
         "monitoringPostMetricsRole87B61E7B",
         "monitoringPostMetricsRolePolicy596F9F4D",
+        "monitoringprocessArchiveLogGroup6B2CC6B1",
         "monitoringrequestArchivesLogGroup70D7C9C5",
         "monitoringrequestInventoryLogGroupB7C9607D",
         "monitoringsendAnonymousStatsLogGroup0C9968BB",
@@ -5839,6 +5890,7 @@ Object {
         "monitoringpostMetricsLogGroup670566A8",
         "monitoringPostMetricsRole87B61E7B",
         "monitoringPostMetricsRolePolicy596F9F4D",
+        "monitoringprocessArchiveLogGroup6B2CC6B1",
         "monitoringrequestArchivesLogGroup70D7C9C5",
         "monitoringrequestInventoryLogGroupB7C9607D",
         "monitoringsendAnonymousStatsLogGroup0C9968BB",
@@ -6104,6 +6156,7 @@ Object {
         "monitoringpostMetricsLogGroup670566A8",
         "monitoringPostMetricsRole87B61E7B",
         "monitoringPostMetricsRolePolicy596F9F4D",
+        "monitoringprocessArchiveLogGroup6B2CC6B1",
         "monitoringrequestArchivesLogGroup70D7C9C5",
         "monitoringrequestInventoryLogGroupB7C9607D",
         "monitoringsendAnonymousStatsLogGroup0C9968BB",
@@ -6200,6 +6253,7 @@ Object {
         "monitoringpostMetricsLogGroup670566A8",
         "monitoringPostMetricsRole87B61E7B",
         "monitoringPostMetricsRolePolicy596F9F4D",
+        "monitoringprocessArchiveLogGroup6B2CC6B1",
         "monitoringrequestArchivesLogGroup70D7C9C5",
         "monitoringrequestInventoryLogGroupB7C9607D",
         "monitoringsendAnonymousStatsLogGroup0C9968BB",
@@ -6406,6 +6460,7 @@ Object {
         "monitoringpostMetricsLogGroup670566A8",
         "monitoringPostMetricsRole87B61E7B",
         "monitoringPostMetricsRolePolicy596F9F4D",
+        "monitoringprocessArchiveLogGroup6B2CC6B1",
         "monitoringrequestArchivesLogGroup70D7C9C5",
         "monitoringrequestInventoryLogGroupB7C9607D",
         "monitoringsendAnonymousStatsLogGroup0C9968BB",
@@ -6457,6 +6512,7 @@ Object {
         "monitoringpostMetricsLogGroup670566A8",
         "monitoringPostMetricsRole87B61E7B",
         "monitoringPostMetricsRolePolicy596F9F4D",
+        "monitoringprocessArchiveLogGroup6B2CC6B1",
         "monitoringrequestArchivesLogGroup70D7C9C5",
         "monitoringrequestInventoryLogGroupB7C9607D",
         "monitoringsendAnonymousStatsLogGroup0C9968BB",
@@ -6599,6 +6655,7 @@ Object {
         "monitoringpostMetricsLogGroup670566A8",
         "monitoringPostMetricsRole87B61E7B",
         "monitoringPostMetricsRolePolicy596F9F4D",
+        "monitoringprocessArchiveLogGroup6B2CC6B1",
         "monitoringrequestArchivesLogGroup70D7C9C5",
         "monitoringrequestInventoryLogGroupB7C9607D",
         "monitoringsendAnonymousStatsLogGroup0C9968BB",
@@ -6813,6 +6870,7 @@ Object {
         "monitoringpostMetricsLogGroup670566A8",
         "monitoringPostMetricsRole87B61E7B",
         "monitoringPostMetricsRolePolicy596F9F4D",
+        "monitoringprocessArchiveLogGroup6B2CC6B1",
         "monitoringrequestArchivesLogGroup70D7C9C5",
         "monitoringrequestInventoryLogGroupB7C9607D",
         "monitoringsendAnonymousStatsLogGroup0C9968BB",
@@ -6843,7 +6901,7 @@ Object {
       "Properties": Object {
         "Code": Object {
           "S3Bucket": Object {
-            "Ref": "AssetParametersab46b30669f11f3dea87cf69d6c7752a7c3033293be305fceaa4175880e9f494S3BucketC7D7DC6E",
+            "Ref": "AssetParameters043b729be1ce011ecc2de0dd07838252047adcd38aa55d39a3783fb945037a0dS3Bucket81EFEA7C",
           },
           "S3Key": Object {
             "Fn::Join": Array [
@@ -6856,7 +6914,7 @@ Object {
                       "Fn::Split": Array [
                         "||",
                         Object {
-                          "Ref": "AssetParametersab46b30669f11f3dea87cf69d6c7752a7c3033293be305fceaa4175880e9f494S3VersionKey5F0D23F3",
+                          "Ref": "AssetParameters043b729be1ce011ecc2de0dd07838252047adcd38aa55d39a3783fb945037a0dS3VersionKeyB3BA6DCC",
                         },
                       ],
                     },
@@ -6869,7 +6927,7 @@ Object {
                       "Fn::Split": Array [
                         "||",
                         Object {
-                          "Ref": "AssetParametersab46b30669f11f3dea87cf69d6c7752a7c3033293be305fceaa4175880e9f494S3VersionKey5F0D23F3",
+                          "Ref": "AssetParameters043b729be1ce011ecc2de0dd07838252047adcd38aa55d39a3783fb945037a0dS3VersionKeyB3BA6DCC",
                         },
                       ],
                     },
@@ -6972,6 +7030,7 @@ Object {
         "monitoringpostMetricsLogGroup670566A8",
         "monitoringPostMetricsRole87B61E7B",
         "monitoringPostMetricsRolePolicy596F9F4D",
+        "monitoringprocessArchiveLogGroup6B2CC6B1",
         "monitoringrequestArchivesLogGroup70D7C9C5",
         "monitoringrequestInventoryLogGroupB7C9607D",
         "monitoringsendAnonymousStatsLogGroup0C9968BB",
@@ -7034,6 +7093,7 @@ Object {
         "monitoringpostMetricsLogGroup670566A8",
         "monitoringPostMetricsRole87B61E7B",
         "monitoringPostMetricsRolePolicy596F9F4D",
+        "monitoringprocessArchiveLogGroup6B2CC6B1",
         "monitoringrequestArchivesLogGroup70D7C9C5",
         "monitoringrequestInventoryLogGroupB7C9607D",
         "monitoringsendAnonymousStatsLogGroup0C9968BB",
@@ -7374,6 +7434,7 @@ Object {
         "monitoringpostMetricsLogGroup670566A8",
         "monitoringPostMetricsRole87B61E7B",
         "monitoringPostMetricsRolePolicy596F9F4D",
+        "monitoringprocessArchiveLogGroup6B2CC6B1",
         "monitoringrequestArchivesLogGroup70D7C9C5",
         "monitoringrequestInventoryLogGroupB7C9607D",
         "monitoringsendAnonymousStatsLogGroup0C9968BB",
