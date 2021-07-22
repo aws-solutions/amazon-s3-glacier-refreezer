@@ -40,7 +40,6 @@ describe('-- Request Archives Test --', () => {
     var getQueryExecutionFunc;
     var getObjectFunc;
 
-    var validArchiveId = '-_27G6RJ0mYFtcF4dF9_eWRPYFkndowEpxodhax26-t9UXFI-AaEZszxf80pu_4JCPvOGMIUA933I80uqRX9eZBhQN8umpBt1GXZUNeUGJKgYGJwA41cwqz7hFe4W5FZQoBMEpEdQA';
     var expectedQueryExecutionId = 'zbxcm3Z_3z5UkoroF7SuZKrxgGoDc3RloGduS7Eg-RO47Yc6FxsdGBgf_Q2DK5Ejh18CnTS5XW4_XqlNHS61dsO4CnMW';
 
     //Init
@@ -66,40 +65,6 @@ describe('-- Request Archives Test --', () => {
                 getQueryExecution: getQueryExecutionFunc
             }),
         }
-
-    })
-
-    describe('-- getPartitionMaxProcessedIfn --', () => {
-        const expectedIFN = 2683;
-        var statusIndexTableItems;
-        //Init
-        before(function () {
-            //Matchers 
-            statusIndexTableItems = {
-                Items: [{
-                        "aid": { "S": validArchiveId },
-                        "ifn": { 'N': expectedIFN }
-                    }]
-            }
-
-            queryFunc.withArgs(sinon.match.any).returns({
-                promise: () => statusIndexTableItems
-            })
-
-            // Overwrite internal references with mock proxies
-            partition = proxyquire('../index.js', {
-                'aws-sdk': AWS
-            })
-        })
-        //Test
-        it('Should RETURN max processed file number value from DynamoDB as integer', async () => {
-            const payload = {
-                currentPartition: 100,
-                maxPartition: 1000
-            }
-            const response = await partition.getPartitionMaxProcessedFileNumber(payload.currentPartition);
-            expect(response).to.be.equal(expectedIFN);
-        })
 
     })
 
@@ -153,6 +118,11 @@ describe('-- Request Archives Test --', () => {
             })
             getQueryExecutionFunc.withArgs(sinon.match.any).returns({
                 promise: () => athenaQueryGetQueryExecResult
+            })
+
+            // Overwrite internal references with mock proxies
+            partition = proxyquire('../index.js', {
+                'aws-sdk': AWS
             })
         })
         //Test
