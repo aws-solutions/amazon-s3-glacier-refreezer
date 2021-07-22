@@ -228,8 +228,8 @@ BUCKET_NAME=my-glacier-refreezer-ap-southeast-2    # full regional bucket name
 SOLUTION_NAME=my-solution-name                     # custom solution name
 VERSION=my-version                                 # custom version number
 
-aws s3 cp ./global-s3-assets/   s3://${BUCKET_NAME}/${SOLUTION}/${VERSION} --recursive --acl public-read --acl bucket-owner-full-control
-aws s3 cp ./regional-s3-assets/ s3://${BUCKET_NAME}/${SOLUTION}/${VERSION} --recursive --acl public-read --acl bucket-owner-full-control 
+aws s3 cp ./global-s3-assets/   s3://${BUCKET_NAME}/${SOLUTION_NAME}/${VERSION} --recursive --acl public-read --acl bucket-owner-full-control
+aws s3 cp ./regional-s3-assets/ s3://${BUCKET_NAME}/${SOLUTION_NAME}/${VERSION} --recursive --acl public-read --acl bucket-owner-full-control 
 
 echo "https://${BUCKET_NAME}.s3.amazonaws.com/${SOLUTION_NAME}/${VERSION}/${SOLUTION_NAME}.template"
 ```
