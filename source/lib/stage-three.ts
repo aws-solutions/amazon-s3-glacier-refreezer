@@ -33,7 +33,8 @@ import * as iam from "@aws-cdk/aws-iam";
 export interface StageThreeProps {
     readonly sourceVault: string;
     readonly stagingBucket: s3.IBucket;
-    readonly statusTable: dynamo.ITable
+    readonly statusTable: dynamo.ITable;
+    readonly metricTable: dynamo.ITable;
     readonly archiveNotificationTopic: sns.ITopic
 }
 
@@ -83,38 +84,37 @@ export class StageThree extends cdk.Construct {
         chunkCopyQueue.addToResourcePolicy(iamSec.IamPermissions.sqsDenyInsecureTransport(chunkCopyQueue));
 
         // -------------------------------------------------------------------------------------------
-        // Copy Archive
-        const copyArchiveRole = new iam.Role(this, 'CopyArchiveRole', {
+        // Split Archive into Chunks
+        const splitArchiveRole = new iam.Role(this, 'splitArchiveRole', {
             assumedBy: new iam.ServicePrincipal('lambda.amazonaws.com')
         });
 
         // Declaring the policy granting access to the stream explicitly to minimize permissions
-        const copyArchiveRolePolicy = new iam.Policy(this, 'CopyArchiveRolePolicy', {
+        const splitArchiveRolePolicy = new iam.Policy(this, 'SplitArchiveRolePolicy', {
             statements: [
-                iamSec.IamPermissions.lambdaLogGroup(`${cdk.Aws.STACK_NAME}-copyArchive`),
+                iamSec.IamPermissions.lambdaLogGroup(`${cdk.Aws.STACK_NAME}-splitArchive`),
                 iamSec.IamPermissions.glacier(props.sourceVault),
                 iamSec.IamPermissions.sqsSubscriber(archiveNotificationQueue)
            ]
         });
-        copyArchiveRolePolicy.attachToRole(copyArchiveRole);
+        splitArchiveRolePolicy.attachToRole(splitArchiveRole);
 
-        props.stagingBucket.grantReadWrite(copyArchiveRole);
-        props.statusTable.grantReadWriteData(copyArchiveRole);
-        chunkCopyQueue.grantSendMessages(copyArchiveRole);
-        treehashCalcQueue.grantSendMessages(copyArchiveRole);
+        props.stagingBucket.grantReadWrite(splitArchiveRole);
+        props.statusTable.grantReadWriteData(splitArchiveRole);
+        chunkCopyQueue.grantSendMessages(splitArchiveRole);
+        treehashCalcQueue.grantSendMessages(splitArchiveRole);
 
-        const copyArchive = new lambda.Function(this, 'CopyArchive', {
-            functionName: `${cdk.Aws.STACK_NAME}-copyArchive`,
+        const splitArchive = new lambda.Function(this, 'SplitArchive', {
+            functionName: `${cdk.Aws.STACK_NAME}-splitArchive`,
             runtime: lambda.Runtime.NODEJS_14_X,
             handler: 'index.handler',
-            memorySize: 1024,
+            memorySize: 256,
             timeout: cdk.Duration.minutes(15),
-            reservedConcurrentExecutions: 40,
-            code: lambda.Code.fromAsset(path.join(__dirname, '../lambda/copyArchive')),
-            role: copyArchiveRole.withoutPolicyUpdates(),
+            reservedConcurrentExecutions: 45,
+            code: lambda.Code.fromAsset(path.join(__dirname, '../lambda/splitArchive')),
+            role: splitArchiveRole.withoutPolicyUpdates(),
             environment:
                 {
-                    VAULT: props.sourceVault,
                     STAGING_BUCKET: props.stagingBucket.bucketName,
                     STAGING_BUCKET_PREFIX: 'stagingdata',
                     STATUS_TABLE: props.statusTable.tableName,
@@ -122,9 +122,9 @@ export class StageThree extends cdk.Construct {
                     SQS_HASH: treehashCalcQueue.queueName
                 }
         });
-        copyArchive.node.addDependency(copyArchiveRolePolicy);
-        copyArchive.addEventSource(new SqsEventSource(archiveNotificationQueue, {batchSize: 1}));
-        CfnNagSuppressor.addLambdaSuppression(copyArchive);
+        splitArchive.node.addDependency(splitArchiveRolePolicy);
+        splitArchive.addEventSource(new SqsEventSource(archiveNotificationQueue, {batchSize: 1}));
+        CfnNagSuppressor.addLambdaSuppression(splitArchive);
 
         // -------------------------------------------------------------------------------------------
         // Copy Chunk
@@ -144,6 +144,7 @@ export class StageThree extends cdk.Construct {
 
         props.stagingBucket.grantReadWrite(copyChunkRole);
         props.statusTable.grantReadWriteData(copyChunkRole);
+        props.metricTable.grantReadWriteData(copyChunkRole);
         treehashCalcQueue.grantSendMessages(copyChunkRole);
 
         const copyChunk = new lambda.Function(this, 'CopyChunk', {
@@ -152,7 +153,7 @@ export class StageThree extends cdk.Construct {
             handler: 'index.handler',
             memorySize: 1024,
             timeout: cdk.Duration.minutes(15),
-            reservedConcurrentExecutions: 30,
+            reservedConcurrentExecutions: 35,
             role: copyChunkRole.withoutPolicyUpdates(),
             code: lambda.Code.fromAsset(path.join(__dirname, '../lambda/copyChunk')),
             environment:
@@ -161,6 +162,7 @@ export class StageThree extends cdk.Construct {
                     STAGING_BUCKET: props.stagingBucket.bucketName,
                     STAGING_BUCKET_PREFIX: 'stagingdata',
                     STATUS_TABLE: props.statusTable.tableName,
+                    METRIC_TABLE: props.metricTable.tableName,
                     SQS_HASH: treehashCalcQueue.queueName
                 }
         });

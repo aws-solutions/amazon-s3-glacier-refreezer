@@ -17,49 +17,59 @@
 
 'use strict';
 
-const AWS = require('aws-sdk');
-const cloudwatch = new AWS.CloudWatch();
+const AWS = require("aws-sdk");
+const s3 = new AWS.S3();
+
+const db = require("./lib/db.js");
+const copy = require("./lib/copy.js");
 
 const {
-    ARCHIVE_NOTIFICATIONS_TOPIC,
-    STACK_NAME
+    DESTINATION_BUCKET,
+    STAGING_BUCKET,
+    STAGING_BUCKET_PREFIX,
 } = process.env;
 
-const CLOUDWATCH_DIMENSIONS_NAME = 'CloudFormationStack';
-const CLOUDWATCH_NAMESPACE = 'AmazonS3GlacierReFreezer';
+async function handler(event) {
+    let {key, aid} = JSON.parse(event.Records[0].body);
 
-// publish a cloudwatch metric with a name and value
-async function publishMetric(metricList) {
-    // return if no metrics to be pushed.
-    if (metricList.length == 0) return;
-
-    let metricDataList = [];
-    for (const metric of metricList) {
-        metricDataList.push(
-            {
-                MetricName: metric.metricName,
-                Dimensions: [{
-                    Name: CLOUDWATCH_DIMENSIONS_NAME,
-                    Value: STACK_NAME
-                }],
-                Unit: 'None',
-                Value: metric.metricValue,
-            }
-        );
+    const file = await fileExists(DESTINATION_BUCKET, key);
+    if (file) {
+        console.error(`${key} : already exists in the target bucket. Not overwriting: ${file.StorageClass}`);
+        return;
     }
 
-    try {
-        const params = {
-            MetricData: metricDataList,
-            Namespace: CLOUDWATCH_NAMESPACE
-        };
-        await cloudwatch.putMetricData(params).promise();
-    } catch (error) {
-        console.error('publishMetric.error', error);
-        console.error('publishMetric.params', metricList);
-    }
+    console.log(`${key} : copy started`);
+
+    let statusRecord = await db.getStatusRecord(aid);
+    await copy.copyKeyToDestinationBucket(key, parseInt(statusRecord.Item.sz.N));
+    await closeOffRecord(statusRecord);
 }
 
-module.exports = { 
-    publishMetric
-};
+async function fileExists(Bucket, key) {
+    let objects = await s3
+        .listObjectsV2({
+            Bucket,
+            Prefix: key,
+        }).promise();
+
+    for (let r of objects.Contents) {
+        console.log(r.Key);
+        if (r.Key === key) {
+            return r;
+        }
+    }
+    return false;
+}
+
+async function closeOffRecord(statusRecord) {
+    let key = statusRecord.Item.fname.S;
+    await db.setTimestampNow(statusRecord.Item.aid.S, "cpt");
+    await s3.deleteObject({
+        Bucket: STAGING_BUCKET,
+        Key: `${STAGING_BUCKET_PREFIX}/${key}`
+    }).promise();
+}
+
+module.exports = {
+    handler
+}
