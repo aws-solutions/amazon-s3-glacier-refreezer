@@ -96,6 +96,7 @@ export class StageOne extends cdk.Construct {
             runtime: lambda.Runtime.NODEJS_14_X,
             handler: 'index.handler',
             memorySize: 1024,
+            reservedConcurrentExecutions: 1,
             timeout: cdk.Duration.minutes(15),
             code: lambda.Code.fromAsset(path.join(__dirname, '../lambda/downloadInventoryPart')),
         });

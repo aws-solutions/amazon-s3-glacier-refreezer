@@ -241,38 +241,21 @@ export class StageTwoOrchestrator extends cdk.Construct {
             assumedBy: new iam.ServicePrincipal('states.amazonaws.com')
         });
 
-        const stageTwoOrchestratorRolePolicy = new iam.Policy(this, 'OrchestratorRolePolicy');
+        props.stagingBucket.grantReadWrite(stageTwoOrchestratorRole);
+        props.requestArchives.grantInvoke(stageTwoOrchestratorRole);
+        props.sendAnonymousStats.grantInvoke(stageTwoOrchestratorRole);
+        props.dynamoDataCatalog.metricTable.grantWriteData(stageTwoOrchestratorRole);
+        stageTwoOrchestratorLogGroup.grantWrite(stageTwoOrchestratorRole);
 
-        stageTwoOrchestratorRolePolicy.addStatements(
-            new iam.PolicyStatement({
-                sid: 'allowS3ReadWrite',
-                effect: iam.Effect.ALLOW,
-                actions: [
-                    's3:ListBucket',
-                    's3:ListBucketVersions',
-                    's3:GetBucketLocation',
-                    's3:GetObject',
-                    's3:GetObjectAcl',
-                    's3:PutObject',
-                    's3:DeleteObject',
-                    's3:ListBucketMultipartUploads',
-                    's3:ListMultipartUploadParts',
-                    's3:AbortMultipartUpload'
-                ],
-                resources: [
-                    props.stagingBucket.bucketArn,
-                    `${props.stagingBucket.bucketArn}/*`,
-                ]}),
-            iamSec.IamPermissions.athena(
-                [
+        stageTwoOrchestratorRole.addToPrincipalPolicy(iamSec.IamPermissions.athena([
                     props.glueDataCatalog.inventoryDatabase.catalogArn,
                     props.glueDataCatalog.inventoryDatabase.databaseArn,
                     `arn:aws:athena:*:${cdk.Aws.ACCOUNT_ID}:workgroup/${props.glueDataCatalog.athenaWorkgroup.name}`,
                     props.glueDataCatalog.inventoryTable.tableArn,
                     props.glueDataCatalog.partitionedInventoryTable.tableArn
-                ]
-            ),
-            new iam.PolicyStatement({
+                ]));
+
+        stageTwoOrchestratorRole.addToPrincipalPolicy(new iam.PolicyStatement({
                 sid: 'allowGlueJobRun',
                 effect: iam.Effect.ALLOW,
                 actions: [
@@ -281,41 +264,9 @@ export class StageTwoOrchestrator extends cdk.Construct {
                     'glue:GetJobRuns'
                 ],
                 resources: [`arn:aws:glue:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:job/${props.glueJobName}`],
-            }),
-            new iam.PolicyStatement({
-                sid: 'allowLambdaInvocations',
-                effect: iam.Effect.ALLOW,
-                actions: [
-                    'lambda:InvokeFunction'
-                ],
-                resources: [
-                    props.requestArchives.functionArn,
-                    props.sendAnonymousStats.functionArn
-                ]
-            }),
-            new iam.PolicyStatement({
-                sid: 'allowPutTotalArchiveMetric',
-                effect: iam.Effect.ALLOW,
-                actions: [
-                    'dynamodb:PutItem'
-                ],
-                resources: [
-                    props.dynamoDataCatalog.metricTable.tableArn
-                ]
-            }),
-            new iam.PolicyStatement({
-                sid: 'allowLogOutput',
-                effect: iam.Effect.ALLOW,
-                actions: [
-                    'logs:CreateLogGroup',
-                    'logs:CreateLogStream',
-                    'logs:PutLogEvents'
-                ],
-                resources: [
-                    stageTwoOrchestratorLogGroup.logGroupArn,
-                ]
-            }),
-            new iam.PolicyStatement({
+            }));
+
+        stageTwoOrchestratorRole.addToPrincipalPolicy(new iam.PolicyStatement({
                 sid: 'allowLogDelivery',
                 effect: iam.Effect.ALLOW,
                 actions: [
@@ -331,10 +282,11 @@ export class StageTwoOrchestrator extends cdk.Construct {
                 resources: [
                     '*'
                 ]
-            }),
-        );
-        stageTwoOrchestratorRolePolicy.attachToRole(stageTwoOrchestratorRole);
-        CfnNagSuppressor.addSuppressions(stageTwoOrchestratorRolePolicy,
+            }));
+            
+        const defaultOrchetratorPolicy = stageTwoOrchestratorRole.node.findChild('DefaultPolicy').node.defaultChild as cdk.CfnResource;
+        defaultOrchetratorPolicy.addMetadata('cfn_nag', {
+            rules_to_suppress:
             [
                 {
                     id: 'W12',
@@ -345,7 +297,7 @@ export class StageTwoOrchestrator extends cdk.Construct {
                     reason: 'SPCM complexity greater then 25 is appropriate for the logic implemented'
                 }
             ]
-        );
+        });
 
         // Stage Two Orchestrator :: StepFunction
         this.stateMachine = new sfn.StateMachine(this, 'StageTwoOrchestrator', {
@@ -359,6 +311,6 @@ export class StageTwoOrchestrator extends cdk.Construct {
             }
         });
         (this.stateMachine.node.defaultChild as sfn.CfnStateMachine).overrideLogicalId(`stageTwoOrchestrator`);
-        this.stateMachine.node.addDependency(stageTwoOrchestratorRolePolicy);
+        this.stateMachine.node.addDependency(stageTwoOrchestratorRole);
     }
 }
