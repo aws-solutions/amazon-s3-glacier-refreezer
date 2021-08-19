@@ -17,9 +17,9 @@ Steps to reproduce the behavior.
 A clear and concise description of what you expected to happen.
 
 **Please complete the following information about the solution:**
-- [ ] Version: [e.g. v1.0.0]
+- [ ] Version: [e.g. v1.1.0]
 
-To get the version of the solution, you can look at the description of the created CloudFormation stack. For example, "_Amazon S3 Glacier Re:Freezer. Version **v1.0.0**_".
+To get the version of the solution, you can look at the description of the created CloudFormation stack. For example, "_Amazon S3 Glacier Re:Freezer. Version **v1.1.0**_".
 
 - [ ] Region: [e.g. us-east-1]
 - [ ] Was the solution modified from the version published on this repository?
