@@ -55,7 +55,7 @@ describe('-- Trigger Message to copyToDestinationQueue Test --', () => {
 
             //Matchers
             queueUrlResult = {
-                QueueUrl: 'https://sqs.ap-southeast-2.amazonaws.com/XXXXXXX/glacier-stack-XXX--copyToDestinationBucketQueue'
+                QueueUrl: 'https://sqs.ap-southeast-2.amazonaws.com/111122223333/glacier-stack-XXX--copyToDestinationBucketQueue'
             }
             sendMessageResult = {
                 "MD5OfMessageBody": "51b0a325...39163aa0",
