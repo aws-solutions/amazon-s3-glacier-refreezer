@@ -20,6 +20,7 @@ All notable changes to this project will be documented in this file.
 - downloading archives from Glacier is handled only by copyChunk function
 - CloudWatch Metrics Dimension Name changed to "CloudFormationStack"
 - CloudWatch Metrics metric names have been renamed as "ArchiveCount<Metric>"
+- Updated CDK Version to 1.119.0
 
 ## [1.0.1] - 2021-06-09
 ### Changed
