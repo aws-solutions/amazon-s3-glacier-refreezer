@@ -9,6 +9,7 @@ phases:
   pre_build:
     commands:
       - echo "Installing dependencies and executing unit tests - `pwd`"
+      - npm install -g npm@7.21.0
       - cd source
       - chmod +x ./run-all-tests.sh && ./run-all-tests.sh
       - echo "Installing dependencies and executing unit tests completed `date`"
