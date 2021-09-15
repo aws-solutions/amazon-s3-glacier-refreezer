@@ -17,49 +17,38 @@
 
 'use strict';
 
-const AWS = require('aws-sdk');
-const cloudwatch = new AWS.CloudWatch();
+const axios = require('axios');
 
-const {
-    ARCHIVE_NOTIFICATIONS_TOPIC,
-    STACK_NAME
-} = process.env;
-
-const CLOUDWATCH_DIMENSIONS_NAME = 'CloudFormationStack';
-const CLOUDWATCH_NAMESPACE = 'AmazonS3GlacierReFreezer';
-
-// publish a cloudwatch metric with a name and value
-async function publishMetric(metricList) {
-    // return if no metrics to be pushed.
-    if (metricList.length == 0) return;
-
-    let metricDataList = [];
-    for (const metric of metricList) {
-        metricDataList.push(
-            {
-                MetricName: metric.metricName,
-                Dimensions: [{
-                    Name: CLOUDWATCH_DIMENSIONS_NAME,
-                    Value: STACK_NAME
-                }],
-                Unit: 'None',
-                Value: metric.metricValue,
-            }
-        );
-    }
-
+async function sendResponse(event, context, responseStatus, responseData) {
+    let data;
     try {
-        const params = {
-            MetricData: metricDataList,
-            Namespace: CLOUDWATCH_NAMESPACE
+        let responseBody = JSON.stringify({
+            Status: responseStatus,
+            Reason: "See the details in CloudWatch Log Stream: " + context.logGroupName + "/" + context.logStreamName,
+            PhysicalResourceId: context.functionName,
+            StackId: event.StackId,
+            RequestId: event.RequestId,
+            LogicalResourceId: event.LogicalResourceId,
+            Data: responseData
+        });
+        let params = {
+            url: event.ResponseURL,
+            port: 443,
+            method: "put",
+            headers: {
+                "content-type": "",
+                "content-length": responseBody.length
+            },
+            data: responseBody
         };
-        await cloudwatch.putMetricData(params).promise();
-    } catch (error) {
-        console.error('publishMetric.error', error);
-        console.error('publishMetric.params', metricList);
+        data = await axios(params);
+    } catch (err) {
+        throw err;
     }
+    console.log(`Send response : ${data.status}`)
+    return data.status;
 }
 
-module.exports = { 
-    publishMetric
+module.exports = {
+   sendResponse
 };

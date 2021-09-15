@@ -36,10 +36,15 @@ export class CfnNagSuppressor extends cdk.Construct {
             }
         };
     }
-    static addSuppressions(resource: cdk.Resource, rules_to_suppress: Array<object>) {
-        (<cdk.CfnResource>resource.node.defaultChild).cfnOptions.metadata = {
+
+    static addCfnSuppression(resource: cdk.CfnResource, id: string, reason: string) {
+        resource.cfnOptions.metadata = {
             cfn_nag: {
-                rules_to_suppress
+                rules_to_suppress:
+                    [{
+                        id,
+                        reason
+                    }]
             }
         };
     }

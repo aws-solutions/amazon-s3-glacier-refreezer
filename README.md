@@ -11,6 +11,7 @@ refer to [Deleting an Archive in Amazon S3 Glacier](https://docs.aws.amazon.com/
 ## Table of contents
 - [Architecture](#architecture)
 - [Project structure](#project-structure)
+- [Anonymous metric collection](#anonymous-metric-collection)
 - [Deployment](#deployment)
 - [Runtime Monitoring](#monitoring)
 - [Creating a custom build](#creating-a-custom-build)
@@ -55,6 +56,18 @@ The solution uses SHA256 Treehash to perform archive integrity checking on the c
 
 During the copy operation process, Amazon DynamoDB is used to keep track of the status of the archive copies, where the copy operation progress is visibile through the provided Amazon CloudWatch dashboard.
 
+## Anonymous metric collection
+
+This solution collects anonymous operational metrics to help AWS improve the quality of features of the solution. For more information, including how to disable this capability, please see the [implementation guide](https://docs.aws.amazon.com/solutions/latest/amazon-s3-glacier-refreezer/collection-of-operational-metrics.html).
+
+The following data points are collected:
+
+- Region 
+- Target Storage Class
+- Vault Archive Count
+- Vault Size
+- Solution version
+
 ## Deployment
 
 > **Please ensure you test the solutions prior running it against any production vaults.**
@@ -94,15 +107,6 @@ Cost acknowledgements:
 Once deployed, the CloudFromation Output tab will have the link to Amazon CloudWatch progress dashboard - <STACK_NAME>-Amazon-S3-Glacier-ReFreezer.
 
 ![Amazon S3 Glacier Re:Freezer Progress Metrics](source/images/dashboard.png)
-
-### Anonymous Statistics Collection
-
-The deployment will collect and send anonymously to the AWS Solution Builders team the following data points: 
-
-- Region 
-- Target Storage Class
-- Vault Archive Count
-- Vault Size
 
 ## Project structure
 
@@ -228,8 +232,8 @@ BUCKET_NAME=my-glacier-refreezer-ap-southeast-2    # full regional bucket name
 SOLUTION_NAME=my-solution-name                     # custom solution name
 VERSION=my-version                                 # custom version number
 
-aws s3 cp ./global-s3-assets/   s3://${BUCKET_NAME}/${SOLUTION}/${VERSION} --recursive --acl public-read --acl bucket-owner-full-control
-aws s3 cp ./regional-s3-assets/ s3://${BUCKET_NAME}/${SOLUTION}/${VERSION} --recursive --acl public-read --acl bucket-owner-full-control 
+aws s3 cp ./global-s3-assets/   s3://${BUCKET_NAME}/${SOLUTION_NAME}/${VERSION} --recursive --acl public-read --acl bucket-owner-full-control
+aws s3 cp ./regional-s3-assets/ s3://${BUCKET_NAME}/${SOLUTION_NAME}/${VERSION} --recursive --acl public-read --acl bucket-owner-full-control 
 
 echo "https://${BUCKET_NAME}.s3.amazonaws.com/${SOLUTION_NAME}/${VERSION}/${SOLUTION_NAME}.template"
 ```
@@ -251,7 +255,6 @@ echo "https://${BUCKET_NAME}.s3.amazonaws.com/${SOLUTION_NAME}/${VERSION}/${SOLU
 - [AWS Step Functions](https://docs.aws.amazon.com/step-functions/) — orchestrate partitioning the inventory with AWS Glue, updating the total archive count in DynamoDB table, uploading anonymous statistics, and AWS Lambda invocations to request Glacier vault archives retrieval.
 - [Amazon S3](https://docs.aws.amazon.com/s3/) — creates an Amazon S3 bucket for the staging area to temporarily store the copied S3 Glacier vault archives.
 - [AWS Lambda](https://docs.aws.amazon.com/lambda/) - 1) request and download the inventory file for the Amazon S3 Glacier vault, 2) request archives from Amazon S3 Glacier vault, 3) perform the archive copy function to the staging Amazon S3 bucket, 4) calculate SHA256 Treehash of copied objects, 5) move the validated objects to the destination Amazon S3 bucket, 6) collect and post metrics to Amazon CloudWatch, and 7) send anonymous statistics to the Solution Builder endpoint (if you elect to send anonymous statistics).
-
 
 ***
 

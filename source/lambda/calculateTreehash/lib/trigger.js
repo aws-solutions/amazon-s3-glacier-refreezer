@@ -21,48 +21,35 @@ const AWS = require('aws-sdk');
 const sqs = new AWS.SQS();
 
 const {
-    SQS_HASH
+    SQS_COPY_TO_DESTINATION_NOTIFICATION
 } = process.env;
 
 const CHUNK_SIZE = 4 * 1024 * 1024 * 1024
 
-exports.calcHash = async (statusRecord) => {
+exports.triggerCopyToDestinationBucket = async (statusRecord) => {
 
     let key = statusRecord.Attributes.fname.S;
     let aid = statusRecord.Attributes.aid.S;
-    let cc = parseInt(statusRecord.Attributes.cc.N)
 
-    console.log(`${key} : submitting treehash calc requests`)
+    console.log(`${key} : trigger sending messages to copyToDestinationQueue`)
 
-    let hashQueueUrl = await sqs.getQueueUrl({
-        QueueName: SQS_HASH
-    }).promise()
 
-    let i = 1;
-    while (i < cc) {
-        let startByte = (i - 1) * CHUNK_SIZE
-        let endByte = startByte + CHUNK_SIZE - 1
-        await sendTreeHashMessage(hashQueueUrl.QueueUrl, aid, key, i, startByte, endByte)
-        i++
-    }
-
-    // Last chunk
-    let startByte = (i - 1) * CHUNK_SIZE;
-    let endByte = statusRecord.Attributes.sz.N - 1;
-    await sendTreeHashMessage(hashQueueUrl.QueueUrl, aid, key, i, startByte, endByte)
-}
-
-const sendTreeHashMessage = (queueUrl, aid, key, partNo, startByte, endByte) => {
-    let params = {
-        aid,
+    let queueUrl = await sqs.getQueueUrl({ QueueName: SQS_COPY_TO_DESTINATION_NOTIFICATION }).promise();
+    await sendMessageToCopyQueue(
+        queueUrl.QueueUrl,
         key,
-        partNo,
-        startByte,
-        endByte
-    }
-    let messageBody = JSON.stringify(params)
-    return sqs.sendMessage({
-        QueueUrl: queueUrl,
-        MessageBody: messageBody
-    }).promise()
+        statusRecord.Attributes.aid.S
+    );
+
+    function sendMessageToCopyQueue(queueUrl, key, aid) {
+        let messageBody = JSON.stringify({
+            key,
+            aid,
+        });
+        
+        return sqs.sendMessage({
+            QueueUrl: queueUrl,
+            MessageBody: messageBody,
+        }).promise();
+    };
 }

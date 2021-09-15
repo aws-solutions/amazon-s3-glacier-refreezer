@@ -49,20 +49,21 @@ logger.info('Vault size    : {}'.format(VAULT_SIZE))
 logger.info('Archive count : {}'.format(ARCHIVE_COUNT))
 
 DEFAULT_PARTITION_SIZE=10000
+PARTITIONS_PER_DAY=16
 
 # Determines if the partition size needs to be reduced
-# to achieve 8 partitions per day minimum.
+# to achieve 16 partitions per day minimum.
 # For large vaults with smaller number of archives.
 def get_partition_size(archive_count, vault_size):
 
     days = math.ceil(vault_size/DQL)
     logger.info('Estimated days: {}'.format(days))
 
-    if (days * 8 * DEFAULT_PARTITION_SIZE) < archive_count:
+    if (days * PARTITIONS_PER_DAY * DEFAULT_PARTITION_SIZE) < archive_count:
         logger.info('Number of partitions per day')
         return DEFAULT_PARTITION_SIZE
     else:
-        return math.ceil(archive_count / 8 / days)
+        return math.ceil(archive_count / PARTITIONS_PER_DAY / days)
 
 partiton_size = get_partition_size(ARCHIVE_COUNT, VAULT_SIZE)
 logger.info('Partition size    : {}'.format(partiton_size))

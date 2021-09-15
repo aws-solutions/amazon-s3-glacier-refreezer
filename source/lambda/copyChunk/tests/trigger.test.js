@@ -52,7 +52,7 @@ describe('-- Copy Chunk Test --', () => {
 
             //Matchers
             queueUrlResult = {
-                QueueUrl: 'https://sqs.ap-southeast-2.amazonaws.com/XXXXXXX/glacier-stack-XXX-treehash-calc-queue'
+                QueueUrl: 'https://sqs.ap-southeast-2.amazonaws.com/111122223333/glacier-stack-XXX-treehash-calc-queue'
             }
             sendMessageResult = {
                 "MD5OfMessageBody": "51b0a325...39163aa0",
