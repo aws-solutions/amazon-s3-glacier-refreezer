@@ -114,148 +114,172 @@ Object {
     },
   },
   "Parameters": Object {
-    "AssetParameters099dc91c99d259b3e05381cd76eed3896d53a91dd1c754eb12187b3dd0188f29ArtifactHashEB0744DD": Object {
-      "Description": "Artifact hash for asset \\"099dc91c99d259b3e05381cd76eed3896d53a91dd1c754eb12187b3dd0188f29\\"",
+    "AssetParameters2548c658345f359719e231c05901cc143f3a47773d231b511df772f6bd1ed301ArtifactHash4A9AFBEF": Object {
+      "Description": "Artifact hash for asset \\"2548c658345f359719e231c05901cc143f3a47773d231b511df772f6bd1ed301\\"",
       "Type": "String",
     },
-    "AssetParameters099dc91c99d259b3e05381cd76eed3896d53a91dd1c754eb12187b3dd0188f29S3Bucket4177522F": Object {
-      "Description": "S3 bucket for asset \\"099dc91c99d259b3e05381cd76eed3896d53a91dd1c754eb12187b3dd0188f29\\"",
+    "AssetParameters2548c658345f359719e231c05901cc143f3a47773d231b511df772f6bd1ed301S3BucketDE8C5EA2": Object {
+      "Description": "S3 bucket for asset \\"2548c658345f359719e231c05901cc143f3a47773d231b511df772f6bd1ed301\\"",
       "Type": "String",
     },
-    "AssetParameters099dc91c99d259b3e05381cd76eed3896d53a91dd1c754eb12187b3dd0188f29S3VersionKey54E8C03D": Object {
-      "Description": "S3 key for asset version \\"099dc91c99d259b3e05381cd76eed3896d53a91dd1c754eb12187b3dd0188f29\\"",
+    "AssetParameters2548c658345f359719e231c05901cc143f3a47773d231b511df772f6bd1ed301S3VersionKey4791E1C7": Object {
+      "Description": "S3 key for asset version \\"2548c658345f359719e231c05901cc143f3a47773d231b511df772f6bd1ed301\\"",
       "Type": "String",
     },
-    "AssetParameters0e74531edac8fec6614e7f292a57395c7fbcba9e1ccc6323556f26e3c956f780ArtifactHash7492676E": Object {
-      "Description": "Artifact hash for asset \\"0e74531edac8fec6614e7f292a57395c7fbcba9e1ccc6323556f26e3c956f780\\"",
+    "AssetParameters2a0146c14484a727704099809b203af5235a49784bb8d99ac3f0c603e460b194ArtifactHash2836DD68": Object {
+      "Description": "Artifact hash for asset \\"2a0146c14484a727704099809b203af5235a49784bb8d99ac3f0c603e460b194\\"",
       "Type": "String",
     },
-    "AssetParameters0e74531edac8fec6614e7f292a57395c7fbcba9e1ccc6323556f26e3c956f780S3BucketBB32F174": Object {
-      "Description": "S3 bucket for asset \\"0e74531edac8fec6614e7f292a57395c7fbcba9e1ccc6323556f26e3c956f780\\"",
+    "AssetParameters2a0146c14484a727704099809b203af5235a49784bb8d99ac3f0c603e460b194S3Bucket40132DE4": Object {
+      "Description": "S3 bucket for asset \\"2a0146c14484a727704099809b203af5235a49784bb8d99ac3f0c603e460b194\\"",
       "Type": "String",
     },
-    "AssetParameters0e74531edac8fec6614e7f292a57395c7fbcba9e1ccc6323556f26e3c956f780S3VersionKey032F2BCC": Object {
-      "Description": "S3 key for asset version \\"0e74531edac8fec6614e7f292a57395c7fbcba9e1ccc6323556f26e3c956f780\\"",
+    "AssetParameters2a0146c14484a727704099809b203af5235a49784bb8d99ac3f0c603e460b194S3VersionKey1B60427C": Object {
+      "Description": "S3 key for asset version \\"2a0146c14484a727704099809b203af5235a49784bb8d99ac3f0c603e460b194\\"",
       "Type": "String",
     },
-    "AssetParameters384904a8567e67b8af48d6abe914aca894dabffc1a216e0448c023f4ee239cc9ArtifactHash2F4EA143": Object {
-      "Description": "Artifact hash for asset \\"384904a8567e67b8af48d6abe914aca894dabffc1a216e0448c023f4ee239cc9\\"",
+    "AssetParameters445b3383e47bb11bda1718faf46c1ab1a26fab743a540c7fe9884862c42d892aArtifactHash6CFBF692": Object {
+      "Description": "Artifact hash for asset \\"445b3383e47bb11bda1718faf46c1ab1a26fab743a540c7fe9884862c42d892a\\"",
       "Type": "String",
     },
-    "AssetParameters384904a8567e67b8af48d6abe914aca894dabffc1a216e0448c023f4ee239cc9S3Bucket56152FB5": Object {
-      "Description": "S3 bucket for asset \\"384904a8567e67b8af48d6abe914aca894dabffc1a216e0448c023f4ee239cc9\\"",
+    "AssetParameters445b3383e47bb11bda1718faf46c1ab1a26fab743a540c7fe9884862c42d892aS3Bucket0315E1A0": Object {
+      "Description": "S3 bucket for asset \\"445b3383e47bb11bda1718faf46c1ab1a26fab743a540c7fe9884862c42d892a\\"",
       "Type": "String",
     },
-    "AssetParameters384904a8567e67b8af48d6abe914aca894dabffc1a216e0448c023f4ee239cc9S3VersionKey6275EA3C": Object {
-      "Description": "S3 key for asset version \\"384904a8567e67b8af48d6abe914aca894dabffc1a216e0448c023f4ee239cc9\\"",
+    "AssetParameters445b3383e47bb11bda1718faf46c1ab1a26fab743a540c7fe9884862c42d892aS3VersionKey6D65E78E": Object {
+      "Description": "S3 key for asset version \\"445b3383e47bb11bda1718faf46c1ab1a26fab743a540c7fe9884862c42d892a\\"",
       "Type": "String",
     },
-    "AssetParameters3fd34dead7f16ee37533951dcb1d0dbdb2acefce2b6cbe673e295b38b890713aArtifactHash4E98C384": Object {
-      "Description": "Artifact hash for asset \\"3fd34dead7f16ee37533951dcb1d0dbdb2acefce2b6cbe673e295b38b890713a\\"",
+    "AssetParameters702bc070d11e671bf3246b5f7030c61cadf0ceb74d19776c595bb9bbf54757e8ArtifactHashF2692DDE": Object {
+      "Description": "Artifact hash for asset \\"702bc070d11e671bf3246b5f7030c61cadf0ceb74d19776c595bb9bbf54757e8\\"",
       "Type": "String",
     },
-    "AssetParameters3fd34dead7f16ee37533951dcb1d0dbdb2acefce2b6cbe673e295b38b890713aS3Bucket61B77533": Object {
-      "Description": "S3 bucket for asset \\"3fd34dead7f16ee37533951dcb1d0dbdb2acefce2b6cbe673e295b38b890713a\\"",
+    "AssetParameters702bc070d11e671bf3246b5f7030c61cadf0ceb74d19776c595bb9bbf54757e8S3Bucket36F98D44": Object {
+      "Description": "S3 bucket for asset \\"702bc070d11e671bf3246b5f7030c61cadf0ceb74d19776c595bb9bbf54757e8\\"",
       "Type": "String",
     },
-    "AssetParameters3fd34dead7f16ee37533951dcb1d0dbdb2acefce2b6cbe673e295b38b890713aS3VersionKey7236F0A0": Object {
-      "Description": "S3 key for asset version \\"3fd34dead7f16ee37533951dcb1d0dbdb2acefce2b6cbe673e295b38b890713a\\"",
+    "AssetParameters702bc070d11e671bf3246b5f7030c61cadf0ceb74d19776c595bb9bbf54757e8S3VersionKey1480FC14": Object {
+      "Description": "S3 key for asset version \\"702bc070d11e671bf3246b5f7030c61cadf0ceb74d19776c595bb9bbf54757e8\\"",
       "Type": "String",
     },
-    "AssetParameters5d31ca40d0f2ddce292fa3a2a6e8ff9d9a02dc3867e57bf3bef5d15243c37730ArtifactHash49361AA4": Object {
-      "Description": "Artifact hash for asset \\"5d31ca40d0f2ddce292fa3a2a6e8ff9d9a02dc3867e57bf3bef5d15243c37730\\"",
+    "AssetParameters807047aacaca9fad23e302c737989cfd60fbceb8ef364399820d5b4f095518c3ArtifactHash4F8B866D": Object {
+      "Description": "Artifact hash for asset \\"807047aacaca9fad23e302c737989cfd60fbceb8ef364399820d5b4f095518c3\\"",
       "Type": "String",
     },
-    "AssetParameters5d31ca40d0f2ddce292fa3a2a6e8ff9d9a02dc3867e57bf3bef5d15243c37730S3Bucket656FEFC1": Object {
-      "Description": "S3 bucket for asset \\"5d31ca40d0f2ddce292fa3a2a6e8ff9d9a02dc3867e57bf3bef5d15243c37730\\"",
+    "AssetParameters807047aacaca9fad23e302c737989cfd60fbceb8ef364399820d5b4f095518c3S3Bucket2DEBD257": Object {
+      "Description": "S3 bucket for asset \\"807047aacaca9fad23e302c737989cfd60fbceb8ef364399820d5b4f095518c3\\"",
       "Type": "String",
     },
-    "AssetParameters5d31ca40d0f2ddce292fa3a2a6e8ff9d9a02dc3867e57bf3bef5d15243c37730S3VersionKeyAA6F7527": Object {
-      "Description": "S3 key for asset version \\"5d31ca40d0f2ddce292fa3a2a6e8ff9d9a02dc3867e57bf3bef5d15243c37730\\"",
+    "AssetParameters807047aacaca9fad23e302c737989cfd60fbceb8ef364399820d5b4f095518c3S3VersionKeyC35732C7": Object {
+      "Description": "S3 key for asset version \\"807047aacaca9fad23e302c737989cfd60fbceb8ef364399820d5b4f095518c3\\"",
       "Type": "String",
     },
-    "AssetParameters7f6c2f52bb27eeb751136fbee4aa380395e2b85057d3d2d3740a5a929ddace16ArtifactHashC1F84147": Object {
-      "Description": "Artifact hash for asset \\"7f6c2f52bb27eeb751136fbee4aa380395e2b85057d3d2d3740a5a929ddace16\\"",
+    "AssetParameters9fe8e874647cc119c4004969cbc38d6fabe04186f26482da678bd5361ca172acArtifactHash6F175D9C": Object {
+      "Description": "Artifact hash for asset \\"9fe8e874647cc119c4004969cbc38d6fabe04186f26482da678bd5361ca172ac\\"",
       "Type": "String",
     },
-    "AssetParameters7f6c2f52bb27eeb751136fbee4aa380395e2b85057d3d2d3740a5a929ddace16S3Bucket75AA9138": Object {
-      "Description": "S3 bucket for asset \\"7f6c2f52bb27eeb751136fbee4aa380395e2b85057d3d2d3740a5a929ddace16\\"",
+    "AssetParameters9fe8e874647cc119c4004969cbc38d6fabe04186f26482da678bd5361ca172acS3Bucket4D2A1028": Object {
+      "Description": "S3 bucket for asset \\"9fe8e874647cc119c4004969cbc38d6fabe04186f26482da678bd5361ca172ac\\"",
       "Type": "String",
     },
-    "AssetParameters7f6c2f52bb27eeb751136fbee4aa380395e2b85057d3d2d3740a5a929ddace16S3VersionKey9FDAC3CA": Object {
-      "Description": "S3 key for asset version \\"7f6c2f52bb27eeb751136fbee4aa380395e2b85057d3d2d3740a5a929ddace16\\"",
+    "AssetParameters9fe8e874647cc119c4004969cbc38d6fabe04186f26482da678bd5361ca172acS3VersionKey98C7C227": Object {
+      "Description": "S3 key for asset version \\"9fe8e874647cc119c4004969cbc38d6fabe04186f26482da678bd5361ca172ac\\"",
       "Type": "String",
     },
-    "AssetParameters91398630c7a768388cce5f19a57b45cc5c4835f82d9a1c91a33d5eae8a047a08ArtifactHashE731ED71": Object {
-      "Description": "Artifact hash for asset \\"91398630c7a768388cce5f19a57b45cc5c4835f82d9a1c91a33d5eae8a047a08\\"",
+    "AssetParametersab8be4bcc1e23f062bb12603f010f9df3f598105e37a5bf24dfd5a1118ced6bbArtifactHashCD5F5763": Object {
+      "Description": "Artifact hash for asset \\"ab8be4bcc1e23f062bb12603f010f9df3f598105e37a5bf24dfd5a1118ced6bb\\"",
       "Type": "String",
     },
-    "AssetParameters91398630c7a768388cce5f19a57b45cc5c4835f82d9a1c91a33d5eae8a047a08S3BucketD3433F77": Object {
-      "Description": "S3 bucket for asset \\"91398630c7a768388cce5f19a57b45cc5c4835f82d9a1c91a33d5eae8a047a08\\"",
+    "AssetParametersab8be4bcc1e23f062bb12603f010f9df3f598105e37a5bf24dfd5a1118ced6bbS3Bucket724BB466": Object {
+      "Description": "S3 bucket for asset \\"ab8be4bcc1e23f062bb12603f010f9df3f598105e37a5bf24dfd5a1118ced6bb\\"",
       "Type": "String",
     },
-    "AssetParameters91398630c7a768388cce5f19a57b45cc5c4835f82d9a1c91a33d5eae8a047a08S3VersionKey03A71DD9": Object {
-      "Description": "S3 key for asset version \\"91398630c7a768388cce5f19a57b45cc5c4835f82d9a1c91a33d5eae8a047a08\\"",
+    "AssetParametersab8be4bcc1e23f062bb12603f010f9df3f598105e37a5bf24dfd5a1118ced6bbS3VersionKey8F053F21": Object {
+      "Description": "S3 key for asset version \\"ab8be4bcc1e23f062bb12603f010f9df3f598105e37a5bf24dfd5a1118ced6bb\\"",
       "Type": "String",
     },
-    "AssetParametersbefb18bbf05074f41ba6c29a57d784bb9934a0a6d621070afc65e18deba9842fArtifactHash8404D149": Object {
-      "Description": "Artifact hash for asset \\"befb18bbf05074f41ba6c29a57d784bb9934a0a6d621070afc65e18deba9842f\\"",
+    "AssetParameterscf1edc539dd0080815e7e71c2ecec734fb04c9c81207557f9c4109b13e497343ArtifactHashD63E2CF8": Object {
+      "Description": "Artifact hash for asset \\"cf1edc539dd0080815e7e71c2ecec734fb04c9c81207557f9c4109b13e497343\\"",
       "Type": "String",
     },
-    "AssetParametersbefb18bbf05074f41ba6c29a57d784bb9934a0a6d621070afc65e18deba9842fS3BucketA5005CEB": Object {
-      "Description": "S3 bucket for asset \\"befb18bbf05074f41ba6c29a57d784bb9934a0a6d621070afc65e18deba9842f\\"",
+    "AssetParameterscf1edc539dd0080815e7e71c2ecec734fb04c9c81207557f9c4109b13e497343S3BucketBF17ADD3": Object {
+      "Description": "S3 bucket for asset \\"cf1edc539dd0080815e7e71c2ecec734fb04c9c81207557f9c4109b13e497343\\"",
       "Type": "String",
     },
-    "AssetParametersbefb18bbf05074f41ba6c29a57d784bb9934a0a6d621070afc65e18deba9842fS3VersionKeyAC1C03D3": Object {
-      "Description": "S3 key for asset version \\"befb18bbf05074f41ba6c29a57d784bb9934a0a6d621070afc65e18deba9842f\\"",
+    "AssetParameterscf1edc539dd0080815e7e71c2ecec734fb04c9c81207557f9c4109b13e497343S3VersionKeyC11A1DE0": Object {
+      "Description": "S3 key for asset version \\"cf1edc539dd0080815e7e71c2ecec734fb04c9c81207557f9c4109b13e497343\\"",
       "Type": "String",
     },
-    "AssetParameterse0797d11bb5fbfdd904cd30af3d5a70fa3cb202b7f5d6e84c0a860707f02bc51ArtifactHashAC0F75F0": Object {
-      "Description": "Artifact hash for asset \\"e0797d11bb5fbfdd904cd30af3d5a70fa3cb202b7f5d6e84c0a860707f02bc51\\"",
+    "AssetParametersd6681e3db5cfe6fa604558ebce8521e486c8b14c28127f1788ad29ef88d5b3beArtifactHash938241D4": Object {
+      "Description": "Artifact hash for asset \\"d6681e3db5cfe6fa604558ebce8521e486c8b14c28127f1788ad29ef88d5b3be\\"",
       "Type": "String",
     },
-    "AssetParameterse0797d11bb5fbfdd904cd30af3d5a70fa3cb202b7f5d6e84c0a860707f02bc51S3Bucket8A37A4F2": Object {
-      "Description": "S3 bucket for asset \\"e0797d11bb5fbfdd904cd30af3d5a70fa3cb202b7f5d6e84c0a860707f02bc51\\"",
+    "AssetParametersd6681e3db5cfe6fa604558ebce8521e486c8b14c28127f1788ad29ef88d5b3beS3BucketD0DBBFF9": Object {
+      "Description": "S3 bucket for asset \\"d6681e3db5cfe6fa604558ebce8521e486c8b14c28127f1788ad29ef88d5b3be\\"",
       "Type": "String",
     },
-    "AssetParameterse0797d11bb5fbfdd904cd30af3d5a70fa3cb202b7f5d6e84c0a860707f02bc51S3VersionKeyA1ABC03C": Object {
-      "Description": "S3 key for asset version \\"e0797d11bb5fbfdd904cd30af3d5a70fa3cb202b7f5d6e84c0a860707f02bc51\\"",
+    "AssetParametersd6681e3db5cfe6fa604558ebce8521e486c8b14c28127f1788ad29ef88d5b3beS3VersionKeyCCB09C80": Object {
+      "Description": "S3 key for asset version \\"d6681e3db5cfe6fa604558ebce8521e486c8b14c28127f1788ad29ef88d5b3be\\"",
       "Type": "String",
     },
-    "AssetParameterse412d79a7d530b1ac60ce00fc3bd1950d6a83725aff2e5525f88dbd4a1de4f64ArtifactHash72206288": Object {
-      "Description": "Artifact hash for asset \\"e412d79a7d530b1ac60ce00fc3bd1950d6a83725aff2e5525f88dbd4a1de4f64\\"",
+    "AssetParametersddbe3bf92c26ae4758f5fa50f2e28616aea5b28a6e4a5e6861508004d7f7205eArtifactHash993A23A4": Object {
+      "Description": "Artifact hash for asset \\"ddbe3bf92c26ae4758f5fa50f2e28616aea5b28a6e4a5e6861508004d7f7205e\\"",
       "Type": "String",
     },
-    "AssetParameterse412d79a7d530b1ac60ce00fc3bd1950d6a83725aff2e5525f88dbd4a1de4f64S3BucketB9FA27E3": Object {
-      "Description": "S3 bucket for asset \\"e412d79a7d530b1ac60ce00fc3bd1950d6a83725aff2e5525f88dbd4a1de4f64\\"",
+    "AssetParametersddbe3bf92c26ae4758f5fa50f2e28616aea5b28a6e4a5e6861508004d7f7205eS3BucketF24D4CED": Object {
+      "Description": "S3 bucket for asset \\"ddbe3bf92c26ae4758f5fa50f2e28616aea5b28a6e4a5e6861508004d7f7205e\\"",
       "Type": "String",
     },
-    "AssetParameterse412d79a7d530b1ac60ce00fc3bd1950d6a83725aff2e5525f88dbd4a1de4f64S3VersionKey83309CC1": Object {
-      "Description": "S3 key for asset version \\"e412d79a7d530b1ac60ce00fc3bd1950d6a83725aff2e5525f88dbd4a1de4f64\\"",
+    "AssetParametersddbe3bf92c26ae4758f5fa50f2e28616aea5b28a6e4a5e6861508004d7f7205eS3VersionKeyC2BD8744": Object {
+      "Description": "S3 key for asset version \\"ddbe3bf92c26ae4758f5fa50f2e28616aea5b28a6e4a5e6861508004d7f7205e\\"",
       "Type": "String",
     },
-    "AssetParametersfc2698dbf0eb4b05bf920c8c6f2a73bdb4f7480625276fa3cb6860e8cf411ab1ArtifactHash633FB3D4": Object {
-      "Description": "Artifact hash for asset \\"fc2698dbf0eb4b05bf920c8c6f2a73bdb4f7480625276fa3cb6860e8cf411ab1\\"",
+    "AssetParametersde47650077734edd73b53753aff2121ad53c80eaba9c472c509f964b62e29ddcArtifactHash89C20581": Object {
+      "Description": "Artifact hash for asset \\"de47650077734edd73b53753aff2121ad53c80eaba9c472c509f964b62e29ddc\\"",
       "Type": "String",
     },
-    "AssetParametersfc2698dbf0eb4b05bf920c8c6f2a73bdb4f7480625276fa3cb6860e8cf411ab1S3BucketAFEDE22A": Object {
-      "Description": "S3 bucket for asset \\"fc2698dbf0eb4b05bf920c8c6f2a73bdb4f7480625276fa3cb6860e8cf411ab1\\"",
+    "AssetParametersde47650077734edd73b53753aff2121ad53c80eaba9c472c509f964b62e29ddcS3BucketAA5550B2": Object {
+      "Description": "S3 bucket for asset \\"de47650077734edd73b53753aff2121ad53c80eaba9c472c509f964b62e29ddc\\"",
       "Type": "String",
     },
-    "AssetParametersfc2698dbf0eb4b05bf920c8c6f2a73bdb4f7480625276fa3cb6860e8cf411ab1S3VersionKey55EB0B94": Object {
-      "Description": "S3 key for asset version \\"fc2698dbf0eb4b05bf920c8c6f2a73bdb4f7480625276fa3cb6860e8cf411ab1\\"",
+    "AssetParametersde47650077734edd73b53753aff2121ad53c80eaba9c472c509f964b62e29ddcS3VersionKey5C5D6C66": Object {
+      "Description": "S3 key for asset version \\"de47650077734edd73b53753aff2121ad53c80eaba9c472c509f964b62e29ddc\\"",
       "Type": "String",
     },
-    "AssetParametersff02e534bae13fe8f45b19f9a8a6a74518a202c430e2db429cd6b3621d2d66d7ArtifactHash9EC161D4": Object {
-      "Description": "Artifact hash for asset \\"ff02e534bae13fe8f45b19f9a8a6a74518a202c430e2db429cd6b3621d2d66d7\\"",
+    "AssetParameterse8e1107e24549b7c779c15127034492e3214246babb8b5b7cb2550b6563ba7caArtifactHashB15E2A3A": Object {
+      "Description": "Artifact hash for asset \\"e8e1107e24549b7c779c15127034492e3214246babb8b5b7cb2550b6563ba7ca\\"",
       "Type": "String",
     },
-    "AssetParametersff02e534bae13fe8f45b19f9a8a6a74518a202c430e2db429cd6b3621d2d66d7S3Bucket9361F12D": Object {
-      "Description": "S3 bucket for asset \\"ff02e534bae13fe8f45b19f9a8a6a74518a202c430e2db429cd6b3621d2d66d7\\"",
+    "AssetParameterse8e1107e24549b7c779c15127034492e3214246babb8b5b7cb2550b6563ba7caS3Bucket515F695F": Object {
+      "Description": "S3 bucket for asset \\"e8e1107e24549b7c779c15127034492e3214246babb8b5b7cb2550b6563ba7ca\\"",
       "Type": "String",
     },
-    "AssetParametersff02e534bae13fe8f45b19f9a8a6a74518a202c430e2db429cd6b3621d2d66d7S3VersionKeyB682C9F0": Object {
-      "Description": "S3 key for asset version \\"ff02e534bae13fe8f45b19f9a8a6a74518a202c430e2db429cd6b3621d2d66d7\\"",
+    "AssetParameterse8e1107e24549b7c779c15127034492e3214246babb8b5b7cb2550b6563ba7caS3VersionKeyC661E74C": Object {
+      "Description": "S3 key for asset version \\"e8e1107e24549b7c779c15127034492e3214246babb8b5b7cb2550b6563ba7ca\\"",
+      "Type": "String",
+    },
+    "AssetParametersf87f0de2282f90e3abf3abdf95a04b7e2ac9c264ed4d97294c4431ff89b529e6ArtifactHash0C51EAEF": Object {
+      "Description": "Artifact hash for asset \\"f87f0de2282f90e3abf3abdf95a04b7e2ac9c264ed4d97294c4431ff89b529e6\\"",
+      "Type": "String",
+    },
+    "AssetParametersf87f0de2282f90e3abf3abdf95a04b7e2ac9c264ed4d97294c4431ff89b529e6S3Bucket396AD9C8": Object {
+      "Description": "S3 bucket for asset \\"f87f0de2282f90e3abf3abdf95a04b7e2ac9c264ed4d97294c4431ff89b529e6\\"",
+      "Type": "String",
+    },
+    "AssetParametersf87f0de2282f90e3abf3abdf95a04b7e2ac9c264ed4d97294c4431ff89b529e6S3VersionKey258FF71A": Object {
+      "Description": "S3 key for asset version \\"f87f0de2282f90e3abf3abdf95a04b7e2ac9c264ed4d97294c4431ff89b529e6\\"",
+      "Type": "String",
+    },
+    "AssetParametersf8d648c05430bf7c88ea4ca9aee12a85db80ba9511533cd3ed4169d0793e1d7fArtifactHashD546C98B": Object {
+      "Description": "Artifact hash for asset \\"f8d648c05430bf7c88ea4ca9aee12a85db80ba9511533cd3ed4169d0793e1d7f\\"",
+      "Type": "String",
+    },
+    "AssetParametersf8d648c05430bf7c88ea4ca9aee12a85db80ba9511533cd3ed4169d0793e1d7fS3Bucket67D29047": Object {
+      "Description": "S3 bucket for asset \\"f8d648c05430bf7c88ea4ca9aee12a85db80ba9511533cd3ed4169d0793e1d7f\\"",
+      "Type": "String",
+    },
+    "AssetParametersf8d648c05430bf7c88ea4ca9aee12a85db80ba9511533cd3ed4169d0793e1d7fS3VersionKey8479843C": Object {
+      "Description": "S3 key for asset version \\"f8d648c05430bf7c88ea4ca9aee12a85db80ba9511533cd3ed4169d0793e1d7f\\"",
       "Type": "String",
     },
     "CloudTrailExportConfirmation": Object {
@@ -356,7 +380,9 @@ Object {
                 },
               },
               "Effect": "Deny",
-              "Principal": "*",
+              "Principal": Object {
+                "AWS": "*",
+              },
               "Resource": Object {
                 "Ref": "archiveNotifications",
               },
@@ -1247,36 +1273,42 @@ Object {
       },
       "Properties": Object {
         "Code": Object {
-          "ZipFile": "/*********************************************************************************************************************
- *  Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.                                      *
- *                                                                                                                    *
- *  Licensed under the Apache License, Version 2.0 (the \\"License\\"). You may not use this file except in compliance    *
- *  with the License. A copy of the License is located at                                                             *
- *                                                                                                                    *
- *      http://www.apache.org/licenses/                                                                               *
- *                                                                                                                    *
- *  or in the 'license' file accompanying this file. This file is distributed on an 'AS IS' BASIS, WITHOUT WARRANTIES *
- *  OR CONDITIONS OF ANY KIND, express or implied. See the License for the specific language governing permissions    *
- *  and limitations under the License.                                                                                *
- *********************************************************************************************************************/
-
-/**
- * @author Solution Builders
- */
-
-'use strict';
-
-const response = require('cfn-response');
-exports.handler = function(event, context) {
-    console.log(JSON.stringify(event))
-    let responseData = {}
-    for(const [key, val] of Object.entries(event.ResourceProperties)) {
-        responseData[key] = val.toLowerCase();
-      }
-    console.log(responseData)    
-    response.send(event, context, response.SUCCESS, responseData);
-};
-",
+          "S3Bucket": Object {
+            "Ref": "AssetParameters9fe8e874647cc119c4004969cbc38d6fabe04186f26482da678bd5361ca172acS3Bucket4D2A1028",
+          },
+          "S3Key": Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                Object {
+                  "Fn::Select": Array [
+                    0,
+                    Object {
+                      "Fn::Split": Array [
+                        "||",
+                        Object {
+                          "Ref": "AssetParameters9fe8e874647cc119c4004969cbc38d6fabe04186f26482da678bd5361ca172acS3VersionKey98C7C227",
+                        },
+                      ],
+                    },
+                  ],
+                },
+                Object {
+                  "Fn::Select": Array [
+                    1,
+                    Object {
+                      "Fn::Split": Array [
+                        "||",
+                        Object {
+                          "Ref": "AssetParameters9fe8e874647cc119c4004969cbc38d6fabe04186f26482da678bd5361ca172acS3VersionKey98C7C227",
+                        },
+                      ],
+                    },
+                  ],
+                },
+              ],
+            ],
+          },
         },
         "FunctionName": Object {
           "Fn::Join": Array [
@@ -1296,7 +1328,7 @@ exports.handler = function(event, context) {
             "Arn",
           ],
         },
-        "Runtime": "nodejs12.x",
+        "Runtime": "nodejs14.x",
         "Tags": Array [
           Object {
             "Key": "solution",
@@ -1368,8 +1400,8 @@ exports.handler = function(event, context) {
         "monitoringCalculateMetricsRoleA76278A7",
         "monitoringCalculateMetricsRolePolicy0C1EF64D",
         "monitoringcalculateTreehashLogGroup6FC738B3",
-        "monitoringcopyArchiveLogGroupBB702B1B",
         "monitoringcopyChunkLogGroup5D04918E",
+        "monitoringcopyToDestinationBucketLogGroup4BB91669",
         "monitoringdeployGlueJobScriptLogGroupAA50E4DE",
         "monitoringdownloadInventoryLogGroup2471C2FF",
         "monitoringdownloadInventoryPartLogGroupD9E69690",
@@ -1384,6 +1416,7 @@ exports.handler = function(event, context) {
         "monitoringrequestArchivesLogGroup70D7C9C5",
         "monitoringrequestInventoryLogGroupB7C9607D",
         "monitoringsendAnonymousStatsLogGroup0C9968BB",
+        "monitoringsplitArchiveLogGroup026DE41D",
         "monitoringstageTwoOrchestratorLogGroup62996996",
         "monitoringtoLowercaseLogGroupC05CBA29",
       ],
@@ -1434,7 +1467,7 @@ exports.handler = function(event, context) {
       "Properties": Object {
         "Code": Object {
           "S3Bucket": Object {
-            "Ref": "AssetParameters7f6c2f52bb27eeb751136fbee4aa380395e2b85057d3d2d3740a5a929ddace16S3Bucket75AA9138",
+            "Ref": "AssetParametersf8d648c05430bf7c88ea4ca9aee12a85db80ba9511533cd3ed4169d0793e1d7fS3Bucket67D29047",
           },
           "S3Key": Object {
             "Fn::Join": Array [
@@ -1447,7 +1480,7 @@ exports.handler = function(event, context) {
                       "Fn::Split": Array [
                         "||",
                         Object {
-                          "Ref": "AssetParameters7f6c2f52bb27eeb751136fbee4aa380395e2b85057d3d2d3740a5a929ddace16S3VersionKey9FDAC3CA",
+                          "Ref": "AssetParametersf8d648c05430bf7c88ea4ca9aee12a85db80ba9511533cd3ed4169d0793e1d7fS3VersionKey8479843C",
                         },
                       ],
                     },
@@ -1460,7 +1493,7 @@ exports.handler = function(event, context) {
                       "Fn::Split": Array [
                         "||",
                         Object {
-                          "Ref": "AssetParameters7f6c2f52bb27eeb751136fbee4aa380395e2b85057d3d2d3740a5a929ddace16S3VersionKey9FDAC3CA",
+                          "Ref": "AssetParametersf8d648c05430bf7c88ea4ca9aee12a85db80ba9511533cd3ed4169d0793e1d7fS3VersionKey8479843C",
                         },
                       ],
                     },
@@ -1495,7 +1528,7 @@ exports.handler = function(event, context) {
             "Arn",
           ],
         },
-        "Runtime": "nodejs12.x",
+        "Runtime": "nodejs14.x",
         "Tags": Array [
           Object {
             "Key": "solution",
@@ -1724,7 +1757,7 @@ exports.handler = function(event, context) {
       "Properties": Object {
         "Code": Object {
           "S3Bucket": Object {
-            "Ref": "AssetParameters3fd34dead7f16ee37533951dcb1d0dbdb2acefce2b6cbe673e295b38b890713aS3Bucket61B77533",
+            "Ref": "AssetParametersf87f0de2282f90e3abf3abdf95a04b7e2ac9c264ed4d97294c4431ff89b529e6S3Bucket396AD9C8",
           },
           "S3Key": Object {
             "Fn::Join": Array [
@@ -1737,7 +1770,7 @@ exports.handler = function(event, context) {
                       "Fn::Split": Array [
                         "||",
                         Object {
-                          "Ref": "AssetParameters3fd34dead7f16ee37533951dcb1d0dbdb2acefce2b6cbe673e295b38b890713aS3VersionKey7236F0A0",
+                          "Ref": "AssetParametersf87f0de2282f90e3abf3abdf95a04b7e2ac9c264ed4d97294c4431ff89b529e6S3VersionKey258FF71A",
                         },
                       ],
                     },
@@ -1750,7 +1783,7 @@ exports.handler = function(event, context) {
                       "Fn::Split": Array [
                         "||",
                         Object {
-                          "Ref": "AssetParameters3fd34dead7f16ee37533951dcb1d0dbdb2acefce2b6cbe673e295b38b890713aS3VersionKey7236F0A0",
+                          "Ref": "AssetParametersf87f0de2282f90e3abf3abdf95a04b7e2ac9c264ed4d97294c4431ff89b529e6S3VersionKey258FF71A",
                         },
                       ],
                     },
@@ -1797,7 +1830,7 @@ exports.handler = function(event, context) {
             "Arn",
           ],
         },
-        "Runtime": "nodejs12.x",
+        "Runtime": "nodejs14.x",
         "Tags": Array [
           Object {
             "Key": "solution",
@@ -1964,35 +1997,6 @@ exports.handler = function(event, context) {
       },
       "Type": "AWS::Logs::LogGroup",
     },
-    "monitoringcopyArchiveLogGroupBB702B1B": Object {
-      "DeletionPolicy": "Retain",
-      "Metadata": Object {
-        "cfn_nag": Object {
-          "rules_to_suppress": Array [
-            Object {
-              "id": "W84",
-              "reason": "The solution is a temporary, one off deployment. No sensitive or PII data logged.",
-            },
-          ],
-        },
-      },
-      "Properties": Object {
-        "LogGroupName": Object {
-          "Fn::Join": Array [
-            "",
-            Array [
-              "/aws/lambda/",
-              Object {
-                "Ref": "AWS::StackName",
-              },
-              "-copyArchive",
-            ],
-          ],
-        },
-        "RetentionInDays": 90,
-      },
-      "Type": "AWS::Logs::LogGroup",
-    },
     "monitoringcopyChunkLogGroup5D04918E": Object {
       "DeletionPolicy": "Retain",
       "Metadata": Object {
@@ -2015,6 +2019,35 @@ exports.handler = function(event, context) {
                 "Ref": "AWS::StackName",
               },
               "-copyChunk",
+            ],
+          ],
+        },
+        "RetentionInDays": 90,
+      },
+      "Type": "AWS::Logs::LogGroup",
+    },
+    "monitoringcopyToDestinationBucketLogGroup4BB91669": Object {
+      "DeletionPolicy": "Retain",
+      "Metadata": Object {
+        "cfn_nag": Object {
+          "rules_to_suppress": Array [
+            Object {
+              "id": "W84",
+              "reason": "The solution is a temporary, one off deployment. No sensitive or PII data logged.",
+            },
+          ],
+        },
+      },
+      "Properties": Object {
+        "LogGroupName": Object {
+          "Fn::Join": Array [
+            "",
+            Array [
+              "/aws/lambda/",
+              Object {
+                "Ref": "AWS::StackName",
+              },
+              "-copyToDestinationBucket",
             ],
           ],
         },
@@ -2152,43 +2185,43 @@ exports.handler = function(event, context) {
               Object {
                 "Ref": "AWS::Region",
               },
-              "\\",\\"metrics\\":[[\\"AmazonS3GlacierReFreezer\\",\\"Total Archives\\",\\"CloudFormation Stack\\",\\"",
+              "\\",\\"metrics\\":[[\\"AmazonS3GlacierReFreezer\\",\\"ArchiveCountTotal\\",\\"CloudFormationStack\\",\\"",
               Object {
                 "Ref": "AWS::StackName",
               },
-              "\\",{\\"accountId\\":\\"",
+              "\\",{\\"label\\":\\"Total Archives\\",\\"accountId\\":\\"",
               Object {
                 "Ref": "AWS::AccountId",
               },
-              "\\",\\"stat\\":\\"Maximum\\"}],[\\"AmazonS3GlacierReFreezer\\",\\"Requested from Glacier\\",\\"CloudFormation Stack\\",\\"",
+              "\\",\\"stat\\":\\"Maximum\\"}],[\\"AmazonS3GlacierReFreezer\\",\\"ArchiveCountRequested\\",\\"CloudFormationStack\\",\\"",
               Object {
                 "Ref": "AWS::StackName",
               },
-              "\\",{\\"accountId\\":\\"",
+              "\\",{\\"label\\":\\"Requested from Glacier\\",\\"accountId\\":\\"",
               Object {
                 "Ref": "AWS::AccountId",
               },
-              "\\",\\"stat\\":\\"Maximum\\"}],[\\"AmazonS3GlacierReFreezer\\",\\"Staged\\",\\"CloudFormation Stack\\",\\"",
+              "\\",\\"stat\\":\\"Maximum\\"}],[\\"AmazonS3GlacierReFreezer\\",\\"ArchiveCountStaged\\",\\"CloudFormationStack\\",\\"",
               Object {
                 "Ref": "AWS::StackName",
               },
-              "\\",{\\"accountId\\":\\"",
+              "\\",{\\"label\\":\\"Staged\\",\\"accountId\\":\\"",
               Object {
                 "Ref": "AWS::AccountId",
               },
-              "\\",\\"stat\\":\\"Maximum\\"}],[\\"AmazonS3GlacierReFreezer\\",\\"Hashes Validated\\",\\"CloudFormation Stack\\",\\"",
+              "\\",\\"stat\\":\\"Maximum\\"}],[\\"AmazonS3GlacierReFreezer\\",\\"ArchiveCountValidated\\",\\"CloudFormationStack\\",\\"",
               Object {
                 "Ref": "AWS::StackName",
               },
-              "\\",{\\"accountId\\":\\"",
+              "\\",{\\"label\\":\\"Hashes Validated\\",\\"accountId\\":\\"",
               Object {
                 "Ref": "AWS::AccountId",
               },
-              "\\",\\"stat\\":\\"Maximum\\"}],[\\"AmazonS3GlacierReFreezer\\",\\"Copied to Destination\\",\\"CloudFormation Stack\\",\\"",
+              "\\",\\"stat\\":\\"Maximum\\"}],[\\"AmazonS3GlacierReFreezer\\",\\"ArchiveCountCompleted\\",\\"CloudFormationStack\\",\\"",
               Object {
                 "Ref": "AWS::StackName",
               },
-              "\\",{\\"accountId\\":\\"",
+              "\\",{\\"label\\":\\"Copied to Destination\\",\\"accountId\\":\\"",
               Object {
                 "Ref": "AWS::AccountId",
               },
@@ -2196,43 +2229,43 @@ exports.handler = function(event, context) {
               Object {
                 "Ref": "AWS::Region",
               },
-              "\\",\\"metrics\\":[[\\"AmazonS3GlacierReFreezer\\",\\"Total Archives\\",\\"CloudFormation Stack\\",\\"",
+              "\\",\\"metrics\\":[[\\"AmazonS3GlacierReFreezer\\",\\"ArchiveCountTotal\\",\\"CloudFormationStack\\",\\"",
               Object {
                 "Ref": "AWS::StackName",
               },
-              "\\",{\\"accountId\\":\\"",
+              "\\",{\\"label\\":\\"Total Archives\\",\\"accountId\\":\\"",
               Object {
                 "Ref": "AWS::AccountId",
               },
-              "\\",\\"stat\\":\\"Maximum\\"}],[\\"AmazonS3GlacierReFreezer\\",\\"Requested from Glacier\\",\\"CloudFormation Stack\\",\\"",
+              "\\",\\"stat\\":\\"Maximum\\"}],[\\"AmazonS3GlacierReFreezer\\",\\"ArchiveCountRequested\\",\\"CloudFormationStack\\",\\"",
               Object {
                 "Ref": "AWS::StackName",
               },
-              "\\",{\\"accountId\\":\\"",
+              "\\",{\\"label\\":\\"Requested from Glacier\\",\\"accountId\\":\\"",
               Object {
                 "Ref": "AWS::AccountId",
               },
-              "\\",\\"stat\\":\\"Maximum\\"}],[\\"AmazonS3GlacierReFreezer\\",\\"Staged\\",\\"CloudFormation Stack\\",\\"",
+              "\\",\\"stat\\":\\"Maximum\\"}],[\\"AmazonS3GlacierReFreezer\\",\\"ArchiveCountStaged\\",\\"CloudFormationStack\\",\\"",
               Object {
                 "Ref": "AWS::StackName",
               },
-              "\\",{\\"accountId\\":\\"",
+              "\\",{\\"label\\":\\"Staged\\",\\"accountId\\":\\"",
               Object {
                 "Ref": "AWS::AccountId",
               },
-              "\\",\\"stat\\":\\"Maximum\\"}],[\\"AmazonS3GlacierReFreezer\\",\\"Hashes Validated\\",\\"CloudFormation Stack\\",\\"",
+              "\\",\\"stat\\":\\"Maximum\\"}],[\\"AmazonS3GlacierReFreezer\\",\\"ArchiveCountValidated\\",\\"CloudFormationStack\\",\\"",
               Object {
                 "Ref": "AWS::StackName",
               },
-              "\\",{\\"accountId\\":\\"",
+              "\\",{\\"label\\":\\"Hashes Validated\\",\\"accountId\\":\\"",
               Object {
                 "Ref": "AWS::AccountId",
               },
-              "\\",\\"stat\\":\\"Maximum\\"}],[\\"AmazonS3GlacierReFreezer\\",\\"Copied to Destination\\",\\"CloudFormation Stack\\",\\"",
+              "\\",\\"stat\\":\\"Maximum\\"}],[\\"AmazonS3GlacierReFreezer\\",\\"ArchiveCountCompleted\\",\\"CloudFormationStack\\",\\"",
               Object {
                 "Ref": "AWS::StackName",
               },
-              "\\",{\\"accountId\\":\\"",
+              "\\",{\\"label\\":\\"Copied to Destination\\",\\"accountId\\":\\"",
               Object {
                 "Ref": "AWS::AccountId",
               },
@@ -2256,11 +2289,11 @@ exports.handler = function(event, context) {
               Object {
                 "Ref": "AWS::StackName",
               },
-              "-copyArchive' | SOURCE '/aws/lambda/",
+              "-copyChunk' | SOURCE '/aws/lambda/",
               Object {
                 "Ref": "AWS::StackName",
               },
-              "-copyChunk' | SOURCE '/aws/lambda/",
+              "-copyToDestinationBucket' | SOURCE '/aws/lambda/",
               Object {
                 "Ref": "AWS::StackName",
               },
@@ -2296,7 +2329,11 @@ exports.handler = function(event, context) {
               Object {
                 "Ref": "AWS::StackName",
               },
-              "-toLowercase' | fields @timestamp, @message \\\\n| filter @message like /error/ or @message like /Error/ or @message like /ERROR/\\\\n| sort by @timestamp desc\\"}},{\\"type\\":\\"metric\\",\\"width\\":24,\\"height\\":6,\\"x\\":0,\\"y\\":15,\\"properties\\":{\\"view\\":\\"timeSeries\\",\\"title\\":\\"Oldest SQS Message\\",\\"region\\":\\"",
+              "-splitArchive' | SOURCE '/aws/lambda/",
+              Object {
+                "Ref": "AWS::StackName",
+              },
+              "-toLowercase' | fields @timestamp, @message\\\\n| filter @message like /error/ or @message like /Error/ or @message like /ERROR/\\\\n| filter @message not like /ThrottlingException/\\\\n| sort by @timestamp desc\\"}},{\\"type\\":\\"metric\\",\\"width\\":24,\\"height\\":6,\\"x\\":0,\\"y\\":15,\\"properties\\":{\\"view\\":\\"timeSeries\\",\\"title\\":\\"Oldest SQS Message\\",\\"region\\":\\"",
               Object {
                 "Ref": "AWS::Region",
               },
@@ -2442,6 +2479,35 @@ exports.handler = function(event, context) {
       },
       "Type": "AWS::Logs::LogGroup",
     },
+    "monitoringsplitArchiveLogGroup026DE41D": Object {
+      "DeletionPolicy": "Retain",
+      "Metadata": Object {
+        "cfn_nag": Object {
+          "rules_to_suppress": Array [
+            Object {
+              "id": "W84",
+              "reason": "The solution is a temporary, one off deployment. No sensitive or PII data logged.",
+            },
+          ],
+        },
+      },
+      "Properties": Object {
+        "LogGroupName": Object {
+          "Fn::Join": Array [
+            "",
+            Array [
+              "/aws/lambda/",
+              Object {
+                "Ref": "AWS::StackName",
+              },
+              "-splitArchive",
+            ],
+          ],
+        },
+        "RetentionInDays": 90,
+      },
+      "Type": "AWS::Logs::LogGroup",
+    },
     "monitoringstageTwoOrchestratorLogGroup62996996": Object {
       "DeletionPolicy": "Retain",
       "Metadata": Object {
@@ -2500,10 +2566,201 @@ exports.handler = function(event, context) {
       },
       "Type": "AWS::Logs::LogGroup",
     },
+    "stageFourCalculateTreehashRoleC5DE238E": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "Tags": Array [
+          Object {
+            "Key": "solution",
+            "Value": "amazon-s3-glacier-refreezer",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "stageFourCalculateTreehashRoleDefaultPolicy38EF64C8": Object {
+      "Metadata": Object {
+        "cfn_nag": Object {
+          "rules_to_suppress": Array [
+            Object {
+              "id": "W76",
+              "reason": "Policy is auto-generated by CDK",
+            },
+          ],
+        },
+      },
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": Array [
+                "s3:GetObject*",
+                "s3:GetBucket*",
+                "s3:List*",
+                "s3:DeleteObject*",
+                "s3:PutObject*",
+                "s3:Abort*",
+              ],
+              "Effect": "Allow",
+              "Resource": Array [
+                Object {
+                  "Fn::GetAtt": Array [
+                    "stagingBucket",
+                    "Arn",
+                  ],
+                },
+                Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      Object {
+                        "Fn::GetAtt": Array [
+                          "stagingBucket",
+                          "Arn",
+                        ],
+                      },
+                      "/*",
+                    ],
+                  ],
+                },
+              ],
+            },
+            Object {
+              "Action": Array [
+                "dynamodb:BatchGetItem",
+                "dynamodb:GetRecords",
+                "dynamodb:GetShardIterator",
+                "dynamodb:Query",
+                "dynamodb:GetItem",
+                "dynamodb:Scan",
+                "dynamodb:ConditionCheckItem",
+                "dynamodb:BatchWriteItem",
+                "dynamodb:PutItem",
+                "dynamodb:UpdateItem",
+                "dynamodb:DeleteItem",
+              ],
+              "Effect": "Allow",
+              "Resource": Array [
+                Object {
+                  "Fn::GetAtt": Array [
+                    "dynamoDataCatalogStatusTableE9ACB88F",
+                    "Arn",
+                  ],
+                },
+                Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      Object {
+                        "Fn::GetAtt": Array [
+                          "dynamoDataCatalogStatusTableE9ACB88F",
+                          "Arn",
+                        ],
+                      },
+                      "/index/*",
+                    ],
+                  ],
+                },
+              ],
+            },
+            Object {
+              "Action": Array [
+                "dynamodb:BatchGetItem",
+                "dynamodb:GetRecords",
+                "dynamodb:GetShardIterator",
+                "dynamodb:Query",
+                "dynamodb:GetItem",
+                "dynamodb:Scan",
+                "dynamodb:ConditionCheckItem",
+                "dynamodb:BatchWriteItem",
+                "dynamodb:PutItem",
+                "dynamodb:UpdateItem",
+                "dynamodb:DeleteItem",
+              ],
+              "Effect": "Allow",
+              "Resource": Array [
+                Object {
+                  "Fn::GetAtt": Array [
+                    "dynamoDataCatalogMetricsTable174C007B",
+                    "Arn",
+                  ],
+                },
+                Object {
+                  "Ref": "AWS::NoValue",
+                },
+              ],
+            },
+            Object {
+              "Action": Array [
+                "sqs:SendMessage",
+                "sqs:GetQueueAttributes",
+                "sqs:GetQueueUrl",
+              ],
+              "Effect": "Allow",
+              "Resource": Object {
+                "Fn::GetAtt": Array [
+                  "stageThreearchivenotificationqueue402FED49",
+                  "Arn",
+                ],
+              },
+            },
+            Object {
+              "Action": Array [
+                "sqs:SendMessage",
+                "sqs:GetQueueAttributes",
+                "sqs:GetQueueUrl",
+              ],
+              "Effect": "Allow",
+              "Resource": Object {
+                "Fn::GetAtt": Array [
+                  "stageFourdestinationcopyqueue3EEF6C15",
+                  "Arn",
+                ],
+              },
+            },
+            Object {
+              "Action": Array [
+                "sqs:ReceiveMessage",
+                "sqs:ChangeMessageVisibility",
+                "sqs:GetQueueUrl",
+                "sqs:DeleteMessage",
+                "sqs:GetQueueAttributes",
+              ],
+              "Effect": "Allow",
+              "Resource": Object {
+                "Fn::GetAtt": Array [
+                  "stageThreetreehashcalcqueue77403987",
+                  "Arn",
+                ],
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "stageFourCalculateTreehashRoleDefaultPolicy38EF64C8",
+        "Roles": Array [
+          Object {
+            "Ref": "stageFourCalculateTreehashRoleC5DE238E",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
     "stageFourcalculateTreehashC1E7BFB4": Object {
       "DependsOn": Array [
-        "stageFourcalculateTreehashServiceRoleDefaultPolicyBF15D3E2",
-        "stageFourcalculateTreehashServiceRoleC753ABC4",
+        "stageFourCalculateTreehashRoleDefaultPolicy38EF64C8",
+        "stageFourCalculateTreehashRoleC5DE238E",
       ],
       "Metadata": Object {
         "cfn_nag": Object {
@@ -2526,7 +2783,7 @@ exports.handler = function(event, context) {
       "Properties": Object {
         "Code": Object {
           "S3Bucket": Object {
-            "Ref": "AssetParameters384904a8567e67b8af48d6abe914aca894dabffc1a216e0448c023f4ee239cc9S3Bucket56152FB5",
+            "Ref": "AssetParametersde47650077734edd73b53753aff2121ad53c80eaba9c472c509f964b62e29ddcS3BucketAA5550B2",
           },
           "S3Key": Object {
             "Fn::Join": Array [
@@ -2539,7 +2796,7 @@ exports.handler = function(event, context) {
                       "Fn::Split": Array [
                         "||",
                         Object {
-                          "Ref": "AssetParameters384904a8567e67b8af48d6abe914aca894dabffc1a216e0448c023f4ee239cc9S3VersionKey6275EA3C",
+                          "Ref": "AssetParametersde47650077734edd73b53753aff2121ad53c80eaba9c472c509f964b62e29ddcS3VersionKey5C5D6C66",
                         },
                       ],
                     },
@@ -2552,7 +2809,7 @@ exports.handler = function(event, context) {
                       "Fn::Split": Array [
                         "||",
                         Object {
-                          "Ref": "AssetParameters384904a8567e67b8af48d6abe914aca894dabffc1a216e0448c023f4ee239cc9S3VersionKey6275EA3C",
+                          "Ref": "AssetParametersde47650077734edd73b53753aff2121ad53c80eaba9c472c509f964b62e29ddcS3VersionKey5C5D6C66",
                         },
                       ],
                     },
@@ -2567,9 +2824,18 @@ exports.handler = function(event, context) {
             "DESTINATION_BUCKET": Object {
               "Ref": "DestinationBucket",
             },
+            "METRIC_TABLE": Object {
+              "Ref": "dynamoDataCatalogMetricsTable174C007B",
+            },
             "SQS_ARCHIVE_NOTIFICATION": Object {
               "Fn::GetAtt": Array [
                 "stageThreearchivenotificationqueue402FED49",
+                "QueueName",
+              ],
+            },
+            "SQS_COPY_TO_DESTINATION_NOTIFICATION": Object {
+              "Fn::GetAtt": Array [
+                "stageFourdestinationcopyqueue3EEF6C15",
                 "QueueName",
               ],
             },
@@ -2598,14 +2864,14 @@ exports.handler = function(event, context) {
         },
         "Handler": "index.handler",
         "MemorySize": 1024,
-        "ReservedConcurrentExecutions": 50,
+        "ReservedConcurrentExecutions": 55,
         "Role": Object {
           "Fn::GetAtt": Array [
-            "stageFourcalculateTreehashServiceRoleC753ABC4",
+            "stageFourCalculateTreehashRoleC5DE238E",
             "Arn",
           ],
         },
-        "Runtime": "nodejs12.x",
+        "Runtime": "nodejs14.x",
         "Tags": Array [
           Object {
             "Key": "solution",
@@ -2616,7 +2882,132 @@ exports.handler = function(event, context) {
       },
       "Type": "AWS::Lambda::Function",
     },
-    "stageFourcalculateTreehashServiceRoleC753ABC4": Object {
+    "stageFourcalculateTreehashSqsEventSourceteststackstageThreetreehashcalcqueueE81E0D736E8DC7E1": Object {
+      "Properties": Object {
+        "BatchSize": 1,
+        "EventSourceArn": Object {
+          "Fn::GetAtt": Array [
+            "stageThreetreehashcalcqueue77403987",
+            "Arn",
+          ],
+        },
+        "FunctionName": Object {
+          "Ref": "stageFourcalculateTreehashC1E7BFB4",
+        },
+      },
+      "Type": "AWS::Lambda::EventSourceMapping",
+    },
+    "stageFourcopyToDestinationBucket5643054F": Object {
+      "DependsOn": Array [
+        "stageFourcopyToDestinationBucketServiceRoleDefaultPolicy54E21CAC",
+        "stageFourcopyToDestinationBucketServiceRole65221CE0",
+      ],
+      "Metadata": Object {
+        "cfn_nag": Object {
+          "rules_to_suppress": Array [
+            Object {
+              "id": "W58",
+              "reason": "cfn nag is unable to reason about CDK generated cloudwatch log permissions",
+            },
+            Object {
+              "id": "W89",
+              "reason": "This is a fully serverless solution - no VPC is required",
+            },
+            Object {
+              "id": "W92",
+              "reason": "Reserved Concurrency is set on high priority functions only by design",
+            },
+          ],
+        },
+      },
+      "Properties": Object {
+        "Code": Object {
+          "S3Bucket": Object {
+            "Ref": "AssetParameterscf1edc539dd0080815e7e71c2ecec734fb04c9c81207557f9c4109b13e497343S3BucketBF17ADD3",
+          },
+          "S3Key": Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                Object {
+                  "Fn::Select": Array [
+                    0,
+                    Object {
+                      "Fn::Split": Array [
+                        "||",
+                        Object {
+                          "Ref": "AssetParameterscf1edc539dd0080815e7e71c2ecec734fb04c9c81207557f9c4109b13e497343S3VersionKeyC11A1DE0",
+                        },
+                      ],
+                    },
+                  ],
+                },
+                Object {
+                  "Fn::Select": Array [
+                    1,
+                    Object {
+                      "Fn::Split": Array [
+                        "||",
+                        Object {
+                          "Ref": "AssetParameterscf1edc539dd0080815e7e71c2ecec734fb04c9c81207557f9c4109b13e497343S3VersionKeyC11A1DE0",
+                        },
+                      ],
+                    },
+                  ],
+                },
+              ],
+            ],
+          },
+        },
+        "Environment": Object {
+          "Variables": Object {
+            "DESTINATION_BUCKET": Object {
+              "Ref": "DestinationBucket",
+            },
+            "STAGING_BUCKET": Object {
+              "Ref": "stagingBucket",
+            },
+            "STAGING_BUCKET_PREFIX": "stagingdata",
+            "STATUS_TABLE": Object {
+              "Ref": "dynamoDataCatalogStatusTableE9ACB88F",
+            },
+            "STORAGE_CLASS": Object {
+              "Ref": "DestinationStorageClass",
+            },
+          },
+        },
+        "FunctionName": Object {
+          "Fn::Join": Array [
+            "",
+            Array [
+              Object {
+                "Ref": "AWS::StackName",
+              },
+              "-copyToDestinationBucket",
+            ],
+          ],
+        },
+        "Handler": "index.handler",
+        "MemorySize": 128,
+        "ReservedConcurrentExecutions": 55,
+        "Role": Object {
+          "Fn::GetAtt": Array [
+            "stageFourcopyToDestinationBucketServiceRole65221CE0",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs14.x",
+        "Tags": Array [
+          Object {
+            "Key": "solution",
+            "Value": "amazon-s3-glacier-refreezer",
+          },
+        ],
+        "Timeout": 900,
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "stageFourcopyToDestinationBucketServiceRole65221CE0": Object {
       "Properties": Object {
         "AssumeRolePolicyDocument": Object {
           "Statement": Array [
@@ -2653,7 +3044,7 @@ exports.handler = function(event, context) {
       },
       "Type": "AWS::IAM::Role",
     },
-    "stageFourcalculateTreehashServiceRoleDefaultPolicyBF15D3E2": Object {
+    "stageFourcopyToDestinationBucketServiceRoleDefaultPolicy54E21CAC": Object {
       "Properties": Object {
         "PolicyDocument": Object {
           "Statement": Array [
@@ -2783,7 +3174,7 @@ exports.handler = function(event, context) {
               "Effect": "Allow",
               "Resource": Object {
                 "Fn::GetAtt": Array [
-                  "stageThreetreehashcalcqueue77403987",
+                  "stageFourdestinationcopyqueue3EEF6C15",
                   "Arn",
                 ],
               },
@@ -2791,29 +3182,99 @@ exports.handler = function(event, context) {
           ],
           "Version": "2012-10-17",
         },
-        "PolicyName": "stageFourcalculateTreehashServiceRoleDefaultPolicyBF15D3E2",
+        "PolicyName": "stageFourcopyToDestinationBucketServiceRoleDefaultPolicy54E21CAC",
         "Roles": Array [
           Object {
-            "Ref": "stageFourcalculateTreehashServiceRoleC753ABC4",
+            "Ref": "stageFourcopyToDestinationBucketServiceRole65221CE0",
           },
         ],
       },
       "Type": "AWS::IAM::Policy",
     },
-    "stageFourcalculateTreehashSqsEventSourceteststackstageThreetreehashcalcqueueE81E0D736E8DC7E1": Object {
+    "stageFourcopyToDestinationBucketSqsEventSourceteststackstageFourdestinationcopyqueueA23C134BF9E8EEEC": Object {
       "Properties": Object {
         "BatchSize": 1,
         "EventSourceArn": Object {
           "Fn::GetAtt": Array [
-            "stageThreetreehashcalcqueue77403987",
+            "stageFourdestinationcopyqueue3EEF6C15",
             "Arn",
           ],
         },
         "FunctionName": Object {
-          "Ref": "stageFourcalculateTreehashC1E7BFB4",
+          "Ref": "stageFourcopyToDestinationBucket5643054F",
         },
       },
       "Type": "AWS::Lambda::EventSourceMapping",
+    },
+    "stageFourdestinationcopyqueue3EEF6C15": Object {
+      "DeletionPolicy": "Delete",
+      "Metadata": Object {
+        "cfn_nag": Object {
+          "rules_to_suppress": Array [
+            Object {
+              "id": "W48",
+              "reason": "Non sensitive metadata - encryption is not required and cost inefficient",
+            },
+          ],
+        },
+      },
+      "Properties": Object {
+        "MessageRetentionPeriod": 1209600,
+        "QueueName": Object {
+          "Fn::Join": Array [
+            "",
+            Array [
+              Object {
+                "Ref": "AWS::StackName",
+              },
+              "-destination-copy-queue",
+            ],
+          ],
+        },
+        "Tags": Array [
+          Object {
+            "Key": "solution",
+            "Value": "amazon-s3-glacier-refreezer",
+          },
+        ],
+        "VisibilityTimeout": 905,
+      },
+      "Type": "AWS::SQS::Queue",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "stageFourdestinationcopyqueuePolicyB1179CE7": Object {
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sqs:*",
+              "Condition": Object {
+                "Bool": Object {
+                  "aws:SecureTransport": false,
+                },
+              },
+              "Effect": "Deny",
+              "Principal": Object {
+                "AWS": "*",
+              },
+              "Resource": Object {
+                "Fn::GetAtt": Array [
+                  "stageFourdestinationcopyqueue3EEF6C15",
+                  "Arn",
+                ],
+              },
+              "Sid": "denyInsecureTransport",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "Queues": Array [
+          Object {
+            "Ref": "stageFourdestinationcopyqueue3EEF6C15",
+          },
+        ],
+      },
+      "Type": "AWS::SQS::QueuePolicy",
     },
     "stageOneInventoryNotificationPolicy66D24C4B": Object {
       "DependsOn": Array [
@@ -2824,8 +3285,8 @@ exports.handler = function(event, context) {
         "monitoringCalculateMetricsRoleA76278A7",
         "monitoringCalculateMetricsRolePolicy0C1EF64D",
         "monitoringcalculateTreehashLogGroup6FC738B3",
-        "monitoringcopyArchiveLogGroupBB702B1B",
         "monitoringcopyChunkLogGroup5D04918E",
+        "monitoringcopyToDestinationBucketLogGroup4BB91669",
         "monitoringdeployGlueJobScriptLogGroupAA50E4DE",
         "monitoringdownloadInventoryLogGroup2471C2FF",
         "monitoringdownloadInventoryPartLogGroupD9E69690",
@@ -2840,6 +3301,7 @@ exports.handler = function(event, context) {
         "monitoringrequestArchivesLogGroup70D7C9C5",
         "monitoringrequestInventoryLogGroupB7C9607D",
         "monitoringsendAnonymousStatsLogGroup0C9968BB",
+        "monitoringsplitArchiveLogGroup026DE41D",
         "monitoringstageTwoOrchestratorLogGroup62996996",
         "monitoringtoLowercaseLogGroupC05CBA29",
       ],
@@ -2863,7 +3325,9 @@ exports.handler = function(event, context) {
                 },
               },
               "Effect": "Deny",
-              "Principal": "*",
+              "Principal": Object {
+                "AWS": "*",
+              },
               "Resource": Object {
                 "Ref": "inventoryNotification",
               },
@@ -2917,8 +3381,8 @@ exports.handler = function(event, context) {
         "monitoringCalculateMetricsRoleA76278A7",
         "monitoringCalculateMetricsRolePolicy0C1EF64D",
         "monitoringcalculateTreehashLogGroup6FC738B3",
-        "monitoringcopyArchiveLogGroupBB702B1B",
         "monitoringcopyChunkLogGroup5D04918E",
+        "monitoringcopyToDestinationBucketLogGroup4BB91669",
         "monitoringdeployGlueJobScriptLogGroupAA50E4DE",
         "monitoringdownloadInventoryLogGroup2471C2FF",
         "monitoringdownloadInventoryPartLogGroupD9E69690",
@@ -2933,6 +3397,7 @@ exports.handler = function(event, context) {
         "monitoringrequestArchivesLogGroup70D7C9C5",
         "monitoringrequestInventoryLogGroupB7C9607D",
         "monitoringsendAnonymousStatsLogGroup0C9968BB",
+        "monitoringsplitArchiveLogGroup026DE41D",
         "monitoringstageTwoOrchestratorLogGroup62996996",
         "monitoringtoLowercaseLogGroupC05CBA29",
         "stageOnedownloadInventoryServiceRoleDefaultPolicy8C7F6A4F",
@@ -2959,7 +3424,7 @@ exports.handler = function(event, context) {
       "Properties": Object {
         "Code": Object {
           "S3Bucket": Object {
-            "Ref": "AssetParametersbefb18bbf05074f41ba6c29a57d784bb9934a0a6d621070afc65e18deba9842fS3BucketA5005CEB",
+            "Ref": "AssetParameters2a0146c14484a727704099809b203af5235a49784bb8d99ac3f0c603e460b194S3Bucket40132DE4",
           },
           "S3Key": Object {
             "Fn::Join": Array [
@@ -2972,7 +3437,7 @@ exports.handler = function(event, context) {
                       "Fn::Split": Array [
                         "||",
                         Object {
-                          "Ref": "AssetParametersbefb18bbf05074f41ba6c29a57d784bb9934a0a6d621070afc65e18deba9842fS3VersionKeyAC1C03D3",
+                          "Ref": "AssetParameters2a0146c14484a727704099809b203af5235a49784bb8d99ac3f0c603e460b194S3VersionKey1B60427C",
                         },
                       ],
                     },
@@ -2985,7 +3450,7 @@ exports.handler = function(event, context) {
                       "Fn::Split": Array [
                         "||",
                         Object {
-                          "Ref": "AssetParametersbefb18bbf05074f41ba6c29a57d784bb9934a0a6d621070afc65e18deba9842fS3VersionKeyAC1C03D3",
+                          "Ref": "AssetParameters2a0146c14484a727704099809b203af5235a49784bb8d99ac3f0c603e460b194S3VersionKey1B60427C",
                         },
                       ],
                     },
@@ -3031,7 +3496,7 @@ exports.handler = function(event, context) {
             "Arn",
           ],
         },
-        "Runtime": "nodejs12.x",
+        "Runtime": "nodejs14.x",
         "Tags": Array [
           Object {
             "Key": "solution",
@@ -3051,8 +3516,8 @@ exports.handler = function(event, context) {
         "monitoringCalculateMetricsRoleA76278A7",
         "monitoringCalculateMetricsRolePolicy0C1EF64D",
         "monitoringcalculateTreehashLogGroup6FC738B3",
-        "monitoringcopyArchiveLogGroupBB702B1B",
         "monitoringcopyChunkLogGroup5D04918E",
+        "monitoringcopyToDestinationBucketLogGroup4BB91669",
         "monitoringdeployGlueJobScriptLogGroupAA50E4DE",
         "monitoringdownloadInventoryLogGroup2471C2FF",
         "monitoringdownloadInventoryPartLogGroupD9E69690",
@@ -3067,6 +3532,7 @@ exports.handler = function(event, context) {
         "monitoringrequestArchivesLogGroup70D7C9C5",
         "monitoringrequestInventoryLogGroupB7C9607D",
         "monitoringsendAnonymousStatsLogGroup0C9968BB",
+        "monitoringsplitArchiveLogGroup026DE41D",
         "monitoringstageTwoOrchestratorLogGroup62996996",
         "monitoringtoLowercaseLogGroupC05CBA29",
       ],
@@ -3094,8 +3560,8 @@ exports.handler = function(event, context) {
         "monitoringCalculateMetricsRoleA76278A7",
         "monitoringCalculateMetricsRolePolicy0C1EF64D",
         "monitoringcalculateTreehashLogGroup6FC738B3",
-        "monitoringcopyArchiveLogGroupBB702B1B",
         "monitoringcopyChunkLogGroup5D04918E",
+        "monitoringcopyToDestinationBucketLogGroup4BB91669",
         "monitoringdeployGlueJobScriptLogGroupAA50E4DE",
         "monitoringdownloadInventoryLogGroup2471C2FF",
         "monitoringdownloadInventoryPartLogGroupD9E69690",
@@ -3110,6 +3576,7 @@ exports.handler = function(event, context) {
         "monitoringrequestArchivesLogGroup70D7C9C5",
         "monitoringrequestInventoryLogGroupB7C9607D",
         "monitoringsendAnonymousStatsLogGroup0C9968BB",
+        "monitoringsplitArchiveLogGroup026DE41D",
         "monitoringstageTwoOrchestratorLogGroup62996996",
         "monitoringtoLowercaseLogGroupC05CBA29",
       ],
@@ -3136,8 +3603,8 @@ exports.handler = function(event, context) {
         "monitoringCalculateMetricsRoleA76278A7",
         "monitoringCalculateMetricsRolePolicy0C1EF64D",
         "monitoringcalculateTreehashLogGroup6FC738B3",
-        "monitoringcopyArchiveLogGroupBB702B1B",
         "monitoringcopyChunkLogGroup5D04918E",
+        "monitoringcopyToDestinationBucketLogGroup4BB91669",
         "monitoringdeployGlueJobScriptLogGroupAA50E4DE",
         "monitoringdownloadInventoryLogGroup2471C2FF",
         "monitoringdownloadInventoryPartLogGroupD9E69690",
@@ -3152,6 +3619,7 @@ exports.handler = function(event, context) {
         "monitoringrequestArchivesLogGroup70D7C9C5",
         "monitoringrequestInventoryLogGroupB7C9607D",
         "monitoringsendAnonymousStatsLogGroup0C9968BB",
+        "monitoringsplitArchiveLogGroup026DE41D",
         "monitoringstageTwoOrchestratorLogGroup62996996",
         "monitoringtoLowercaseLogGroupC05CBA29",
         "stageOnedownloadInventoryPartServiceRoleDefaultPolicy59CA83BD",
@@ -3178,7 +3646,7 @@ exports.handler = function(event, context) {
       "Properties": Object {
         "Code": Object {
           "S3Bucket": Object {
-            "Ref": "AssetParametersfc2698dbf0eb4b05bf920c8c6f2a73bdb4f7480625276fa3cb6860e8cf411ab1S3BucketAFEDE22A",
+            "Ref": "AssetParametersddbe3bf92c26ae4758f5fa50f2e28616aea5b28a6e4a5e6861508004d7f7205eS3BucketF24D4CED",
           },
           "S3Key": Object {
             "Fn::Join": Array [
@@ -3191,7 +3659,7 @@ exports.handler = function(event, context) {
                       "Fn::Split": Array [
                         "||",
                         Object {
-                          "Ref": "AssetParametersfc2698dbf0eb4b05bf920c8c6f2a73bdb4f7480625276fa3cb6860e8cf411ab1S3VersionKey55EB0B94",
+                          "Ref": "AssetParametersddbe3bf92c26ae4758f5fa50f2e28616aea5b28a6e4a5e6861508004d7f7205eS3VersionKeyC2BD8744",
                         },
                       ],
                     },
@@ -3204,7 +3672,7 @@ exports.handler = function(event, context) {
                       "Fn::Split": Array [
                         "||",
                         Object {
-                          "Ref": "AssetParametersfc2698dbf0eb4b05bf920c8c6f2a73bdb4f7480625276fa3cb6860e8cf411ab1S3VersionKey55EB0B94",
+                          "Ref": "AssetParametersddbe3bf92c26ae4758f5fa50f2e28616aea5b28a6e4a5e6861508004d7f7205eS3VersionKeyC2BD8744",
                         },
                       ],
                     },
@@ -3227,13 +3695,14 @@ exports.handler = function(event, context) {
         },
         "Handler": "index.handler",
         "MemorySize": 1024,
+        "ReservedConcurrentExecutions": 1,
         "Role": Object {
           "Fn::GetAtt": Array [
             "stageOnedownloadInventoryPartServiceRole73BC3A9B",
             "Arn",
           ],
         },
-        "Runtime": "nodejs12.x",
+        "Runtime": "nodejs14.x",
         "Tags": Array [
           Object {
             "Key": "solution",
@@ -3253,8 +3722,8 @@ exports.handler = function(event, context) {
         "monitoringCalculateMetricsRoleA76278A7",
         "monitoringCalculateMetricsRolePolicy0C1EF64D",
         "monitoringcalculateTreehashLogGroup6FC738B3",
-        "monitoringcopyArchiveLogGroupBB702B1B",
         "monitoringcopyChunkLogGroup5D04918E",
+        "monitoringcopyToDestinationBucketLogGroup4BB91669",
         "monitoringdeployGlueJobScriptLogGroupAA50E4DE",
         "monitoringdownloadInventoryLogGroup2471C2FF",
         "monitoringdownloadInventoryPartLogGroupD9E69690",
@@ -3269,6 +3738,7 @@ exports.handler = function(event, context) {
         "monitoringrequestArchivesLogGroup70D7C9C5",
         "monitoringrequestInventoryLogGroupB7C9607D",
         "monitoringsendAnonymousStatsLogGroup0C9968BB",
+        "monitoringsplitArchiveLogGroup026DE41D",
         "monitoringstageTwoOrchestratorLogGroup62996996",
         "monitoringtoLowercaseLogGroupC05CBA29",
       ],
@@ -3317,8 +3787,8 @@ exports.handler = function(event, context) {
         "monitoringCalculateMetricsRoleA76278A7",
         "monitoringCalculateMetricsRolePolicy0C1EF64D",
         "monitoringcalculateTreehashLogGroup6FC738B3",
-        "monitoringcopyArchiveLogGroupBB702B1B",
         "monitoringcopyChunkLogGroup5D04918E",
+        "monitoringcopyToDestinationBucketLogGroup4BB91669",
         "monitoringdeployGlueJobScriptLogGroupAA50E4DE",
         "monitoringdownloadInventoryLogGroup2471C2FF",
         "monitoringdownloadInventoryPartLogGroupD9E69690",
@@ -3333,6 +3803,7 @@ exports.handler = function(event, context) {
         "monitoringrequestArchivesLogGroup70D7C9C5",
         "monitoringrequestInventoryLogGroupB7C9607D",
         "monitoringsendAnonymousStatsLogGroup0C9968BB",
+        "monitoringsplitArchiveLogGroup026DE41D",
         "monitoringstageTwoOrchestratorLogGroup62996996",
         "monitoringtoLowercaseLogGroupC05CBA29",
       ],
@@ -3425,8 +3896,8 @@ exports.handler = function(event, context) {
         "monitoringCalculateMetricsRoleA76278A7",
         "monitoringCalculateMetricsRolePolicy0C1EF64D",
         "monitoringcalculateTreehashLogGroup6FC738B3",
-        "monitoringcopyArchiveLogGroupBB702B1B",
         "monitoringcopyChunkLogGroup5D04918E",
+        "monitoringcopyToDestinationBucketLogGroup4BB91669",
         "monitoringdeployGlueJobScriptLogGroupAA50E4DE",
         "monitoringdownloadInventoryLogGroup2471C2FF",
         "monitoringdownloadInventoryPartLogGroupD9E69690",
@@ -3441,6 +3912,7 @@ exports.handler = function(event, context) {
         "monitoringrequestArchivesLogGroup70D7C9C5",
         "monitoringrequestInventoryLogGroupB7C9607D",
         "monitoringsendAnonymousStatsLogGroup0C9968BB",
+        "monitoringsplitArchiveLogGroup026DE41D",
         "monitoringstageTwoOrchestratorLogGroup62996996",
         "monitoringtoLowercaseLogGroupC05CBA29",
       ],
@@ -3489,8 +3961,8 @@ exports.handler = function(event, context) {
         "monitoringCalculateMetricsRoleA76278A7",
         "monitoringCalculateMetricsRolePolicy0C1EF64D",
         "monitoringcalculateTreehashLogGroup6FC738B3",
-        "monitoringcopyArchiveLogGroupBB702B1B",
         "monitoringcopyChunkLogGroup5D04918E",
+        "monitoringcopyToDestinationBucketLogGroup4BB91669",
         "monitoringdeployGlueJobScriptLogGroupAA50E4DE",
         "monitoringdownloadInventoryLogGroup2471C2FF",
         "monitoringdownloadInventoryPartLogGroupD9E69690",
@@ -3505,6 +3977,7 @@ exports.handler = function(event, context) {
         "monitoringrequestArchivesLogGroup70D7C9C5",
         "monitoringrequestInventoryLogGroupB7C9607D",
         "monitoringsendAnonymousStatsLogGroup0C9968BB",
+        "monitoringsplitArchiveLogGroup026DE41D",
         "monitoringstageTwoOrchestratorLogGroup62996996",
         "monitoringtoLowercaseLogGroupC05CBA29",
       ],
@@ -3614,8 +4087,8 @@ exports.handler = function(event, context) {
         "monitoringCalculateMetricsRoleA76278A7",
         "monitoringCalculateMetricsRolePolicy0C1EF64D",
         "monitoringcalculateTreehashLogGroup6FC738B3",
-        "monitoringcopyArchiveLogGroupBB702B1B",
         "monitoringcopyChunkLogGroup5D04918E",
+        "monitoringcopyToDestinationBucketLogGroup4BB91669",
         "monitoringdeployGlueJobScriptLogGroupAA50E4DE",
         "monitoringdownloadInventoryLogGroup2471C2FF",
         "monitoringdownloadInventoryPartLogGroupD9E69690",
@@ -3630,6 +4103,7 @@ exports.handler = function(event, context) {
         "monitoringrequestArchivesLogGroup70D7C9C5",
         "monitoringrequestInventoryLogGroupB7C9607D",
         "monitoringsendAnonymousStatsLogGroup0C9968BB",
+        "monitoringsplitArchiveLogGroup026DE41D",
         "monitoringstageTwoOrchestratorLogGroup62996996",
         "monitoringtoLowercaseLogGroupC05CBA29",
         "stageOnerequestInventoryServiceRoleDefaultPolicyE7A49E61",
@@ -3656,7 +4130,7 @@ exports.handler = function(event, context) {
       "Properties": Object {
         "Code": Object {
           "S3Bucket": Object {
-            "Ref": "AssetParameterse0797d11bb5fbfdd904cd30af3d5a70fa3cb202b7f5d6e84c0a860707f02bc51S3Bucket8A37A4F2",
+            "Ref": "AssetParametersd6681e3db5cfe6fa604558ebce8521e486c8b14c28127f1788ad29ef88d5b3beS3BucketD0DBBFF9",
           },
           "S3Key": Object {
             "Fn::Join": Array [
@@ -3669,7 +4143,7 @@ exports.handler = function(event, context) {
                       "Fn::Split": Array [
                         "||",
                         Object {
-                          "Ref": "AssetParameterse0797d11bb5fbfdd904cd30af3d5a70fa3cb202b7f5d6e84c0a860707f02bc51S3VersionKeyA1ABC03C",
+                          "Ref": "AssetParametersd6681e3db5cfe6fa604558ebce8521e486c8b14c28127f1788ad29ef88d5b3beS3VersionKeyCCB09C80",
                         },
                       ],
                     },
@@ -3682,7 +4156,7 @@ exports.handler = function(event, context) {
                       "Fn::Split": Array [
                         "||",
                         Object {
-                          "Ref": "AssetParameterse0797d11bb5fbfdd904cd30af3d5a70fa3cb202b7f5d6e84c0a860707f02bc51S3VersionKeyA1ABC03C",
+                          "Ref": "AssetParametersd6681e3db5cfe6fa604558ebce8521e486c8b14c28127f1788ad29ef88d5b3beS3VersionKeyCCB09C80",
                         },
                       ],
                     },
@@ -3737,7 +4211,7 @@ exports.handler = function(event, context) {
             "Arn",
           ],
         },
-        "Runtime": "nodejs12.x",
+        "Runtime": "nodejs14.x",
         "Tags": Array [
           Object {
             "Key": "solution",
@@ -3757,8 +4231,8 @@ exports.handler = function(event, context) {
         "monitoringCalculateMetricsRoleA76278A7",
         "monitoringCalculateMetricsRolePolicy0C1EF64D",
         "monitoringcalculateTreehashLogGroup6FC738B3",
-        "monitoringcopyArchiveLogGroupBB702B1B",
         "monitoringcopyChunkLogGroup5D04918E",
+        "monitoringcopyToDestinationBucketLogGroup4BB91669",
         "monitoringdeployGlueJobScriptLogGroupAA50E4DE",
         "monitoringdownloadInventoryLogGroup2471C2FF",
         "monitoringdownloadInventoryPartLogGroupD9E69690",
@@ -3773,6 +4247,7 @@ exports.handler = function(event, context) {
         "monitoringrequestArchivesLogGroup70D7C9C5",
         "monitoringrequestInventoryLogGroupB7C9607D",
         "monitoringsendAnonymousStatsLogGroup0C9968BB",
+        "monitoringsplitArchiveLogGroup026DE41D",
         "monitoringstageTwoOrchestratorLogGroup62996996",
         "monitoringtoLowercaseLogGroupC05CBA29",
       ],
@@ -3821,8 +4296,8 @@ exports.handler = function(event, context) {
         "monitoringCalculateMetricsRoleA76278A7",
         "monitoringCalculateMetricsRolePolicy0C1EF64D",
         "monitoringcalculateTreehashLogGroup6FC738B3",
-        "monitoringcopyArchiveLogGroupBB702B1B",
         "monitoringcopyChunkLogGroup5D04918E",
+        "monitoringcopyToDestinationBucketLogGroup4BB91669",
         "monitoringdeployGlueJobScriptLogGroupAA50E4DE",
         "monitoringdownloadInventoryLogGroup2471C2FF",
         "monitoringdownloadInventoryPartLogGroupD9E69690",
@@ -3837,6 +4312,7 @@ exports.handler = function(event, context) {
         "monitoringrequestArchivesLogGroup70D7C9C5",
         "monitoringrequestInventoryLogGroupB7C9607D",
         "monitoringsendAnonymousStatsLogGroup0C9968BB",
+        "monitoringsplitArchiveLogGroup026DE41D",
         "monitoringstageTwoOrchestratorLogGroup62996996",
         "monitoringtoLowercaseLogGroupC05CBA29",
       ],
@@ -4001,8 +4477,8 @@ exports.handler = function(event, context) {
         "monitoringCalculateMetricsRoleA76278A7",
         "monitoringCalculateMetricsRolePolicy0C1EF64D",
         "monitoringcalculateTreehashLogGroup6FC738B3",
-        "monitoringcopyArchiveLogGroupBB702B1B",
         "monitoringcopyChunkLogGroup5D04918E",
+        "monitoringcopyToDestinationBucketLogGroup4BB91669",
         "monitoringdeployGlueJobScriptLogGroupAA50E4DE",
         "monitoringdownloadInventoryLogGroup2471C2FF",
         "monitoringdownloadInventoryPartLogGroupD9E69690",
@@ -4017,6 +4493,7 @@ exports.handler = function(event, context) {
         "monitoringrequestArchivesLogGroup70D7C9C5",
         "monitoringrequestInventoryLogGroupB7C9607D",
         "monitoringsendAnonymousStatsLogGroup0C9968BB",
+        "monitoringsplitArchiveLogGroup026DE41D",
         "monitoringstageTwoOrchestratorLogGroup62996996",
         "monitoringtoLowercaseLogGroupC05CBA29",
       ],
@@ -4030,374 +4507,6 @@ exports.handler = function(event, context) {
       },
       "Type": "AWS::CloudFormation::CustomResource",
       "UpdateReplacePolicy": "Delete",
-    },
-    "stageThreeCopyArchive3C4457DF": Object {
-      "DependsOn": Array [
-        "stageThreeCopyArchiveRoleDefaultPolicy61EA658E",
-        "stageThreeCopyArchiveRoleF6DAB445",
-        "stageThreeCopyArchiveRolePolicyBDE7CBFE",
-      ],
-      "Metadata": Object {
-        "cfn_nag": Object {
-          "rules_to_suppress": Array [
-            Object {
-              "id": "W58",
-              "reason": "cfn nag is unable to reason about CDK generated cloudwatch log permissions",
-            },
-            Object {
-              "id": "W89",
-              "reason": "This is a fully serverless solution - no VPC is required",
-            },
-            Object {
-              "id": "W92",
-              "reason": "Reserved Concurrency is set on high priority functions only by design",
-            },
-          ],
-        },
-      },
-      "Properties": Object {
-        "Code": Object {
-          "S3Bucket": Object {
-            "Ref": "AssetParameters5d31ca40d0f2ddce292fa3a2a6e8ff9d9a02dc3867e57bf3bef5d15243c37730S3Bucket656FEFC1",
-          },
-          "S3Key": Object {
-            "Fn::Join": Array [
-              "",
-              Array [
-                Object {
-                  "Fn::Select": Array [
-                    0,
-                    Object {
-                      "Fn::Split": Array [
-                        "||",
-                        Object {
-                          "Ref": "AssetParameters5d31ca40d0f2ddce292fa3a2a6e8ff9d9a02dc3867e57bf3bef5d15243c37730S3VersionKeyAA6F7527",
-                        },
-                      ],
-                    },
-                  ],
-                },
-                Object {
-                  "Fn::Select": Array [
-                    1,
-                    Object {
-                      "Fn::Split": Array [
-                        "||",
-                        Object {
-                          "Ref": "AssetParameters5d31ca40d0f2ddce292fa3a2a6e8ff9d9a02dc3867e57bf3bef5d15243c37730S3VersionKeyAA6F7527",
-                        },
-                      ],
-                    },
-                  ],
-                },
-              ],
-            ],
-          },
-        },
-        "Environment": Object {
-          "Variables": Object {
-            "SQS_CHUNK": Object {
-              "Fn::GetAtt": Array [
-                "stageThreechunkcopyqueue6E6E5A95",
-                "QueueName",
-              ],
-            },
-            "SQS_HASH": Object {
-              "Fn::GetAtt": Array [
-                "stageThreetreehashcalcqueue77403987",
-                "QueueName",
-              ],
-            },
-            "STAGING_BUCKET": Object {
-              "Ref": "stagingBucket",
-            },
-            "STAGING_BUCKET_PREFIX": "stagingdata",
-            "STATUS_TABLE": Object {
-              "Ref": "dynamoDataCatalogStatusTableE9ACB88F",
-            },
-            "VAULT": Object {
-              "Ref": "SourceVault",
-            },
-          },
-        },
-        "FunctionName": Object {
-          "Fn::Join": Array [
-            "",
-            Array [
-              Object {
-                "Ref": "AWS::StackName",
-              },
-              "-copyArchive",
-            ],
-          ],
-        },
-        "Handler": "index.handler",
-        "MemorySize": 1024,
-        "ReservedConcurrentExecutions": 40,
-        "Role": Object {
-          "Fn::GetAtt": Array [
-            "stageThreeCopyArchiveRoleF6DAB445",
-            "Arn",
-          ],
-        },
-        "Runtime": "nodejs12.x",
-        "Tags": Array [
-          Object {
-            "Key": "solution",
-            "Value": "amazon-s3-glacier-refreezer",
-          },
-        ],
-        "Timeout": 900,
-      },
-      "Type": "AWS::Lambda::Function",
-    },
-    "stageThreeCopyArchiveRoleDefaultPolicy61EA658E": Object {
-      "Properties": Object {
-        "PolicyDocument": Object {
-          "Statement": Array [
-            Object {
-              "Action": Array [
-                "s3:GetObject*",
-                "s3:GetBucket*",
-                "s3:List*",
-                "s3:DeleteObject*",
-                "s3:PutObject*",
-                "s3:Abort*",
-              ],
-              "Effect": "Allow",
-              "Resource": Array [
-                Object {
-                  "Fn::GetAtt": Array [
-                    "stagingBucket",
-                    "Arn",
-                  ],
-                },
-                Object {
-                  "Fn::Join": Array [
-                    "",
-                    Array [
-                      Object {
-                        "Fn::GetAtt": Array [
-                          "stagingBucket",
-                          "Arn",
-                        ],
-                      },
-                      "/*",
-                    ],
-                  ],
-                },
-              ],
-            },
-            Object {
-              "Action": Array [
-                "dynamodb:BatchGetItem",
-                "dynamodb:GetRecords",
-                "dynamodb:GetShardIterator",
-                "dynamodb:Query",
-                "dynamodb:GetItem",
-                "dynamodb:Scan",
-                "dynamodb:ConditionCheckItem",
-                "dynamodb:BatchWriteItem",
-                "dynamodb:PutItem",
-                "dynamodb:UpdateItem",
-                "dynamodb:DeleteItem",
-              ],
-              "Effect": "Allow",
-              "Resource": Array [
-                Object {
-                  "Fn::GetAtt": Array [
-                    "dynamoDataCatalogStatusTableE9ACB88F",
-                    "Arn",
-                  ],
-                },
-                Object {
-                  "Fn::Join": Array [
-                    "",
-                    Array [
-                      Object {
-                        "Fn::GetAtt": Array [
-                          "dynamoDataCatalogStatusTableE9ACB88F",
-                          "Arn",
-                        ],
-                      },
-                      "/index/*",
-                    ],
-                  ],
-                },
-              ],
-            },
-            Object {
-              "Action": Array [
-                "sqs:SendMessage",
-                "sqs:GetQueueAttributes",
-                "sqs:GetQueueUrl",
-              ],
-              "Effect": "Allow",
-              "Resource": Object {
-                "Fn::GetAtt": Array [
-                  "stageThreechunkcopyqueue6E6E5A95",
-                  "Arn",
-                ],
-              },
-            },
-            Object {
-              "Action": Array [
-                "sqs:SendMessage",
-                "sqs:GetQueueAttributes",
-                "sqs:GetQueueUrl",
-              ],
-              "Effect": "Allow",
-              "Resource": Object {
-                "Fn::GetAtt": Array [
-                  "stageThreetreehashcalcqueue77403987",
-                  "Arn",
-                ],
-              },
-            },
-          ],
-          "Version": "2012-10-17",
-        },
-        "PolicyName": "stageThreeCopyArchiveRoleDefaultPolicy61EA658E",
-        "Roles": Array [
-          Object {
-            "Ref": "stageThreeCopyArchiveRoleF6DAB445",
-          },
-        ],
-      },
-      "Type": "AWS::IAM::Policy",
-    },
-    "stageThreeCopyArchiveRoleF6DAB445": Object {
-      "Properties": Object {
-        "AssumeRolePolicyDocument": Object {
-          "Statement": Array [
-            Object {
-              "Action": "sts:AssumeRole",
-              "Effect": "Allow",
-              "Principal": Object {
-                "Service": "lambda.amazonaws.com",
-              },
-            },
-          ],
-          "Version": "2012-10-17",
-        },
-        "Tags": Array [
-          Object {
-            "Key": "solution",
-            "Value": "amazon-s3-glacier-refreezer",
-          },
-        ],
-      },
-      "Type": "AWS::IAM::Role",
-    },
-    "stageThreeCopyArchiveRolePolicyBDE7CBFE": Object {
-      "Properties": Object {
-        "PolicyDocument": Object {
-          "Statement": Array [
-            Object {
-              "Action": Array [
-                "logs:CreateLogGroup",
-                "logs:CreateLogStream",
-                "logs:PutLogEvents",
-              ],
-              "Effect": "Allow",
-              "Resource": Object {
-                "Fn::Join": Array [
-                  "",
-                  Array [
-                    "arn:aws:logs:",
-                    Object {
-                      "Ref": "AWS::Region",
-                    },
-                    ":",
-                    Object {
-                      "Ref": "AWS::AccountId",
-                    },
-                    ":log-group:/aws/lambda/",
-                    Object {
-                      "Ref": "AWS::StackName",
-                    },
-                    "-copyArchive:**",
-                  ],
-                ],
-              },
-              "Sid": "allowCloudWatchLogs",
-            },
-            Object {
-              "Action": Array [
-                "glacier:GetJobOutput",
-                "glacier:InitiateJob",
-              ],
-              "Condition": Object {
-                "Bool": Object {
-                  "aws:SecureTransport": true,
-                },
-              },
-              "Effect": "Allow",
-              "Resource": Object {
-                "Fn::Join": Array [
-                  "",
-                  Array [
-                    "arn:aws:glacier:",
-                    Object {
-                      "Ref": "AWS::Region",
-                    },
-                    ":",
-                    Object {
-                      "Ref": "AWS::AccountId",
-                    },
-                    ":vaults/",
-                    Object {
-                      "Ref": "SourceVault",
-                    },
-                  ],
-                ],
-              },
-              "Sid": "allowGlacierAccess",
-            },
-            Object {
-              "Action": Array [
-                "sqs:ReceiveMessage",
-                "sqs:DeleteMessage",
-                "sqs:GetQueueAttributes",
-              ],
-              "Effect": "Allow",
-              "Resource": Object {
-                "Fn::GetAtt": Array [
-                  "stageThreearchivenotificationqueue402FED49",
-                  "Arn",
-                ],
-              },
-              "Sid": "allowSqsSubscribeAccess",
-            },
-          ],
-          "Version": "2012-10-17",
-        },
-        "PolicyName": "stageThreeCopyArchiveRolePolicyBDE7CBFE",
-        "Roles": Array [
-          Object {
-            "Ref": "stageThreeCopyArchiveRoleF6DAB445",
-          },
-        ],
-      },
-      "Type": "AWS::IAM::Policy",
-    },
-    "stageThreeCopyArchiveSqsEventSourceteststackstageThreearchivenotificationqueue7E1D389E9E4BE7E3": Object {
-      "DependsOn": Array [
-        "stageThreeCopyArchiveRolePolicyBDE7CBFE",
-      ],
-      "Properties": Object {
-        "BatchSize": 1,
-        "EventSourceArn": Object {
-          "Fn::GetAtt": Array [
-            "stageThreearchivenotificationqueue402FED49",
-            "Arn",
-          ],
-        },
-        "FunctionName": Object {
-          "Ref": "stageThreeCopyArchive3C4457DF",
-        },
-      },
-      "Type": "AWS::Lambda::EventSourceMapping",
     },
     "stageThreeCopyChunk9DFA72B0": Object {
       "DependsOn": Array [
@@ -4425,7 +4534,7 @@ exports.handler = function(event, context) {
       "Properties": Object {
         "Code": Object {
           "S3Bucket": Object {
-            "Ref": "AssetParameters099dc91c99d259b3e05381cd76eed3896d53a91dd1c754eb12187b3dd0188f29S3Bucket4177522F",
+            "Ref": "AssetParameters2548c658345f359719e231c05901cc143f3a47773d231b511df772f6bd1ed301S3BucketDE8C5EA2",
           },
           "S3Key": Object {
             "Fn::Join": Array [
@@ -4438,7 +4547,7 @@ exports.handler = function(event, context) {
                       "Fn::Split": Array [
                         "||",
                         Object {
-                          "Ref": "AssetParameters099dc91c99d259b3e05381cd76eed3896d53a91dd1c754eb12187b3dd0188f29S3VersionKey54E8C03D",
+                          "Ref": "AssetParameters2548c658345f359719e231c05901cc143f3a47773d231b511df772f6bd1ed301S3VersionKey4791E1C7",
                         },
                       ],
                     },
@@ -4451,7 +4560,7 @@ exports.handler = function(event, context) {
                       "Fn::Split": Array [
                         "||",
                         Object {
-                          "Ref": "AssetParameters099dc91c99d259b3e05381cd76eed3896d53a91dd1c754eb12187b3dd0188f29S3VersionKey54E8C03D",
+                          "Ref": "AssetParameters2548c658345f359719e231c05901cc143f3a47773d231b511df772f6bd1ed301S3VersionKey4791E1C7",
                         },
                       ],
                     },
@@ -4463,6 +4572,9 @@ exports.handler = function(event, context) {
         },
         "Environment": Object {
           "Variables": Object {
+            "METRIC_TABLE": Object {
+              "Ref": "dynamoDataCatalogMetricsTable174C007B",
+            },
             "SQS_HASH": Object {
               "Fn::GetAtt": Array [
                 "stageThreetreehashcalcqueue77403987",
@@ -4494,14 +4606,14 @@ exports.handler = function(event, context) {
         },
         "Handler": "index.handler",
         "MemorySize": 1024,
-        "ReservedConcurrentExecutions": 30,
+        "ReservedConcurrentExecutions": 35,
         "Role": Object {
           "Fn::GetAtt": Array [
             "stageThreeCopyChunkRole24158C8C",
             "Arn",
           ],
         },
-        "Runtime": "nodejs12.x",
+        "Runtime": "nodejs14.x",
         "Tags": Array [
           Object {
             "Key": "solution",
@@ -4536,107 +4648,16 @@ exports.handler = function(event, context) {
       "Type": "AWS::IAM::Role",
     },
     "stageThreeCopyChunkRoleDefaultPolicyA5C59C91": Object {
-      "Properties": Object {
-        "PolicyDocument": Object {
-          "Statement": Array [
+      "Metadata": Object {
+        "cfn_nag": Object {
+          "rules_to_suppress": Array [
             Object {
-              "Action": Array [
-                "s3:GetObject*",
-                "s3:GetBucket*",
-                "s3:List*",
-                "s3:DeleteObject*",
-                "s3:PutObject*",
-                "s3:Abort*",
-              ],
-              "Effect": "Allow",
-              "Resource": Array [
-                Object {
-                  "Fn::GetAtt": Array [
-                    "stagingBucket",
-                    "Arn",
-                  ],
-                },
-                Object {
-                  "Fn::Join": Array [
-                    "",
-                    Array [
-                      Object {
-                        "Fn::GetAtt": Array [
-                          "stagingBucket",
-                          "Arn",
-                        ],
-                      },
-                      "/*",
-                    ],
-                  ],
-                },
-              ],
-            },
-            Object {
-              "Action": Array [
-                "dynamodb:BatchGetItem",
-                "dynamodb:GetRecords",
-                "dynamodb:GetShardIterator",
-                "dynamodb:Query",
-                "dynamodb:GetItem",
-                "dynamodb:Scan",
-                "dynamodb:ConditionCheckItem",
-                "dynamodb:BatchWriteItem",
-                "dynamodb:PutItem",
-                "dynamodb:UpdateItem",
-                "dynamodb:DeleteItem",
-              ],
-              "Effect": "Allow",
-              "Resource": Array [
-                Object {
-                  "Fn::GetAtt": Array [
-                    "dynamoDataCatalogStatusTableE9ACB88F",
-                    "Arn",
-                  ],
-                },
-                Object {
-                  "Fn::Join": Array [
-                    "",
-                    Array [
-                      Object {
-                        "Fn::GetAtt": Array [
-                          "dynamoDataCatalogStatusTableE9ACB88F",
-                          "Arn",
-                        ],
-                      },
-                      "/index/*",
-                    ],
-                  ],
-                },
-              ],
-            },
-            Object {
-              "Action": Array [
-                "sqs:SendMessage",
-                "sqs:GetQueueAttributes",
-                "sqs:GetQueueUrl",
-              ],
-              "Effect": "Allow",
-              "Resource": Object {
-                "Fn::GetAtt": Array [
-                  "stageThreetreehashcalcqueue77403987",
-                  "Arn",
-                ],
-              },
+              "id": "W76",
+              "reason": "Policy is auto-generated by CDK",
             },
           ],
-          "Version": "2012-10-17",
         },
-        "PolicyName": "stageThreeCopyChunkRoleDefaultPolicyA5C59C91",
-        "Roles": Array [
-          Object {
-            "Ref": "stageThreeCopyChunkRole24158C8C",
-          },
-        ],
       },
-      "Type": "AWS::IAM::Policy",
-    },
-    "stageThreeCopyChunkRolePolicy8072E407": Object {
       "Properties": Object {
         "PolicyDocument": Object {
           "Statement": Array [
@@ -4716,10 +4737,122 @@ exports.handler = function(event, context) {
               },
               "Sid": "allowSqsSubscribeAccess",
             },
+            Object {
+              "Action": Array [
+                "s3:GetObject*",
+                "s3:GetBucket*",
+                "s3:List*",
+                "s3:DeleteObject*",
+                "s3:PutObject*",
+                "s3:Abort*",
+              ],
+              "Effect": "Allow",
+              "Resource": Array [
+                Object {
+                  "Fn::GetAtt": Array [
+                    "stagingBucket",
+                    "Arn",
+                  ],
+                },
+                Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      Object {
+                        "Fn::GetAtt": Array [
+                          "stagingBucket",
+                          "Arn",
+                        ],
+                      },
+                      "/*",
+                    ],
+                  ],
+                },
+              ],
+            },
+            Object {
+              "Action": Array [
+                "dynamodb:BatchGetItem",
+                "dynamodb:GetRecords",
+                "dynamodb:GetShardIterator",
+                "dynamodb:Query",
+                "dynamodb:GetItem",
+                "dynamodb:Scan",
+                "dynamodb:ConditionCheckItem",
+                "dynamodb:BatchWriteItem",
+                "dynamodb:PutItem",
+                "dynamodb:UpdateItem",
+                "dynamodb:DeleteItem",
+              ],
+              "Effect": "Allow",
+              "Resource": Array [
+                Object {
+                  "Fn::GetAtt": Array [
+                    "dynamoDataCatalogStatusTableE9ACB88F",
+                    "Arn",
+                  ],
+                },
+                Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      Object {
+                        "Fn::GetAtt": Array [
+                          "dynamoDataCatalogStatusTableE9ACB88F",
+                          "Arn",
+                        ],
+                      },
+                      "/index/*",
+                    ],
+                  ],
+                },
+              ],
+            },
+            Object {
+              "Action": Array [
+                "dynamodb:BatchGetItem",
+                "dynamodb:GetRecords",
+                "dynamodb:GetShardIterator",
+                "dynamodb:Query",
+                "dynamodb:GetItem",
+                "dynamodb:Scan",
+                "dynamodb:ConditionCheckItem",
+                "dynamodb:BatchWriteItem",
+                "dynamodb:PutItem",
+                "dynamodb:UpdateItem",
+                "dynamodb:DeleteItem",
+              ],
+              "Effect": "Allow",
+              "Resource": Array [
+                Object {
+                  "Fn::GetAtt": Array [
+                    "dynamoDataCatalogMetricsTable174C007B",
+                    "Arn",
+                  ],
+                },
+                Object {
+                  "Ref": "AWS::NoValue",
+                },
+              ],
+            },
+            Object {
+              "Action": Array [
+                "sqs:SendMessage",
+                "sqs:GetQueueAttributes",
+                "sqs:GetQueueUrl",
+              ],
+              "Effect": "Allow",
+              "Resource": Object {
+                "Fn::GetAtt": Array [
+                  "stageThreetreehashcalcqueue77403987",
+                  "Arn",
+                ],
+              },
+            },
           ],
           "Version": "2012-10-17",
         },
-        "PolicyName": "stageThreeCopyChunkRolePolicy8072E407",
+        "PolicyName": "stageThreeCopyChunkRoleDefaultPolicyA5C59C91",
         "Roles": Array [
           Object {
             "Ref": "stageThreeCopyChunkRole24158C8C",
@@ -4739,6 +4872,141 @@ exports.handler = function(event, context) {
         },
         "FunctionName": Object {
           "Ref": "stageThreeCopyChunk9DFA72B0",
+        },
+      },
+      "Type": "AWS::Lambda::EventSourceMapping",
+    },
+    "stageThreeSplitArchiveCEC9C9A3": Object {
+      "DependsOn": Array [
+        "stageThreesplitArchiveRoleDefaultPolicyCA0A260E",
+        "stageThreesplitArchiveRole7D1991B8",
+      ],
+      "Metadata": Object {
+        "cfn_nag": Object {
+          "rules_to_suppress": Array [
+            Object {
+              "id": "W58",
+              "reason": "cfn nag is unable to reason about CDK generated cloudwatch log permissions",
+            },
+            Object {
+              "id": "W89",
+              "reason": "This is a fully serverless solution - no VPC is required",
+            },
+            Object {
+              "id": "W92",
+              "reason": "Reserved Concurrency is set on high priority functions only by design",
+            },
+          ],
+        },
+      },
+      "Properties": Object {
+        "Code": Object {
+          "S3Bucket": Object {
+            "Ref": "AssetParametersab8be4bcc1e23f062bb12603f010f9df3f598105e37a5bf24dfd5a1118ced6bbS3Bucket724BB466",
+          },
+          "S3Key": Object {
+            "Fn::Join": Array [
+              "",
+              Array [
+                Object {
+                  "Fn::Select": Array [
+                    0,
+                    Object {
+                      "Fn::Split": Array [
+                        "||",
+                        Object {
+                          "Ref": "AssetParametersab8be4bcc1e23f062bb12603f010f9df3f598105e37a5bf24dfd5a1118ced6bbS3VersionKey8F053F21",
+                        },
+                      ],
+                    },
+                  ],
+                },
+                Object {
+                  "Fn::Select": Array [
+                    1,
+                    Object {
+                      "Fn::Split": Array [
+                        "||",
+                        Object {
+                          "Ref": "AssetParametersab8be4bcc1e23f062bb12603f010f9df3f598105e37a5bf24dfd5a1118ced6bbS3VersionKey8F053F21",
+                        },
+                      ],
+                    },
+                  ],
+                },
+              ],
+            ],
+          },
+        },
+        "Environment": Object {
+          "Variables": Object {
+            "SQS_CHUNK": Object {
+              "Fn::GetAtt": Array [
+                "stageThreechunkcopyqueue6E6E5A95",
+                "QueueName",
+              ],
+            },
+            "SQS_HASH": Object {
+              "Fn::GetAtt": Array [
+                "stageThreetreehashcalcqueue77403987",
+                "QueueName",
+              ],
+            },
+            "STAGING_BUCKET": Object {
+              "Ref": "stagingBucket",
+            },
+            "STAGING_BUCKET_PREFIX": "stagingdata",
+            "STATUS_TABLE": Object {
+              "Ref": "dynamoDataCatalogStatusTableE9ACB88F",
+            },
+          },
+        },
+        "FunctionName": Object {
+          "Fn::Join": Array [
+            "",
+            Array [
+              Object {
+                "Ref": "AWS::StackName",
+              },
+              "-splitArchive",
+            ],
+          ],
+        },
+        "Handler": "index.handler",
+        "MemorySize": 256,
+        "ReservedConcurrentExecutions": 45,
+        "Role": Object {
+          "Fn::GetAtt": Array [
+            "stageThreesplitArchiveRole7D1991B8",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs14.x",
+        "Tags": Array [
+          Object {
+            "Key": "solution",
+            "Value": "amazon-s3-glacier-refreezer",
+          },
+        ],
+        "Timeout": 900,
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "stageThreeSplitArchiveSqsEventSourceteststackstageThreearchivenotificationqueue7E1D389E608C28A9": Object {
+      "DependsOn": Array [
+        "stageThreesplitArchiveRoleDefaultPolicyCA0A260E",
+        "stageThreesplitArchiveRole7D1991B8",
+      ],
+      "Properties": Object {
+        "BatchSize": 1,
+        "EventSourceArn": Object {
+          "Fn::GetAtt": Array [
+            "stageThreearchivenotificationqueue402FED49",
+            "Arn",
+          ],
+        },
+        "FunctionName": Object {
+          "Ref": "stageThreeSplitArchiveCEC9C9A3",
         },
       },
       "Type": "AWS::Lambda::EventSourceMapping",
@@ -4790,7 +5058,9 @@ exports.handler = function(event, context) {
                 },
               },
               "Effect": "Deny",
-              "Principal": "*",
+              "Principal": Object {
+                "AWS": "*",
+              },
               "Resource": Object {
                 "Fn::GetAtt": Array [
                   "stageThreearchivenotificationqueue402FED49",
@@ -4892,7 +5162,9 @@ exports.handler = function(event, context) {
                 },
               },
               "Effect": "Deny",
-              "Principal": "*",
+              "Principal": Object {
+                "AWS": "*",
+              },
               "Resource": Object {
                 "Fn::GetAtt": Array [
                   "stageThreechunkcopyqueue6E6E5A95",
@@ -4911,6 +5183,230 @@ exports.handler = function(event, context) {
         ],
       },
       "Type": "AWS::SQS::QueuePolicy",
+    },
+    "stageThreesplitArchiveRole7D1991B8": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "Tags": Array [
+          Object {
+            "Key": "solution",
+            "Value": "amazon-s3-glacier-refreezer",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "stageThreesplitArchiveRoleDefaultPolicyCA0A260E": Object {
+      "Metadata": Object {
+        "cfn_nag": Object {
+          "rules_to_suppress": Array [
+            Object {
+              "id": "W76",
+              "reason": "Policy is auto-generated by CDK",
+            },
+          ],
+        },
+      },
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": Array [
+                "logs:CreateLogGroup",
+                "logs:CreateLogStream",
+                "logs:PutLogEvents",
+              ],
+              "Effect": "Allow",
+              "Resource": Object {
+                "Fn::Join": Array [
+                  "",
+                  Array [
+                    "arn:aws:logs:",
+                    Object {
+                      "Ref": "AWS::Region",
+                    },
+                    ":",
+                    Object {
+                      "Ref": "AWS::AccountId",
+                    },
+                    ":log-group:/aws/lambda/",
+                    Object {
+                      "Ref": "AWS::StackName",
+                    },
+                    "-splitArchive:**",
+                  ],
+                ],
+              },
+              "Sid": "allowCloudWatchLogs",
+            },
+            Object {
+              "Action": Array [
+                "glacier:GetJobOutput",
+                "glacier:InitiateJob",
+              ],
+              "Condition": Object {
+                "Bool": Object {
+                  "aws:SecureTransport": true,
+                },
+              },
+              "Effect": "Allow",
+              "Resource": Object {
+                "Fn::Join": Array [
+                  "",
+                  Array [
+                    "arn:aws:glacier:",
+                    Object {
+                      "Ref": "AWS::Region",
+                    },
+                    ":",
+                    Object {
+                      "Ref": "AWS::AccountId",
+                    },
+                    ":vaults/",
+                    Object {
+                      "Ref": "SourceVault",
+                    },
+                  ],
+                ],
+              },
+              "Sid": "allowGlacierAccess",
+            },
+            Object {
+              "Action": Array [
+                "sqs:ReceiveMessage",
+                "sqs:DeleteMessage",
+                "sqs:GetQueueAttributes",
+              ],
+              "Effect": "Allow",
+              "Resource": Object {
+                "Fn::GetAtt": Array [
+                  "stageThreearchivenotificationqueue402FED49",
+                  "Arn",
+                ],
+              },
+              "Sid": "allowSqsSubscribeAccess",
+            },
+            Object {
+              "Action": Array [
+                "s3:GetObject*",
+                "s3:GetBucket*",
+                "s3:List*",
+                "s3:DeleteObject*",
+                "s3:PutObject*",
+                "s3:Abort*",
+              ],
+              "Effect": "Allow",
+              "Resource": Array [
+                Object {
+                  "Fn::GetAtt": Array [
+                    "stagingBucket",
+                    "Arn",
+                  ],
+                },
+                Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      Object {
+                        "Fn::GetAtt": Array [
+                          "stagingBucket",
+                          "Arn",
+                        ],
+                      },
+                      "/*",
+                    ],
+                  ],
+                },
+              ],
+            },
+            Object {
+              "Action": Array [
+                "dynamodb:BatchGetItem",
+                "dynamodb:GetRecords",
+                "dynamodb:GetShardIterator",
+                "dynamodb:Query",
+                "dynamodb:GetItem",
+                "dynamodb:Scan",
+                "dynamodb:ConditionCheckItem",
+                "dynamodb:BatchWriteItem",
+                "dynamodb:PutItem",
+                "dynamodb:UpdateItem",
+                "dynamodb:DeleteItem",
+              ],
+              "Effect": "Allow",
+              "Resource": Array [
+                Object {
+                  "Fn::GetAtt": Array [
+                    "dynamoDataCatalogStatusTableE9ACB88F",
+                    "Arn",
+                  ],
+                },
+                Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      Object {
+                        "Fn::GetAtt": Array [
+                          "dynamoDataCatalogStatusTableE9ACB88F",
+                          "Arn",
+                        ],
+                      },
+                      "/index/*",
+                    ],
+                  ],
+                },
+              ],
+            },
+            Object {
+              "Action": Array [
+                "sqs:SendMessage",
+                "sqs:GetQueueAttributes",
+                "sqs:GetQueueUrl",
+              ],
+              "Effect": "Allow",
+              "Resource": Object {
+                "Fn::GetAtt": Array [
+                  "stageThreechunkcopyqueue6E6E5A95",
+                  "Arn",
+                ],
+              },
+            },
+            Object {
+              "Action": Array [
+                "sqs:SendMessage",
+                "sqs:GetQueueAttributes",
+                "sqs:GetQueueUrl",
+              ],
+              "Effect": "Allow",
+              "Resource": Object {
+                "Fn::GetAtt": Array [
+                  "stageThreetreehashcalcqueue77403987",
+                  "Arn",
+                ],
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "stageThreesplitArchiveRoleDefaultPolicyCA0A260E",
+        "Roles": Array [
+          Object {
+            "Ref": "stageThreesplitArchiveRole7D1991B8",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
     },
     "stageThreetreehashcalcqueue77403987": Object {
       "DeletionPolicy": "Delete",
@@ -4960,7 +5456,9 @@ exports.handler = function(event, context) {
                 },
               },
               "Effect": "Deny",
-              "Principal": "*",
+              "Principal": Object {
+                "AWS": "*",
+              },
               "Resource": Object {
                 "Fn::GetAtt": Array [
                   "stageThreetreehashcalcqueue77403987",
@@ -4989,8 +5487,8 @@ exports.handler = function(event, context) {
         "monitoringCalculateMetricsRoleA76278A7",
         "monitoringCalculateMetricsRolePolicy0C1EF64D",
         "monitoringcalculateTreehashLogGroup6FC738B3",
-        "monitoringcopyArchiveLogGroupBB702B1B",
         "monitoringcopyChunkLogGroup5D04918E",
+        "monitoringcopyToDestinationBucketLogGroup4BB91669",
         "monitoringdeployGlueJobScriptLogGroupAA50E4DE",
         "monitoringdownloadInventoryLogGroup2471C2FF",
         "monitoringdownloadInventoryPartLogGroupD9E69690",
@@ -5005,6 +5503,7 @@ exports.handler = function(event, context) {
         "monitoringrequestArchivesLogGroup70D7C9C5",
         "monitoringrequestInventoryLogGroupB7C9607D",
         "monitoringsendAnonymousStatsLogGroup0C9968BB",
+        "monitoringsplitArchiveLogGroup026DE41D",
         "monitoringstageTwoOrchestratorLogGroup62996996",
         "monitoringtoLowercaseLogGroupC05CBA29",
         "stageTwoDeployGlueJobScriptServiceRoleDefaultPolicyD6DC7335",
@@ -5031,7 +5530,7 @@ exports.handler = function(event, context) {
       "Properties": Object {
         "Code": Object {
           "S3Bucket": Object {
-            "Ref": "AssetParametersff02e534bae13fe8f45b19f9a8a6a74518a202c430e2db429cd6b3621d2d66d7S3Bucket9361F12D",
+            "Ref": "AssetParameters702bc070d11e671bf3246b5f7030c61cadf0ceb74d19776c595bb9bbf54757e8S3Bucket36F98D44",
           },
           "S3Key": Object {
             "Fn::Join": Array [
@@ -5044,7 +5543,7 @@ exports.handler = function(event, context) {
                       "Fn::Split": Array [
                         "||",
                         Object {
-                          "Ref": "AssetParametersff02e534bae13fe8f45b19f9a8a6a74518a202c430e2db429cd6b3621d2d66d7S3VersionKeyB682C9F0",
+                          "Ref": "AssetParameters702bc070d11e671bf3246b5f7030c61cadf0ceb74d19776c595bb9bbf54757e8S3VersionKey1480FC14",
                         },
                       ],
                     },
@@ -5057,7 +5556,7 @@ exports.handler = function(event, context) {
                       "Fn::Split": Array [
                         "||",
                         Object {
-                          "Ref": "AssetParametersff02e534bae13fe8f45b19f9a8a6a74518a202c430e2db429cd6b3621d2d66d7S3VersionKeyB682C9F0",
+                          "Ref": "AssetParameters702bc070d11e671bf3246b5f7030c61cadf0ceb74d19776c595bb9bbf54757e8S3VersionKey1480FC14",
                         },
                       ],
                     },
@@ -5093,7 +5592,7 @@ exports.handler = function(event, context) {
             "Arn",
           ],
         },
-        "Runtime": "nodejs12.x",
+        "Runtime": "nodejs14.x",
         "Tags": Array [
           Object {
             "Key": "solution",
@@ -5113,8 +5612,8 @@ exports.handler = function(event, context) {
         "monitoringCalculateMetricsRoleA76278A7",
         "monitoringCalculateMetricsRolePolicy0C1EF64D",
         "monitoringcalculateTreehashLogGroup6FC738B3",
-        "monitoringcopyArchiveLogGroupBB702B1B",
         "monitoringcopyChunkLogGroup5D04918E",
+        "monitoringcopyToDestinationBucketLogGroup4BB91669",
         "monitoringdeployGlueJobScriptLogGroupAA50E4DE",
         "monitoringdownloadInventoryLogGroup2471C2FF",
         "monitoringdownloadInventoryPartLogGroupD9E69690",
@@ -5129,6 +5628,7 @@ exports.handler = function(event, context) {
         "monitoringrequestArchivesLogGroup70D7C9C5",
         "monitoringrequestInventoryLogGroupB7C9607D",
         "monitoringsendAnonymousStatsLogGroup0C9968BB",
+        "monitoringsplitArchiveLogGroup026DE41D",
         "monitoringstageTwoOrchestratorLogGroup62996996",
         "monitoringtoLowercaseLogGroupC05CBA29",
       ],
@@ -5186,8 +5686,8 @@ exports.handler = function(event, context) {
         "monitoringCalculateMetricsRoleA76278A7",
         "monitoringCalculateMetricsRolePolicy0C1EF64D",
         "monitoringcalculateTreehashLogGroup6FC738B3",
-        "monitoringcopyArchiveLogGroupBB702B1B",
         "monitoringcopyChunkLogGroup5D04918E",
+        "monitoringcopyToDestinationBucketLogGroup4BB91669",
         "monitoringdeployGlueJobScriptLogGroupAA50E4DE",
         "monitoringdownloadInventoryLogGroup2471C2FF",
         "monitoringdownloadInventoryPartLogGroupD9E69690",
@@ -5202,6 +5702,7 @@ exports.handler = function(event, context) {
         "monitoringrequestArchivesLogGroup70D7C9C5",
         "monitoringrequestInventoryLogGroupB7C9607D",
         "monitoringsendAnonymousStatsLogGroup0C9968BB",
+        "monitoringsplitArchiveLogGroup026DE41D",
         "monitoringstageTwoOrchestratorLogGroup62996996",
         "monitoringtoLowercaseLogGroupC05CBA29",
       ],
@@ -5250,8 +5751,8 @@ exports.handler = function(event, context) {
         "monitoringCalculateMetricsRoleA76278A7",
         "monitoringCalculateMetricsRolePolicy0C1EF64D",
         "monitoringcalculateTreehashLogGroup6FC738B3",
-        "monitoringcopyArchiveLogGroupBB702B1B",
         "monitoringcopyChunkLogGroup5D04918E",
+        "monitoringcopyToDestinationBucketLogGroup4BB91669",
         "monitoringdeployGlueJobScriptLogGroupAA50E4DE",
         "monitoringdownloadInventoryLogGroup2471C2FF",
         "monitoringdownloadInventoryPartLogGroupD9E69690",
@@ -5266,6 +5767,7 @@ exports.handler = function(event, context) {
         "monitoringrequestArchivesLogGroup70D7C9C5",
         "monitoringrequestInventoryLogGroupB7C9607D",
         "monitoringsendAnonymousStatsLogGroup0C9968BB",
+        "monitoringsplitArchiveLogGroup026DE41D",
         "monitoringstageTwoOrchestratorLogGroup62996996",
         "monitoringtoLowercaseLogGroupC05CBA29",
       ],
@@ -5321,8 +5823,8 @@ exports.handler = function(event, context) {
         "monitoringCalculateMetricsRoleA76278A7",
         "monitoringCalculateMetricsRolePolicy0C1EF64D",
         "monitoringcalculateTreehashLogGroup6FC738B3",
-        "monitoringcopyArchiveLogGroupBB702B1B",
         "monitoringcopyChunkLogGroup5D04918E",
+        "monitoringcopyToDestinationBucketLogGroup4BB91669",
         "monitoringdeployGlueJobScriptLogGroupAA50E4DE",
         "monitoringdownloadInventoryLogGroup2471C2FF",
         "monitoringdownloadInventoryPartLogGroupD9E69690",
@@ -5337,6 +5839,7 @@ exports.handler = function(event, context) {
         "monitoringrequestArchivesLogGroup70D7C9C5",
         "monitoringrequestInventoryLogGroupB7C9607D",
         "monitoringsendAnonymousStatsLogGroup0C9968BB",
+        "monitoringsplitArchiveLogGroup026DE41D",
         "monitoringstageTwoOrchestratorLogGroup62996996",
         "monitoringtoLowercaseLogGroupC05CBA29",
       ],
@@ -5585,8 +6088,8 @@ exports.handler = function(event, context) {
         "monitoringCalculateMetricsRoleA76278A7",
         "monitoringCalculateMetricsRolePolicy0C1EF64D",
         "monitoringcalculateTreehashLogGroup6FC738B3",
-        "monitoringcopyArchiveLogGroupBB702B1B",
         "monitoringcopyChunkLogGroup5D04918E",
+        "monitoringcopyToDestinationBucketLogGroup4BB91669",
         "monitoringdeployGlueJobScriptLogGroupAA50E4DE",
         "monitoringdownloadInventoryLogGroup2471C2FF",
         "monitoringdownloadInventoryPartLogGroupD9E69690",
@@ -5601,6 +6104,7 @@ exports.handler = function(event, context) {
         "monitoringrequestArchivesLogGroup70D7C9C5",
         "monitoringrequestInventoryLogGroupB7C9607D",
         "monitoringsendAnonymousStatsLogGroup0C9968BB",
+        "monitoringsplitArchiveLogGroup026DE41D",
         "monitoringstageTwoOrchestratorLogGroup62996996",
         "monitoringtoLowercaseLogGroupC05CBA29",
       ],
@@ -5680,8 +6184,8 @@ exports.handler = function(event, context) {
         "monitoringCalculateMetricsRoleA76278A7",
         "monitoringCalculateMetricsRolePolicy0C1EF64D",
         "monitoringcalculateTreehashLogGroup6FC738B3",
-        "monitoringcopyArchiveLogGroupBB702B1B",
         "monitoringcopyChunkLogGroup5D04918E",
+        "monitoringcopyToDestinationBucketLogGroup4BB91669",
         "monitoringdeployGlueJobScriptLogGroupAA50E4DE",
         "monitoringdownloadInventoryLogGroup2471C2FF",
         "monitoringdownloadInventoryPartLogGroupD9E69690",
@@ -5696,10 +6200,11 @@ exports.handler = function(event, context) {
         "monitoringrequestArchivesLogGroup70D7C9C5",
         "monitoringrequestInventoryLogGroupB7C9607D",
         "monitoringsendAnonymousStatsLogGroup0C9968BB",
+        "monitoringsplitArchiveLogGroup026DE41D",
         "monitoringstageTwoOrchestratorLogGroup62996996",
         "monitoringtoLowercaseLogGroupC05CBA29",
+        "stageTwoStepfunctionsOrchestratorRoleDefaultPolicy6576A802",
         "stageTwoStepfunctionsOrchestratorRole1165D332",
-        "stageTwoStepfunctionsOrchestratorRolePolicyAAB3B86F",
       ],
       "Properties": Object {
         "DefinitionString": Object {
@@ -5766,7 +6271,7 @@ exports.handler = function(event, context) {
               Object {
                 "Ref": "AWS::Partition",
               },
-              ":states:::dynamodb:putItem\\",\\"Parameters\\":{\\"Item\\":{\\"pk\\":{\\"S\\":\\"size\\"},\\"total\\":{\\"N.$\\":\\"$.inventoryTable.vaultSize\\"}},\\"TableName\\":\\"",
+              ":states:::dynamodb:putItem\\",\\"Parameters\\":{\\"Item\\":{\\"pk\\":{\\"S\\":\\"volume\\"},\\"total\\":{\\"N.$\\":\\"$.inventoryTable.vaultSize\\"}},\\"TableName\\":\\"",
               Object {
                 "Ref": "dynamoDataCatalogMetricsTable174C007B",
               },
@@ -5885,8 +6390,8 @@ exports.handler = function(event, context) {
         "monitoringCalculateMetricsRoleA76278A7",
         "monitoringCalculateMetricsRolePolicy0C1EF64D",
         "monitoringcalculateTreehashLogGroup6FC738B3",
-        "monitoringcopyArchiveLogGroupBB702B1B",
         "monitoringcopyChunkLogGroup5D04918E",
+        "monitoringcopyToDestinationBucketLogGroup4BB91669",
         "monitoringdeployGlueJobScriptLogGroupAA50E4DE",
         "monitoringdownloadInventoryLogGroup2471C2FF",
         "monitoringdownloadInventoryPartLogGroupD9E69690",
@@ -5901,6 +6406,7 @@ exports.handler = function(event, context) {
         "monitoringrequestArchivesLogGroup70D7C9C5",
         "monitoringrequestInventoryLogGroupB7C9607D",
         "monitoringsendAnonymousStatsLogGroup0C9968BB",
+        "monitoringsplitArchiveLogGroup026DE41D",
         "monitoringstageTwoOrchestratorLogGroup62996996",
         "monitoringtoLowercaseLogGroupC05CBA29",
       ],
@@ -5935,8 +6441,8 @@ exports.handler = function(event, context) {
         "monitoringCalculateMetricsRoleA76278A7",
         "monitoringCalculateMetricsRolePolicy0C1EF64D",
         "monitoringcalculateTreehashLogGroup6FC738B3",
-        "monitoringcopyArchiveLogGroupBB702B1B",
         "monitoringcopyChunkLogGroup5D04918E",
+        "monitoringcopyToDestinationBucketLogGroup4BB91669",
         "monitoringdeployGlueJobScriptLogGroupAA50E4DE",
         "monitoringdownloadInventoryLogGroup2471C2FF",
         "monitoringdownloadInventoryPartLogGroupD9E69690",
@@ -5951,9 +6457,20 @@ exports.handler = function(event, context) {
         "monitoringrequestArchivesLogGroup70D7C9C5",
         "monitoringrequestInventoryLogGroupB7C9607D",
         "monitoringsendAnonymousStatsLogGroup0C9968BB",
+        "monitoringsplitArchiveLogGroup026DE41D",
         "monitoringstageTwoOrchestratorLogGroup62996996",
         "monitoringtoLowercaseLogGroupC05CBA29",
       ],
+      "Metadata": Object {
+        "cfn_nag": Object {
+          "rules_to_suppress": Array [
+            Object {
+              "id": "W76",
+              "reason": "Policy is auto-generated by CDK",
+            },
+          ],
+        },
+      },
       "Properties": Object {
         "PolicyDocument": Object {
           "Statement": Array [
@@ -6028,49 +6545,33 @@ exports.handler = function(event, context) {
                 },
               ],
             },
-          ],
-          "Version": "2012-10-17",
-        },
-        "PolicyName": "stageTwoRequestArchiveRoleDefaultPolicy2CD86D07",
-        "Roles": Array [
-          Object {
-            "Ref": "stageTwoRequestArchiveRole00DF0F46",
-          },
-        ],
-      },
-      "Type": "AWS::IAM::Policy",
-    },
-    "stageTwoRequestArchiveRolePolicy57718876": Object {
-      "DependsOn": Array [
-        "monitoringCalculateMetricsDynamoDBEventSourceteststackdynamoDataCatalogStatusTable4AFD52BCA4A6AAB1",
-        "monitoringCalculateMetrics1B70CF5B",
-        "monitoringcalculateMetricsLogGroup9961A214",
-        "monitoringCalculateMetricsRoleDefaultPolicy22C0E657",
-        "monitoringCalculateMetricsRoleA76278A7",
-        "monitoringCalculateMetricsRolePolicy0C1EF64D",
-        "monitoringcalculateTreehashLogGroup6FC738B3",
-        "monitoringcopyArchiveLogGroupBB702B1B",
-        "monitoringcopyChunkLogGroup5D04918E",
-        "monitoringdeployGlueJobScriptLogGroupAA50E4DE",
-        "monitoringdownloadInventoryLogGroup2471C2FF",
-        "monitoringdownloadInventoryPartLogGroupD9E69690",
-        "monitoringgenerateUuidLogGroup18A074CF",
-        "monitoringglacierrefreezerdashboardE7F6D8AE",
-        "monitoringPostMetrics98F9F947",
-        "monitoringPostMetricScheduleAllowEventRuleteststackmonitoringPostMetrics8C0DEF1A842DEFFF",
-        "monitoringPostMetricSchedule8675C968",
-        "monitoringpostMetricsLogGroup670566A8",
-        "monitoringPostMetricsRole87B61E7B",
-        "monitoringPostMetricsRolePolicy596F9F4D",
-        "monitoringrequestArchivesLogGroup70D7C9C5",
-        "monitoringrequestInventoryLogGroupB7C9607D",
-        "monitoringsendAnonymousStatsLogGroup0C9968BB",
-        "monitoringstageTwoOrchestratorLogGroup62996996",
-        "monitoringtoLowercaseLogGroupC05CBA29",
-      ],
-      "Properties": Object {
-        "PolicyDocument": Object {
-          "Statement": Array [
+            Object {
+              "Action": Array [
+                "dynamodb:BatchGetItem",
+                "dynamodb:GetRecords",
+                "dynamodb:GetShardIterator",
+                "dynamodb:Query",
+                "dynamodb:GetItem",
+                "dynamodb:Scan",
+                "dynamodb:ConditionCheckItem",
+                "dynamodb:BatchWriteItem",
+                "dynamodb:PutItem",
+                "dynamodb:UpdateItem",
+                "dynamodb:DeleteItem",
+              ],
+              "Effect": "Allow",
+              "Resource": Array [
+                Object {
+                  "Fn::GetAtt": Array [
+                    "dynamoDataCatalogMetricsTable174C007B",
+                    "Arn",
+                  ],
+                },
+                Object {
+                  "Ref": "AWS::NoValue",
+                },
+              ],
+            },
             Object {
               "Action": Array [
                 "athena:StartQueryExecution",
@@ -6244,7 +6745,7 @@ exports.handler = function(event, context) {
           ],
           "Version": "2012-10-17",
         },
-        "PolicyName": "stageTwoRequestArchiveRolePolicy57718876",
+        "PolicyName": "stageTwoRequestArchiveRoleDefaultPolicy2CD86D07",
         "Roles": Array [
           Object {
             "Ref": "stageTwoRequestArchiveRole00DF0F46",
@@ -6262,8 +6763,8 @@ exports.handler = function(event, context) {
         "monitoringCalculateMetricsRoleA76278A7",
         "monitoringCalculateMetricsRolePolicy0C1EF64D",
         "monitoringcalculateTreehashLogGroup6FC738B3",
-        "monitoringcopyArchiveLogGroupBB702B1B",
         "monitoringcopyChunkLogGroup5D04918E",
+        "monitoringcopyToDestinationBucketLogGroup4BB91669",
         "monitoringdeployGlueJobScriptLogGroupAA50E4DE",
         "monitoringdownloadInventoryLogGroup2471C2FF",
         "monitoringdownloadInventoryPartLogGroupD9E69690",
@@ -6278,6 +6779,7 @@ exports.handler = function(event, context) {
         "monitoringrequestArchivesLogGroup70D7C9C5",
         "monitoringrequestInventoryLogGroupB7C9607D",
         "monitoringsendAnonymousStatsLogGroup0C9968BB",
+        "monitoringsplitArchiveLogGroup026DE41D",
         "monitoringstageTwoOrchestratorLogGroup62996996",
         "monitoringtoLowercaseLogGroupC05CBA29",
         "stageTwoRequestArchiveRoleDefaultPolicy2CD86D07",
@@ -6304,7 +6806,7 @@ exports.handler = function(event, context) {
       "Properties": Object {
         "Code": Object {
           "S3Bucket": Object {
-            "Ref": "AssetParameters91398630c7a768388cce5f19a57b45cc5c4835f82d9a1c91a33d5eae8a047a08S3BucketD3433F77",
+            "Ref": "AssetParameterse8e1107e24549b7c779c15127034492e3214246babb8b5b7cb2550b6563ba7caS3Bucket515F695F",
           },
           "S3Key": Object {
             "Fn::Join": Array [
@@ -6317,7 +6819,7 @@ exports.handler = function(event, context) {
                       "Fn::Split": Array [
                         "||",
                         Object {
-                          "Ref": "AssetParameters91398630c7a768388cce5f19a57b45cc5c4835f82d9a1c91a33d5eae8a047a08S3VersionKey03A71DD9",
+                          "Ref": "AssetParameterse8e1107e24549b7c779c15127034492e3214246babb8b5b7cb2550b6563ba7caS3VersionKeyC661E74C",
                         },
                       ],
                     },
@@ -6330,7 +6832,7 @@ exports.handler = function(event, context) {
                       "Fn::Split": Array [
                         "||",
                         Object {
-                          "Ref": "AssetParameters91398630c7a768388cce5f19a57b45cc5c4835f82d9a1c91a33d5eae8a047a08S3VersionKey03A71DD9",
+                          "Ref": "AssetParameterse8e1107e24549b7c779c15127034492e3214246babb8b5b7cb2550b6563ba7caS3VersionKeyC661E74C",
                         },
                       ],
                     },
@@ -6358,6 +6860,9 @@ exports.handler = function(event, context) {
               "Ref": "glueDataCatalogInventoryDatabase96DE1AD3",
             },
             "DQL": "65970697666560",
+            "METRICS_TABLE": Object {
+              "Ref": "dynamoDataCatalogMetricsTable174C007B",
+            },
             "PARTITIONED_INVENTORY_TABLE": Object {
               "Ref": "glueDataCatalogPartitionedinventoryTable94032B41",
             },
@@ -6397,7 +6902,7 @@ exports.handler = function(event, context) {
             "Arn",
           ],
         },
-        "Runtime": "nodejs12.x",
+        "Runtime": "nodejs14.x",
         "Tags": Array [
           Object {
             "Key": "solution",
@@ -6417,8 +6922,8 @@ exports.handler = function(event, context) {
         "monitoringCalculateMetricsRoleA76278A7",
         "monitoringCalculateMetricsRolePolicy0C1EF64D",
         "monitoringcalculateTreehashLogGroup6FC738B3",
-        "monitoringcopyArchiveLogGroupBB702B1B",
         "monitoringcopyChunkLogGroup5D04918E",
+        "monitoringcopyToDestinationBucketLogGroup4BB91669",
         "monitoringdeployGlueJobScriptLogGroupAA50E4DE",
         "monitoringdownloadInventoryLogGroup2471C2FF",
         "monitoringdownloadInventoryPartLogGroupD9E69690",
@@ -6433,6 +6938,7 @@ exports.handler = function(event, context) {
         "monitoringrequestArchivesLogGroup70D7C9C5",
         "monitoringrequestInventoryLogGroupB7C9607D",
         "monitoringsendAnonymousStatsLogGroup0C9968BB",
+        "monitoringsplitArchiveLogGroup026DE41D",
         "monitoringstageTwoOrchestratorLogGroup62996996",
         "monitoringtoLowercaseLogGroupC05CBA29",
       ],
@@ -6469,7 +6975,7 @@ exports.handler = function(event, context) {
       },
       "Type": "AWS::IAM::Role",
     },
-    "stageTwoStepfunctionsOrchestratorRolePolicyAAB3B86F": Object {
+    "stageTwoStepfunctionsOrchestratorRoleDefaultPolicy6576A802": Object {
       "DependsOn": Array [
         "monitoringCalculateMetricsDynamoDBEventSourceteststackdynamoDataCatalogStatusTable4AFD52BCA4A6AAB1",
         "monitoringCalculateMetrics1B70CF5B",
@@ -6478,8 +6984,8 @@ exports.handler = function(event, context) {
         "monitoringCalculateMetricsRoleA76278A7",
         "monitoringCalculateMetricsRolePolicy0C1EF64D",
         "monitoringcalculateTreehashLogGroup6FC738B3",
-        "monitoringcopyArchiveLogGroupBB702B1B",
         "monitoringcopyChunkLogGroup5D04918E",
+        "monitoringcopyToDestinationBucketLogGroup4BB91669",
         "monitoringdeployGlueJobScriptLogGroupAA50E4DE",
         "monitoringdownloadInventoryLogGroup2471C2FF",
         "monitoringdownloadInventoryPartLogGroupD9E69690",
@@ -6494,6 +7000,7 @@ exports.handler = function(event, context) {
         "monitoringrequestArchivesLogGroup70D7C9C5",
         "monitoringrequestInventoryLogGroupB7C9607D",
         "monitoringsendAnonymousStatsLogGroup0C9968BB",
+        "monitoringsplitArchiveLogGroup026DE41D",
         "monitoringstageTwoOrchestratorLogGroup62996996",
         "monitoringtoLowercaseLogGroupC05CBA29",
       ],
@@ -6516,16 +7023,12 @@ exports.handler = function(event, context) {
           "Statement": Array [
             Object {
               "Action": Array [
-                "s3:ListBucket",
-                "s3:ListBucketVersions",
-                "s3:GetBucketLocation",
-                "s3:GetObject",
-                "s3:GetObjectAcl",
-                "s3:PutObject",
-                "s3:DeleteObject",
-                "s3:ListBucketMultipartUploads",
-                "s3:ListMultipartUploadParts",
-                "s3:AbortMultipartUpload",
+                "s3:GetObject*",
+                "s3:GetBucket*",
+                "s3:List*",
+                "s3:DeleteObject*",
+                "s3:PutObject*",
+                "s3:Abort*",
               ],
               "Effect": "Allow",
               "Resource": Array [
@@ -6550,7 +7053,77 @@ exports.handler = function(event, context) {
                   ],
                 },
               ],
-              "Sid": "allowS3ReadWrite",
+            },
+            Object {
+              "Action": "lambda:InvokeFunction",
+              "Effect": "Allow",
+              "Resource": Object {
+                "Fn::GetAtt": Array [
+                  "stageTwoRequestArchives06ED0831",
+                  "Arn",
+                ],
+              },
+            },
+            Object {
+              "Action": "lambda:InvokeFunction",
+              "Effect": "Allow",
+              "Resource": Object {
+                "Fn::GetAtt": Array [
+                  "statisticsSendAnonymousStatsD2E34707",
+                  "Arn",
+                ],
+              },
+            },
+            Object {
+              "Action": Array [
+                "dynamodb:BatchWriteItem",
+                "dynamodb:PutItem",
+                "dynamodb:UpdateItem",
+                "dynamodb:DeleteItem",
+              ],
+              "Effect": "Allow",
+              "Resource": Array [
+                Object {
+                  "Fn::GetAtt": Array [
+                    "dynamoDataCatalogMetricsTable174C007B",
+                    "Arn",
+                  ],
+                },
+                Object {
+                  "Ref": "AWS::NoValue",
+                },
+              ],
+            },
+            Object {
+              "Action": Array [
+                "logs:CreateLogStream",
+                "logs:PutLogEvents",
+              ],
+              "Effect": "Allow",
+              "Resource": Object {
+                "Fn::Join": Array [
+                  "",
+                  Array [
+                    "arn:",
+                    Object {
+                      "Ref": "AWS::Partition",
+                    },
+                    ":logs:",
+                    Object {
+                      "Ref": "AWS::Region",
+                    },
+                    ":",
+                    Object {
+                      "Ref": "AWS::AccountId",
+                    },
+                    ":log-group:/aws/vendedlogs/states/",
+                    Object {
+                      "Ref": "AWS::StackName",
+                    },
+                    "-stageTwoOrchestrator:*",
+                  ],
+                ],
+              },
             },
             Object {
               "Action": Array [
@@ -6718,69 +7291,6 @@ exports.handler = function(event, context) {
               "Sid": "allowGlueJobRun",
             },
             Object {
-              "Action": "lambda:InvokeFunction",
-              "Effect": "Allow",
-              "Resource": Array [
-                Object {
-                  "Fn::GetAtt": Array [
-                    "stageTwoRequestArchives06ED0831",
-                    "Arn",
-                  ],
-                },
-                Object {
-                  "Fn::GetAtt": Array [
-                    "statisticsSendAnonymousStatsD2E34707",
-                    "Arn",
-                  ],
-                },
-              ],
-              "Sid": "allowLambdaInvocations",
-            },
-            Object {
-              "Action": "dynamodb:PutItem",
-              "Effect": "Allow",
-              "Resource": Object {
-                "Fn::GetAtt": Array [
-                  "dynamoDataCatalogMetricsTable174C007B",
-                  "Arn",
-                ],
-              },
-              "Sid": "allowPutTotalArchiveMetric",
-            },
-            Object {
-              "Action": Array [
-                "logs:CreateLogGroup",
-                "logs:CreateLogStream",
-                "logs:PutLogEvents",
-              ],
-              "Effect": "Allow",
-              "Resource": Object {
-                "Fn::Join": Array [
-                  "",
-                  Array [
-                    "arn:",
-                    Object {
-                      "Ref": "AWS::Partition",
-                    },
-                    ":logs:",
-                    Object {
-                      "Ref": "AWS::Region",
-                    },
-                    ":",
-                    Object {
-                      "Ref": "AWS::AccountId",
-                    },
-                    ":log-group:/aws/vendedlogs/states/",
-                    Object {
-                      "Ref": "AWS::StackName",
-                    },
-                    "-stageTwoOrchestrator:*",
-                  ],
-                ],
-              },
-              "Sid": "allowLogOutput",
-            },
-            Object {
               "Action": Array [
                 "logs:CreateLogDelivery",
                 "logs:GetLogDelivery",
@@ -6798,7 +7308,7 @@ exports.handler = function(event, context) {
           ],
           "Version": "2012-10-17",
         },
-        "PolicyName": "stageTwoStepfunctionsOrchestratorRolePolicyAAB3B86F",
+        "PolicyName": "stageTwoStepfunctionsOrchestratorRoleDefaultPolicy6576A802",
         "Roles": Array [
           Object {
             "Ref": "stageTwoStepfunctionsOrchestratorRole1165D332",
@@ -6817,8 +7327,8 @@ exports.handler = function(event, context) {
         "monitoringCalculateMetricsRoleA76278A7",
         "monitoringCalculateMetricsRolePolicy0C1EF64D",
         "monitoringcalculateTreehashLogGroup6FC738B3",
-        "monitoringcopyArchiveLogGroupBB702B1B",
         "monitoringcopyChunkLogGroup5D04918E",
+        "monitoringcopyToDestinationBucketLogGroup4BB91669",
         "monitoringdeployGlueJobScriptLogGroupAA50E4DE",
         "monitoringdownloadInventoryLogGroup2471C2FF",
         "monitoringdownloadInventoryPartLogGroupD9E69690",
@@ -6833,6 +7343,7 @@ exports.handler = function(event, context) {
         "monitoringrequestArchivesLogGroup70D7C9C5",
         "monitoringrequestInventoryLogGroupB7C9607D",
         "monitoringsendAnonymousStatsLogGroup0C9968BB",
+        "monitoringsplitArchiveLogGroup026DE41D",
         "monitoringstageTwoOrchestratorLogGroup62996996",
         "monitoringtoLowercaseLogGroupC05CBA29",
       ],
@@ -6904,7 +7415,9 @@ exports.handler = function(event, context) {
                 },
               },
               "Effect": "Deny",
-              "Principal": "*",
+              "Principal": Object {
+                "AWS": "*",
+              },
               "Resource": Array [
                 Object {
                   "Fn::GetAtt": Array [
@@ -6959,7 +7472,7 @@ exports.handler = function(event, context) {
       "Properties": Object {
         "Code": Object {
           "S3Bucket": Object {
-            "Ref": "AssetParameters0e74531edac8fec6614e7f292a57395c7fbcba9e1ccc6323556f26e3c956f780S3BucketBB32F174",
+            "Ref": "AssetParameters807047aacaca9fad23e302c737989cfd60fbceb8ef364399820d5b4f095518c3S3Bucket2DEBD257",
           },
           "S3Key": Object {
             "Fn::Join": Array [
@@ -6972,7 +7485,7 @@ exports.handler = function(event, context) {
                       "Fn::Split": Array [
                         "||",
                         Object {
-                          "Ref": "AssetParameters0e74531edac8fec6614e7f292a57395c7fbcba9e1ccc6323556f26e3c956f780S3VersionKey032F2BCC",
+                          "Ref": "AssetParameters807047aacaca9fad23e302c737989cfd60fbceb8ef364399820d5b4f095518c3S3VersionKeyC35732C7",
                         },
                       ],
                     },
@@ -6985,7 +7498,7 @@ exports.handler = function(event, context) {
                       "Fn::Split": Array [
                         "||",
                         Object {
-                          "Ref": "AssetParameters0e74531edac8fec6614e7f292a57395c7fbcba9e1ccc6323556f26e3c956f780S3VersionKey032F2BCC",
+                          "Ref": "AssetParameters807047aacaca9fad23e302c737989cfd60fbceb8ef364399820d5b4f095518c3S3VersionKeyC35732C7",
                         },
                       ],
                     },
@@ -7015,7 +7528,7 @@ exports.handler = function(event, context) {
             "Arn",
           ],
         },
-        "Runtime": "nodejs12.x",
+        "Runtime": "nodejs14.x",
         "Tags": Array [
           Object {
             "Key": "solution",
@@ -7101,7 +7614,7 @@ exports.handler = function(event, context) {
       "Properties": Object {
         "Code": Object {
           "S3Bucket": Object {
-            "Ref": "AssetParameterse412d79a7d530b1ac60ce00fc3bd1950d6a83725aff2e5525f88dbd4a1de4f64S3BucketB9FA27E3",
+            "Ref": "AssetParameters445b3383e47bb11bda1718faf46c1ab1a26fab743a540c7fe9884862c42d892aS3Bucket0315E1A0",
           },
           "S3Key": Object {
             "Fn::Join": Array [
@@ -7114,7 +7627,7 @@ exports.handler = function(event, context) {
                       "Fn::Split": Array [
                         "||",
                         Object {
-                          "Ref": "AssetParameterse412d79a7d530b1ac60ce00fc3bd1950d6a83725aff2e5525f88dbd4a1de4f64S3VersionKey83309CC1",
+                          "Ref": "AssetParameters445b3383e47bb11bda1718faf46c1ab1a26fab743a540c7fe9884862c42d892aS3VersionKey6D65E78E",
                         },
                       ],
                     },
@@ -7127,7 +7640,7 @@ exports.handler = function(event, context) {
                       "Fn::Split": Array [
                         "||",
                         Object {
-                          "Ref": "AssetParameterse412d79a7d530b1ac60ce00fc3bd1950d6a83725aff2e5525f88dbd4a1de4f64S3VersionKey83309CC1",
+                          "Ref": "AssetParameters445b3383e47bb11bda1718faf46c1ab1a26fab743a540c7fe9884862c42d892aS3VersionKey6D65E78E",
                         },
                       ],
                     },
@@ -7185,7 +7698,7 @@ exports.handler = function(event, context) {
             "Arn",
           ],
         },
-        "Runtime": "nodejs12.x",
+        "Runtime": "nodejs14.x",
         "Tags": Array [
           Object {
             "Key": "solution",

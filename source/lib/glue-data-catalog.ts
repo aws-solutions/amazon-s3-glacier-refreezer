@@ -41,9 +41,9 @@ export class GlueDataCatalog extends cdk.Construct {
 
         const toLowercase = new lambda.Function(this, 'toLowercase', {
             functionName: `${cdk.Aws.STACK_NAME}-toLowercase`,
-            runtime: lambda.Runtime.NODEJS_12_X,
+            runtime: lambda.Runtime.NODEJS_14_X,
             handler: 'index.handler',
-            code: lambda.Code.fromInline(readFileSync('lambda/toLowercase/index.js', 'utf-8'))
+            code: lambda.Code.fromAsset('lambda/toLowercase')
         });
         CfnNagSuppressor.addLambdaSuppression(toLowercase);
 

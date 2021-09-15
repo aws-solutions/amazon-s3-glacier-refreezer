@@ -90,7 +90,7 @@ describe('-- Download Inventory Test --', () => {
 
         startExecutionResult = {
             data: {
-                executionArn: "rn:aws:sns:xxxx:xxxxx:stepfunction:21be56ed-a058-49f5-8c98-aedd2564c486",
+                executionArn: "arn:aws:sns:ap-southeast-2:111122223333:stepfunction:21be56ed-a058-49f5-8c98-aedd2564c486",
                 startDate: Date.now().toString()
             },
             err: null

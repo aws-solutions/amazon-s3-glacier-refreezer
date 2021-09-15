@@ -1,6 +1,6 @@
 {
   "name": "amazon-s3-glacier-refreezer",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "Amazon S3 Glacier Re:Freezer",
   "license": "Apache-2.0",
   "repository": {},
@@ -14,29 +14,28 @@
     "cdk": "cdk"
   },
   "devDependencies": {
-    "@aws-cdk/assert": "1.107.0",
-    "@types/jest": "^26.0.10",
+    "@aws-cdk/assert": "^1.119.0",
+    "@types/jest": "^27.0.1",
     "@types/node": "10.17.27",
-    "aws-cdk": "1.107.0",
+    "aws-cdk": "^1.119.0",
     "esbuild": "^0.8.15",
-    "jest": "^26.4.2",
-    "ts-jest": "^26.2.0",
+    "jest": "^27.0.6",
+    "ts-jest": "^27.0.1",
     "ts-node": "^8.1.0",
     "typescript": "~3.9.7"
   },
   "dependencies": {
-    "@aws-cdk/aws-athena": "1.107.0",
-    "@aws-cdk/aws-cloudwatch": "1.107.0",
-    "@aws-cdk/aws-dynamodb": "1.107.0",
-    "@aws-cdk/aws-events": "1.107.0",
-    "@aws-cdk/aws-events-targets": "1.107.0",
-    "@aws-cdk/aws-glue": "1.107.0",
-    "@aws-cdk/aws-lambda-event-sources": "1.107.0",
-    "@aws-cdk/aws-lambda-nodejs": "^1.107.0",
-    "@aws-cdk/aws-s3": "1.107.0",
-    "@aws-cdk/aws-stepfunctions": "1.107.0",
-    "@aws-cdk/aws-stepfunctions-tasks": "1.107.0",
-    "@aws-cdk/core": "1.107.0",
-    "source-map-support": "^0.5.16"
+    "@aws-cdk/aws-athena": "^1.119.0",
+    "@aws-cdk/aws-cloudwatch": "^1.119.0",
+    "@aws-cdk/aws-dynamodb": "^1.119.0",
+    "@aws-cdk/aws-events": "^1.119.0",
+    "@aws-cdk/aws-events-targets": "^1.119.0",
+    "@aws-cdk/aws-glue": "^1.119.0",
+    "@aws-cdk/aws-lambda-event-sources": "^1.119.0",
+    "@aws-cdk/aws-lambda-nodejs": "^1.119.0",
+    "@aws-cdk/aws-s3": "^1.119.0",
+    "@aws-cdk/aws-stepfunctions": "^1.119.0",
+    "@aws-cdk/aws-stepfunctions-tasks": "^1.119.0",
+    "@aws-cdk/core": "^1.119.0"
   }
 }

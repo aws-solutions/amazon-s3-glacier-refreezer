@@ -23,12 +23,10 @@ const sqs = new AWS.SQS();
 
 const db = require("./lib/db.js");
 const treehash = require("./lib/treehash.js");
-const copy = require("./lib/copy.js");
+const trigger = require("./lib/trigger.js");
 
 const {
-    DESTINATION_BUCKET,
     STAGING_BUCKET,
-    STAGING_BUCKET_PREFIX,
     SQS_ARCHIVE_NOTIFICATION,
 } = process.env;
 
@@ -37,9 +35,14 @@ async function handler(event) {
 
     console.log(`${key} - ${partNo} hash : ${startByte}-${endByte}`);
 
+    // the only way vdt is present at this section of the code is if the treehash is successfully validated already, but 
+    // triggerCopyToDestinationBucket fails, hence retry triggerCopyToDestinationBucket.
     let resultRecord = await db.getStatusRecord(aid);
+    
     if (resultRecord.Item.vdt && resultRecord.Item.vdt.S) {
+        resultRecord.Attributes = resultRecord.Item;
         console.log(`${key} : treehash has already been processed. Skipping`);
+        await trigger.triggerCopyToDestinationBucket(resultRecord);
         return;
     }
 
@@ -92,49 +95,34 @@ async function validateTreehash(s3hash, statusRecord) {
             await failArchiveAndRetry(statusRecord, key);
             return;
         } else {
+            // on 3rd failed calcHash attempt, we log in db
+            await db.increaseArchiveFailedBytesAndErrorCount("archives-failed", "failedBytes", statusRecord.Attributes.sz.N, "errorCount", "1")
             console.error(
                 `ERROR : sha256treehash validation failed after MULTIPLE retry for ${key}. Manual intervention required.\n`
             );
             return;
         }
     }
+    // now that TreeHash is successfully verified, we start the copy to destination bucket via sending a message to the SQS
+   
+    // setTimestampNow runs here because we want to mark the time when the validation was completed
     await db.setTimestampNow(statusRecord.Attributes.aid.S, "vdt");
 
-    const file = await fileExists(DESTINATION_BUCKET, key);
-    if (file) {
-        console.error(`${key} : already exists in the target bucket. Not overwriting: ${file.StorageClass}`);
-        return;
+    await trigger.triggerCopyToDestinationBucket(statusRecord);
+
     }
 
-    await copy.copyKeyToDestinationBucket(key, statusRecord.Attributes.sz.N);
-    await closeOffRecord(statusRecord);
-}
-
-async function closeOffRecord(statusRecord) {
-    let key = statusRecord.Attributes.fname.S;
-    await db.setTimestampNow(statusRecord.Attributes.aid.S, "cpt");
-    await s3.deleteObject({
-        Bucket: STAGING_BUCKET,
-        Key: `${STAGING_BUCKET_PREFIX}/${key}`
-    }).promise();
-}
-
-async function fileExists(Bucket, key) {
-    let objects = await s3
-        .listObjectsV2({
-            Bucket,
-            Prefix: key,
-        }).promise();
-
-    for (let r of objects.Contents) {
-        console.log(r.Key);
-        if (r.Key === key) {
-            return r;
-        }
+async function getListOfChunks(statusRecord){
+    let cc = parseInt(statusRecord.Attributes.cc.N);
+    var chunkString = "chunk";
+    var finalChunkString= "";
+    for (var chunkNumber = 1; chunkNumber < cc ; chunkNumber ++){
+        finalChunkString = finalChunkString.concat(chunkString.concat(chunkNumber.toString()).concat(", "));
     }
-
-    return false;
+    finalChunkString = finalChunkString.concat(chunkString.concat(cc.toString()));
+    return finalChunkString
 }
+
 
 async function failArchiveAndRetry(statusRecord, key) {
     let params = {
@@ -161,6 +149,11 @@ async function failArchiveAndRetry(statusRecord, key) {
     console.error(
         `Submitting retry copy request message on SQS. New retry counter is ${retryCount} for ${key}`
     );
+
+    // wipe sgt and chunks' status and start over
+    await db.deleteItem(statusRecord.Attributes.aid.S, "sgt");
+    console.log(`${key} : sgt deleted`);
+    await db.deleteChunkStatus(statusRecord.Attributes.aid.S, await getListOfChunks(statusRecord));
 
     //Repost to SQS (ArchiveRetrievalNotificationQueue) archive id, job id to trigger another copy
     let messageBody = JSON.stringify({

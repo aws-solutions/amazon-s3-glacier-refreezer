@@ -22,26 +22,65 @@ const metrics = require('./lib/metrics.js');
 
 async function handler() {
 
-    const progressCount = await dynamo.getCount();
+    const progressCount = await dynamo.getItem('count');
+    const progressVolume = await dynamo.getItem('volume');
+    const throttling = await dynamo.getItem('throttling');
+    const failedArchives = await dynamo.getItem('archives-failed');
 
-    let total = progressCount && progressCount.total ? parseInt(progressCount.total.N) : null;
-    let requested = progressCount && progressCount.requested ? parseInt(progressCount.requested.N) : 0;
-    let staged = progressCount && progressCount.staged ? parseInt(progressCount.staged.N) : 0;
-    let validated = progressCount && progressCount.validated ? parseInt(progressCount.validated.N) : 0;
-    let copied = progressCount && progressCount.copied ? parseInt(progressCount.copied.N) : 0;
+    let totalCount = progressCount && progressCount.total ? parseInt(progressCount.total.N) : null;
+    let requestedCount = progressCount && progressCount.requested ? parseInt(progressCount.requested.N) : 0;
+    let stagedCount = progressCount && progressCount.staged ? parseInt(progressCount.staged.N) : 0;
+    let validatedCount = progressCount && progressCount.validated ? parseInt(progressCount.validated.N) : 0;
+    let copiedCount = progressCount && progressCount.copied ? parseInt(progressCount.copied.N) : 0;
 
-    if (total) {
-        requested = requested > total ? total : requested;
-        staged = staged > total ? total : staged;
-        validated = validated > total ? total : validated;
-        copied = copied > total ? total : copied;
+    let totalBytes = progressVolume && progressVolume.total ? parseInt(progressVolume.total.N) : null;
+    let requestedBytes = progressVolume && progressVolume.requested ? parseInt(progressVolume.requested.N) : 0;
+    let stagedBytes = progressVolume && progressVolume.staged ? parseInt(progressVolume.staged.N) : 0;
+    let validatedBytes = progressVolume && progressVolume.validated ? parseInt(progressVolume.validated.N) : 0;
+    let copiedBytes = progressVolume && progressVolume.copied ? parseInt(progressVolume.copied.N) : 0;
+
+    let totalThrottledBytes = throttling && throttling.throttledBytes ? parseInt(throttling.throttledBytes.N) : null;
+    let totalThrottlingErrorCount = throttling && throttling.errorCount ? parseInt(throttling.errorCount.N) : null;
+    let totalFailedArchivesBytes = failedArchives && failedArchives.failedBytes ? parseInt(failedArchives.failedBytes.N) : null;
+    let totalFailedArchivesErrorCount = failedArchives && failedArchives.errorCount ? parseInt(failedArchives.errorCount.N) : null;
+
+    let metricList = [];
+
+    if (totalCount !== null) {
+        requestedCount = requestedCount > totalCount ? totalCount : requestedCount;
+        stagedCount = stagedCount > totalCount ? totalCount : stagedCount;
+        validatedCount = validatedCount > totalCount ? totalCount : validatedCount;
+        copiedCount = copiedCount > totalCount ? totalCount : copiedCount;
+
+        requestedBytes = requestedBytes > totalBytes ? totalBytes : requestedBytes;
+        stagedBytes = stagedBytes > totalBytes ? totalBytes : stagedBytes;
+        validatedBytes = validatedBytes > totalBytes ? totalBytes : validatedBytes;
+        copiedBytes = copiedBytes > totalBytes ? totalBytes : copiedBytes;
+
+        metricList.push({metricName: "ArchiveCountTotal", metricValue: totalCount});
+        metricList.push({metricName: "BytesTotal", metricValue: totalBytes});
     }
 
-    await metrics.publishMetric('Total Archives', total);
-    await metrics.publishMetric('Requested from Glacier', requested);
-    await metrics.publishMetric('Staged', staged);
-    await metrics.publishMetric('Hashes Validated', validated);
-    await metrics.publishMetric('Copied to Destination', copied);
+    if (totalThrottlingErrorCount !== null) {
+        metricList.push({metricName: "ThrottledBytes", metricValue: totalThrottledBytes});
+        metricList.push({metricName: "ThrottledErrorCount", metricValue: totalThrottlingErrorCount});
+    }
+
+    if (totalFailedArchivesErrorCount !== null) {
+        metricList.push({metricName: "FailedArchivesBytes", metricValue: totalFailedArchivesBytes});
+        metricList.push({metricName: "FailedArchivesErrorCount", metricValue: totalFailedArchivesErrorCount});
+    }
+
+    metricList.push({metricName: "ArchiveCountRequested", metricValue: requestedCount});
+    metricList.push({metricName: "ArchiveCountStaged", metricValue: stagedCount});
+    metricList.push({metricName: "ArchiveCountValidated", metricValue: validatedCount});
+    metricList.push({metricName: "ArchiveCountCompleted", metricValue: copiedCount});
+    metricList.push({metricName: "BytesRequested", metricValue: requestedBytes});
+    metricList.push({metricName: "BytesStaged", metricValue: stagedBytes});
+    metricList.push({metricName: "BytesValidated", metricValue: validatedBytes});
+    metricList.push({metricName: "BytesCompleted", metricValue: copiedBytes});
+
+    await metrics.publishMetric(metricList);
 }
 
 module.exports = {

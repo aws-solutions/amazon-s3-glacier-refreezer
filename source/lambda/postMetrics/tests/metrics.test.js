@@ -31,6 +31,10 @@ describe('-- Calculate Metrics --', () => {
         var pubMetric;
         var metricResult;
         var putMetricDataFunc;
+        var metricList = [
+            { metricName: "ArchiveCountTotal", metricValue: 32000 },
+            { metricName: "ArchiveCountRequested", metricValue: 16000 }
+        ]
 
         //Init
         before(function () {
@@ -43,15 +47,17 @@ describe('-- Calculate Metrics --', () => {
             };
 
             metricResult = {
-                'Total Archives': 0,
-                'Requested from Glacier': 0,
-                'Copy Initiated': 0,
-                'Copy Completed': 0,
-                'Hashes Validated': 0
+                'ArchiveCountTotal': 0,
+                'ArchiveCountRequested': 0,
+                'ArchiveCountStaged': 0,
+                'ArchiveCountValidated': 0,
+                'ArchiveCountCompleted': 0
             };
 
             putMetricDataFunc.withArgs(sinon.match(function (param) {
+                console.log(param);
                 metricResult[param.MetricData[0].MetricName] = param.MetricData[0].Value
+                metricResult[param.MetricData[1].MetricName] = param.MetricData[1].Value
                 return true;
             })).returns({
                 promise: () => true
@@ -65,7 +71,11 @@ describe('-- Calculate Metrics --', () => {
 
         describe('-- Post Metrics Test --', () => {
             it('Should publish metric to CloudWatch', async () => {
-                await expect(pubMetric.publishMetric()).to.be.not.rejected;
+                await expect(pubMetric.publishMetric(metricList)).to.be.not.rejected;
+            });
+            it('metricResult should be equal to the metricList input', async () => {
+                expect(metricResult.ArchiveCountTotal).to.be.equal(metricList[0].metricValue);
+                expect(metricResult.ArchiveCountRequested).to.be.equal(metricList[1].metricValue);
             });
         });
     });
