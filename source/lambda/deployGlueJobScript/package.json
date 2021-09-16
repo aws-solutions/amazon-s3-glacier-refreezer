@@ -9,7 +9,7 @@
   },
   "repository": {},
   "dependencies": {
-    "axios": "^0.21.1"
+    "axios": "^0.21.2"
   },
   "devDependencies": {
     "aws-sdk": "^2.880.0",

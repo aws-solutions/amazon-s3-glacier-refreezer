@@ -256,7 +256,6 @@ echo "https://${BUCKET_NAME}.s3.amazonaws.com/${SOLUTION_NAME}/${VERSION}/${SOLU
 - [Amazon S3](https://docs.aws.amazon.com/s3/) — creates an Amazon S3 bucket for the staging area to temporarily store the copied S3 Glacier vault archives.
 - [AWS Lambda](https://docs.aws.amazon.com/lambda/) - 1) request and download the inventory file for the Amazon S3 Glacier vault, 2) request archives from Amazon S3 Glacier vault, 3) perform the archive copy function to the staging Amazon S3 bucket, 4) calculate SHA256 Treehash of copied objects, 5) move the validated objects to the destination Amazon S3 bucket, 6) collect and post metrics to Amazon CloudWatch, and 7) send anonymous statistics to the Solution Builder endpoint (if you elect to send anonymous statistics).
 
-
 ***
 
 Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.

@@ -9,7 +9,7 @@
   },
   "repository": {},
   "dependencies": {
-    "axios": "^0.21.0",
+    "axios": "^0.21.2",
     "uuid": "^8.3.1"
   }
 }
