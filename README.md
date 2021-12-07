@@ -134,6 +134,8 @@ Install prerequisite software packages:
 * [Node package manager](https://www.npmjs.com/)
 * Node.js 12.x or later
 
+> **OBS**: At the time of writing the latest Node.js runtime version supported by AWS Lambda is v14 ([documentation](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html)). Please use Node.js v14 when running and testing the solution.
+
 ### 1. Download or clone this repo
 ```
 git clone https://github.com/awslabs/amazon-s3-glacier-refreezer

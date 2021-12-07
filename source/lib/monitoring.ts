@@ -216,6 +216,7 @@ export class Monitoring extends cdk.Construct {
                 'fields @timestamp, @message',
                 'filter @message like /error/ or @message like /Error/ or @message like /ERROR/',
                 'filter @message not like /ThrottlingException/',
+                'filter @message not like /Idle connections will be closed/',
                 'sort by @timestamp desc'
             ]
         });

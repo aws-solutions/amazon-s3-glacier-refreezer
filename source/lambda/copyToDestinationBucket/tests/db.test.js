@@ -28,7 +28,7 @@ chai.use(chaiAsPromised);
 // (Optional) Keep test output free of error messages printed by our lambda function
 sinon.stub(console, 'error');
 
-describe('-- Calculate TreeHash Test --', () => {
+describe('-- Copy To Destination Bucket Test --', () => {
     describe('-- db Test --', () => {
         var AWS;
         var db;
@@ -78,6 +78,14 @@ describe('-- Calculate TreeHash Test --', () => {
             getItemFunc.withArgs(sinon.match(function (param) {
                 result = statusTableItems.Items.filter(itm => itm['aid']['S'] === param.Key.aid.S);
                 return true;
+            })).returns({
+                promise: () => result
+            })
+
+            //getStatusRecord
+            getItemFunc.withArgs(sinon.match(function (param) {
+                result = statusTableItems.Items.filter(itm => itm['aid']['S'] === param.Key.aid.S);
+                return !param.ProjectionExpression && param.ProjectionExpression !== 'fname';
             })).returns({
                 promise: () => result
             })
