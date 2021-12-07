@@ -62,7 +62,7 @@ export class AmazonS3GlacierRefreezerStack extends cdk.Stack {
         const destinationStorageClass = new cdk.CfnParameter(this, 'DestinationStorageClass', {
             type: 'String',
             default: 'STANDARD',
-            allowedValues: ['STANDARD', 'INTELLIGENT_TIERING', 'STANDARD_IA', 'ONEZONE_IA', 'GLACIER', 'DEEP_ARCHIVE']
+            allowedValues: ['STANDARD', 'INTELLIGENT_TIERING', 'STANDARD_IA', 'ONEZONE_IA', 'GLACIER_IR', 'GLACIER', 'DEEP_ARCHIVE']
         });
 
         const glacierRetrievalTier = new cdk.CfnParameter(this, 'GlacierRetrievalTier', {

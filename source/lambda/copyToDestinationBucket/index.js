@@ -24,25 +24,26 @@ const db = require("./lib/db.js");
 const copy = require("./lib/copy.js");
 
 const {
-    DESTINATION_BUCKET,
-    STAGING_BUCKET,
-    STAGING_BUCKET_PREFIX,
+    DESTINATION_BUCKET
 } = process.env;
 
 async function handler(event) {
-    let {key, aid} = JSON.parse(event.Records[0].body);
+    let {
+        key,
+        aid,
+        uploadId,
+        partNo,
+        startByte,
+        endByte
+    } = JSON.parse(event.Records[0].body);
 
     const file = await fileExists(DESTINATION_BUCKET, key);
     if (file) {
-        console.error(`${key} : already exists in the target bucket. Not overwriting: ${file.StorageClass}`);
+        console.log(`${key} : already copied to the target bucket. Possible duplicated SQS message. No action is required.`);
         return;
     }
 
-    console.log(`${key} : copy started`);
-
-    let statusRecord = await db.getStatusRecord(aid);
-    await copy.copyKeyToDestinationBucket(key, parseInt(statusRecord.Item.sz.N));
-    await closeOffRecord(statusRecord);
+    await copy.copyKeyToDestinationBucket(key, aid, uploadId, partNo, startByte, endByte);
 }
 
 async function fileExists(Bucket, key) {
@@ -59,15 +60,6 @@ async function fileExists(Bucket, key) {
         }
     }
     return false;
-}
-
-async function closeOffRecord(statusRecord) {
-    let key = statusRecord.Item.fname.S;
-    await db.setTimestampNow(statusRecord.Item.aid.S, "cpt");
-    await s3.deleteObject({
-        Bucket: STAGING_BUCKET,
-        Key: `${STAGING_BUCKET_PREFIX}/${key}`
-    }).promise();
 }
 
 module.exports = {
