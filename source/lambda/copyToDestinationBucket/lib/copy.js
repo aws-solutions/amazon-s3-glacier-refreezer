@@ -17,6 +17,7 @@
 
 const AWS = require('aws-sdk');
 const s3 = new AWS.S3();
+const db = require('./db.js');
 
 const {
     DESTINATION_BUCKET,
@@ -25,9 +26,7 @@ const {
     STAGING_BUCKET_PREFIX
 } = process.env;
 
-const CHUNK_SIZE = 2 * 1024 * 1024 * 1024
-
-async function copyKeyToDestinationBucket(key, size) {
+async function copyKeyToDestinationBucket(key, aid, uploadId, partNo, startByte, endByte) {
 
     const currentStorageClass = await this.getKeyStorageClass(key)
     // Staging bucket object must always be of STANDARD storage class
@@ -39,21 +38,25 @@ async function copyKeyToDestinationBucket(key, size) {
         Please check the destination bucket.`);
     }
 
-    if (size < CHUNK_SIZE) {
-        console.log(`Single part copy for : ${key} : ${STORAGE_CLASS}`)
+    if (uploadId == null) {
+        console.log(`Single part copy  : ${key} : ${STORAGE_CLASS}`)
         await s3.copyObject({
             CopySource: encodeURIComponent(`${STAGING_BUCKET}/${STAGING_BUCKET_PREFIX}/${key}`),
             Bucket: DESTINATION_BUCKET,
             Key: key,
             StorageClass: STORAGE_CLASS
         }).promise();
+
+        await closeOffRecord(aid, key);
+        console.log(`Copy completed : ${key}`);
     } else {
-        await copyMultiPart(key, size)
+        console.log(`Multi part copy for : ${key} - ${partNo}`);
+        await copyMultiPart(key, aid, uploadId, partNo, startByte, endByte);
     }
 }
 
-function copyPart (uploadId, key, partNo, startByte, endByte) {
-    console.log(`${key} - ${partNo}`)
+async function copyPart(uploadId, key, partNo, startByte, endByte) {
+
     return s3.uploadPartCopy({
         UploadId: uploadId,
         CopySource: encodeURIComponent(`${STAGING_BUCKET}/${STAGING_BUCKET_PREFIX}/${key}`),
@@ -64,41 +67,34 @@ function copyPart (uploadId, key, partNo, startByte, endByte) {
     }).promise()
 }
 
-async function copyMultiPart(key, size) {
-    console.log(`Multipart copy for : ${key}`)
-    let response = await s3.createMultipartUpload({
-        Bucket: DESTINATION_BUCKET,
-        Key: key,
-        StorageClass: STORAGE_CLASS
-    }).promise();
+async function copyMultiPart(key, aid, uploadId, partNo, startByte, endByte) {
 
-    const uploadId = response.UploadId
-    let partCopyRequests = []
+    let uploadResult = await copyPart(uploadId, key, partNo, startByte, endByte)
 
-    let parts = Math.ceil(size / CHUNK_SIZE)
-    var i = 1
+    let etag = uploadResult.ETag;
+    let latestStatusRecord = await db.updateChunkStatusGetLatest(aid, partNo, etag)
+    let cc = parseInt(latestStatusRecord.Attributes.cc.N)
 
-    while (i < parts) {
-        const startByte = CHUNK_SIZE * (i - 1)
-        const endByte = CHUNK_SIZE * i - 1
-        partCopyRequests.push(copyPart(uploadId, key, i, startByte, endByte))
-        i++
+    let count = 0
+    for (const entry in latestStatusRecord.Attributes) {
+        if (entry.includes("chunk") &&
+            latestStatusRecord.Attributes[entry].S &&
+            latestStatusRecord.Attributes[entry].S.length < 64) {
+            count++
+        }
     }
 
-    const startByte = CHUNK_SIZE * (i - 1)
-    partCopyRequests.push(copyPart(uploadId, key, i, startByte, size - 1))
-
-    console.log(`Starting S3 copy`)
-    let data = await Promise.all(partCopyRequests)
-    console.log(`S3 copy completed : ${key}`)
+    if (count < cc) return
 
     let eTags = []
-    data.forEach((item, index, array) => {
+    Array.from(Array(cc)).forEach((_, i) => {
+        const chunkId = i + 1
+        let entry = latestStatusRecord.Attributes[`chunk${chunkId}`].S
         eTags.push({
-            PartNumber: index + 1,
-            ETag: item.ETag
+            PartNumber: chunkId,
+            ETag: entry
         })
-    })
+    });
 
     await s3.completeMultipartUpload({
         Bucket: DESTINATION_BUCKET,
@@ -106,9 +102,11 @@ async function copyMultiPart(key, size) {
         MultipartUpload: {
             Parts: eTags
         },
-        UploadId: response.UploadId
+        UploadId: uploadId
     }).promise();
-    console.log(`Done`)
+
+    await closeOffRecord(aid, key);
+    console.log(`Multipart copy completed : ${key}`);
 }
 
 async function getKeyStorageClass(key) {
@@ -117,6 +115,14 @@ async function getKeyStorageClass(key) {
         Prefix: `${STAGING_BUCKET_PREFIX}/${key}`,
     }).promise()
     return objects.Contents[0].StorageClass
+}
+
+async function closeOffRecord(aid, key) {
+    await db.setTimestampNow(aid, "cpt");
+    await s3.deleteObject({
+        Bucket: STAGING_BUCKET,
+        Key: `${STAGING_BUCKET_PREFIX}/${key}`
+    }).promise();
 }
 
 module.exports = {

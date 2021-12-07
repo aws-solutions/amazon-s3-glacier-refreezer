@@ -33,10 +33,14 @@ describe('-- Trigger Message to copyToDestinationQueue Test --', () => {
 
         var getQueueUrlFunc;
         var sendMessageFunc;
+        var createMultipartUploadFunc;
+        var listObjectsV2Func;
 
         var queueUrlResult;
         var sendMessageResult;
+        var initiateMultipartUploadResult;
         var singleDBresult;
+        var listObjectsV2Result;
         var validArchiveId = '-_27G6RJ0mYFtcF4dF9_eWRPYFkndowEpxodhax26-t9UXFI-AaEZszxf80pu_4JCPvOGMIUA933I80uqRX9eZBhQN8umpBt1GXZUNeUGJKgYGJwA41cwqz7hFe4W5FZQoBMEpEdQA';
         var originalDateVal = '2020-01-01T01:00:24+00:00';
         var exepectedFName = 'data01/Objectv40682';
@@ -44,12 +48,18 @@ describe('-- Trigger Message to copyToDestinationQueue Test --', () => {
         before(function () {
             getQueueUrlFunc = sinon.stub();
             sendMessageFunc = sinon.stub();
+            createMultipartUploadFunc = sinon.stub();
+            listObjectsV2Func = sinon.stub();
 
 
             AWS = {
                 SQS: sinon.stub().returns({
                     getQueueUrl: getQueueUrlFunc,
                     sendMessage: sendMessageFunc
+                }),
+                S3: sinon.stub().returns({
+                    createMultipartUpload: createMultipartUploadFunc,
+                    listObjectsV2: listObjectsV2Func
                 })
             }
 
@@ -62,6 +72,11 @@ describe('-- Trigger Message to copyToDestinationQueue Test --', () => {
                 "MD5OfMessageAttributes": "00484c68...59e48f06",
                 "MessageId": "da68f62c-0c07-4bee-bf5f-7e856EXAMPLE"
             }
+            initiateMultipartUploadResult = {
+                "Bucket": "example-bucket",
+                "Key": "example-object",
+                "UploadId": "EXAMPLEJZ6e0YupT2h66iePQCc9IEbYbDUy4RTpMeoSMLPRp8Z5o1u8feSRonpvnWsKKG35tI2LB9VDPiCgTy.Gq2VxQLYjrue4Nq.NBdqI-"
+            }
             singleDBresult = {
                 Attributes: {
                     "fname": {
@@ -69,8 +84,25 @@ describe('-- Trigger Message to copyToDestinationQueue Test --', () => {
                     },
                     "aid": {
                         S: "archive-id"
+                    },
+                    "sz": {
+                        N: 12345
+                    },
+                    "cc": {
+                        N: 2
                     }
                 }
+            }
+            listObjectsV2Result = {
+                Contents: [
+                    {
+                        ETag: "\"6805f2cfc46c0f04559748bb039d69ae\"", 
+                        Key: "test-key-name", 
+                        LastModified: "SomeDate", 
+                        Size: 0,
+                        StorageClass: "STANDARD"
+                    }, 
+                ]
             }
             getQueueUrlFunc.withArgs(sinon.match.any).returns(
                 {
@@ -80,6 +112,16 @@ describe('-- Trigger Message to copyToDestinationQueue Test --', () => {
             sendMessageFunc.withArgs(sinon.match.any).returns(
                 {
                     promise: () => sendMessageResult
+                }
+            )
+            createMultipartUploadFunc.withArgs(sinon.match.any).returns(
+                {
+                    promise: () => initiateMultipartUploadResult
+                }
+            )
+            listObjectsV2Func.withArgs(sinon.match.any).returns(
+                {
+                    promise: () => listObjectsV2Result
                 }
             )
             // Overwrite internal references with mock proxies
