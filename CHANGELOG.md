@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.1.1] - 2021-11-22
+### Added
+- Amazon S3 Glacier Re:Freezer detects the size of the object to be copied to the target bucket and adjusts the number of Lambda calls invoking UploadPartCopy S3 API Call.
+
 ## [1.1.0] - 2021-07-25
 ### Added
 - Amazon S3 Glacier Re:Freezer detects service throttling and automatically adjusts requestArchive call rate to allow extra time to process the vault aligned to the throttled metrics

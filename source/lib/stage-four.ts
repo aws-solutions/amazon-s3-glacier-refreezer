@@ -25,8 +25,8 @@ import * as lambda from '@aws-cdk/aws-lambda';
 import * as path from 'path';
 import * as dynamo from "@aws-cdk/aws-dynamodb";
 import * as iam from "@aws-cdk/aws-iam";
-import {SqsEventSource} from '@aws-cdk/aws-lambda-event-sources';
-import {CfnNagSuppressor} from "./cfn-nag-suppressor";
+import { SqsEventSource } from '@aws-cdk/aws-lambda-event-sources';
+import { CfnNagSuppressor } from "./cfn-nag-suppressor";
 
 export interface StageFourProps {
     readonly stagingBucket: s3.IBucket;
@@ -44,6 +44,10 @@ export class StageFour extends cdk.Construct {
         super(scope, id);
 
         // -------------------------------------------------------------------------------------------
+        // Get Destination S3 bucket
+        const destinationBucket = s3.Bucket.fromBucketName(this, 'destinationBucket', props.destinationBucket)
+
+        // -------------------------------------------------------------------------------------------
         // copyToDestinationBucketQueue Queue
         const copyToDestinationBucketQueue = new sqs.Queue(this, 'destination-copy-queue',
             {
@@ -54,12 +58,35 @@ export class StageFour extends cdk.Construct {
         );
         CfnNagSuppressor.addSuppression(copyToDestinationBucketQueue, 'W48', 'Non sensitive metadata - encryption is not required and cost inefficient');
         copyToDestinationBucketQueue.addToResourcePolicy(iamSec.IamPermissions.sqsDenyInsecureTransport(copyToDestinationBucketQueue));
-    
+
         // -------------------------------------------------------------------------------------------
         // Calculate Treehash and verify SHA256TreeHash Glacier == SHA256TreeHash S3
         const calculateTreehashRole = new iam.Role(this, 'CalculateTreehashRole', {
             assumedBy: new iam.ServicePrincipal('lambda.amazonaws.com')
         });
+
+        const calculateTreehashRolePolicy = new iam.Policy(this, 'CalculateTreehashRolePolicy', {
+            statements: [
+                iamSec.IamPermissions.lambdaLogGroup(`${cdk.Aws.STACK_NAME}-calculateTreehash`),
+                new iam.PolicyStatement({
+                    sid: 'allowPutObject',
+                    effect: iam.Effect.ALLOW,
+                    actions: [
+                        's3:PutObject'
+                    ],
+                    resources: [`${destinationBucket.bucketArn}/*`]
+                }),
+                new iam.PolicyStatement({
+                    sid: 'allowListBucket',
+                    effect: iam.Effect.ALLOW,
+                    actions: [
+                        's3:ListBucket'
+                    ],
+                    resources: [`${destinationBucket.bucketArn}`]
+                }),
+            ]
+        });
+        calculateTreehashRolePolicy.attachToRole(calculateTreehashRole);
 
         props.stagingBucket.grantReadWrite(calculateTreehashRole);
         props.statusTable.grantReadWriteData(calculateTreehashRole);
@@ -80,18 +107,18 @@ export class StageFour extends cdk.Construct {
             code: lambda.Code.fromAsset(path.join(__dirname, '../lambda/calculateTreehash')),
             role: calculateTreehashRole,
             environment:
-                {
-                    DESTINATION_BUCKET: props.destinationBucket,
-                    STORAGE_CLASS: props.destinationStorageClass,
-                    STAGING_BUCKET: props.stagingBucket.bucketName,
-                    STAGING_BUCKET_PREFIX: 'stagingdata',
-                    STATUS_TABLE: props.statusTable.tableName,
-                    METRIC_TABLE: props.metricTable.tableName,
-                    SQS_ARCHIVE_NOTIFICATION: props.archiveNotificationQueue.queueName,
-                    SQS_COPY_TO_DESTINATION_NOTIFICATION: copyToDestinationBucketQueue.queueName
-                }
+            {
+                DESTINATION_BUCKET: props.destinationBucket,
+                STORAGE_CLASS: props.destinationStorageClass,
+                STAGING_BUCKET: props.stagingBucket.bucketName,
+                STAGING_BUCKET_PREFIX: 'stagingdata',
+                STATUS_TABLE: props.statusTable.tableName,
+                METRIC_TABLE: props.metricTable.tableName,
+                SQS_ARCHIVE_NOTIFICATION: props.archiveNotificationQueue.queueName,
+                SQS_COPY_TO_DESTINATION_NOTIFICATION: copyToDestinationBucketQueue.queueName
+            }
         });
-        calculateTreehash.addEventSource(new SqsEventSource(props.treehashCalcQueue, {batchSize: 1}));
+        calculateTreehash.addEventSource(new SqsEventSource(props.treehashCalcQueue, { batchSize: 1 }));
         CfnNagSuppressor.addLambdaSuppression(calculateTreehash);
 
         // -------------------------------------------------------------------------------------------
@@ -102,22 +129,22 @@ export class StageFour extends cdk.Construct {
             handler: 'index.handler',
             memorySize: 128,
             timeout: cdk.Duration.minutes(15),
-            reservedConcurrentExecutions: 55,
+            reservedConcurrentExecutions: 100,
             code: lambda.Code.fromAsset(path.join(__dirname, '../lambda/copyToDestinationBucket')),
             environment:
-                {
-                    DESTINATION_BUCKET: props.destinationBucket,
-                    STORAGE_CLASS: props.destinationStorageClass,
-                    STAGING_BUCKET: props.stagingBucket.bucketName,
-                    STAGING_BUCKET_PREFIX: 'stagingdata',
-                    STATUS_TABLE: props.statusTable.tableName               
-                }
+            {
+                DESTINATION_BUCKET: props.destinationBucket,
+                STORAGE_CLASS: props.destinationStorageClass,
+                STAGING_BUCKET: props.stagingBucket.bucketName,
+                STAGING_BUCKET_PREFIX: 'stagingdata',
+                STATUS_TABLE: props.statusTable.tableName
+            }
         });
 
         props.stagingBucket.grantReadWrite(copyToDestinationBucket);
         props.statusTable.grantReadWriteData(copyToDestinationBucket);
-        s3.Bucket.fromBucketName(this, 'destinationBucket', props.destinationBucket).grantReadWrite(copyToDestinationBucket);
-        copyToDestinationBucket.addEventSource(new SqsEventSource(copyToDestinationBucketQueue, {batchSize: 1}));
+        destinationBucket.grantReadWrite(copyToDestinationBucket);
+        copyToDestinationBucket.addEventSource(new SqsEventSource(copyToDestinationBucketQueue, { batchSize: 1 }));
         CfnNagSuppressor.addLambdaSuppression(copyToDestinationBucket);
     }
 }
