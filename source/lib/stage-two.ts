@@ -83,7 +83,7 @@ export class StageTwo extends cdk.Construct {
         requestArchivesRole.addToPrincipalPolicy(iamSec.IamPermissions.athena([
                     props.glueDataCatalog.inventoryDatabase.catalogArn,
                     props.glueDataCatalog.inventoryDatabase.databaseArn,
-                    `arn:aws:athena:*:${cdk.Aws.ACCOUNT_ID}:workgroup/${props.glueDataCatalog.athenaWorkgroup.name}`,
+                    `arn:${cdk.Aws.PARTITION}:athena:*:${cdk.Aws.ACCOUNT_ID}:workgroup/${props.glueDataCatalog.athenaWorkgroup.name}`,
                     props.glueDataCatalog.partitionedInventoryTable.tableArn
                 ]));
         requestArchivesRole.addToPrincipalPolicy(iamSec.IamPermissions.lambdaLogGroup(`${cdk.Aws.STACK_NAME}-requestArchives`));
@@ -131,7 +131,7 @@ export class StageTwo extends cdk.Construct {
             [
                 props.glueDataCatalog.inventoryDatabase.catalogArn,
                 props.glueDataCatalog.inventoryDatabase.databaseArn,
-                `arn:aws:athena:*:${cdk.Aws.ACCOUNT_ID}:workgroup/${props.glueDataCatalog.athenaWorkgroup.name}`,
+                `arn:${cdk.Aws.PARTITION}:athena:*:${cdk.Aws.ACCOUNT_ID}:workgroup/${props.glueDataCatalog.athenaWorkgroup.name}`,
                 props.glueDataCatalog.inventoryTable.tableArn,
                 props.glueDataCatalog.filelistTable.tableArn,
                 props.glueDataCatalog.partitionedInventoryTable.tableArn
@@ -149,7 +149,7 @@ export class StageTwo extends cdk.Construct {
                 ],
                 resources:
                     [
-                        `arn:aws:logs:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:log-group:/aws-glue/jobs/*:**`
+                        `arn:${cdk.Aws.PARTITION}:logs:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:log-group:/aws-glue/jobs/*:**`
                     ]
             }));
 
@@ -158,7 +158,7 @@ export class StageTwo extends cdk.Construct {
             {
                 name: glueJobName,
                 description: 'To repartition the inventory table',
-                maxCapacity: 5,
+                maxCapacity: 20,
                 glueVersion: '2.0',
                 maxRetries: 0,
                 executionProperty:

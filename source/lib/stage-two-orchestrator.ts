@@ -250,7 +250,7 @@ export class StageTwoOrchestrator extends cdk.Construct {
         stageTwoOrchestratorRole.addToPrincipalPolicy(iamSec.IamPermissions.athena([
                     props.glueDataCatalog.inventoryDatabase.catalogArn,
                     props.glueDataCatalog.inventoryDatabase.databaseArn,
-                    `arn:aws:athena:*:${cdk.Aws.ACCOUNT_ID}:workgroup/${props.glueDataCatalog.athenaWorkgroup.name}`,
+                    `arn:${cdk.Aws.PARTITION}:athena:*:${cdk.Aws.ACCOUNT_ID}:workgroup/${props.glueDataCatalog.athenaWorkgroup.name}`,
                     props.glueDataCatalog.inventoryTable.tableArn,
                     props.glueDataCatalog.partitionedInventoryTable.tableArn
                 ]));
@@ -263,7 +263,7 @@ export class StageTwoOrchestrator extends cdk.Construct {
                     'glue:GetJobRun',
                     'glue:GetJobRuns'
                 ],
-                resources: [`arn:aws:glue:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:job/${props.glueJobName}`],
+                resources: [`arn:${cdk.Aws.PARTITION}:glue:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:job/${props.glueJobName}`],
             }));
 
         stageTwoOrchestratorRole.addToPrincipalPolicy(new iam.PolicyStatement({

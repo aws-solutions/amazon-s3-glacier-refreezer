@@ -1,7 +1,7 @@
 {
   "name": "copy-to-destination-bucket",
   "main": "index.js",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "Copies the archive to the detination bucket/storage class and deletes the staging folder thereafter",
   "license": "Apache-2.0",
   "repository": {},

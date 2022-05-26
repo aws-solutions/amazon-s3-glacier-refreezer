@@ -36,7 +36,7 @@ export class IamPermissions extends cdk.Construct {
                 'glacier:GetJobOutput',
                 'glacier:InitiateJob'
             ],
-            resources: [`arn:aws:glacier:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:vaults/${glacierVault}`],
+            resources: [`arn:${cdk.Aws.PARTITION}:glacier:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:vaults/${glacierVault}`],
             conditions: {
                 Bool:
                     {'aws:SecureTransport': true}
@@ -175,7 +175,7 @@ export class IamPermissions extends cdk.Construct {
                 'logs:PutLogEvents'
             ],
             resources: [
-                `arn:aws:logs:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:log-group:/aws/lambda/${functionName}:**`
+                `arn:${cdk.Aws.PARTITION}:logs:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:log-group:/aws/lambda/${functionName}:**`
             ]
         })
     }

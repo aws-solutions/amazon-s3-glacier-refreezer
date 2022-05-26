@@ -1,7 +1,7 @@
 {
   "name": "split-archive",
   "main": "index.js",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "Split a Glacier archive by publishing chunk copy instructions into SQS for both >4GB and <4GB chunks",
   "license": "Apache-2.0",
   "repository": {},

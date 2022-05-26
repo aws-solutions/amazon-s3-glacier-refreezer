@@ -116,6 +116,7 @@ async function inventoryMultiPart(jobId, size) {
         const endByte = (MAX_SIZE * i) - 1
         console.log(`Inventory part ${i} : ${startByte} - ${endByte} :`)
         partCopyRequests.push(uploadPart(jobId, uploadId, i, startByte, endByte))
+        await sleep(2000);
         i++
     }
 
@@ -146,6 +147,10 @@ async function inventoryMultiPart(jobId, size) {
         });
         throw e;
     }
+}
+
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 module.exports = {
