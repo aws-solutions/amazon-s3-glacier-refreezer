@@ -78,7 +78,7 @@ export class StageOne extends cdk.Construct {
 
         props.stagingBucket.grantReadWrite(requestInventory);
         s3.Bucket.fromBucketName(this, 'destinationBucket', props.destinationBucket).grantReadWrite(requestInventory);
-        requestInventory.addToRolePolicy(iamSec.IamPermissions.s3ReadOnly([`arn:aws:s3:::${props.filelistS3location}`]));
+        requestInventory.addToRolePolicy(iamSec.IamPermissions.s3ReadOnly([`arn:${cdk.Aws.PARTITION}:s3:::${props.filelistS3location}`]));
         requestInventory.addToRolePolicy(iamSec.IamPermissions.glacier(props.sourceGlacierVault));
         CfnNagSuppressor.addLambdaSuppression(requestInventory);
 
