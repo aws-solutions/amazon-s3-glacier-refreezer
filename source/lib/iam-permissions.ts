@@ -21,6 +21,7 @@ import * as cdk from '@aws-cdk/core';
 import * as iam from '@aws-cdk/aws-iam';
 import * as sns from '@aws-cdk/aws-sns';
 import * as sqs from '@aws-cdk/aws-sqs';
+import * as logs from '@aws-cdk/aws-logs';
 
 export class IamPermissions extends cdk.Construct {
 

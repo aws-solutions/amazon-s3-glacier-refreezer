@@ -115,7 +115,7 @@ describe('-- Copy To Destination Bucket Test --', () => {
                 expect(result[0].vdt.S).to.not.equal(originalDateVal);
             })
             it('Should THROW an error if an ID that does not exist in the DB is supplied', async () => {
-                await expect(db.setTimestampNow(validArchiveId + 'append-some-random-text', 'vdt')).to.be.rejectedWith('Cannot read property \'vdt\' of undefined');
+                await expect(db.setTimestampNow(validArchiveId + 'append-some-random-text', 'vdt')).to.be.rejectedWith('Cannot read properties of undefined (reading \'vdt\')');
             })
         })
     })

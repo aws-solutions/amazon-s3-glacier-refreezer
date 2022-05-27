@@ -104,7 +104,7 @@ export class StageThree extends cdk.Construct {
 
         const splitArchive = new lambda.Function(this, 'SplitArchive', {
             functionName: `${cdk.Aws.STACK_NAME}-splitArchive`,
-            runtime: lambda.Runtime.NODEJS_14_X,
+            runtime: lambda.Runtime.NODEJS_16_X,
             handler: 'index.handler',
             memorySize: 256,
             timeout: cdk.Duration.minutes(15),
@@ -144,7 +144,7 @@ export class StageThree extends cdk.Construct {
 
         const copyChunk = new lambda.Function(this, 'CopyChunk', {
             functionName: `${cdk.Aws.STACK_NAME}-copyChunk`,
-            runtime: lambda.Runtime.NODEJS_14_X,
+            runtime: lambda.Runtime.NODEJS_16_X,
             handler: 'index.handler',
             memorySize: 1024,
             timeout: cdk.Duration.minutes(15),

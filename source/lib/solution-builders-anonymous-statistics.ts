@@ -38,29 +38,40 @@ export class AnonymousStatistics extends cdk.Construct {
     constructor(scope: cdk.Construct, id: string, props: AnonymousStatisticsProps) {
         super(scope, id);
 
+        const generateUuidRole = new iam.Role(this, 'generateUuidRole', {
+            assumedBy: new iam.ServicePrincipal('lambda.amazonaws.com')
+        });
+
         const generateUuid = new lambda.Function(this, 'GenerateUuid', {
             functionName: `${cdk.Aws.STACK_NAME}-generateUuid`,
             description: 'This function generates UUID for each deployment',
-            runtime: lambda.Runtime.NODEJS_14_X,
+            runtime: lambda.Runtime.NODEJS_16_X,
             handler: 'index.handler',
             memorySize: 256,
             timeout: cdk.Duration.seconds(20),
-            code: lambda.Code.fromAsset('lambda/generateUuid')
+            code: lambda.Code.fromAsset('lambda/generateUuid'),
+            role: generateUuidRole
         });
+        generateUuidRole.addToPrincipalPolicy(iamSec.IamPermissions.lambdaLogGroup(`${cdk.Aws.STACK_NAME}-generateUuid`));
         CfnNagSuppressor.addLambdaSuppression(generateUuid);
 
         const genereateUuidTrigger = new cdk.CustomResource(this, 'GenerateUuidTrigger', {
             serviceToken: generateUuid.functionArn
         });
 
+        const sendAnonymousStatsRole = new iam.Role(this, 'sendAnonymousStatsRole', {
+            assumedBy: new iam.ServicePrincipal('lambda.amazonaws.com')
+        });
+
         const sendAnonymousStats = new lambda.Function(this, 'SendAnonymousStats', {
             functionName: `${cdk.Aws.STACK_NAME}-sendAnonymousStats`,
             description: 'This function sends anonymous statistics to the AWS Solutions Builders team',
-            runtime: lambda.Runtime.NODEJS_14_X,
+            runtime: lambda.Runtime.NODEJS_16_X,
             handler: 'index.handler',
             memorySize: 128,
             timeout: cdk.Duration.minutes(5),
             code: lambda.Code.fromAsset('lambda/sendAnonymousStats'),
+            role: sendAnonymousStatsRole,
             environment:{
                 UUID: genereateUuidTrigger.getAttString('UUID'),
                 REGION: cdk.Aws.REGION,
@@ -71,6 +82,7 @@ export class AnonymousStatistics extends cdk.Construct {
                 SEND_ANONYMOUS_STATISTICS: props.sendAnonymousSelection
             }
         });
+        sendAnonymousStatsRole.addToPrincipalPolicy(iamSec.IamPermissions.lambdaLogGroup(`${cdk.Aws.STACK_NAME}-sendAnonymousStats`));
         CfnNagSuppressor.addLambdaSuppression(sendAnonymousStats);
         this.sendAnonymousStats = sendAnonymousStats;
     }

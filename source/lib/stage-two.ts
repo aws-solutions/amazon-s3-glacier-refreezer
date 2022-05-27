@@ -50,19 +50,25 @@ export class StageTwo extends cdk.Construct {
 
         // -------------------------------------------------------------------------------------------
         // Deploy Glue Job Script
+        const deployGlueJobScriptRole = new iam.Role(this, 'deployGlueJobScriptRole', {
+            assumedBy: new iam.ServicePrincipal('lambda.amazonaws.com')
+        });
+
         const deployGlueJobScript = new lambda.Function(this, 'DeployGlueJobScript', {
             functionName: `${cdk.Aws.STACK_NAME}-deployGlueJobScript`,
-            runtime: lambda.Runtime.NODEJS_14_X,
+            runtime: lambda.Runtime.NODEJS_16_X,
             handler: 'index.handler',
             timeout: cdk.Duration.minutes(1),
             memorySize: 128,
+            role: deployGlueJobScriptRole,
             code: lambda.Code.fromAsset(path.join(__dirname, '../lambda/deployGlueJobScript')),
             environment:
                 {
                     STAGING_BUCKET: props.stagingBucket.bucketName,
                 }
         });
-        props.stagingBucket.grantWrite(deployGlueJobScript);
+        deployGlueJobScriptRole.addToPrincipalPolicy(iamSec.IamPermissions.lambdaLogGroup(`${cdk.Aws.STACK_NAME}-deployGlueJobScript`));
+        props.stagingBucket.grantWrite(deployGlueJobScriptRole);
         CfnNagSuppressor.addLambdaSuppression(deployGlueJobScript);
 
         const deployGlueJobScriptTrigger = new cdk.CustomResource(this, 'deployGlueJobScriptTrigger',
@@ -94,7 +100,7 @@ export class StageTwo extends cdk.Construct {
 
         const requestArchives = new lambda.Function(this, 'RequestArchives', {
             functionName: `${cdk.Aws.STACK_NAME}-requestArchives`,
-            runtime: lambda.Runtime.NODEJS_14_X,
+            runtime: lambda.Runtime.NODEJS_16_X,
             handler: 'index.handler',
             memorySize: 1024,
             timeout: cdk.Duration.minutes(15),
@@ -158,8 +164,8 @@ export class StageTwo extends cdk.Construct {
             {
                 name: glueJobName,
                 description: 'To repartition the inventory table',
-                maxCapacity: 20,
-                glueVersion: '2.0',
+                maxCapacity: 10,
+                glueVersion: '3.0',
                 maxRetries: 0,
                 executionProperty:
                     {maxConcurrentRuns: 1},
