@@ -135,7 +135,7 @@ describe('-- Copy Chunk Test --', () => {
                 expect(result[0].psdt.S).to.not.equal(originalDateVal);
             })
             it('Should THROW error from DynamoDB if invalid ID is spplied', async () => {
-                await expect(db.setTimestampNow(validArchiveId + 'append-some-random-text', 'psdt')).to.be.rejectedWith('Cannot read property \'psdt\' of undefined');
+                await expect(db.setTimestampNow(validArchiveId + 'append-some-random-text', 'psdt')).to.be.rejectedWith('Cannot read properties of undefined (reading \'psdt\')');
             })
         })
     })

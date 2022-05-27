@@ -20,11 +20,11 @@
 import * as cdk from '@aws-cdk/core';
 import * as sqs from '@aws-cdk/aws-sqs';
 import * as s3 from '@aws-cdk/aws-s3';
-import * as iamSec from './iam-permissions';
 import * as lambda from '@aws-cdk/aws-lambda';
 import * as path from 'path';
 import * as dynamo from "@aws-cdk/aws-dynamodb";
 import * as iam from "@aws-cdk/aws-iam";
+import * as iamSec from './iam-permissions';
 import { SqsEventSource } from '@aws-cdk/aws-lambda-event-sources';
 import { CfnNagSuppressor } from "./cfn-nag-suppressor";
 
@@ -99,7 +99,7 @@ export class StageFour extends cdk.Construct {
 
         const calculateTreehash = new lambda.Function(this, 'calculateTreehash', {
             functionName: `${cdk.Aws.STACK_NAME}-calculateTreehash`,
-            runtime: lambda.Runtime.NODEJS_14_X,
+            runtime: lambda.Runtime.NODEJS_16_X,
             handler: 'index.handler',
             memorySize: 1024,
             timeout: cdk.Duration.minutes(15),
@@ -123,14 +123,20 @@ export class StageFour extends cdk.Construct {
 
         // -------------------------------------------------------------------------------------------
         // Copy archive from Staging to Destination and delete Staging thereafter
+
+        const copyToDestinationBucketRole = new iam.Role(this, 'copyToDestinationBucketRole', {
+            assumedBy: new iam.ServicePrincipal('lambda.amazonaws.com')
+        });
+
         const copyToDestinationBucket = new lambda.Function(this, 'copyToDestinationBucket', {
             functionName: `${cdk.Aws.STACK_NAME}-copyToDestinationBucket`,
-            runtime: lambda.Runtime.NODEJS_14_X,
+            runtime: lambda.Runtime.NODEJS_16_X,
             handler: 'index.handler',
             memorySize: 128,
             timeout: cdk.Duration.minutes(15),
             reservedConcurrentExecutions: 100,
             code: lambda.Code.fromAsset(path.join(__dirname, '../lambda/copyToDestinationBucket')),
+            role: copyToDestinationBucketRole,
             environment:
             {
                 DESTINATION_BUCKET: props.destinationBucket,
@@ -141,9 +147,10 @@ export class StageFour extends cdk.Construct {
             }
         });
 
-        props.stagingBucket.grantReadWrite(copyToDestinationBucket);
-        props.statusTable.grantReadWriteData(copyToDestinationBucket);
-        destinationBucket.grantReadWrite(copyToDestinationBucket);
+        copyToDestinationBucketRole.addToPrincipalPolicy(iamSec.IamPermissions.lambdaLogGroup(`${cdk.Aws.STACK_NAME}-copyToDestinationBucket`));
+        props.stagingBucket.grantReadWrite(copyToDestinationBucketRole);
+        props.statusTable.grantReadWriteData(copyToDestinationBucketRole);
+        destinationBucket.grantReadWrite(copyToDestinationBucketRole);
         copyToDestinationBucket.addEventSource(new SqsEventSource(copyToDestinationBucketQueue, { batchSize: 1 }));
         CfnNagSuppressor.addLambdaSuppression(copyToDestinationBucket);
     }

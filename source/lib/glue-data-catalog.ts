@@ -22,7 +22,8 @@ import * as s3 from '@aws-cdk/aws-s3';
 import * as glue from '@aws-cdk/aws-glue';
 import * as lambda from '@aws-cdk/aws-lambda';
 import * as athena from '@aws-cdk/aws-athena';
-import {readFileSync} from 'fs';
+import * as iam from '@aws-cdk/aws-iam';
+import * as iamSec from './iam-permissions';
 import {CfnNagSuppressor} from "./cfn-nag-suppressor";
 
 export interface GlueDataProps {
@@ -39,12 +40,18 @@ export class GlueDataCatalog extends cdk.Construct {
     constructor(scope: cdk.Construct, id: string, props: GlueDataProps) {
         super(scope, id);
 
+        const toLowercaseRole = new iam.Role(this, 'toLowerCaseRole', {
+            assumedBy: new iam.ServicePrincipal('lambda.amazonaws.com')
+        });
+
         const toLowercase = new lambda.Function(this, 'toLowercase', {
             functionName: `${cdk.Aws.STACK_NAME}-toLowercase`,
-            runtime: lambda.Runtime.NODEJS_14_X,
+            runtime: lambda.Runtime.NODEJS_16_X,
+            role: toLowercaseRole,
             handler: 'index.handler',
             code: lambda.Code.fromAsset('lambda/toLowercase')
         });
+        toLowercaseRole.addToPrincipalPolicy(iamSec.IamPermissions.lambdaLogGroup(`${cdk.Aws.STACK_NAME}-toLowercase`));
         CfnNagSuppressor.addLambdaSuppression(toLowercase);
 
         const toLowercaseTrigger = new cdk.CustomResource(this, 'toLowercaseTrigger', {

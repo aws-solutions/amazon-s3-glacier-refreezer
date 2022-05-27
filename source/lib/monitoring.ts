@@ -81,7 +81,7 @@ export class Monitoring extends cdk.Construct {
 
         const calculateMetrics = new lambda.Function(this, 'CalculateMetrics', {
             functionName: `${cdk.Aws.STACK_NAME}-calculateMetrics`,
-            runtime: lambda.Runtime.NODEJS_14_X,
+            runtime: lambda.Runtime.NODEJS_16_X,
             handler: 'index.handler',
             code: lambda.Code.fromAsset(path.join(__dirname, '../lambda/calculateMetrics')),
             role: calculateMetricsRole.withoutPolicyUpdates(),
@@ -126,7 +126,7 @@ export class Monitoring extends cdk.Construct {
 
         const postMetrics = new lambda.Function(this, 'PostMetrics', {
             functionName: `${cdk.Aws.STACK_NAME}-postMetrics`,
-            runtime: lambda.Runtime.NODEJS_14_X,
+            runtime: lambda.Runtime.NODEJS_16_X,
             handler: 'index.handler',
             code: lambda.Code.fromAsset(path.join(__dirname, '../lambda/postMetrics')),
             role: postMetricsRole,
@@ -142,9 +142,7 @@ export class Monitoring extends cdk.Construct {
         CfnNagSuppressor.addLambdaSuppression(postMetrics);
 
         const postMetricSchedule = new events.Rule(this, 'PostMetricSchedule', {
-            schedule: {
-                expressionString: 'rate(1 minute)'
-            }
+            schedule: events.Schedule.rate(cdk.Duration.minutes(1)),
         });
         postMetricSchedule.addTarget(new targets.LambdaFunction(postMetrics));
 
@@ -244,7 +242,7 @@ export class Monitoring extends cdk.Construct {
             unit: cloudwatch.Unit.NONE,
             metricName: 'ApproximateAgeOfOldestMessage',
             namespace: 'AWS/SQS',
-            dimensions: {
+            dimensionsMap: {
                 'QueueName': queueName
             }
         });
@@ -256,7 +254,7 @@ export class Monitoring extends cdk.Construct {
             metricName,
             namespace: 'AmazonS3GlacierReFreezer',
             label: metricLabel,
-            dimensions: {
+            dimensionsMap: {
                 'CloudFormationStack': cdk.Aws.STACK_NAME
             },
             account: cdk.Aws.ACCOUNT_ID,

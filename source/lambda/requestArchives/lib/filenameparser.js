@@ -17,7 +17,8 @@
 
 'use strict';
 
-const fastXmlParser = require('fast-xml-parser');
+const { XMLParser } = require('fast-xml-parser');
+const parser = new XMLParser();
 
 function parseFileName(archiveId, archiveDescription) {
 
@@ -68,7 +69,7 @@ function detectAndParseDescription(archiveDescription) {
 }
 
 function parseFastGlacier(archiveDescription, metadata, path) {
-    const jsonObj = fastXmlParser.parse(archiveDescription);
+    const jsonObj = parser.parse(archiveDescription);
     return Buffer.from(jsonObj[metadata][path], 'base64').toString('ascii')
 }
 
