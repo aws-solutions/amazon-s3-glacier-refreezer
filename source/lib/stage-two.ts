@@ -1,5 +1,5 @@
 /*********************************************************************************************************************
- *  Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.                                           *
+ *  Copyright 2022 Amazon.com, Inc. or its affiliates. All Rights Reserved.                                           *
  *                                                                                                                    *
  *  Licensed under the Apache License, Version 2.0 (the "License"). You may not use this file except in compliance    *
  *  with the License. A copy of the License is located at                                                             *
@@ -17,13 +17,14 @@
 
 'use strict';
 
-import * as cdk from '@aws-cdk/core';
-import * as sns from '@aws-cdk/aws-sns';
-import * as s3 from '@aws-cdk/aws-s3';
-import * as lambda from '@aws-cdk/aws-lambda';
-import * as iam from '@aws-cdk/aws-iam';
-import * as sfn from '@aws-cdk/aws-stepfunctions';
-import * as glue from '@aws-cdk/aws-glue';
+import { Construct } from 'constructs';
+import { CfnResource, CustomResource, Duration, Aws } from 'aws-cdk-lib';
+import { aws_lambda as lambda } from 'aws-cdk-lib';
+import { aws_iam as iam } from 'aws-cdk-lib';
+import { aws_sns as sns } from 'aws-cdk-lib';   
+import { aws_stepfunctions as sfn } from 'aws-cdk-lib';   
+import { aws_s3 as s3 } from 'aws-cdk-lib';   
+import { aws_glue as glue } from  'aws-cdk-lib';  
 import * as iamSec from './iam-permissions';
 import * as path from 'path';
 import {GlueDataCatalog} from "./glue-data-catalog";
@@ -41,11 +42,11 @@ export interface StageTwoProps {
     readonly sendAnonymousStats: lambda.IFunction;
 }
 
-export class StageTwo extends cdk.Construct {
+export class StageTwo extends Construct {
     public readonly stageTwoOrchestrator: sfn.StateMachine;
     public readonly DQL=60*1024*1024*1024*1024;
 
-  constructor(scope: cdk.Construct, id: string, props: StageTwoProps) {
+  constructor(scope: Construct, id: string, props: StageTwoProps) {
         super(scope, id);
 
         // -------------------------------------------------------------------------------------------
@@ -55,10 +56,10 @@ export class StageTwo extends cdk.Construct {
         });
 
         const deployGlueJobScript = new lambda.Function(this, 'DeployGlueJobScript', {
-            functionName: `${cdk.Aws.STACK_NAME}-deployGlueJobScript`,
+            functionName: `${Aws.STACK_NAME}-deployGlueJobScript`,
             runtime: lambda.Runtime.NODEJS_16_X,
             handler: 'index.handler',
-            timeout: cdk.Duration.minutes(1),
+            timeout: Duration.minutes(1),
             memorySize: 128,
             role: deployGlueJobScriptRole,
             code: lambda.Code.fromAsset(path.join(__dirname, '../lambda/deployGlueJobScript')),
@@ -67,11 +68,11 @@ export class StageTwo extends cdk.Construct {
                     STAGING_BUCKET: props.stagingBucket.bucketName,
                 }
         });
-        deployGlueJobScriptRole.addToPrincipalPolicy(iamSec.IamPermissions.lambdaLogGroup(`${cdk.Aws.STACK_NAME}-deployGlueJobScript`));
+        deployGlueJobScriptRole.addToPrincipalPolicy(iamSec.IamPermissions.lambdaLogGroup(`${Aws.STACK_NAME}-deployGlueJobScript`));
         props.stagingBucket.grantWrite(deployGlueJobScriptRole);
         CfnNagSuppressor.addLambdaSuppression(deployGlueJobScript);
 
-        const deployGlueJobScriptTrigger = new cdk.CustomResource(this, 'deployGlueJobScriptTrigger',
+        const deployGlueJobScriptTrigger = new CustomResource(this, 'deployGlueJobScriptTrigger',
             {
                 serviceToken: deployGlueJobScript.functionArn
             });
@@ -89,21 +90,21 @@ export class StageTwo extends cdk.Construct {
         requestArchivesRole.addToPrincipalPolicy(iamSec.IamPermissions.athena([
                     props.glueDataCatalog.inventoryDatabase.catalogArn,
                     props.glueDataCatalog.inventoryDatabase.databaseArn,
-                    `arn:${cdk.Aws.PARTITION}:athena:*:${cdk.Aws.ACCOUNT_ID}:workgroup/${props.glueDataCatalog.athenaWorkgroup.name}`,
+                    `arn:${Aws.PARTITION}:athena:*:${Aws.ACCOUNT_ID}:workgroup/${props.glueDataCatalog.athenaWorkgroup.name}`,
                     props.glueDataCatalog.partitionedInventoryTable.tableArn
                 ]));
-        requestArchivesRole.addToPrincipalPolicy(iamSec.IamPermissions.lambdaLogGroup(`${cdk.Aws.STACK_NAME}-requestArchives`));
+        requestArchivesRole.addToPrincipalPolicy(iamSec.IamPermissions.lambdaLogGroup(`${Aws.STACK_NAME}-requestArchives`));
         requestArchivesRole.addToPrincipalPolicy(iamSec.IamPermissions.glacier(props.glacierSourceVault));
 
-        const defaultRequestArchivesPolicy = requestArchivesRole.node.findChild('DefaultPolicy').node.defaultChild as cdk.CfnResource;
+        const defaultRequestArchivesPolicy = requestArchivesRole.node.findChild('DefaultPolicy').node.defaultChild as CfnResource;
         CfnNagSuppressor.addCfnSuppression(defaultRequestArchivesPolicy, 'W76', 'Policy is auto-generated by CDK');
 
         const requestArchives = new lambda.Function(this, 'RequestArchives', {
-            functionName: `${cdk.Aws.STACK_NAME}-requestArchives`,
+            functionName: `${Aws.STACK_NAME}-requestArchives`,
             runtime: lambda.Runtime.NODEJS_16_X,
             handler: 'index.handler',
             memorySize: 1024,
-            timeout: cdk.Duration.minutes(15),
+            timeout: Duration.minutes(15),
             code: lambda.Code.fromAsset(path.join(__dirname, '../lambda/requestArchives')),
             role: requestArchivesRole,
             environment:
@@ -126,18 +127,18 @@ export class StageTwo extends cdk.Construct {
         // -------------------------------------------------------------------------------------------
         // Glue Partitioning Job
         const glueRole = new iam.Role(this, 'GlueJobRole', {
-            roleName: `${cdk.Aws.STACK_NAME}-glue-job-role`,
+            roleName: `${Aws.STACK_NAME}-glue-job-role`,
             assumedBy: new iam.ServicePrincipal('glue.amazonaws.com')
         });
 
-        CfnNagSuppressor.addCfnSuppression((<cdk.CfnResource>glueRole.node.defaultChild),'W28', 'Transient, one off solution - updates must be through deletion/redeployment of the stack only');
+        CfnNagSuppressor.addCfnSuppression((<CfnResource>glueRole.node.defaultChild),'W28', 'Transient, one off solution - updates must be through deletion/redeployment of the stack only');
 
         props.stagingBucket.grantReadWrite(glueRole);
         glueRole.addToPolicy(iamSec.IamPermissions.athena(
             [
                 props.glueDataCatalog.inventoryDatabase.catalogArn,
                 props.glueDataCatalog.inventoryDatabase.databaseArn,
-                `arn:${cdk.Aws.PARTITION}:athena:*:${cdk.Aws.ACCOUNT_ID}:workgroup/${props.glueDataCatalog.athenaWorkgroup.name}`,
+                `arn:${Aws.PARTITION}:athena:*:${Aws.ACCOUNT_ID}:workgroup/${props.glueDataCatalog.athenaWorkgroup.name}`,
                 props.glueDataCatalog.inventoryTable.tableArn,
                 props.glueDataCatalog.filelistTable.tableArn,
                 props.glueDataCatalog.partitionedInventoryTable.tableArn
@@ -155,11 +156,11 @@ export class StageTwo extends cdk.Construct {
                 ],
                 resources:
                     [
-                        `arn:${cdk.Aws.PARTITION}:logs:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:log-group:/aws-glue/jobs/*:**`
+                        `arn:${Aws.PARTITION}:logs:${Aws.REGION}:${Aws.ACCOUNT_ID}:log-group:/aws-glue/jobs/*:**`
                     ]
             }));
 
-        const glueJobName = `${cdk.Aws.STACK_NAME}-glacier-refreezer`;
+        const glueJobName = `${Aws.STACK_NAME}-glacier-refreezer`;
         const glueJob = new glue.CfnJob(this, 'GlueRepartitionJob',
             {
                 name: glueJobName,
