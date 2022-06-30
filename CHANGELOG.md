@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.1.2] - 2022-07-01
+### Added
+- Added support for all AWS partitions
+
+### Changed
+- Updated to CDK v2.25.0
+
 ## [1.1.1] - 2021-11-22
 ### Added
 - Amazon S3 Glacier Re:Freezer detects the size of the object to be copied to the target bucket and adjusts the number of Lambda calls invoking UploadPartCopy S3 API Call.

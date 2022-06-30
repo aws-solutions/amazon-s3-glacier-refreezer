@@ -1,5 +1,5 @@
 /*********************************************************************************************************************
- *  Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.                                           *
+ *  Copyright 2022 Amazon.com, Inc. or its affiliates. All Rights Reserved.                                           *
  *                                                                                                                    *
  *  Licensed under the Apache License, Version 2.0 (the "License"). You may not use this file except in compliance    *
  *  with the License. A copy of the License is located at                                                             *
@@ -16,14 +16,14 @@
  */
 
 'use strict';
-
-import * as cdk from '@aws-cdk/core';
-import * as sns from '@aws-cdk/aws-sns';
-import * as s3 from '@aws-cdk/aws-s3';
-import * as sfn from '@aws-cdk/aws-stepfunctions';
-import * as lambda from '@aws-cdk/aws-lambda';
-import {SnsEventSource} from '@aws-cdk/aws-lambda-event-sources';
-import * as iam from '@aws-cdk/aws-iam';
+import { Construct } from 'constructs';
+import { CustomResource, Duration, Aws } from 'aws-cdk-lib';
+import { aws_lambda as lambda } from 'aws-cdk-lib';
+import { aws_iam as iam } from 'aws-cdk-lib';
+import { aws_sns as sns } from 'aws-cdk-lib';   
+import { aws_stepfunctions as sfn } from 'aws-cdk-lib';   
+import { aws_s3 as s3 } from 'aws-cdk-lib';   
+import { aws_lambda_event_sources as eventsource } from 'aws-cdk-lib';   
 import * as iamSec from './iam-permissions';
 import {CfnNagSuppressor} from './cfn-nag-suppressor';
 import * as path from 'path';
@@ -40,9 +40,9 @@ export interface StageOneProps {
     readonly stageTwoOrchestrator: sfn.StateMachine
 }
 
-export class StageOne extends cdk.Construct {
+export class StageOne extends Construct {
 
-    constructor(scope: cdk.Construct, id: string, props: StageOneProps) {
+    constructor(scope: Construct, id: string, props: StageOneProps) {
         super(scope, id);
 
         // -------------------------------------------------------------------------------------------
@@ -63,11 +63,11 @@ export class StageOne extends cdk.Construct {
         });
 
         const requestInventory = new lambda.Function(this, 'requestInventory', {
-            functionName: `${cdk.Aws.STACK_NAME}-requestInventory`,
+            functionName: `${Aws.STACK_NAME}-requestInventory`,
             runtime: lambda.Runtime.NODEJS_16_X,
             handler: 'index.handler',
             memorySize: 256,
-            timeout: cdk.Duration.minutes(15),
+            timeout: Duration.minutes(15),
             code: lambda.Code.fromAsset('lambda/requestInventory'),
             role: requestInventoryRole,
             environment:
@@ -83,14 +83,14 @@ export class StageOne extends cdk.Construct {
                 }
         });
 
-        requestInventoryRole.addToPrincipalPolicy(iamSec.IamPermissions.lambdaLogGroup(`${cdk.Aws.STACK_NAME}-requestInventory`));
+        requestInventoryRole.addToPrincipalPolicy(iamSec.IamPermissions.lambdaLogGroup(`${Aws.STACK_NAME}-requestInventory`));
         props.stagingBucket.grantReadWrite(requestInventoryRole);
         s3.Bucket.fromBucketName(this, 'destinationBucket', props.destinationBucket).grantReadWrite(requestInventoryRole);
-        requestInventoryRole.addToPrincipalPolicy(iamSec.IamPermissions.s3ReadOnly([`arn:${cdk.Aws.PARTITION}:s3:::${props.filelistS3location}`]));
+        requestInventoryRole.addToPrincipalPolicy(iamSec.IamPermissions.s3ReadOnly([`arn:${Aws.PARTITION}:s3:::${props.filelistS3location}`]));
         requestInventoryRole.addToPrincipalPolicy(iamSec.IamPermissions.glacier(props.sourceGlacierVault));
         CfnNagSuppressor.addLambdaSuppression(requestInventory);
 
-        const requestInventoryTrigger = new cdk.CustomResource(this, 'requestInventoryTrigger',
+        const requestInventoryTrigger = new CustomResource(this, 'requestInventoryTrigger',
             {
                 serviceToken: requestInventory.functionArn
             });
@@ -104,17 +104,17 @@ export class StageOne extends cdk.Construct {
         });
 
         const downloadInventoryPart = new lambda.Function(this, 'downloadInventoryPart', {
-            functionName: `${cdk.Aws.STACK_NAME}-downloadInventoryPart`,
+            functionName: `${Aws.STACK_NAME}-downloadInventoryPart`,
             runtime: lambda.Runtime.NODEJS_16_X,
             handler: 'index.handler',
             memorySize: 1024,
-            reservedConcurrentExecutions: 1,
-            timeout: cdk.Duration.minutes(15),
+            reservedConcurrentExecutions: 10,
+            timeout: Duration.minutes(15),
             code: lambda.Code.fromAsset(path.join(__dirname, '../lambda/downloadInventoryPart')),
             role: downloadInventoryPartRole
         });
 
-        downloadInventoryPartRole.addToPrincipalPolicy(iamSec.IamPermissions.lambdaLogGroup(`${cdk.Aws.STACK_NAME}-downloadInventoryPart`));
+        downloadInventoryPartRole.addToPrincipalPolicy(iamSec.IamPermissions.lambdaLogGroup(`${Aws.STACK_NAME}-downloadInventoryPart`));
         props.stagingBucket.grantReadWrite(downloadInventoryPartRole);
         downloadInventoryPartRole.addToPrincipalPolicy(glacierAccess);
         CfnNagSuppressor.addLambdaSuppression(downloadInventoryPart);
@@ -127,11 +127,11 @@ export class StageOne extends cdk.Construct {
         });
 
         const downloadInventory = new lambda.Function(this, 'downloadInventory', {
-            functionName: `${cdk.Aws.STACK_NAME}-downloadInventory`,
+            functionName: `${Aws.STACK_NAME}-downloadInventory`,
             runtime: lambda.Runtime.NODEJS_16_X,
             handler: 'index.handler',
             memorySize: 1024,
-            timeout: cdk.Duration.minutes(15),
+            timeout: Duration.minutes(15),
             code: lambda.Code.fromAsset(path.join(__dirname, '../lambda/downloadInventory')),
             role: downloadInventoryRole,
             environment: {
@@ -143,13 +143,13 @@ export class StageOne extends cdk.Construct {
             }
         });
 
-        downloadInventoryRole.addToPrincipalPolicy(iamSec.IamPermissions.lambdaLogGroup(`${cdk.Aws.STACK_NAME}-downloadInventory`));
+        downloadInventoryRole.addToPrincipalPolicy(iamSec.IamPermissions.lambdaLogGroup(`${Aws.STACK_NAME}-downloadInventory`));
         props.stagingBucket.grantReadWrite(downloadInventoryRole);
         downloadInventoryRole.addToPrincipalPolicy(glacierAccess);
         downloadInventoryPart.grantInvoke(downloadInventoryRole);
         props.stageTwoOrchestrator.grant(downloadInventoryRole, 'states:StartExecution');
         CfnNagSuppressor.addLambdaSuppression(downloadInventory);
 
-        downloadInventory.addEventSource(new SnsEventSource(inventoryTopic));
+        downloadInventory.addEventSource(new eventsource.SnsEventSource(inventoryTopic));
     }
 }
