@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 import 'source-map-support/register';
 import * as cdk from 'aws-cdk-lib';
-import { DefaultStackSynthesizer } from 'aws-cdk-lib';
 import { AmazonS3GlacierRefreezerStack } from '../lib/amazon-s3-glacier-refreezer-stack';
 
 const app = new cdk.App();
