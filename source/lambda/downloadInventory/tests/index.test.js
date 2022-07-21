@@ -48,8 +48,8 @@ describe('-- Download Inventory Test --', () => {
 
     const validJobId = 'zbxcm3Z_3z5UkoroF7SuZKrxgGoDc3RloGduS7Eg-RO47Yc6FxsdGBgf_Q2DK5Ejh18CnTS5XW4_XqlNHS61dsO4CnMW';
     const validBucketName = 'Test-Glacier-Bucket';
-    const MAX_SIZE = 1024
-    const MULTI_PART_SIZE = 4 * 1024 * 1024 * 1024 * 10;
+    const MAX_SIZE = 4 * 1024 * 1024 * 1024 
+    const MULTI_PART_SIZE = 4 * 1024 * 1024 * 1024 * 2;
 
 
     //Init
@@ -176,8 +176,6 @@ describe('-- Download Inventory Test --', () => {
             await expect(index.handler(event)).to.be.rejectedWith('Job not found');
         })
 
-
-
     })
 
     describe('inventoryMultiPart', () => {
@@ -236,18 +234,12 @@ describe('-- Download Inventory Test --', () => {
         //Tests
         const event = require('./snsMessage.json');
 
-        it('Should call inventoryMultiPart when size is greater than MAX_SIZE', async () => {
+        it('Should call inventoryMultiPart when size exceeds MAX_SIZE (default 4GB)', async () => {
             let mockMsg = JSON.parse(event.Records[0].Sns.Message);
             mockMsg.InventorySizeInBytes = MULTI_PART_SIZE; 
             event.Records[0].Sns.Message = JSON.stringify(mockMsg);           
             await expect(index.handler(event)).to.not.be.rejected;
         })
 
-        it('Should invoke stepFunction successfully if valid job id is supplied', async () => {
-            let mockMsg = JSON.parse(event.Records[0].Sns.Message);
-            mockMsg.InventorySizeInBytes = MULTI_PART_SIZE; 
-            event.Records[0].Sns.Message = JSON.stringify(mockMsg);   
-            await expect(index.handler(event)).to.not.be.rejected;
-        })
     })
 });
