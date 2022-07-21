@@ -12,5 +12,9 @@ new AmazonS3GlacierRefreezerStack(
         solutionId: 'SO0140',
         solutionName: 'amazon-s3-glacier-refreezer',
         description: '(SO0140) - Amazon S3 Glacier Re:Freezer copies Amazon S3 Glacier Vault archives to Amazon S3 Bucket. Version %%VERSION%%',
+        // avoid adding CDK Bootstrap version rule check
+        synthesizer: new cdk.DefaultStackSynthesizer({
+            generateBootstrapVersionRule: false
+        })
     }
 );
