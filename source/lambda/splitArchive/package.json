@@ -9,7 +9,7 @@
     "test": "mocha --timeout 10000 'tests/**/*.js'"
   },
   "dependencies": {
-    "moment": "^2.29.1"
+    "moment": "^2.29.4"
   },
   "devDependencies": {
     "aws-sdk": "^2.1001.0",
