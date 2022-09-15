@@ -24,7 +24,7 @@ function package_lambda() {
 
     function_name=${PWD##*/}
     msg "  ${function_name} from ${PWD}"
-    npm ci --only=prod
+    npm ci --omit=dev
 }
 
 echo "------------------------------------------------------------------------------"

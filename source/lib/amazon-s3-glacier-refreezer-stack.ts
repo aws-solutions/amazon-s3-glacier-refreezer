@@ -1,5 +1,5 @@
 /*********************************************************************************************************************
- *  Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.                                           *
+ *  Copyright 2022 Amazon.com, Inc. or its affiliates. All Rights Reserved.                                           *
  *                                                                                                                    *
  *  Licensed under the Apache License, Version 2.0 (the "License"). You may not use this file except in compliance    *
  *  with the License. A copy of the License is located at                                                             *
@@ -17,7 +17,9 @@
 
 'use strict';
 
-import * as cdk from '@aws-cdk/core';
+import { Construct } from 'constructs';
+import { Stack, Tags, CfnParameter, CfnOutput, CfnMapping, Aws } from 'aws-cdk-lib';
+import { aws_sns as sns } from 'aws-cdk-lib';   
 import {StagingBucket} from './s3-staging-bucket';
 import {GlueDataCatalog} from './glue-data-catalog';
 import {DynamoDataCatalog} from './ddb-data-catalog';
@@ -29,17 +31,16 @@ import {StageFour} from "./stage-four";
 import {SolutionStackProps} from './solution-props';
 import {StageTwo} from "./stage-two";
 import {AnonymousStatistics} from "./solution-builders-anonymous-statistics";
-import * as sns from "@aws-cdk/aws-sns";
 import {CfnNagSuppressor} from "./cfn-nag-suppressor";
 import * as iamSec from "./iam-permissions";
 
-export class AmazonS3GlacierRefreezerStack extends cdk.Stack {
-    constructor(scope: cdk.Construct, id: string, props: SolutionStackProps) {
+export class AmazonS3GlacierRefreezerStack extends Stack {
+    constructor(scope: Construct, id: string, props: SolutionStackProps) {
         super(scope, id, props);
 
         //---------------------------------------------------------------------
         // Amazon S3 Glacier CloudFormation Configuration
-        const statisticsMapping = new cdk.CfnMapping(this, 'AnonymousStatisticsMap', {
+        const statisticsMapping = new CfnMapping(this, 'AnonymousStatisticsMap', {
             mapping: {
                 'SendAnonymousStatistics': {
                     'Data': 'Yes'
@@ -49,39 +50,39 @@ export class AmazonS3GlacierRefreezerStack extends cdk.Stack {
 
         //---------------------------------------------------------------------
         // Amazon S3 Glacier CloudFormation Configuration
-        const sourceVault = new cdk.CfnParameter(this, 'SourceVault', {
+        const sourceVault = new CfnParameter(this, 'SourceVault', {
             type: 'String',
             allowedPattern: '.+'
         });
 
-        const destinationBucket = new cdk.CfnParameter(this, 'DestinationBucket', {
+        const destinationBucket = new CfnParameter(this, 'DestinationBucket', {
             type: 'String',
             allowedPattern: '.+'
         });
 
-        const destinationStorageClass = new cdk.CfnParameter(this, 'DestinationStorageClass', {
+        const destinationStorageClass = new CfnParameter(this, 'DestinationStorageClass', {
             type: 'String',
             default: 'STANDARD',
             allowedValues: ['STANDARD', 'INTELLIGENT_TIERING', 'STANDARD_IA', 'ONEZONE_IA', 'GLACIER_IR', 'GLACIER', 'DEEP_ARCHIVE']
         });
 
-        const glacierRetrievalTier = new cdk.CfnParameter(this, 'GlacierRetrievalTier', {
+        const glacierRetrievalTier = new CfnParameter(this, 'GlacierRetrievalTier', {
             type: 'String',
             default: 'Bulk',
             allowedValues: ['Bulk', 'Standard', 'Expedited']
         });
 
-        const filelistS3location = new cdk.CfnParameter(this, 'FilelistS3Location', {
+        const filelistS3location = new CfnParameter(this, 'FilelistS3Location', {
             type: 'String',
             default: ''
         });
 
-        const cloudtrailExportConfirmation = new cdk.CfnParameter(this, 'CloudTrailExportConfirmation', {
+        const cloudtrailExportConfirmation = new CfnParameter(this, 'CloudTrailExportConfirmation', {
             type: 'String',
             allowedValues: ['Yes', 'No']
         });
 
-        const snsTopicForVaultConfirmation = new cdk.CfnParameter(this, 'SNSTopicForVaultConfirmation', {
+        const snsTopicForVaultConfirmation = new CfnParameter(this, 'SNSTopicForVaultConfirmation', {
             type: 'String',
             allowedValues: ['Yes', 'No']
         });
@@ -237,28 +238,28 @@ export class AmazonS3GlacierRefreezerStack extends cdk.Stack {
 
         //---------------------------------------------------------------------
         // Tags
-        cdk.Tags.of(this).add("solution", "amazon-s3-glacier-refreezer")
+        Tags.of(this).add("solution", "amazon-s3-glacier-refreezer")
 
         //---------------------------------------------------------------------
         // Stack Outputs
-        new cdk.CfnOutput(this, 'CloudTrailExportConfirmationSelection', {
+        new CfnOutput(this, 'CloudTrailExportConfirmationSelection', {
             description: 'Selected option for CloudTrail Export confirmation',
             value: cloudtrailExportConfirmation.valueAsString
         });
 
-        new cdk.CfnOutput(this, 'SNSTopicForVaultConfirmationSelection', {
+        new CfnOutput(this, 'SNSTopicForVaultConfirmationSelection', {
             description: 'Selected option for SNS Topic for Vault confirmation',
             value: snsTopicForVaultConfirmation.valueAsString
         });
 
-        new cdk.CfnOutput(this, 'StagingBucketName', {
+        new CfnOutput(this, 'StagingBucketName', {
             description: 'Staging Bucket Name',
             value: stagingBucket.Bucket.bucketName
         });
 
-        new cdk.CfnOutput(this, 'dashboardUrl', {
+        new CfnOutput(this, 'dashboardUrl', {
             description: 'Progress Dashboard URL',
-            value: `https://${cdk.Aws.REGION}.console.aws.amazon.com/cloudwatch/home?region=${cdk.Aws.REGION}#dashboards:name=${monitoring.dashboardName};accountId=${cdk.Aws.ACCOUNT_ID}`
+            value: `https://${Aws.REGION}.console.aws.amazon.com/cloudwatch/home?region=${Aws.REGION}#dashboards:name=${monitoring.dashboardName};accountId=${Aws.ACCOUNT_ID}`
         });
     }
 }

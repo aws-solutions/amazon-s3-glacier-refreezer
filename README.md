@@ -130,11 +130,11 @@ To customize and deploy the solution from the source code, follow the steps belo
 Install prerequisite software packages:
 
 * [AWS Command Line Interface](https://aws.amazon.com/cli/)
-* [AWS Cloud Development Kit (AWS CDK)](https://aws.amazon.com/cdk/)
+* [AWS Cloud Development Kit (AWS CDK) v2](https://aws.amazon.com/cdk/)
 * [Node package manager](https://www.npmjs.com/)
-* Node.js 12.x or later
+* Node.js 16.x 
 
-> **OBS**: At the time of writing the latest Node.js runtime version supported by AWS Lambda is v14 ([documentation](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html)). Please use Node.js v14 when running and testing the solution.
+> **OBS**: At the time of writing the latest Node.js runtime version supported by AWS Lambda is v16 ([documentation](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html)). Please use Node.js v16 when running and testing the solution.
 
 ### 1. Download or clone this repo
 ```
@@ -234,8 +234,8 @@ BUCKET_NAME=my-glacier-refreezer-ap-southeast-2    # full regional bucket name
 SOLUTION_NAME=my-solution-name                     # custom solution name
 VERSION=my-version                                 # custom version number
 
-aws s3 cp ./global-s3-assets/   s3://${BUCKET_NAME}/${SOLUTION_NAME}/${VERSION} --recursive --acl public-read --acl bucket-owner-full-control
-aws s3 cp ./regional-s3-assets/ s3://${BUCKET_NAME}/${SOLUTION_NAME}/${VERSION} --recursive --acl public-read --acl bucket-owner-full-control 
+aws s3 cp ./global-s3-assets/   s3://${BUCKET_NAME}/${SOLUTION_NAME}/${VERSION} --recursive --acl public-read
+aws s3 cp ./regional-s3-assets/ s3://${BUCKET_NAME}/${SOLUTION_NAME}/${VERSION} --recursive --acl public-read
 
 echo "https://${BUCKET_NAME}.s3.amazonaws.com/${SOLUTION_NAME}/${VERSION}/${SOLUTION_NAME}.template"
 ```
@@ -260,7 +260,7 @@ echo "https://${BUCKET_NAME}.s3.amazonaws.com/${SOLUTION_NAME}/${VERSION}/${SOLU
 
 ***
 
-Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+Copyright 2022 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

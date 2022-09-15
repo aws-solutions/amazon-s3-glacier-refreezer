@@ -1,5 +1,5 @@
 /*********************************************************************************************************************
- *  Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.                                      *
+ *  Copyright 2022 Amazon.com, Inc. or its affiliates. All Rights Reserved.                                      *
  *                                                                                                                    *
  *  Licensed under the Apache License, Version 2.0 (the "License"). You may not use this file except in compliance    *
  *  with the License. A copy of the License is located at                                                             *
@@ -17,7 +17,8 @@
 
 'use strict';
 
-const fastXmlParser = require('fast-xml-parser');
+const { XMLParser } = require('fast-xml-parser');
+const parser = new XMLParser();
 
 function parseFileName(archiveId, archiveDescription) {
 
@@ -68,7 +69,7 @@ function detectAndParseDescription(archiveDescription) {
 }
 
 function parseFastGlacier(archiveDescription, metadata, path) {
-    const jsonObj = fastXmlParser.parse(archiveDescription);
+    const jsonObj = parser.parse(archiveDescription);
     return Buffer.from(jsonObj[metadata][path], 'base64').toString('ascii')
 }
 

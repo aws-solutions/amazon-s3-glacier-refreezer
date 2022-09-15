@@ -1,5 +1,5 @@
 /*********************************************************************************************************************
- *  Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.                                      *
+ *  Copyright 2022 Amazon.com, Inc. or its affiliates. All Rights Reserved.                                      *
  *                                                                                                                    *
  *  Licensed under the Apache License, Version 2.0 (the "License"). You may not use this file except in compliance    *
  *  with the License. A copy of the License is located at                                                             *
@@ -135,7 +135,7 @@ describe('-- Copy Chunk Test --', () => {
                 expect(result[0].psdt.S).to.not.equal(originalDateVal);
             })
             it('Should THROW error from DynamoDB if invalid ID is spplied', async () => {
-                await expect(db.setTimestampNow(validArchiveId + 'append-some-random-text', 'psdt')).to.be.rejectedWith('Cannot read property \'psdt\' of undefined');
+                await expect(db.setTimestampNow(validArchiveId + 'append-some-random-text', 'psdt')).to.be.rejectedWith('Cannot read properties of undefined (reading \'psdt\')');
             })
         })
     })

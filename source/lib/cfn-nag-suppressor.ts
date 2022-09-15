@@ -1,5 +1,5 @@
 /*********************************************************************************************************************
- *  Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.                                           *
+ *  Copyright 2022 Amazon.com, Inc. or its affiliates. All Rights Reserved.                                           *
  *                                                                                                                    *
  *  Licensed under the Apache License, Version 2.0 (the "License"). You may not use this file except in compliance    *
  *  with the License. A copy of the License is located at                                                             *
@@ -17,16 +17,17 @@
 
 'use strict';
 
-import * as cdk from '@aws-cdk/core';
+import { Construct } from 'constructs';
+import { Resource, CfnResource } from 'aws-cdk-lib';
 
-export class CfnNagSuppressor extends cdk.Construct {
+export class CfnNagSuppressor extends Construct {
 
-    constructor(scope: cdk.Construct, id: string) {
+    constructor(scope: Construct, id: string) {
         super(scope, id);
     }
 
-    static addSuppression(resource: cdk.Resource, id: string, reason: string) {
-        (<cdk.CfnResource>resource.node.defaultChild).cfnOptions.metadata = {
+    static addSuppression(resource: Resource, id: string, reason: string) {
+        (<CfnResource>resource.node.defaultChild).cfnOptions.metadata = {
             cfn_nag: {
                 rules_to_suppress:
                     [{
@@ -37,7 +38,7 @@ export class CfnNagSuppressor extends cdk.Construct {
         };
     }
 
-    static addCfnSuppression(resource: cdk.CfnResource, id: string, reason: string) {
+    static addCfnSuppression(resource: CfnResource, id: string, reason: string) {
         resource.cfnOptions.metadata = {
             cfn_nag: {
                 rules_to_suppress:
@@ -49,8 +50,8 @@ export class CfnNagSuppressor extends cdk.Construct {
         };
     }
 
-    static addLambdaSuppression(resource: cdk.Resource) {
-        (<cdk.CfnResource>resource.node.defaultChild).cfnOptions.metadata = {
+    static addLambdaSuppression(resource: Resource) {
+        (<CfnResource>resource.node.defaultChild).cfnOptions.metadata = {
             cfn_nag: {
                 rules_to_suppress:
                     [{

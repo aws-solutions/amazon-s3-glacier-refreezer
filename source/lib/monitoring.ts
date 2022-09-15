@@ -1,5 +1,5 @@
 /*********************************************************************************************************************
- *  Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.                                           *
+ *  Copyright 2022 Amazon.com, Inc. or its affiliates. All Rights Reserved.                                           *
  *                                                                                                                    *
  *  Licensed under the Apache License, Version 2.0 (the "License"). You may not use this file except in compliance    *
  *  with the License. A copy of the License is located at                                                             *
@@ -17,19 +17,20 @@
 
 'use strict';
 
-import * as cdk from '@aws-cdk/core';
-import * as cloudwatch from '@aws-cdk/aws-cloudwatch';
-import * as lambda from '@aws-cdk/aws-lambda';
-import * as events from "@aws-cdk/aws-events";
-import * as logs from "@aws-cdk/aws-logs";
-import * as targets from "@aws-cdk/aws-events-targets";
-import * as eventsource from '@aws-cdk/aws-lambda-event-sources';
-import * as iam from '@aws-cdk/aws-iam';
-import * as sns from '@aws-cdk/aws-sns';
+import { Construct } from 'constructs';
+import { CfnDeletionPolicy, Duration, Aws } from 'aws-cdk-lib';
+import { aws_dynamodb as dynamo } from 'aws-cdk-lib';   
+import { aws_lambda as lambda } from 'aws-cdk-lib';
+import { aws_iam as iam } from 'aws-cdk-lib';
+import { aws_sns as sns } from 'aws-cdk-lib';   
+import { aws_cloudwatch as cloudwatch } from 'aws-cdk-lib';   
+import { aws_events as events } from 'aws-cdk-lib';   
+import { aws_logs as logs } from 'aws-cdk-lib';   
+import { aws_events_targets as targets } from 'aws-cdk-lib';   
+import { aws_lambda_event_sources as eventsource } from 'aws-cdk-lib';   
 import * as iamSec from './iam-permissions';
 import * as path from 'path';
 import * as fs from 'fs';
-import * as dynamo from "@aws-cdk/aws-dynamodb";
 import {CfnNagSuppressor} from "./cfn-nag-suppressor";
 
 export interface MonitoringProps {
@@ -38,11 +39,11 @@ export interface MonitoringProps {
     readonly archiveNotificationTopic: sns.ITopic
 }
 
-export class Monitoring extends cdk.Construct {
+export class Monitoring extends Construct {
 
     public readonly dashboardName: string;
 
-    constructor(scope: cdk.Construct, id: string, props: MonitoringProps) {
+    constructor(scope: Construct, id: string, props: MonitoringProps) {
         super(scope, id);
 
         // -------------------------------------------------------------------------------------------
@@ -54,7 +55,7 @@ export class Monitoring extends cdk.Construct {
         // Declaring the policy explicitly to minimize permissions and reduce cfn_nag warnings
         const calculateMetricsRolePolicy = new iam.Policy(this, 'CalculateMetricsRolePolicy', {
             statements: [
-                iamSec.IamPermissions.lambdaLogGroup(`${cdk.Aws.STACK_NAME}-calculateMetrics`),
+                iamSec.IamPermissions.lambdaLogGroup(`${Aws.STACK_NAME}-calculateMetrics`),
                 new iam.PolicyStatement({
                     resources: [
                         `${props.statusTable.tableArn}/stream/*`
@@ -75,13 +76,13 @@ export class Monitoring extends cdk.Construct {
         const statusTableEventStream = new eventsource.DynamoEventSource(props.statusTable, {
             startingPosition: lambda.StartingPosition.TRIM_HORIZON,
             parallelizationFactor: 1,
-            maxBatchingWindow: cdk.Duration.seconds(30),
+            maxBatchingWindow: Duration.seconds(30),
             batchSize: 1000
         });
 
         const calculateMetrics = new lambda.Function(this, 'CalculateMetrics', {
-            functionName: `${cdk.Aws.STACK_NAME}-calculateMetrics`,
-            runtime: lambda.Runtime.NODEJS_14_X,
+            functionName: `${Aws.STACK_NAME}-calculateMetrics`,
+            runtime: lambda.Runtime.NODEJS_16_X,
             handler: 'index.handler',
             code: lambda.Code.fromAsset(path.join(__dirname, '../lambda/calculateMetrics')),
             role: calculateMetricsRole.withoutPolicyUpdates(),
@@ -118,15 +119,15 @@ export class Monitoring extends cdk.Construct {
                         }
                     }
                 }),
-                iamSec.IamPermissions.lambdaLogGroup(`${cdk.Aws.STACK_NAME}-postMetrics`)
+                iamSec.IamPermissions.lambdaLogGroup(`${Aws.STACK_NAME}-postMetrics`)
             ]
         });
         postMetricsRolePolicy.attachToRole(postMetricsRole);
         CfnNagSuppressor.addSuppression(postMetricsRolePolicy, 'W12', 'CloudWatch does not support metric ARNs. Using Namespace condition');
 
         const postMetrics = new lambda.Function(this, 'PostMetrics', {
-            functionName: `${cdk.Aws.STACK_NAME}-postMetrics`,
-            runtime: lambda.Runtime.NODEJS_14_X,
+            functionName: `${Aws.STACK_NAME}-postMetrics`,
+            runtime: lambda.Runtime.NODEJS_16_X,
             handler: 'index.handler',
             code: lambda.Code.fromAsset(path.join(__dirname, '../lambda/postMetrics')),
             role: postMetricsRole,
@@ -134,7 +135,7 @@ export class Monitoring extends cdk.Construct {
                 {
                     METRICS_TABLE: props.metricTable.tableName,
                     STATUS_TABLE: props.statusTable.tableName,
-                    STACK_NAME: cdk.Aws.STACK_NAME,
+                    STACK_NAME: Aws.STACK_NAME,
                     ARCHIVE_NOTIFICATIONS_TOPIC: props.archiveNotificationTopic.topicName
                 }
         });
@@ -142,9 +143,7 @@ export class Monitoring extends cdk.Construct {
         CfnNagSuppressor.addLambdaSuppression(postMetrics);
 
         const postMetricSchedule = new events.Rule(this, 'PostMetricSchedule', {
-            schedule: {
-                expressionString: 'rate(1 minute)'
-            }
+            schedule: events.Schedule.rate(Duration.minutes(1)),
         });
         postMetricSchedule.addTarget(new targets.LambdaFunction(postMetrics));
 
@@ -157,7 +156,7 @@ export class Monitoring extends cdk.Construct {
         const validated = Monitoring.createRefreezerMetric('ArchiveCountValidated', 'Hashes Validated');
         const copied = Monitoring.createRefreezerMetric('ArchiveCountCompleted', 'Copied to Destination');
 
-        this.dashboardName = `${cdk.Aws.STACK_NAME}-Amazon-S3-Glacier-ReFreezer`;
+        this.dashboardName = `${Aws.STACK_NAME}-Amazon-S3-Glacier-ReFreezer`;
         const dashboard = new cloudwatch.Dashboard(this, 'glacier-refreezer-dashboard',
             {
                 dashboardName: this.dashboardName,
@@ -167,7 +166,7 @@ export class Monitoring extends cdk.Construct {
         const singleValueWidget = new cloudwatch.SingleValueWidget({
             width: 24,
             height: 3,
-            title: `Amazon S3 Glacier Re:Freezer Progress Metrics : ${cdk.Aws.STACK_NAME}`,
+            title: `Amazon S3 Glacier Re:Freezer Progress Metrics : ${Aws.STACK_NAME}`,
             metrics: [
                 total,
                 requested,
@@ -228,8 +227,8 @@ export class Monitoring extends cdk.Construct {
             height: 6,
             view: cloudwatch.GraphWidgetView.TIME_SERIES,
             left: [
-                Monitoring.createSqsMetric(`${cdk.Aws.STACK_NAME}-archive-notification-queue`),
-                Monitoring.createSqsMetric(`${cdk.Aws.STACK_NAME}-chunk-copy-queue`)
+                Monitoring.createSqsMetric(`${Aws.STACK_NAME}-archive-notification-queue`),
+                Monitoring.createSqsMetric(`${Aws.STACK_NAME}-chunk-copy-queue`)
             ]
         });
 
@@ -244,7 +243,7 @@ export class Monitoring extends cdk.Construct {
             unit: cloudwatch.Unit.NONE,
             metricName: 'ApproximateAgeOfOldestMessage',
             namespace: 'AWS/SQS',
-            dimensions: {
+            dimensionsMap: {
                 'QueueName': queueName
             }
         });
@@ -256,22 +255,22 @@ export class Monitoring extends cdk.Construct {
             metricName,
             namespace: 'AmazonS3GlacierReFreezer',
             label: metricLabel,
-            dimensions: {
-                'CloudFormationStack': cdk.Aws.STACK_NAME
+            dimensionsMap: {
+                'CloudFormationStack': Aws.STACK_NAME
             },
-            account: cdk.Aws.ACCOUNT_ID,
+            account: Aws.ACCOUNT_ID,
             statistic: cloudwatch.Statistic.MAXIMUM,
-            period: cdk.Duration.seconds(300)
+            period: Duration.seconds(300)
         });
     }
 
-    private static createStackLogGroup(construct: cdk.Construct, prefix: string, name: string) {
-        const logGroupName = `${prefix}/${cdk.Aws.STACK_NAME}-${name}`;
+    private static createStackLogGroup(construct: Construct, prefix: string, name: string) {
+        const logGroupName = `${prefix}/${Aws.STACK_NAME}-${name}`;
         const logGroup = new logs.CfnLogGroup(construct, `${name}LogGroup`, {
             logGroupName,
             retentionInDays: 90
         });
-        logGroup.addOverride('DeletionPolicy',cdk.CfnDeletionPolicy.RETAIN);
+        logGroup.addOverride('DeletionPolicy',CfnDeletionPolicy.RETAIN);
 
         logGroup.cfnOptions.metadata = {
             cfn_nag: {

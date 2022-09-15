@@ -1,5 +1,5 @@
 /*********************************************************************************************************************
- *  Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.                                      *
+ *  Copyright 2022 Amazon.com, Inc. or its affiliates. All Rights Reserved.                                      *
  *                                                                                                                    *
  *  Licensed under the Apache License, Version 2.0 (the "License"). You may not use this file except in compliance    *
  *  with the License. A copy of the License is located at                                                             *
@@ -107,7 +107,7 @@ describe('-- Calculate TreeHash Test --', () => {
                 expect(result[0].vdt.S).to.not.equal(originalDateVal);
             })
             it('Should THROW an error if an ID that does not exist in the DB is supplied', async () => {
-                await expect(db.setTimestampNow(validArchiveId + 'append-some-random-text', 'vdt')).to.be.rejectedWith('Cannot read property \'vdt\' of undefined');
+                await expect(db.setTimestampNow(validArchiveId + 'append-some-random-text', 'vdt')).to.be.rejectedWith('Cannot read properties of undefined (reading \'vdt\')');
             })
         })
     })

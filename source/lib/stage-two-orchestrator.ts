@@ -1,5 +1,5 @@
 /*********************************************************************************************************************
- *  Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.                                           *
+ *  Copyright 2022 Amazon.com, Inc. or its affiliates. All Rights Reserved.                                           *
  *                                                                                                                    *
  *  Licensed under the Apache License, Version 2.0 (the "License"). You may not use this file except in compliance    *
  *  with the License. A copy of the License is located at                                                             *
@@ -17,17 +17,17 @@
 
 'use strict';
 
-import * as cdk from '@aws-cdk/core';
-import * as lambda from '@aws-cdk/aws-lambda';
-import * as logs from '@aws-cdk/aws-logs';
-import * as iam from '@aws-cdk/aws-iam';
-import * as s3 from '@aws-cdk/aws-s3';
-import * as sfn from '@aws-cdk/aws-stepfunctions';
-import * as tasks from '@aws-cdk/aws-stepfunctions-tasks';
+import { Construct } from 'constructs';
+import { CfnResource, CustomResource, Duration, Aws } from 'aws-cdk-lib';
+import { aws_lambda as lambda } from 'aws-cdk-lib';
+import { aws_iam as iam } from 'aws-cdk-lib';
+import { aws_logs as logs } from 'aws-cdk-lib';   
+import { aws_stepfunctions as sfn } from 'aws-cdk-lib';   
+import { aws_stepfunctions_tasks as tasks } from 'aws-cdk-lib';   
+import { aws_s3 as s3 } from 'aws-cdk-lib';   
 import * as iamSec from './iam-permissions';
 import {GlueDataCatalog} from "./glue-data-catalog";
 import {DynamoDataCatalog} from "./ddb-data-catalog";
-import {CfnNagSuppressor} from "./cfn-nag-suppressor";
 
 export interface StageTwoOrchestratorProps {
     readonly stagingBucket: s3.IBucket;
@@ -38,10 +38,10 @@ export interface StageTwoOrchestratorProps {
     readonly glueJobName: string;
 }
 
-export class StageTwoOrchestrator extends cdk.Construct {
+export class StageTwoOrchestrator extends Construct {
     public readonly stateMachine: sfn.StateMachine;
 
-    constructor(scope: cdk.Construct, id: string, props: StageTwoOrchestratorProps) {
+    constructor(scope: Construct, id: string, props: StageTwoOrchestratorProps) {
         super(scope, id);
 
         // -------------------------------------------------------------------------------------------
@@ -126,7 +126,7 @@ export class StageTwoOrchestrator extends cdk.Construct {
         });
 
         taskSubmitAnonymousStatistics.addRetry({
-            interval: cdk.Duration.seconds(2),
+            interval: Duration.seconds(2),
             maxAttempts: 6,
             backoffRate: 2
         });
@@ -163,7 +163,7 @@ export class StageTwoOrchestrator extends cdk.Construct {
         taskRequestArchives.addRetry({
             maxAttempts: 10000,
             backoffRate: 1,
-            interval: cdk.Duration.seconds(15)
+            interval: Duration.seconds(15)
         });
 
         const taskWaitX = new sfn.Wait(this, 'Wait X Seconds', {
@@ -234,7 +234,7 @@ export class StageTwoOrchestrator extends cdk.Construct {
 
         // -------------------------------------------------------------------------------------------
         // Stage Two Orchestrator
-        const stageTwoOrchestratorLogGroup = logs.LogGroup.fromLogGroupName(this, 'Orchestrator', `/aws/vendedlogs/states/${cdk.Aws.STACK_NAME}-stageTwoOrchestrator`);
+        const stageTwoOrchestratorLogGroup = logs.LogGroup.fromLogGroupName(this, 'Orchestrator', `/aws/vendedlogs/states/${Aws.STACK_NAME}-stageTwoOrchestrator`);
 
         // Stage Two Orchestrator :: IAM
         const stageTwoOrchestratorRole = new iam.Role(this, 'OrchestratorRole', {
@@ -250,7 +250,7 @@ export class StageTwoOrchestrator extends cdk.Construct {
         stageTwoOrchestratorRole.addToPrincipalPolicy(iamSec.IamPermissions.athena([
                     props.glueDataCatalog.inventoryDatabase.catalogArn,
                     props.glueDataCatalog.inventoryDatabase.databaseArn,
-                    `arn:aws:athena:*:${cdk.Aws.ACCOUNT_ID}:workgroup/${props.glueDataCatalog.athenaWorkgroup.name}`,
+                    `arn:${Aws.PARTITION}:athena:*:${Aws.ACCOUNT_ID}:workgroup/${props.glueDataCatalog.athenaWorkgroup.name}`,
                     props.glueDataCatalog.inventoryTable.tableArn,
                     props.glueDataCatalog.partitionedInventoryTable.tableArn
                 ]));
@@ -263,7 +263,7 @@ export class StageTwoOrchestrator extends cdk.Construct {
                     'glue:GetJobRun',
                     'glue:GetJobRuns'
                 ],
-                resources: [`arn:aws:glue:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:job/${props.glueJobName}`],
+                resources: [`arn:${Aws.PARTITION}:glue:${Aws.REGION}:${Aws.ACCOUNT_ID}:job/${props.glueJobName}`],
             }));
 
         stageTwoOrchestratorRole.addToPrincipalPolicy(new iam.PolicyStatement({
@@ -284,7 +284,7 @@ export class StageTwoOrchestrator extends cdk.Construct {
                 ]
             }));
             
-        const defaultOrchetratorPolicy = stageTwoOrchestratorRole.node.findChild('DefaultPolicy').node.defaultChild as cdk.CfnResource;
+        const defaultOrchetratorPolicy = stageTwoOrchestratorRole.node.findChild('DefaultPolicy').node.defaultChild as CfnResource;
         defaultOrchetratorPolicy.addMetadata('cfn_nag', {
             rules_to_suppress:
             [
@@ -301,7 +301,7 @@ export class StageTwoOrchestrator extends cdk.Construct {
 
         // Stage Two Orchestrator :: StepFunction
         this.stateMachine = new sfn.StateMachine(this, 'StageTwoOrchestrator', {
-            stateMachineName: `${cdk.Aws.STACK_NAME}-stageTwoOrchestrator`,
+            stateMachineName: `${Aws.STACK_NAME}-stageTwoOrchestrator`,
             stateMachineType: sfn.StateMachineType.STANDARD,
             definition: graphDefinition,
             role: stageTwoOrchestratorRole.withoutPolicyUpdates(),

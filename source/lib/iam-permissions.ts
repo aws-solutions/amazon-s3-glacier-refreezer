@@ -1,5 +1,5 @@
 /*********************************************************************************************************************
- *  Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.                                           *
+ *  Copyright 2022 Amazon.com, Inc. or its affiliates. All Rights Reserved.                                           *
  *                                                                                                                    *
  *  Licensed under the Apache License, Version 2.0 (the "License"). You may not use this file except in compliance    *
  *  with the License. A copy of the License is located at                                                             *
@@ -17,14 +17,15 @@
 
 'use strict';
 
-import * as cdk from '@aws-cdk/core';
-import * as iam from '@aws-cdk/aws-iam';
-import * as sns from '@aws-cdk/aws-sns';
-import * as sqs from '@aws-cdk/aws-sqs';
+import { Construct } from 'constructs';
+import { Aws } from 'aws-cdk-lib';
+import { aws_iam as iam } from 'aws-cdk-lib';   
+import { aws_sqs as sqs } from 'aws-cdk-lib';   
+import { aws_sns as sns } from 'aws-cdk-lib';   
 
-export class IamPermissions extends cdk.Construct {
+export class IamPermissions extends Construct {
 
-    constructor(scope: cdk.Construct, id: string) {
+    constructor(scope: Construct, id: string) {
         super(scope, id);
     }
 
@@ -36,7 +37,7 @@ export class IamPermissions extends cdk.Construct {
                 'glacier:GetJobOutput',
                 'glacier:InitiateJob'
             ],
-            resources: [`arn:aws:glacier:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:vaults/${glacierVault}`],
+            resources: [`arn:${Aws.PARTITION}:glacier:${Aws.REGION}:${Aws.ACCOUNT_ID}:vaults/${glacierVault}`],
             conditions: {
                 Bool:
                     {'aws:SecureTransport': true}
@@ -116,7 +117,7 @@ export class IamPermissions extends cdk.Construct {
             resources: [`${topic.topicArn}`,],
             conditions: {
                 "StringEquals": {
-                    "AWS:SourceOwner": cdk.Aws.ACCOUNT_ID
+                    "AWS:SourceOwner": Aws.ACCOUNT_ID
                 }
             }
         });
@@ -175,7 +176,7 @@ export class IamPermissions extends cdk.Construct {
                 'logs:PutLogEvents'
             ],
             resources: [
-                `arn:aws:logs:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:log-group:/aws/lambda/${functionName}:**`
+                `arn:${Aws.PARTITION}:logs:${Aws.REGION}:${Aws.ACCOUNT_ID}:log-group:/aws/lambda/${functionName}:**`
             ]
         })
     }
