@@ -1,5 +1,5 @@
 /*********************************************************************************************************************
- *  Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.                                           *
+ *  Copyright 2022 Amazon.com, Inc. or its affiliates. All Rights Reserved.                                           *
  *                                                                                                                    *
  *  Licensed under the Apache License, Version 2.0 (the "License"). You may not use this file except in compliance    *
  *  with the License. A copy of the License is located at                                                             *
@@ -17,39 +17,48 @@
 
 'use strict';
 
-import * as cdk from '@aws-cdk/core';
-import * as s3 from '@aws-cdk/aws-s3';
-import * as glue from '@aws-cdk/aws-glue';
-import * as lambda from '@aws-cdk/aws-lambda';
-import * as athena from '@aws-cdk/aws-athena';
-import {readFileSync} from 'fs';
+import { Construct } from 'constructs';
+import { Aws, CustomResource } from 'aws-cdk-lib';
+import { aws_s3 as s3 } from 'aws-cdk-lib';   
+import { aws_iam as iam } from 'aws-cdk-lib';   
+import * as iamSec from './iam-permissions';
+import * as glue from '@aws-cdk/aws-glue-alpha';   
+import { aws_glue as cfn_glue } from  'aws-cdk-lib';  
+import { aws_lambda as lambda } from 'aws-cdk-lib';   
+import { aws_athena as athena } from 'aws-cdk-lib';   
 import {CfnNagSuppressor} from "./cfn-nag-suppressor";
 
 export interface GlueDataProps {
     readonly stagingBucket: s3.IBucket;
 }
 
-export class GlueDataCatalog extends cdk.Construct {
+export class GlueDataCatalog extends Construct {
     public readonly inventoryDatabase: glue.IDatabase;
     public readonly inventoryTable: glue.ITable;
     public readonly partitionedInventoryTable: glue.ITable;
     public readonly filelistTable: glue.ITable;
     public readonly athenaWorkgroup: athena.CfnWorkGroup;
 
-    constructor(scope: cdk.Construct, id: string, props: GlueDataProps) {
+    constructor(scope: Construct, id: string, props: GlueDataProps) {
         super(scope, id);
 
+        const toLowercaseRole = new iam.Role(this, 'toLowerCaseRole', {
+            assumedBy: new iam.ServicePrincipal('lambda.amazonaws.com')
+        });
+
         const toLowercase = new lambda.Function(this, 'toLowercase', {
-            functionName: `${cdk.Aws.STACK_NAME}-toLowercase`,
-            runtime: lambda.Runtime.NODEJS_14_X,
+            functionName: `${Aws.STACK_NAME}-toLowercase`,
+            runtime: lambda.Runtime.NODEJS_16_X,
+            role: toLowercaseRole,
             handler: 'index.handler',
             code: lambda.Code.fromAsset('lambda/toLowercase')
         });
+        toLowercaseRole.addToPrincipalPolicy(iamSec.IamPermissions.lambdaLogGroup(`${Aws.STACK_NAME}-toLowercase`));
         CfnNagSuppressor.addLambdaSuppression(toLowercase);
 
-        const toLowercaseTrigger = new cdk.CustomResource(this, 'toLowercaseTrigger', {
+        const toLowercaseTrigger = new CustomResource(this, 'toLowercaseTrigger', {
             serviceToken: toLowercase.functionArn,
-            properties: { stack_name: cdk.Aws.STACK_NAME }
+            properties: { stack_name: Aws.STACK_NAME }
         })
 
         // database
@@ -88,7 +97,7 @@ export class GlueDataCatalog extends cdk.Construct {
               s3Prefix: 'inventory/'
         });
 
-        const cfnInventoryTable = inventoryTable.node.defaultChild as glue.CfnTable;
+        const cfnInventoryTable = inventoryTable.node.defaultChild as cfn_glue.CfnTable;
         cfnInventoryTable.addOverride('Properties.TableInput.Parameters.skip\\.header\\.line\\.count','1');
         cfnInventoryTable.addOverride('Properties.TableInput.StorageDescriptor.SerdeInfo.Parameters.escapeChar','\\');
         cfnInventoryTable.addOverride('Properties.TableInput.StorageDescriptor.SerdeInfo.Parameters.quoteChar','"');
@@ -151,7 +160,7 @@ export class GlueDataCatalog extends cdk.Construct {
               s3Prefix: 'partitioned/'
         });
 
-        const cfnPartitionedinventoryTable = partitionedinventoryTable.node.defaultChild as glue.CfnTable;
+        const cfnPartitionedinventoryTable = partitionedinventoryTable.node.defaultChild as cfn_glue.CfnTable;
         cfnPartitionedinventoryTable.addOverride('Properties.TableInput.Parameters.parquet\\.compression','SNAPPY');
 
         this.inventoryTable = inventoryTable;
@@ -161,7 +170,7 @@ export class GlueDataCatalog extends cdk.Construct {
         // Athena Workgroup
         this.athenaWorkgroup = new athena.CfnWorkGroup(this, 'AthenaWorkgroup',
         {
-           name: `${cdk.Aws.STACK_NAME}-glacier-refreezer-sol`,
+           name: `${Aws.STACK_NAME}-glacier-refreezer-sol`,
            recursiveDeleteOption: true,
            state: 'ENABLED',
            workGroupConfiguration:

@@ -1,5 +1,5 @@
 /**
- *  Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+ *  Copyright 2022 Amazon.com, Inc. or its affiliates. All Rights Reserved.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License"). You may not use this file except in compliance
  *  with the License. A copy of the License is located at
@@ -33,11 +33,9 @@ fs.readdirSync(global_s3_assets).forEach(file => {
         const fn = template.Resources[f];
         if (fn.Properties.Code.hasOwnProperty('S3Bucket')) {
             // Set the S3 key reference
-            let artifactHash = Object.assign(fn.Properties.Code.S3Bucket.Ref);
-            artifactHash = artifactHash.replace('AssetParameters', '');
-            artifactHash = artifactHash.substring(0, artifactHash.indexOf('S3Bucket'));
+            let artifactHash = fn.Properties.Code.S3Key;
             const assetPath = `asset${artifactHash}`;
-            fn.Properties.Code.S3Key = `%%SOLUTION_NAME%%/%%VERSION%%/${assetPath}.zip`;
+            fn.Properties.Code.S3Key = `%%SOLUTION_NAME%%/%%VERSION%%/${assetPath}`;
 
             // Set the S3 bucket reference
             fn.Properties.Code.S3Bucket = {

@@ -1,5 +1,5 @@
 /*********************************************************************************************************************
- *  Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.                                           *
+ *  Copyright 2022 Amazon.com, Inc. or its affiliates. All Rights Reserved.                                           *
  *                                                                                                                    *
  *  Licensed under the Apache License, Version 2.0 (the "License"). You may not use this file except in compliance    *
  *  with the License. A copy of the License is located at                                                             *
@@ -17,25 +17,26 @@
 
 'use strict';
 
-import * as cdk from '@aws-cdk/core';
-import * as dynamo from '@aws-cdk/aws-dynamodb';
+import { Construct } from 'constructs';
+import { RemovalPolicy, CfnResource, Duration, Aws } from 'aws-cdk-lib';
+import { aws_dynamodb as dynamo } from 'aws-cdk-lib';   
 
 const SCALING_IN_COOLDOWN_SEC = 60;
 const SCALING_OUT_COOLDOWN_SEC = 10;
 const TARGET_UTILIZATION = 70;
 
-export class DynamoDataCatalog extends cdk.Construct {
+export class DynamoDataCatalog extends Construct {
     public readonly statusTable: dynamo.ITable;
     public readonly metricTable: dynamo.ITable;
 
-    constructor(scope: cdk.Construct, id: string) {
+    constructor(scope: Construct, id: string) {
         super(scope, id);
 
         // [ STATUS TABLE ]
         const statusTable = new dynamo.Table(this, "StatusTable", {
-            tableName: `${cdk.Aws.STACK_NAME}-grf-job-status`,
+            tableName: `${Aws.STACK_NAME}-grf-job-status`,
             partitionKey: {name: "aid", type: dynamo.AttributeType.STRING},
-            removalPolicy: cdk.RemovalPolicy.DESTROY,
+            removalPolicy: RemovalPolicy.DESTROY,
             pointInTimeRecovery: true,
             billingMode: dynamo.BillingMode.PROVISIONED,
             readCapacity: 25,
@@ -45,22 +46,22 @@ export class DynamoDataCatalog extends cdk.Construct {
         this.addCfnNagSuppressions(statusTable);
         // CDK excludes the default option - PROVISIONED - from the generated CFN.
         // Adding it explicitly to suppress automated review warning
-        (<cdk.CfnResource>statusTable.node.defaultChild).addOverride('Properties.BillingMode', 'PROVISIONED');
+        (<CfnResource>statusTable.node.defaultChild).addOverride('Properties.BillingMode', 'PROVISIONED');
         this.statusTable = statusTable;
 
         statusTable.autoScaleWriteCapacity({minCapacity: 30, maxCapacity: 500})
             .scaleOnUtilization({
                 targetUtilizationPercent: TARGET_UTILIZATION,
-                scaleOutCooldown: cdk.Duration.seconds(SCALING_OUT_COOLDOWN_SEC),
-                scaleInCooldown: cdk.Duration.seconds(SCALING_IN_COOLDOWN_SEC)
+                scaleOutCooldown: Duration.seconds(SCALING_OUT_COOLDOWN_SEC),
+                scaleInCooldown: Duration.seconds(SCALING_IN_COOLDOWN_SEC)
             });
 
         statusTable
             .autoScaleReadCapacity({minCapacity: 25, maxCapacity: 500})
             .scaleOnUtilization({
                 targetUtilizationPercent: TARGET_UTILIZATION,
-                scaleOutCooldown: cdk.Duration.seconds(SCALING_OUT_COOLDOWN_SEC),
-                scaleInCooldown: cdk.Duration.seconds(SCALING_IN_COOLDOWN_SEC)
+                scaleOutCooldown: Duration.seconds(SCALING_OUT_COOLDOWN_SEC),
+                scaleInCooldown: Duration.seconds(SCALING_IN_COOLDOWN_SEC)
             });
 
         // status table: max-file-index GSI
@@ -86,9 +87,9 @@ export class DynamoDataCatalog extends cdk.Construct {
 
         // [ METRICS TABLE ]
         const metricsTable = new dynamo.Table(this, 'MetricsTable', {
-            tableName: `${cdk.Aws.STACK_NAME}-grf-job-metrics`,
+            tableName: `${Aws.STACK_NAME}-grf-job-metrics`,
             partitionKey: {name: "pk", type: dynamo.AttributeType.STRING},
-            removalPolicy: cdk.RemovalPolicy.DESTROY,
+            removalPolicy: RemovalPolicy.DESTROY,
             pointInTimeRecovery: true,
             billingMode: dynamo.BillingMode.PAY_PER_REQUEST
         });
@@ -102,8 +103,8 @@ export class DynamoDataCatalog extends cdk.Construct {
             maxCapacity: 500
         }).scaleOnUtilization({
             targetUtilizationPercent: TARGET_UTILIZATION,
-            scaleOutCooldown: cdk.Duration.seconds(SCALING_OUT_COOLDOWN_SEC),
-            scaleInCooldown: cdk.Duration.seconds(SCALING_IN_COOLDOWN_SEC)
+            scaleOutCooldown: Duration.seconds(SCALING_OUT_COOLDOWN_SEC),
+            scaleInCooldown: Duration.seconds(SCALING_IN_COOLDOWN_SEC)
         });
 
         table.autoScaleGlobalSecondaryIndexWriteCapacity(indexName, {
@@ -111,8 +112,8 @@ export class DynamoDataCatalog extends cdk.Construct {
             maxCapacity: 500
         }).scaleOnUtilization({
             targetUtilizationPercent: TARGET_UTILIZATION,
-            scaleOutCooldown: cdk.Duration.seconds(SCALING_OUT_COOLDOWN_SEC),
-            scaleInCooldown: cdk.Duration.seconds(SCALING_IN_COOLDOWN_SEC)
+            scaleOutCooldown: Duration.seconds(SCALING_OUT_COOLDOWN_SEC),
+            scaleInCooldown: Duration.seconds(SCALING_IN_COOLDOWN_SEC)
         });
     }
 

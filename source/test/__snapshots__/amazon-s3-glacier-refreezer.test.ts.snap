@@ -9,6 +9,98 @@ Object {
         "Data": "Yes",
       },
     },
+    "ServiceprincipalMap": Object {
+      "af-south-1": Object {
+        "states": "states.af-south-1.amazonaws.com",
+      },
+      "ap-east-1": Object {
+        "states": "states.ap-east-1.amazonaws.com",
+      },
+      "ap-northeast-1": Object {
+        "states": "states.ap-northeast-1.amazonaws.com",
+      },
+      "ap-northeast-2": Object {
+        "states": "states.ap-northeast-2.amazonaws.com",
+      },
+      "ap-northeast-3": Object {
+        "states": "states.ap-northeast-3.amazonaws.com",
+      },
+      "ap-south-1": Object {
+        "states": "states.ap-south-1.amazonaws.com",
+      },
+      "ap-southeast-1": Object {
+        "states": "states.ap-southeast-1.amazonaws.com",
+      },
+      "ap-southeast-2": Object {
+        "states": "states.ap-southeast-2.amazonaws.com",
+      },
+      "ap-southeast-3": Object {
+        "states": "states.ap-southeast-3.amazonaws.com",
+      },
+      "ca-central-1": Object {
+        "states": "states.ca-central-1.amazonaws.com",
+      },
+      "cn-north-1": Object {
+        "states": "states.cn-north-1.amazonaws.com",
+      },
+      "cn-northwest-1": Object {
+        "states": "states.cn-northwest-1.amazonaws.com",
+      },
+      "eu-central-1": Object {
+        "states": "states.eu-central-1.amazonaws.com",
+      },
+      "eu-north-1": Object {
+        "states": "states.eu-north-1.amazonaws.com",
+      },
+      "eu-south-1": Object {
+        "states": "states.eu-south-1.amazonaws.com",
+      },
+      "eu-south-2": Object {
+        "states": "states.eu-south-2.amazonaws.com",
+      },
+      "eu-west-1": Object {
+        "states": "states.eu-west-1.amazonaws.com",
+      },
+      "eu-west-2": Object {
+        "states": "states.eu-west-2.amazonaws.com",
+      },
+      "eu-west-3": Object {
+        "states": "states.eu-west-3.amazonaws.com",
+      },
+      "me-south-1": Object {
+        "states": "states.me-south-1.amazonaws.com",
+      },
+      "sa-east-1": Object {
+        "states": "states.sa-east-1.amazonaws.com",
+      },
+      "us-east-1": Object {
+        "states": "states.us-east-1.amazonaws.com",
+      },
+      "us-east-2": Object {
+        "states": "states.us-east-2.amazonaws.com",
+      },
+      "us-gov-east-1": Object {
+        "states": "states.us-gov-east-1.amazonaws.com",
+      },
+      "us-gov-west-1": Object {
+        "states": "states.us-gov-west-1.amazonaws.com",
+      },
+      "us-iso-east-1": Object {
+        "states": "states.amazonaws.com",
+      },
+      "us-iso-west-1": Object {
+        "states": "states.amazonaws.com",
+      },
+      "us-isob-east-1": Object {
+        "states": "states.amazonaws.com",
+      },
+      "us-west-1": Object {
+        "states": "states.us-west-1.amazonaws.com",
+      },
+      "us-west-2": Object {
+        "states": "states.us-west-2.amazonaws.com",
+      },
+    },
   },
   "Metadata": Object {
     "AWS::CloudFormation::Interface": Object {
@@ -114,173 +206,10 @@ Object {
     },
   },
   "Parameters": Object {
-    "AssetParameters100fd815baea3658b5c419e55623876b876990dd8d07156365fc4fe8d046008dArtifactHash1999E8F8": Object {
-      "Description": "Artifact hash for asset \\"100fd815baea3658b5c419e55623876b876990dd8d07156365fc4fe8d046008d\\"",
-      "Type": "String",
-    },
-    "AssetParameters100fd815baea3658b5c419e55623876b876990dd8d07156365fc4fe8d046008dS3Bucket4E1E9B8C": Object {
-      "Description": "S3 bucket for asset \\"100fd815baea3658b5c419e55623876b876990dd8d07156365fc4fe8d046008d\\"",
-      "Type": "String",
-    },
-    "AssetParameters100fd815baea3658b5c419e55623876b876990dd8d07156365fc4fe8d046008dS3VersionKeyD4EC777E": Object {
-      "Description": "S3 key for asset version \\"100fd815baea3658b5c419e55623876b876990dd8d07156365fc4fe8d046008d\\"",
-      "Type": "String",
-    },
-    "AssetParameters12880131179aec95a4c5e938bf75fa1a6280e116940e70e02824c67aebf6b42cArtifactHash65DA53B9": Object {
-      "Description": "Artifact hash for asset \\"12880131179aec95a4c5e938bf75fa1a6280e116940e70e02824c67aebf6b42c\\"",
-      "Type": "String",
-    },
-    "AssetParameters12880131179aec95a4c5e938bf75fa1a6280e116940e70e02824c67aebf6b42cS3Bucket8423781A": Object {
-      "Description": "S3 bucket for asset \\"12880131179aec95a4c5e938bf75fa1a6280e116940e70e02824c67aebf6b42c\\"",
-      "Type": "String",
-    },
-    "AssetParameters12880131179aec95a4c5e938bf75fa1a6280e116940e70e02824c67aebf6b42cS3VersionKeyF143C14E": Object {
-      "Description": "S3 key for asset version \\"12880131179aec95a4c5e938bf75fa1a6280e116940e70e02824c67aebf6b42c\\"",
-      "Type": "String",
-    },
-    "AssetParameters1c44a999e3462c3e2187925944bf9170c3db900094c7f35eccdad666508e7e13ArtifactHash7DA06024": Object {
-      "Description": "Artifact hash for asset \\"1c44a999e3462c3e2187925944bf9170c3db900094c7f35eccdad666508e7e13\\"",
-      "Type": "String",
-    },
-    "AssetParameters1c44a999e3462c3e2187925944bf9170c3db900094c7f35eccdad666508e7e13S3Bucket52D8EDF6": Object {
-      "Description": "S3 bucket for asset \\"1c44a999e3462c3e2187925944bf9170c3db900094c7f35eccdad666508e7e13\\"",
-      "Type": "String",
-    },
-    "AssetParameters1c44a999e3462c3e2187925944bf9170c3db900094c7f35eccdad666508e7e13S3VersionKey77042EA5": Object {
-      "Description": "S3 key for asset version \\"1c44a999e3462c3e2187925944bf9170c3db900094c7f35eccdad666508e7e13\\"",
-      "Type": "String",
-    },
-    "AssetParameters396425eb5dd81bc0eae9cbc5be37350104c47a2250132a50a43c63506088f2baArtifactHash267F0784": Object {
-      "Description": "Artifact hash for asset \\"396425eb5dd81bc0eae9cbc5be37350104c47a2250132a50a43c63506088f2ba\\"",
-      "Type": "String",
-    },
-    "AssetParameters396425eb5dd81bc0eae9cbc5be37350104c47a2250132a50a43c63506088f2baS3BucketBDAE5F52": Object {
-      "Description": "S3 bucket for asset \\"396425eb5dd81bc0eae9cbc5be37350104c47a2250132a50a43c63506088f2ba\\"",
-      "Type": "String",
-    },
-    "AssetParameters396425eb5dd81bc0eae9cbc5be37350104c47a2250132a50a43c63506088f2baS3VersionKeyE5879FBB": Object {
-      "Description": "S3 key for asset version \\"396425eb5dd81bc0eae9cbc5be37350104c47a2250132a50a43c63506088f2ba\\"",
-      "Type": "String",
-    },
-    "AssetParameters3a320a84681c76fe6bd43d232cd2c4cfcd7c6f7b9bbec7e4567170b03595a776ArtifactHash6251C635": Object {
-      "Description": "Artifact hash for asset \\"3a320a84681c76fe6bd43d232cd2c4cfcd7c6f7b9bbec7e4567170b03595a776\\"",
-      "Type": "String",
-    },
-    "AssetParameters3a320a84681c76fe6bd43d232cd2c4cfcd7c6f7b9bbec7e4567170b03595a776S3Bucket292FC193": Object {
-      "Description": "S3 bucket for asset \\"3a320a84681c76fe6bd43d232cd2c4cfcd7c6f7b9bbec7e4567170b03595a776\\"",
-      "Type": "String",
-    },
-    "AssetParameters3a320a84681c76fe6bd43d232cd2c4cfcd7c6f7b9bbec7e4567170b03595a776S3VersionKeyA8424D0F": Object {
-      "Description": "S3 key for asset version \\"3a320a84681c76fe6bd43d232cd2c4cfcd7c6f7b9bbec7e4567170b03595a776\\"",
-      "Type": "String",
-    },
-    "AssetParameters461f2802adab35dece77021c64164c205e902b915fa60541ee8e0fc5c0d19e09ArtifactHash1845F30E": Object {
-      "Description": "Artifact hash for asset \\"461f2802adab35dece77021c64164c205e902b915fa60541ee8e0fc5c0d19e09\\"",
-      "Type": "String",
-    },
-    "AssetParameters461f2802adab35dece77021c64164c205e902b915fa60541ee8e0fc5c0d19e09S3BucketFC2C178D": Object {
-      "Description": "S3 bucket for asset \\"461f2802adab35dece77021c64164c205e902b915fa60541ee8e0fc5c0d19e09\\"",
-      "Type": "String",
-    },
-    "AssetParameters461f2802adab35dece77021c64164c205e902b915fa60541ee8e0fc5c0d19e09S3VersionKey1C15D20B": Object {
-      "Description": "S3 key for asset version \\"461f2802adab35dece77021c64164c205e902b915fa60541ee8e0fc5c0d19e09\\"",
-      "Type": "String",
-    },
-    "AssetParameters5b98d899a111c3b83461f93452790c3eb3293465648c64ec0fc2b4706df92fcaArtifactHash3F33C5B3": Object {
-      "Description": "Artifact hash for asset \\"5b98d899a111c3b83461f93452790c3eb3293465648c64ec0fc2b4706df92fca\\"",
-      "Type": "String",
-    },
-    "AssetParameters5b98d899a111c3b83461f93452790c3eb3293465648c64ec0fc2b4706df92fcaS3Bucket010FC6A3": Object {
-      "Description": "S3 bucket for asset \\"5b98d899a111c3b83461f93452790c3eb3293465648c64ec0fc2b4706df92fca\\"",
-      "Type": "String",
-    },
-    "AssetParameters5b98d899a111c3b83461f93452790c3eb3293465648c64ec0fc2b4706df92fcaS3VersionKeyECC374B3": Object {
-      "Description": "S3 key for asset version \\"5b98d899a111c3b83461f93452790c3eb3293465648c64ec0fc2b4706df92fca\\"",
-      "Type": "String",
-    },
-    "AssetParameters61114b22b6e7f2ce583d0a501da9649fb9d4d9b43b501f06d89d6da1a1dc5ec7ArtifactHash073D1C03": Object {
-      "Description": "Artifact hash for asset \\"61114b22b6e7f2ce583d0a501da9649fb9d4d9b43b501f06d89d6da1a1dc5ec7\\"",
-      "Type": "String",
-    },
-    "AssetParameters61114b22b6e7f2ce583d0a501da9649fb9d4d9b43b501f06d89d6da1a1dc5ec7S3Bucket343F805E": Object {
-      "Description": "S3 bucket for asset \\"61114b22b6e7f2ce583d0a501da9649fb9d4d9b43b501f06d89d6da1a1dc5ec7\\"",
-      "Type": "String",
-    },
-    "AssetParameters61114b22b6e7f2ce583d0a501da9649fb9d4d9b43b501f06d89d6da1a1dc5ec7S3VersionKey0891DD5F": Object {
-      "Description": "S3 key for asset version \\"61114b22b6e7f2ce583d0a501da9649fb9d4d9b43b501f06d89d6da1a1dc5ec7\\"",
-      "Type": "String",
-    },
-    "AssetParameters7f16a96fc16c0b013f3d7ff9c70c104a5a95eb08422901f329e7b62c4fef127bArtifactHashBF3FA268": Object {
-      "Description": "Artifact hash for asset \\"7f16a96fc16c0b013f3d7ff9c70c104a5a95eb08422901f329e7b62c4fef127b\\"",
-      "Type": "String",
-    },
-    "AssetParameters7f16a96fc16c0b013f3d7ff9c70c104a5a95eb08422901f329e7b62c4fef127bS3Bucket4B52EC9E": Object {
-      "Description": "S3 bucket for asset \\"7f16a96fc16c0b013f3d7ff9c70c104a5a95eb08422901f329e7b62c4fef127b\\"",
-      "Type": "String",
-    },
-    "AssetParameters7f16a96fc16c0b013f3d7ff9c70c104a5a95eb08422901f329e7b62c4fef127bS3VersionKey87735AB0": Object {
-      "Description": "S3 key for asset version \\"7f16a96fc16c0b013f3d7ff9c70c104a5a95eb08422901f329e7b62c4fef127b\\"",
-      "Type": "String",
-    },
-    "AssetParameters8bd3964a0b99c6c5dfef12e79f456e9dfb274293be58fd5e7593ff2933dda01dArtifactHashCB5EEEF2": Object {
-      "Description": "Artifact hash for asset \\"8bd3964a0b99c6c5dfef12e79f456e9dfb274293be58fd5e7593ff2933dda01d\\"",
-      "Type": "String",
-    },
-    "AssetParameters8bd3964a0b99c6c5dfef12e79f456e9dfb274293be58fd5e7593ff2933dda01dS3Bucket6DB9FADC": Object {
-      "Description": "S3 bucket for asset \\"8bd3964a0b99c6c5dfef12e79f456e9dfb274293be58fd5e7593ff2933dda01d\\"",
-      "Type": "String",
-    },
-    "AssetParameters8bd3964a0b99c6c5dfef12e79f456e9dfb274293be58fd5e7593ff2933dda01dS3VersionKeyF839DB89": Object {
-      "Description": "S3 key for asset version \\"8bd3964a0b99c6c5dfef12e79f456e9dfb274293be58fd5e7593ff2933dda01d\\"",
-      "Type": "String",
-    },
-    "AssetParametersa53709be05881041b8935e666fc3825d6457992ae06e303750fccfb11f6a7c4eArtifactHash6F846F92": Object {
-      "Description": "Artifact hash for asset \\"a53709be05881041b8935e666fc3825d6457992ae06e303750fccfb11f6a7c4e\\"",
-      "Type": "String",
-    },
-    "AssetParametersa53709be05881041b8935e666fc3825d6457992ae06e303750fccfb11f6a7c4eS3Bucket3A3454A6": Object {
-      "Description": "S3 bucket for asset \\"a53709be05881041b8935e666fc3825d6457992ae06e303750fccfb11f6a7c4e\\"",
-      "Type": "String",
-    },
-    "AssetParametersa53709be05881041b8935e666fc3825d6457992ae06e303750fccfb11f6a7c4eS3VersionKeyA08E50EB": Object {
-      "Description": "S3 key for asset version \\"a53709be05881041b8935e666fc3825d6457992ae06e303750fccfb11f6a7c4e\\"",
-      "Type": "String",
-    },
-    "AssetParametersa92e64c3a3e60293d044e56c230a0bb4c2a1139b84da3a71f43901c6df4dbb7bArtifactHash5E3CEBC9": Object {
-      "Description": "Artifact hash for asset \\"a92e64c3a3e60293d044e56c230a0bb4c2a1139b84da3a71f43901c6df4dbb7b\\"",
-      "Type": "String",
-    },
-    "AssetParametersa92e64c3a3e60293d044e56c230a0bb4c2a1139b84da3a71f43901c6df4dbb7bS3BucketED272532": Object {
-      "Description": "S3 bucket for asset \\"a92e64c3a3e60293d044e56c230a0bb4c2a1139b84da3a71f43901c6df4dbb7b\\"",
-      "Type": "String",
-    },
-    "AssetParametersa92e64c3a3e60293d044e56c230a0bb4c2a1139b84da3a71f43901c6df4dbb7bS3VersionKey5EEF04C0": Object {
-      "Description": "S3 key for asset version \\"a92e64c3a3e60293d044e56c230a0bb4c2a1139b84da3a71f43901c6df4dbb7b\\"",
-      "Type": "String",
-    },
-    "AssetParametersd1fdbe91fff867edbb6e971a43e2af890bc97a453a9cb22bc7d3a96007761f0aArtifactHash3ABE7E4C": Object {
-      "Description": "Artifact hash for asset \\"d1fdbe91fff867edbb6e971a43e2af890bc97a453a9cb22bc7d3a96007761f0a\\"",
-      "Type": "String",
-    },
-    "AssetParametersd1fdbe91fff867edbb6e971a43e2af890bc97a453a9cb22bc7d3a96007761f0aS3BucketE866F573": Object {
-      "Description": "S3 bucket for asset \\"d1fdbe91fff867edbb6e971a43e2af890bc97a453a9cb22bc7d3a96007761f0a\\"",
-      "Type": "String",
-    },
-    "AssetParametersd1fdbe91fff867edbb6e971a43e2af890bc97a453a9cb22bc7d3a96007761f0aS3VersionKey432FB421": Object {
-      "Description": "S3 key for asset version \\"d1fdbe91fff867edbb6e971a43e2af890bc97a453a9cb22bc7d3a96007761f0a\\"",
-      "Type": "String",
-    },
-    "AssetParametersf58d41075aa6f63aee95363c09ff36aa88d15decbbe15abefe8386c00bfabc32ArtifactHashB94E123E": Object {
-      "Description": "Artifact hash for asset \\"f58d41075aa6f63aee95363c09ff36aa88d15decbbe15abefe8386c00bfabc32\\"",
-      "Type": "String",
-    },
-    "AssetParametersf58d41075aa6f63aee95363c09ff36aa88d15decbbe15abefe8386c00bfabc32S3Bucket3619729D": Object {
-      "Description": "S3 bucket for asset \\"f58d41075aa6f63aee95363c09ff36aa88d15decbbe15abefe8386c00bfabc32\\"",
-      "Type": "String",
-    },
-    "AssetParametersf58d41075aa6f63aee95363c09ff36aa88d15decbbe15abefe8386c00bfabc32S3VersionKey33ABE145": Object {
-      "Description": "S3 key for asset version \\"f58d41075aa6f63aee95363c09ff36aa88d15decbbe15abefe8386c00bfabc32\\"",
-      "Type": "String",
+    "BootstrapVersion": Object {
+      "Default": "/cdk-bootstrap/hnb659fds/version",
+      "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]",
+      "Type": "AWS::SSM::Parameter::Value<String>",
     },
     "CloudTrailExportConfirmation": Object {
       "AllowedValues": Array [
@@ -1250,9 +1179,82 @@ Object {
       },
       "Type": "AWS::Glue::Table",
     },
+    "glueDataCatalogtoLowerCaseRoleDefaultPolicy572EA173": Object {
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": Array [
+                "logs:CreateLogGroup",
+                "logs:CreateLogStream",
+                "logs:PutLogEvents",
+              ],
+              "Effect": "Allow",
+              "Resource": Object {
+                "Fn::Join": Array [
+                  "",
+                  Array [
+                    "arn:",
+                    Object {
+                      "Ref": "AWS::Partition",
+                    },
+                    ":logs:",
+                    Object {
+                      "Ref": "AWS::Region",
+                    },
+                    ":",
+                    Object {
+                      "Ref": "AWS::AccountId",
+                    },
+                    ":log-group:/aws/lambda/",
+                    Object {
+                      "Ref": "AWS::StackName",
+                    },
+                    "-toLowercase:**",
+                  ],
+                ],
+              },
+              "Sid": "allowCloudWatchLogs",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "glueDataCatalogtoLowerCaseRoleDefaultPolicy572EA173",
+        "Roles": Array [
+          Object {
+            "Ref": "glueDataCatalogtoLowerCaseRoleFD57E4D5",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "glueDataCatalogtoLowerCaseRoleFD57E4D5": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "Tags": Array [
+          Object {
+            "Key": "solution",
+            "Value": "amazon-s3-glacier-refreezer",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
     "glueDataCatalogtoLowercase8AA0AFF5": Object {
       "DependsOn": Array [
-        "glueDataCatalogtoLowercaseServiceRole45F7D11F",
+        "glueDataCatalogtoLowerCaseRoleDefaultPolicy572EA173",
+        "glueDataCatalogtoLowerCaseRoleFD57E4D5",
       ],
       "Metadata": Object {
         "cfn_nag": Object {
@@ -1275,41 +1277,9 @@ Object {
       "Properties": Object {
         "Code": Object {
           "S3Bucket": Object {
-            "Ref": "AssetParametersf58d41075aa6f63aee95363c09ff36aa88d15decbbe15abefe8386c00bfabc32S3Bucket3619729D",
+            "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": Object {
-            "Fn::Join": Array [
-              "",
-              Array [
-                Object {
-                  "Fn::Select": Array [
-                    0,
-                    Object {
-                      "Fn::Split": Array [
-                        "||",
-                        Object {
-                          "Ref": "AssetParametersf58d41075aa6f63aee95363c09ff36aa88d15decbbe15abefe8386c00bfabc32S3VersionKey33ABE145",
-                        },
-                      ],
-                    },
-                  ],
-                },
-                Object {
-                  "Fn::Select": Array [
-                    1,
-                    Object {
-                      "Fn::Split": Array [
-                        "||",
-                        Object {
-                          "Ref": "AssetParametersf58d41075aa6f63aee95363c09ff36aa88d15decbbe15abefe8386c00bfabc32S3VersionKey33ABE145",
-                        },
-                      ],
-                    },
-                  ],
-                },
-              ],
-            ],
-          },
+          "S3Key": "f34d42f573b16f895b246490d6a1b4096c76232c9ca93c275f01926c3f3743ae.zip",
         },
         "FunctionName": Object {
           "Fn::Join": Array [
@@ -1325,11 +1295,11 @@ Object {
         "Handler": "index.handler",
         "Role": Object {
           "Fn::GetAtt": Array [
-            "glueDataCatalogtoLowercaseServiceRole45F7D11F",
+            "glueDataCatalogtoLowerCaseRoleFD57E4D5",
             "Arn",
           ],
         },
-        "Runtime": "nodejs14.x",
+        "Runtime": "nodejs16.x",
         "Tags": Array [
           Object {
             "Key": "solution",
@@ -1338,43 +1308,6 @@ Object {
         ],
       },
       "Type": "AWS::Lambda::Function",
-    },
-    "glueDataCatalogtoLowercaseServiceRole45F7D11F": Object {
-      "Properties": Object {
-        "AssumeRolePolicyDocument": Object {
-          "Statement": Array [
-            Object {
-              "Action": "sts:AssumeRole",
-              "Effect": "Allow",
-              "Principal": Object {
-                "Service": "lambda.amazonaws.com",
-              },
-            },
-          ],
-          "Version": "2012-10-17",
-        },
-        "ManagedPolicyArns": Array [
-          Object {
-            "Fn::Join": Array [
-              "",
-              Array [
-                "arn:",
-                Object {
-                  "Ref": "AWS::Partition",
-                },
-                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
-              ],
-            ],
-          },
-        ],
-        "Tags": Array [
-          Object {
-            "Key": "solution",
-            "Value": "amazon-s3-glacier-refreezer",
-          },
-        ],
-      },
-      "Type": "AWS::IAM::Role",
     },
     "glueDataCatalogtoLowercaseTrigger0ABB3AB5": Object {
       "DeletionPolicy": "Delete",
@@ -1468,41 +1401,9 @@ Object {
       "Properties": Object {
         "Code": Object {
           "S3Bucket": Object {
-            "Ref": "AssetParametersd1fdbe91fff867edbb6e971a43e2af890bc97a453a9cb22bc7d3a96007761f0aS3BucketE866F573",
+            "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": Object {
-            "Fn::Join": Array [
-              "",
-              Array [
-                Object {
-                  "Fn::Select": Array [
-                    0,
-                    Object {
-                      "Fn::Split": Array [
-                        "||",
-                        Object {
-                          "Ref": "AssetParametersd1fdbe91fff867edbb6e971a43e2af890bc97a453a9cb22bc7d3a96007761f0aS3VersionKey432FB421",
-                        },
-                      ],
-                    },
-                  ],
-                },
-                Object {
-                  "Fn::Select": Array [
-                    1,
-                    Object {
-                      "Fn::Split": Array [
-                        "||",
-                        Object {
-                          "Ref": "AssetParametersd1fdbe91fff867edbb6e971a43e2af890bc97a453a9cb22bc7d3a96007761f0aS3VersionKey432FB421",
-                        },
-                      ],
-                    },
-                  ],
-                },
-              ],
-            ],
-          },
+          "S3Key": "1aab34d89ebfaf6b4452b506077433537f2186e0943abce62392cd12715e3809.zip",
         },
         "Environment": Object {
           "Variables": Object {
@@ -1529,7 +1430,7 @@ Object {
             "Arn",
           ],
         },
-        "Runtime": "nodejs14.x",
+        "Runtime": "nodejs16.x",
         "Tags": Array [
           Object {
             "Key": "solution",
@@ -1600,6 +1501,7 @@ Object {
                 "dynamodb:PutItem",
                 "dynamodb:UpdateItem",
                 "dynamodb:DeleteItem",
+                "dynamodb:DescribeTable",
               ],
               "Effect": "Allow",
               "Resource": Array [
@@ -1641,7 +1543,11 @@ Object {
                 "Fn::Join": Array [
                   "",
                   Array [
-                    "arn:aws:logs:",
+                    "arn:",
+                    Object {
+                      "Ref": "AWS::Partition",
+                    },
+                    ":logs:",
                     Object {
                       "Ref": "AWS::Region",
                     },
@@ -1758,41 +1664,9 @@ Object {
       "Properties": Object {
         "Code": Object {
           "S3Bucket": Object {
-            "Ref": "AssetParameters1c44a999e3462c3e2187925944bf9170c3db900094c7f35eccdad666508e7e13S3Bucket52D8EDF6",
+            "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": Object {
-            "Fn::Join": Array [
-              "",
-              Array [
-                Object {
-                  "Fn::Select": Array [
-                    0,
-                    Object {
-                      "Fn::Split": Array [
-                        "||",
-                        Object {
-                          "Ref": "AssetParameters1c44a999e3462c3e2187925944bf9170c3db900094c7f35eccdad666508e7e13S3VersionKey77042EA5",
-                        },
-                      ],
-                    },
-                  ],
-                },
-                Object {
-                  "Fn::Select": Array [
-                    1,
-                    Object {
-                      "Fn::Split": Array [
-                        "||",
-                        Object {
-                          "Ref": "AssetParameters1c44a999e3462c3e2187925944bf9170c3db900094c7f35eccdad666508e7e13S3VersionKey77042EA5",
-                        },
-                      ],
-                    },
-                  ],
-                },
-              ],
-            ],
-          },
+          "S3Key": "f8841ebd7970cdc055106ac6d42cf673a4245caa46958a57db38b0e102116995.zip",
         },
         "Environment": Object {
           "Variables": Object {
@@ -1831,7 +1705,7 @@ Object {
             "Arn",
           ],
         },
-        "Runtime": "nodejs14.x",
+        "Runtime": "nodejs16.x",
         "Tags": Array [
           Object {
             "Key": "solution",
@@ -1910,7 +1784,11 @@ Object {
                 "Fn::Join": Array [
                   "",
                   Array [
-                    "arn:aws:logs:",
+                    "arn:",
+                    Object {
+                      "Ref": "AWS::Partition",
+                    },
+                    ":logs:",
                     Object {
                       "Ref": "AWS::Region",
                     },
@@ -1966,6 +1844,12 @@ Object {
           ],
         },
         "RetentionInDays": 90,
+        "Tags": Array [
+          Object {
+            "Key": "solution",
+            "Value": "amazon-s3-glacier-refreezer",
+          },
+        ],
       },
       "Type": "AWS::Logs::LogGroup",
     },
@@ -1995,6 +1879,12 @@ Object {
           ],
         },
         "RetentionInDays": 90,
+        "Tags": Array [
+          Object {
+            "Key": "solution",
+            "Value": "amazon-s3-glacier-refreezer",
+          },
+        ],
       },
       "Type": "AWS::Logs::LogGroup",
     },
@@ -2024,6 +1914,12 @@ Object {
           ],
         },
         "RetentionInDays": 90,
+        "Tags": Array [
+          Object {
+            "Key": "solution",
+            "Value": "amazon-s3-glacier-refreezer",
+          },
+        ],
       },
       "Type": "AWS::Logs::LogGroup",
     },
@@ -2053,6 +1949,12 @@ Object {
           ],
         },
         "RetentionInDays": 90,
+        "Tags": Array [
+          Object {
+            "Key": "solution",
+            "Value": "amazon-s3-glacier-refreezer",
+          },
+        ],
       },
       "Type": "AWS::Logs::LogGroup",
     },
@@ -2082,6 +1984,12 @@ Object {
           ],
         },
         "RetentionInDays": 90,
+        "Tags": Array [
+          Object {
+            "Key": "solution",
+            "Value": "amazon-s3-glacier-refreezer",
+          },
+        ],
       },
       "Type": "AWS::Logs::LogGroup",
     },
@@ -2111,6 +2019,12 @@ Object {
           ],
         },
         "RetentionInDays": 90,
+        "Tags": Array [
+          Object {
+            "Key": "solution",
+            "Value": "amazon-s3-glacier-refreezer",
+          },
+        ],
       },
       "Type": "AWS::Logs::LogGroup",
     },
@@ -2140,6 +2054,12 @@ Object {
           ],
         },
         "RetentionInDays": 90,
+        "Tags": Array [
+          Object {
+            "Key": "solution",
+            "Value": "amazon-s3-glacier-refreezer",
+          },
+        ],
       },
       "Type": "AWS::Logs::LogGroup",
     },
@@ -2169,6 +2089,12 @@ Object {
           ],
         },
         "RetentionInDays": 90,
+        "Tags": Array [
+          Object {
+            "Key": "solution",
+            "Value": "amazon-s3-glacier-refreezer",
+          },
+        ],
       },
       "Type": "AWS::Logs::LogGroup",
     },
@@ -2390,6 +2316,12 @@ Object {
           ],
         },
         "RetentionInDays": 90,
+        "Tags": Array [
+          Object {
+            "Key": "solution",
+            "Value": "amazon-s3-glacier-refreezer",
+          },
+        ],
       },
       "Type": "AWS::Logs::LogGroup",
     },
@@ -2419,6 +2351,12 @@ Object {
           ],
         },
         "RetentionInDays": 90,
+        "Tags": Array [
+          Object {
+            "Key": "solution",
+            "Value": "amazon-s3-glacier-refreezer",
+          },
+        ],
       },
       "Type": "AWS::Logs::LogGroup",
     },
@@ -2448,6 +2386,12 @@ Object {
           ],
         },
         "RetentionInDays": 90,
+        "Tags": Array [
+          Object {
+            "Key": "solution",
+            "Value": "amazon-s3-glacier-refreezer",
+          },
+        ],
       },
       "Type": "AWS::Logs::LogGroup",
     },
@@ -2477,6 +2421,12 @@ Object {
           ],
         },
         "RetentionInDays": 90,
+        "Tags": Array [
+          Object {
+            "Key": "solution",
+            "Value": "amazon-s3-glacier-refreezer",
+          },
+        ],
       },
       "Type": "AWS::Logs::LogGroup",
     },
@@ -2506,6 +2456,12 @@ Object {
           ],
         },
         "RetentionInDays": 90,
+        "Tags": Array [
+          Object {
+            "Key": "solution",
+            "Value": "amazon-s3-glacier-refreezer",
+          },
+        ],
       },
       "Type": "AWS::Logs::LogGroup",
     },
@@ -2535,6 +2491,12 @@ Object {
           ],
         },
         "RetentionInDays": 90,
+        "Tags": Array [
+          Object {
+            "Key": "solution",
+            "Value": "amazon-s3-glacier-refreezer",
+          },
+        ],
       },
       "Type": "AWS::Logs::LogGroup",
     },
@@ -2564,6 +2526,12 @@ Object {
           ],
         },
         "RetentionInDays": 90,
+        "Tags": Array [
+          Object {
+            "Key": "solution",
+            "Value": "amazon-s3-glacier-refreezer",
+          },
+        ],
       },
       "Type": "AWS::Logs::LogGroup",
     },
@@ -2610,7 +2578,11 @@ Object {
                 "s3:GetBucket*",
                 "s3:List*",
                 "s3:DeleteObject*",
-                "s3:PutObject*",
+                "s3:PutObject",
+                "s3:PutObjectLegalHold",
+                "s3:PutObjectRetention",
+                "s3:PutObjectTagging",
+                "s3:PutObjectVersionTagging",
                 "s3:Abort*",
               ],
               "Effect": "Allow",
@@ -2650,6 +2622,7 @@ Object {
                 "dynamodb:PutItem",
                 "dynamodb:UpdateItem",
                 "dynamodb:DeleteItem",
+                "dynamodb:DescribeTable",
               ],
               "Effect": "Allow",
               "Resource": Array [
@@ -2688,6 +2661,7 @@ Object {
                 "dynamodb:PutItem",
                 "dynamodb:UpdateItem",
                 "dynamodb:DeleteItem",
+                "dynamodb:DescribeTable",
               ],
               "Effect": "Allow",
               "Resource": Array [
@@ -2773,7 +2747,11 @@ Object {
                 "Fn::Join": Array [
                   "",
                   Array [
-                    "arn:aws:logs:",
+                    "arn:",
+                    Object {
+                      "Ref": "AWS::Partition",
+                    },
+                    ":logs:",
                     Object {
                       "Ref": "AWS::Region",
                     },
@@ -2870,41 +2848,9 @@ Object {
       "Properties": Object {
         "Code": Object {
           "S3Bucket": Object {
-            "Ref": "AssetParameters5b98d899a111c3b83461f93452790c3eb3293465648c64ec0fc2b4706df92fcaS3Bucket010FC6A3",
+            "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": Object {
-            "Fn::Join": Array [
-              "",
-              Array [
-                Object {
-                  "Fn::Select": Array [
-                    0,
-                    Object {
-                      "Fn::Split": Array [
-                        "||",
-                        Object {
-                          "Ref": "AssetParameters5b98d899a111c3b83461f93452790c3eb3293465648c64ec0fc2b4706df92fcaS3VersionKeyECC374B3",
-                        },
-                      ],
-                    },
-                  ],
-                },
-                Object {
-                  "Fn::Select": Array [
-                    1,
-                    Object {
-                      "Fn::Split": Array [
-                        "||",
-                        Object {
-                          "Ref": "AssetParameters5b98d899a111c3b83461f93452790c3eb3293465648c64ec0fc2b4706df92fcaS3VersionKeyECC374B3",
-                        },
-                      ],
-                    },
-                  ],
-                },
-              ],
-            ],
-          },
+          "S3Key": "79ffa9ea7799786dc628b96b83eb33cb18edfd1c19840b7fca5fa1d0c6f82f27.zip",
         },
         "Environment": Object {
           "Variables": Object {
@@ -2958,7 +2904,7 @@ Object {
             "Arn",
           ],
         },
-        "Runtime": "nodejs14.x",
+        "Runtime": "nodejs16.x",
         "Tags": Array [
           Object {
             "Key": "solution",
@@ -2986,8 +2932,8 @@ Object {
     },
     "stageFourcopyToDestinationBucket5643054F": Object {
       "DependsOn": Array [
-        "stageFourcopyToDestinationBucketServiceRoleDefaultPolicy54E21CAC",
-        "stageFourcopyToDestinationBucketServiceRole65221CE0",
+        "stageFourcopyToDestinationBucketRoleDefaultPolicyC0C83D3D",
+        "stageFourcopyToDestinationBucketRole072254ED",
       ],
       "Metadata": Object {
         "cfn_nag": Object {
@@ -3010,41 +2956,9 @@ Object {
       "Properties": Object {
         "Code": Object {
           "S3Bucket": Object {
-            "Ref": "AssetParametersa92e64c3a3e60293d044e56c230a0bb4c2a1139b84da3a71f43901c6df4dbb7bS3BucketED272532",
+            "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": Object {
-            "Fn::Join": Array [
-              "",
-              Array [
-                Object {
-                  "Fn::Select": Array [
-                    0,
-                    Object {
-                      "Fn::Split": Array [
-                        "||",
-                        Object {
-                          "Ref": "AssetParametersa92e64c3a3e60293d044e56c230a0bb4c2a1139b84da3a71f43901c6df4dbb7bS3VersionKey5EEF04C0",
-                        },
-                      ],
-                    },
-                  ],
-                },
-                Object {
-                  "Fn::Select": Array [
-                    1,
-                    Object {
-                      "Fn::Split": Array [
-                        "||",
-                        Object {
-                          "Ref": "AssetParametersa92e64c3a3e60293d044e56c230a0bb4c2a1139b84da3a71f43901c6df4dbb7bS3VersionKey5EEF04C0",
-                        },
-                      ],
-                    },
-                  ],
-                },
-              ],
-            ],
-          },
+          "S3Key": "f6c57c7512474aedac07d3dc094233bf515edaaf21457d727b019ee586e2eeae.zip",
         },
         "Environment": Object {
           "Variables": Object {
@@ -3079,11 +2993,11 @@ Object {
         "ReservedConcurrentExecutions": 100,
         "Role": Object {
           "Fn::GetAtt": Array [
-            "stageFourcopyToDestinationBucketServiceRole65221CE0",
+            "stageFourcopyToDestinationBucketRole072254ED",
             "Arn",
           ],
         },
-        "Runtime": "nodejs14.x",
+        "Runtime": "nodejs16.x",
         "Tags": Array [
           Object {
             "Key": "solution",
@@ -3094,7 +3008,7 @@ Object {
       },
       "Type": "AWS::Lambda::Function",
     },
-    "stageFourcopyToDestinationBucketServiceRole65221CE0": Object {
+    "stageFourcopyToDestinationBucketRole072254ED": Object {
       "Properties": Object {
         "AssumeRolePolicyDocument": Object {
           "Statement": Array [
@@ -3108,20 +3022,6 @@ Object {
           ],
           "Version": "2012-10-17",
         },
-        "ManagedPolicyArns": Array [
-          Object {
-            "Fn::Join": Array [
-              "",
-              Array [
-                "arn:",
-                Object {
-                  "Ref": "AWS::Partition",
-                },
-                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
-              ],
-            ],
-          },
-        ],
         "Tags": Array [
           Object {
             "Key": "solution",
@@ -3131,17 +3031,54 @@ Object {
       },
       "Type": "AWS::IAM::Role",
     },
-    "stageFourcopyToDestinationBucketServiceRoleDefaultPolicy54E21CAC": Object {
+    "stageFourcopyToDestinationBucketRoleDefaultPolicyC0C83D3D": Object {
       "Properties": Object {
         "PolicyDocument": Object {
           "Statement": Array [
+            Object {
+              "Action": Array [
+                "logs:CreateLogGroup",
+                "logs:CreateLogStream",
+                "logs:PutLogEvents",
+              ],
+              "Effect": "Allow",
+              "Resource": Object {
+                "Fn::Join": Array [
+                  "",
+                  Array [
+                    "arn:",
+                    Object {
+                      "Ref": "AWS::Partition",
+                    },
+                    ":logs:",
+                    Object {
+                      "Ref": "AWS::Region",
+                    },
+                    ":",
+                    Object {
+                      "Ref": "AWS::AccountId",
+                    },
+                    ":log-group:/aws/lambda/",
+                    Object {
+                      "Ref": "AWS::StackName",
+                    },
+                    "-copyToDestinationBucket:**",
+                  ],
+                ],
+              },
+              "Sid": "allowCloudWatchLogs",
+            },
             Object {
               "Action": Array [
                 "s3:GetObject*",
                 "s3:GetBucket*",
                 "s3:List*",
                 "s3:DeleteObject*",
-                "s3:PutObject*",
+                "s3:PutObject",
+                "s3:PutObjectLegalHold",
+                "s3:PutObjectRetention",
+                "s3:PutObjectTagging",
+                "s3:PutObjectVersionTagging",
                 "s3:Abort*",
               ],
               "Effect": "Allow",
@@ -3181,6 +3118,7 @@ Object {
                 "dynamodb:PutItem",
                 "dynamodb:UpdateItem",
                 "dynamodb:DeleteItem",
+                "dynamodb:DescribeTable",
               ],
               "Effect": "Allow",
               "Resource": Array [
@@ -3212,7 +3150,11 @@ Object {
                 "s3:GetBucket*",
                 "s3:List*",
                 "s3:DeleteObject*",
-                "s3:PutObject*",
+                "s3:PutObject",
+                "s3:PutObjectLegalHold",
+                "s3:PutObjectRetention",
+                "s3:PutObjectTagging",
+                "s3:PutObjectVersionTagging",
                 "s3:Abort*",
               ],
               "Effect": "Allow",
@@ -3269,10 +3211,10 @@ Object {
           ],
           "Version": "2012-10-17",
         },
-        "PolicyName": "stageFourcopyToDestinationBucketServiceRoleDefaultPolicy54E21CAC",
+        "PolicyName": "stageFourcopyToDestinationBucketRoleDefaultPolicyC0C83D3D",
         "Roles": Array [
           Object {
-            "Ref": "stageFourcopyToDestinationBucketServiceRole65221CE0",
+            "Ref": "stageFourcopyToDestinationBucketRole072254ED",
           },
         ],
       },
@@ -3487,8 +3429,8 @@ Object {
         "monitoringsplitArchiveLogGroup026DE41D",
         "monitoringstageTwoOrchestratorLogGroup62996996",
         "monitoringtoLowercaseLogGroupC05CBA29",
-        "stageOnedownloadInventoryServiceRoleDefaultPolicy8C7F6A4F",
-        "stageOnedownloadInventoryServiceRole411212F6",
+        "stageOnedownloadInventoryRoleDefaultPolicyAD1FA742",
+        "stageOnedownloadInventoryRoleAA298206",
       ],
       "Metadata": Object {
         "cfn_nag": Object {
@@ -3511,41 +3453,9 @@ Object {
       "Properties": Object {
         "Code": Object {
           "S3Bucket": Object {
-            "Ref": "AssetParameters12880131179aec95a4c5e938bf75fa1a6280e116940e70e02824c67aebf6b42cS3Bucket8423781A",
+            "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": Object {
-            "Fn::Join": Array [
-              "",
-              Array [
-                Object {
-                  "Fn::Select": Array [
-                    0,
-                    Object {
-                      "Fn::Split": Array [
-                        "||",
-                        Object {
-                          "Ref": "AssetParameters12880131179aec95a4c5e938bf75fa1a6280e116940e70e02824c67aebf6b42cS3VersionKeyF143C14E",
-                        },
-                      ],
-                    },
-                  ],
-                },
-                Object {
-                  "Fn::Select": Array [
-                    1,
-                    Object {
-                      "Fn::Split": Array [
-                        "||",
-                        Object {
-                          "Ref": "AssetParameters12880131179aec95a4c5e938bf75fa1a6280e116940e70e02824c67aebf6b42cS3VersionKeyF143C14E",
-                        },
-                      ],
-                    },
-                  ],
-                },
-              ],
-            ],
-          },
+          "S3Key": "c0ca3bbc7af6b63c1ba6d21b6b36dcd565c9dd66fbcd83c2834dacf20b117a3e.zip",
         },
         "Environment": Object {
           "Variables": Object {
@@ -3579,11 +3489,11 @@ Object {
         "MemorySize": 1024,
         "Role": Object {
           "Fn::GetAtt": Array [
-            "stageOnedownloadInventoryServiceRole411212F6",
+            "stageOnedownloadInventoryRoleAA298206",
             "Arn",
           ],
         },
-        "Runtime": "nodejs14.x",
+        "Runtime": "nodejs16.x",
         "Tags": Array [
           Object {
             "Key": "solution",
@@ -3709,8 +3619,8 @@ Object {
         "monitoringsplitArchiveLogGroup026DE41D",
         "monitoringstageTwoOrchestratorLogGroup62996996",
         "monitoringtoLowercaseLogGroupC05CBA29",
-        "stageOnedownloadInventoryPartServiceRoleDefaultPolicy59CA83BD",
-        "stageOnedownloadInventoryPartServiceRole73BC3A9B",
+        "stageOnedownloadInventoryPartRoleDefaultPolicy48449137",
+        "stageOnedownloadInventoryPartRole00EF5805",
       ],
       "Metadata": Object {
         "cfn_nag": Object {
@@ -3733,41 +3643,9 @@ Object {
       "Properties": Object {
         "Code": Object {
           "S3Bucket": Object {
-            "Ref": "AssetParameters100fd815baea3658b5c419e55623876b876990dd8d07156365fc4fe8d046008dS3Bucket4E1E9B8C",
+            "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": Object {
-            "Fn::Join": Array [
-              "",
-              Array [
-                Object {
-                  "Fn::Select": Array [
-                    0,
-                    Object {
-                      "Fn::Split": Array [
-                        "||",
-                        Object {
-                          "Ref": "AssetParameters100fd815baea3658b5c419e55623876b876990dd8d07156365fc4fe8d046008dS3VersionKeyD4EC777E",
-                        },
-                      ],
-                    },
-                  ],
-                },
-                Object {
-                  "Fn::Select": Array [
-                    1,
-                    Object {
-                      "Fn::Split": Array [
-                        "||",
-                        Object {
-                          "Ref": "AssetParameters100fd815baea3658b5c419e55623876b876990dd8d07156365fc4fe8d046008dS3VersionKeyD4EC777E",
-                        },
-                      ],
-                    },
-                  ],
-                },
-              ],
-            ],
-          },
+          "S3Key": "467992a081e9b97766ba36caa03d7f898e6d54465856fabe2b9aebfebc51591a.zip",
         },
         "FunctionName": Object {
           "Fn::Join": Array [
@@ -3782,14 +3660,14 @@ Object {
         },
         "Handler": "index.handler",
         "MemorySize": 1024,
-        "ReservedConcurrentExecutions": 1,
+        "ReservedConcurrentExecutions": 10,
         "Role": Object {
           "Fn::GetAtt": Array [
-            "stageOnedownloadInventoryPartServiceRole73BC3A9B",
+            "stageOnedownloadInventoryPartRole00EF5805",
             "Arn",
           ],
         },
-        "Runtime": "nodejs14.x",
+        "Runtime": "nodejs16.x",
         "Tags": Array [
           Object {
             "Key": "solution",
@@ -3800,7 +3678,7 @@ Object {
       },
       "Type": "AWS::Lambda::Function",
     },
-    "stageOnedownloadInventoryPartServiceRole73BC3A9B": Object {
+    "stageOnedownloadInventoryPartRole00EF5805": Object {
       "DependsOn": Array [
         "monitoringCalculateMetricsDynamoDBEventSourceteststackdynamoDataCatalogStatusTable4AFD52BCA4A6AAB1",
         "monitoringCalculateMetrics1B70CF5B",
@@ -3842,20 +3720,6 @@ Object {
           ],
           "Version": "2012-10-17",
         },
-        "ManagedPolicyArns": Array [
-          Object {
-            "Fn::Join": Array [
-              "",
-              Array [
-                "arn:",
-                Object {
-                  "Ref": "AWS::Partition",
-                },
-                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
-              ],
-            ],
-          },
-        ],
         "Tags": Array [
           Object {
             "Key": "solution",
@@ -3865,7 +3729,7 @@ Object {
       },
       "Type": "AWS::IAM::Role",
     },
-    "stageOnedownloadInventoryPartServiceRoleDefaultPolicy59CA83BD": Object {
+    "stageOnedownloadInventoryPartRoleDefaultPolicy48449137": Object {
       "DependsOn": Array [
         "monitoringCalculateMetricsDynamoDBEventSourceteststackdynamoDataCatalogStatusTable4AFD52BCA4A6AAB1",
         "monitoringCalculateMetrics1B70CF5B",
@@ -3899,11 +3763,48 @@ Object {
           "Statement": Array [
             Object {
               "Action": Array [
+                "logs:CreateLogGroup",
+                "logs:CreateLogStream",
+                "logs:PutLogEvents",
+              ],
+              "Effect": "Allow",
+              "Resource": Object {
+                "Fn::Join": Array [
+                  "",
+                  Array [
+                    "arn:",
+                    Object {
+                      "Ref": "AWS::Partition",
+                    },
+                    ":logs:",
+                    Object {
+                      "Ref": "AWS::Region",
+                    },
+                    ":",
+                    Object {
+                      "Ref": "AWS::AccountId",
+                    },
+                    ":log-group:/aws/lambda/",
+                    Object {
+                      "Ref": "AWS::StackName",
+                    },
+                    "-downloadInventoryPart:**",
+                  ],
+                ],
+              },
+              "Sid": "allowCloudWatchLogs",
+            },
+            Object {
+              "Action": Array [
                 "s3:GetObject*",
                 "s3:GetBucket*",
                 "s3:List*",
                 "s3:DeleteObject*",
-                "s3:PutObject*",
+                "s3:PutObject",
+                "s3:PutObjectLegalHold",
+                "s3:PutObjectRetention",
+                "s3:PutObjectTagging",
+                "s3:PutObjectVersionTagging",
                 "s3:Abort*",
               ],
               "Effect": "Allow",
@@ -3945,7 +3846,11 @@ Object {
                 "Fn::Join": Array [
                   "",
                   Array [
-                    "arn:aws:glacier:",
+                    "arn:",
+                    Object {
+                      "Ref": "AWS::Partition",
+                    },
+                    ":glacier:",
                     Object {
                       "Ref": "AWS::Region",
                     },
@@ -3965,16 +3870,16 @@ Object {
           ],
           "Version": "2012-10-17",
         },
-        "PolicyName": "stageOnedownloadInventoryPartServiceRoleDefaultPolicy59CA83BD",
+        "PolicyName": "stageOnedownloadInventoryPartRoleDefaultPolicy48449137",
         "Roles": Array [
           Object {
-            "Ref": "stageOnedownloadInventoryPartServiceRole73BC3A9B",
+            "Ref": "stageOnedownloadInventoryPartRole00EF5805",
           },
         ],
       },
       "Type": "AWS::IAM::Policy",
     },
-    "stageOnedownloadInventoryServiceRole411212F6": Object {
+    "stageOnedownloadInventoryRoleAA298206": Object {
       "DependsOn": Array [
         "monitoringCalculateMetricsDynamoDBEventSourceteststackdynamoDataCatalogStatusTable4AFD52BCA4A6AAB1",
         "monitoringCalculateMetrics1B70CF5B",
@@ -4016,20 +3921,6 @@ Object {
           ],
           "Version": "2012-10-17",
         },
-        "ManagedPolicyArns": Array [
-          Object {
-            "Fn::Join": Array [
-              "",
-              Array [
-                "arn:",
-                Object {
-                  "Ref": "AWS::Partition",
-                },
-                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
-              ],
-            ],
-          },
-        ],
         "Tags": Array [
           Object {
             "Key": "solution",
@@ -4039,7 +3930,7 @@ Object {
       },
       "Type": "AWS::IAM::Role",
     },
-    "stageOnedownloadInventoryServiceRoleDefaultPolicy8C7F6A4F": Object {
+    "stageOnedownloadInventoryRoleDefaultPolicyAD1FA742": Object {
       "DependsOn": Array [
         "monitoringCalculateMetricsDynamoDBEventSourceteststackdynamoDataCatalogStatusTable4AFD52BCA4A6AAB1",
         "monitoringCalculateMetrics1B70CF5B",
@@ -4073,11 +3964,48 @@ Object {
           "Statement": Array [
             Object {
               "Action": Array [
+                "logs:CreateLogGroup",
+                "logs:CreateLogStream",
+                "logs:PutLogEvents",
+              ],
+              "Effect": "Allow",
+              "Resource": Object {
+                "Fn::Join": Array [
+                  "",
+                  Array [
+                    "arn:",
+                    Object {
+                      "Ref": "AWS::Partition",
+                    },
+                    ":logs:",
+                    Object {
+                      "Ref": "AWS::Region",
+                    },
+                    ":",
+                    Object {
+                      "Ref": "AWS::AccountId",
+                    },
+                    ":log-group:/aws/lambda/",
+                    Object {
+                      "Ref": "AWS::StackName",
+                    },
+                    "-downloadInventory:**",
+                  ],
+                ],
+              },
+              "Sid": "allowCloudWatchLogs",
+            },
+            Object {
+              "Action": Array [
                 "s3:GetObject*",
                 "s3:GetBucket*",
                 "s3:List*",
                 "s3:DeleteObject*",
-                "s3:PutObject*",
+                "s3:PutObject",
+                "s3:PutObjectLegalHold",
+                "s3:PutObjectRetention",
+                "s3:PutObjectTagging",
+                "s3:PutObjectVersionTagging",
                 "s3:Abort*",
               ],
               "Effect": "Allow",
@@ -4119,7 +4047,11 @@ Object {
                 "Fn::Join": Array [
                   "",
                   Array [
-                    "arn:aws:glacier:",
+                    "arn:",
+                    Object {
+                      "Ref": "AWS::Partition",
+                    },
+                    ":glacier:",
                     Object {
                       "Ref": "AWS::Region",
                     },
@@ -4139,12 +4071,28 @@ Object {
             Object {
               "Action": "lambda:InvokeFunction",
               "Effect": "Allow",
-              "Resource": Object {
-                "Fn::GetAtt": Array [
-                  "stageOnedownloadInventoryPartC8387F3A",
-                  "Arn",
-                ],
-              },
+              "Resource": Array [
+                Object {
+                  "Fn::GetAtt": Array [
+                    "stageOnedownloadInventoryPartC8387F3A",
+                    "Arn",
+                  ],
+                },
+                Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      Object {
+                        "Fn::GetAtt": Array [
+                          "stageOnedownloadInventoryPartC8387F3A",
+                          "Arn",
+                        ],
+                      },
+                      ":*",
+                    ],
+                  ],
+                },
+              ],
             },
             Object {
               "Action": "states:StartExecution",
@@ -4156,10 +4104,10 @@ Object {
           ],
           "Version": "2012-10-17",
         },
-        "PolicyName": "stageOnedownloadInventoryServiceRoleDefaultPolicy8C7F6A4F",
+        "PolicyName": "stageOnedownloadInventoryRoleDefaultPolicyAD1FA742",
         "Roles": Array [
           Object {
-            "Ref": "stageOnedownloadInventoryServiceRole411212F6",
+            "Ref": "stageOnedownloadInventoryRoleAA298206",
           },
         ],
       },
@@ -4193,8 +4141,8 @@ Object {
         "monitoringsplitArchiveLogGroup026DE41D",
         "monitoringstageTwoOrchestratorLogGroup62996996",
         "monitoringtoLowercaseLogGroupC05CBA29",
-        "stageOnerequestInventoryServiceRoleDefaultPolicyE7A49E61",
-        "stageOnerequestInventoryServiceRole5904E2D3",
+        "stageOnerequestInventoryRoleDefaultPolicy2769E380",
+        "stageOnerequestInventoryRoleC0473E06",
       ],
       "Metadata": Object {
         "cfn_nag": Object {
@@ -4217,41 +4165,9 @@ Object {
       "Properties": Object {
         "Code": Object {
           "S3Bucket": Object {
-            "Ref": "AssetParameters461f2802adab35dece77021c64164c205e902b915fa60541ee8e0fc5c0d19e09S3BucketFC2C178D",
+            "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": Object {
-            "Fn::Join": Array [
-              "",
-              Array [
-                Object {
-                  "Fn::Select": Array [
-                    0,
-                    Object {
-                      "Fn::Split": Array [
-                        "||",
-                        Object {
-                          "Ref": "AssetParameters461f2802adab35dece77021c64164c205e902b915fa60541ee8e0fc5c0d19e09S3VersionKey1C15D20B",
-                        },
-                      ],
-                    },
-                  ],
-                },
-                Object {
-                  "Fn::Select": Array [
-                    1,
-                    Object {
-                      "Fn::Split": Array [
-                        "||",
-                        Object {
-                          "Ref": "AssetParameters461f2802adab35dece77021c64164c205e902b915fa60541ee8e0fc5c0d19e09S3VersionKey1C15D20B",
-                        },
-                      ],
-                    },
-                  ],
-                },
-              ],
-            ],
-          },
+          "S3Key": "de0ffd82d7ae4664dc9b71fad9f42222fdc08d037733511934877d11063845a0.zip",
         },
         "Environment": Object {
           "Variables": Object {
@@ -4294,11 +4210,11 @@ Object {
         "MemorySize": 256,
         "Role": Object {
           "Fn::GetAtt": Array [
-            "stageOnerequestInventoryServiceRole5904E2D3",
+            "stageOnerequestInventoryRoleC0473E06",
             "Arn",
           ],
         },
-        "Runtime": "nodejs14.x",
+        "Runtime": "nodejs16.x",
         "Tags": Array [
           Object {
             "Key": "solution",
@@ -4309,7 +4225,7 @@ Object {
       },
       "Type": "AWS::Lambda::Function",
     },
-    "stageOnerequestInventoryServiceRole5904E2D3": Object {
+    "stageOnerequestInventoryRoleC0473E06": Object {
       "DependsOn": Array [
         "monitoringCalculateMetricsDynamoDBEventSourceteststackdynamoDataCatalogStatusTable4AFD52BCA4A6AAB1",
         "monitoringCalculateMetrics1B70CF5B",
@@ -4351,20 +4267,6 @@ Object {
           ],
           "Version": "2012-10-17",
         },
-        "ManagedPolicyArns": Array [
-          Object {
-            "Fn::Join": Array [
-              "",
-              Array [
-                "arn:",
-                Object {
-                  "Ref": "AWS::Partition",
-                },
-                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
-              ],
-            ],
-          },
-        ],
         "Tags": Array [
           Object {
             "Key": "solution",
@@ -4374,7 +4276,7 @@ Object {
       },
       "Type": "AWS::IAM::Role",
     },
-    "stageOnerequestInventoryServiceRoleDefaultPolicyE7A49E61": Object {
+    "stageOnerequestInventoryRoleDefaultPolicy2769E380": Object {
       "DependsOn": Array [
         "monitoringCalculateMetricsDynamoDBEventSourceteststackdynamoDataCatalogStatusTable4AFD52BCA4A6AAB1",
         "monitoringCalculateMetrics1B70CF5B",
@@ -4408,11 +4310,48 @@ Object {
           "Statement": Array [
             Object {
               "Action": Array [
+                "logs:CreateLogGroup",
+                "logs:CreateLogStream",
+                "logs:PutLogEvents",
+              ],
+              "Effect": "Allow",
+              "Resource": Object {
+                "Fn::Join": Array [
+                  "",
+                  Array [
+                    "arn:",
+                    Object {
+                      "Ref": "AWS::Partition",
+                    },
+                    ":logs:",
+                    Object {
+                      "Ref": "AWS::Region",
+                    },
+                    ":",
+                    Object {
+                      "Ref": "AWS::AccountId",
+                    },
+                    ":log-group:/aws/lambda/",
+                    Object {
+                      "Ref": "AWS::StackName",
+                    },
+                    "-requestInventory:**",
+                  ],
+                ],
+              },
+              "Sid": "allowCloudWatchLogs",
+            },
+            Object {
+              "Action": Array [
                 "s3:GetObject*",
                 "s3:GetBucket*",
                 "s3:List*",
                 "s3:DeleteObject*",
-                "s3:PutObject*",
+                "s3:PutObject",
+                "s3:PutObjectLegalHold",
+                "s3:PutObjectRetention",
+                "s3:PutObjectTagging",
+                "s3:PutObjectVersionTagging",
                 "s3:Abort*",
               ],
               "Effect": "Allow",
@@ -4445,7 +4384,11 @@ Object {
                 "s3:GetBucket*",
                 "s3:List*",
                 "s3:DeleteObject*",
-                "s3:PutObject*",
+                "s3:PutObject",
+                "s3:PutObjectLegalHold",
+                "s3:PutObjectRetention",
+                "s3:PutObjectTagging",
+                "s3:PutObjectVersionTagging",
                 "s3:Abort*",
               ],
               "Effect": "Allow",
@@ -4501,7 +4444,11 @@ Object {
                 "Fn::Join": Array [
                   "",
                   Array [
-                    "arn:aws:s3:::",
+                    "arn:",
+                    Object {
+                      "Ref": "AWS::Partition",
+                    },
+                    ":s3:::",
                     Object {
                       "Ref": "FilelistS3Location",
                     },
@@ -4525,7 +4472,11 @@ Object {
                 "Fn::Join": Array [
                   "",
                   Array [
-                    "arn:aws:glacier:",
+                    "arn:",
+                    Object {
+                      "Ref": "AWS::Partition",
+                    },
+                    ":glacier:",
                     Object {
                       "Ref": "AWS::Region",
                     },
@@ -4545,10 +4496,10 @@ Object {
           ],
           "Version": "2012-10-17",
         },
-        "PolicyName": "stageOnerequestInventoryServiceRoleDefaultPolicyE7A49E61",
+        "PolicyName": "stageOnerequestInventoryRoleDefaultPolicy2769E380",
         "Roles": Array [
           Object {
-            "Ref": "stageOnerequestInventoryServiceRole5904E2D3",
+            "Ref": "stageOnerequestInventoryRoleC0473E06",
           },
         ],
       },
@@ -4621,41 +4572,9 @@ Object {
       "Properties": Object {
         "Code": Object {
           "S3Bucket": Object {
-            "Ref": "AssetParameters396425eb5dd81bc0eae9cbc5be37350104c47a2250132a50a43c63506088f2baS3BucketBDAE5F52",
+            "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": Object {
-            "Fn::Join": Array [
-              "",
-              Array [
-                Object {
-                  "Fn::Select": Array [
-                    0,
-                    Object {
-                      "Fn::Split": Array [
-                        "||",
-                        Object {
-                          "Ref": "AssetParameters396425eb5dd81bc0eae9cbc5be37350104c47a2250132a50a43c63506088f2baS3VersionKeyE5879FBB",
-                        },
-                      ],
-                    },
-                  ],
-                },
-                Object {
-                  "Fn::Select": Array [
-                    1,
-                    Object {
-                      "Fn::Split": Array [
-                        "||",
-                        Object {
-                          "Ref": "AssetParameters396425eb5dd81bc0eae9cbc5be37350104c47a2250132a50a43c63506088f2baS3VersionKeyE5879FBB",
-                        },
-                      ],
-                    },
-                  ],
-                },
-              ],
-            ],
-          },
+          "S3Key": "6c843c67ac186de8b5bd06ddb77e41cffabbe5db9ff1b4c5255390c1d1cb6624.zip",
         },
         "Environment": Object {
           "Variables": Object {
@@ -4700,7 +4619,7 @@ Object {
             "Arn",
           ],
         },
-        "Runtime": "nodejs14.x",
+        "Runtime": "nodejs16.x",
         "Tags": Array [
           Object {
             "Key": "solution",
@@ -4759,7 +4678,11 @@ Object {
                 "Fn::Join": Array [
                   "",
                   Array [
-                    "arn:aws:logs:",
+                    "arn:",
+                    Object {
+                      "Ref": "AWS::Partition",
+                    },
+                    ":logs:",
                     Object {
                       "Ref": "AWS::Region",
                     },
@@ -4792,7 +4715,11 @@ Object {
                 "Fn::Join": Array [
                   "",
                   Array [
-                    "arn:aws:glacier:",
+                    "arn:",
+                    Object {
+                      "Ref": "AWS::Partition",
+                    },
+                    ":glacier:",
                     Object {
                       "Ref": "AWS::Region",
                     },
@@ -4830,7 +4757,11 @@ Object {
                 "s3:GetBucket*",
                 "s3:List*",
                 "s3:DeleteObject*",
-                "s3:PutObject*",
+                "s3:PutObject",
+                "s3:PutObjectLegalHold",
+                "s3:PutObjectRetention",
+                "s3:PutObjectTagging",
+                "s3:PutObjectVersionTagging",
                 "s3:Abort*",
               ],
               "Effect": "Allow",
@@ -4870,6 +4801,7 @@ Object {
                 "dynamodb:PutItem",
                 "dynamodb:UpdateItem",
                 "dynamodb:DeleteItem",
+                "dynamodb:DescribeTable",
               ],
               "Effect": "Allow",
               "Resource": Array [
@@ -4908,6 +4840,7 @@ Object {
                 "dynamodb:PutItem",
                 "dynamodb:UpdateItem",
                 "dynamodb:DeleteItem",
+                "dynamodb:DescribeTable",
               ],
               "Effect": "Allow",
               "Resource": Array [
@@ -4989,41 +4922,9 @@ Object {
       "Properties": Object {
         "Code": Object {
           "S3Bucket": Object {
-            "Ref": "AssetParameters7f16a96fc16c0b013f3d7ff9c70c104a5a95eb08422901f329e7b62c4fef127bS3Bucket4B52EC9E",
+            "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": Object {
-            "Fn::Join": Array [
-              "",
-              Array [
-                Object {
-                  "Fn::Select": Array [
-                    0,
-                    Object {
-                      "Fn::Split": Array [
-                        "||",
-                        Object {
-                          "Ref": "AssetParameters7f16a96fc16c0b013f3d7ff9c70c104a5a95eb08422901f329e7b62c4fef127bS3VersionKey87735AB0",
-                        },
-                      ],
-                    },
-                  ],
-                },
-                Object {
-                  "Fn::Select": Array [
-                    1,
-                    Object {
-                      "Fn::Split": Array [
-                        "||",
-                        Object {
-                          "Ref": "AssetParameters7f16a96fc16c0b013f3d7ff9c70c104a5a95eb08422901f329e7b62c4fef127bS3VersionKey87735AB0",
-                        },
-                      ],
-                    },
-                  ],
-                },
-              ],
-            ],
-          },
+          "S3Key": "f82b457a21bd084f9e6dbecc6d096ccdc14dfa51748b4e33e93d6151c80ffe98.zip",
         },
         "Environment": Object {
           "Variables": Object {
@@ -5068,7 +4969,7 @@ Object {
             "Arn",
           ],
         },
-        "Runtime": "nodejs14.x",
+        "Runtime": "nodejs16.x",
         "Tags": Array [
           Object {
             "Key": "solution",
@@ -5319,7 +5220,11 @@ Object {
                 "Fn::Join": Array [
                   "",
                   Array [
-                    "arn:aws:logs:",
+                    "arn:",
+                    Object {
+                      "Ref": "AWS::Partition",
+                    },
+                    ":logs:",
                     Object {
                       "Ref": "AWS::Region",
                     },
@@ -5352,7 +5257,11 @@ Object {
                 "Fn::Join": Array [
                   "",
                   Array [
-                    "arn:aws:glacier:",
+                    "arn:",
+                    Object {
+                      "Ref": "AWS::Partition",
+                    },
+                    ":glacier:",
                     Object {
                       "Ref": "AWS::Region",
                     },
@@ -5390,7 +5299,11 @@ Object {
                 "s3:GetBucket*",
                 "s3:List*",
                 "s3:DeleteObject*",
-                "s3:PutObject*",
+                "s3:PutObject",
+                "s3:PutObjectLegalHold",
+                "s3:PutObjectRetention",
+                "s3:PutObjectTagging",
+                "s3:PutObjectVersionTagging",
                 "s3:Abort*",
               ],
               "Effect": "Allow",
@@ -5430,6 +5343,7 @@ Object {
                 "dynamodb:PutItem",
                 "dynamodb:UpdateItem",
                 "dynamodb:DeleteItem",
+                "dynamodb:DescribeTable",
               ],
               "Effect": "Allow",
               "Resource": Array [
@@ -5593,8 +5507,8 @@ Object {
         "monitoringsplitArchiveLogGroup026DE41D",
         "monitoringstageTwoOrchestratorLogGroup62996996",
         "monitoringtoLowercaseLogGroupC05CBA29",
-        "stageTwoDeployGlueJobScriptServiceRoleDefaultPolicyD6DC7335",
-        "stageTwoDeployGlueJobScriptServiceRoleE1F020B7",
+        "stageTwodeployGlueJobScriptRoleDefaultPolicyA573D7F7",
+        "stageTwodeployGlueJobScriptRole655D516F",
       ],
       "Metadata": Object {
         "cfn_nag": Object {
@@ -5617,41 +5531,9 @@ Object {
       "Properties": Object {
         "Code": Object {
           "S3Bucket": Object {
-            "Ref": "AssetParametersa53709be05881041b8935e666fc3825d6457992ae06e303750fccfb11f6a7c4eS3Bucket3A3454A6",
+            "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": Object {
-            "Fn::Join": Array [
-              "",
-              Array [
-                Object {
-                  "Fn::Select": Array [
-                    0,
-                    Object {
-                      "Fn::Split": Array [
-                        "||",
-                        Object {
-                          "Ref": "AssetParametersa53709be05881041b8935e666fc3825d6457992ae06e303750fccfb11f6a7c4eS3VersionKeyA08E50EB",
-                        },
-                      ],
-                    },
-                  ],
-                },
-                Object {
-                  "Fn::Select": Array [
-                    1,
-                    Object {
-                      "Fn::Split": Array [
-                        "||",
-                        Object {
-                          "Ref": "AssetParametersa53709be05881041b8935e666fc3825d6457992ae06e303750fccfb11f6a7c4eS3VersionKeyA08E50EB",
-                        },
-                      ],
-                    },
-                  ],
-                },
-              ],
-            ],
-          },
+          "S3Key": "0cb212dd5761aca60f485266aa107ea73b6e9f6859c310fe9a6323c38cca2f12.zip",
         },
         "Environment": Object {
           "Variables": Object {
@@ -5675,11 +5557,11 @@ Object {
         "MemorySize": 128,
         "Role": Object {
           "Fn::GetAtt": Array [
-            "stageTwoDeployGlueJobScriptServiceRoleE1F020B7",
+            "stageTwodeployGlueJobScriptRole655D516F",
             "Arn",
           ],
         },
-        "Runtime": "nodejs14.x",
+        "Runtime": "nodejs16.x",
         "Tags": Array [
           Object {
             "Key": "solution",
@@ -5689,145 +5571,6 @@ Object {
         "Timeout": 60,
       },
       "Type": "AWS::Lambda::Function",
-    },
-    "stageTwoDeployGlueJobScriptServiceRoleDefaultPolicyD6DC7335": Object {
-      "DependsOn": Array [
-        "monitoringCalculateMetricsDynamoDBEventSourceteststackdynamoDataCatalogStatusTable4AFD52BCA4A6AAB1",
-        "monitoringCalculateMetrics1B70CF5B",
-        "monitoringcalculateMetricsLogGroup9961A214",
-        "monitoringCalculateMetricsRoleDefaultPolicy22C0E657",
-        "monitoringCalculateMetricsRoleA76278A7",
-        "monitoringCalculateMetricsRolePolicy0C1EF64D",
-        "monitoringcalculateTreehashLogGroup6FC738B3",
-        "monitoringcopyChunkLogGroup5D04918E",
-        "monitoringcopyToDestinationBucketLogGroup4BB91669",
-        "monitoringdeployGlueJobScriptLogGroupAA50E4DE",
-        "monitoringdownloadInventoryLogGroup2471C2FF",
-        "monitoringdownloadInventoryPartLogGroupD9E69690",
-        "monitoringgenerateUuidLogGroup18A074CF",
-        "monitoringglacierrefreezerdashboardE7F6D8AE",
-        "monitoringPostMetrics98F9F947",
-        "monitoringPostMetricScheduleAllowEventRuleteststackmonitoringPostMetrics8C0DEF1A842DEFFF",
-        "monitoringPostMetricSchedule8675C968",
-        "monitoringpostMetricsLogGroup670566A8",
-        "monitoringPostMetricsRole87B61E7B",
-        "monitoringPostMetricsRolePolicy596F9F4D",
-        "monitoringrequestArchivesLogGroup70D7C9C5",
-        "monitoringrequestInventoryLogGroupB7C9607D",
-        "monitoringsendAnonymousStatsLogGroup0C9968BB",
-        "monitoringsplitArchiveLogGroup026DE41D",
-        "monitoringstageTwoOrchestratorLogGroup62996996",
-        "monitoringtoLowercaseLogGroupC05CBA29",
-      ],
-      "Properties": Object {
-        "PolicyDocument": Object {
-          "Statement": Array [
-            Object {
-              "Action": Array [
-                "s3:DeleteObject*",
-                "s3:PutObject*",
-                "s3:Abort*",
-              ],
-              "Effect": "Allow",
-              "Resource": Array [
-                Object {
-                  "Fn::GetAtt": Array [
-                    "stagingBucket",
-                    "Arn",
-                  ],
-                },
-                Object {
-                  "Fn::Join": Array [
-                    "",
-                    Array [
-                      Object {
-                        "Fn::GetAtt": Array [
-                          "stagingBucket",
-                          "Arn",
-                        ],
-                      },
-                      "/*",
-                    ],
-                  ],
-                },
-              ],
-            },
-          ],
-          "Version": "2012-10-17",
-        },
-        "PolicyName": "stageTwoDeployGlueJobScriptServiceRoleDefaultPolicyD6DC7335",
-        "Roles": Array [
-          Object {
-            "Ref": "stageTwoDeployGlueJobScriptServiceRoleE1F020B7",
-          },
-        ],
-      },
-      "Type": "AWS::IAM::Policy",
-    },
-    "stageTwoDeployGlueJobScriptServiceRoleE1F020B7": Object {
-      "DependsOn": Array [
-        "monitoringCalculateMetricsDynamoDBEventSourceteststackdynamoDataCatalogStatusTable4AFD52BCA4A6AAB1",
-        "monitoringCalculateMetrics1B70CF5B",
-        "monitoringcalculateMetricsLogGroup9961A214",
-        "monitoringCalculateMetricsRoleDefaultPolicy22C0E657",
-        "monitoringCalculateMetricsRoleA76278A7",
-        "monitoringCalculateMetricsRolePolicy0C1EF64D",
-        "monitoringcalculateTreehashLogGroup6FC738B3",
-        "monitoringcopyChunkLogGroup5D04918E",
-        "monitoringcopyToDestinationBucketLogGroup4BB91669",
-        "monitoringdeployGlueJobScriptLogGroupAA50E4DE",
-        "monitoringdownloadInventoryLogGroup2471C2FF",
-        "monitoringdownloadInventoryPartLogGroupD9E69690",
-        "monitoringgenerateUuidLogGroup18A074CF",
-        "monitoringglacierrefreezerdashboardE7F6D8AE",
-        "monitoringPostMetrics98F9F947",
-        "monitoringPostMetricScheduleAllowEventRuleteststackmonitoringPostMetrics8C0DEF1A842DEFFF",
-        "monitoringPostMetricSchedule8675C968",
-        "monitoringpostMetricsLogGroup670566A8",
-        "monitoringPostMetricsRole87B61E7B",
-        "monitoringPostMetricsRolePolicy596F9F4D",
-        "monitoringrequestArchivesLogGroup70D7C9C5",
-        "monitoringrequestInventoryLogGroupB7C9607D",
-        "monitoringsendAnonymousStatsLogGroup0C9968BB",
-        "monitoringsplitArchiveLogGroup026DE41D",
-        "monitoringstageTwoOrchestratorLogGroup62996996",
-        "monitoringtoLowercaseLogGroupC05CBA29",
-      ],
-      "Properties": Object {
-        "AssumeRolePolicyDocument": Object {
-          "Statement": Array [
-            Object {
-              "Action": "sts:AssumeRole",
-              "Effect": "Allow",
-              "Principal": Object {
-                "Service": "lambda.amazonaws.com",
-              },
-            },
-          ],
-          "Version": "2012-10-17",
-        },
-        "ManagedPolicyArns": Array [
-          Object {
-            "Fn::Join": Array [
-              "",
-              Array [
-                "arn:",
-                Object {
-                  "Ref": "AWS::Partition",
-                },
-                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
-              ],
-            ],
-          },
-        ],
-        "Tags": Array [
-          Object {
-            "Key": "solution",
-            "Value": "amazon-s3-glacier-refreezer",
-          },
-        ],
-      },
-      "Type": "AWS::IAM::Role",
     },
     "stageTwoGlueJobRoleDEC61075": Object {
       "DependsOn": Array [
@@ -5939,7 +5682,11 @@ Object {
                 "s3:GetBucket*",
                 "s3:List*",
                 "s3:DeleteObject*",
-                "s3:PutObject*",
+                "s3:PutObject",
+                "s3:PutObjectLegalHold",
+                "s3:PutObjectRetention",
+                "s3:PutObjectTagging",
+                "s3:PutObjectVersionTagging",
                 "s3:Abort*",
               ],
               "Effect": "Allow",
@@ -6033,7 +5780,11 @@ Object {
                   "Fn::Join": Array [
                     "",
                     Array [
-                      "arn:aws:athena:*:",
+                      "arn:",
+                      Object {
+                        "Ref": "AWS::Partition",
+                      },
+                      ":athena:*:",
                       Object {
                         "Ref": "AWS::AccountId",
                       },
@@ -6140,7 +5891,11 @@ Object {
                 "Fn::Join": Array [
                   "",
                   Array [
-                    "arn:aws:logs:",
+                    "arn:",
+                    Object {
+                      "Ref": "AWS::Partition",
+                    },
+                    ":logs:",
                     Object {
                       "Ref": "AWS::Region",
                     },
@@ -6236,8 +5991,8 @@ Object {
         "ExecutionProperty": Object {
           "MaxConcurrentRuns": 1,
         },
-        "GlueVersion": "2.0",
-        "MaxCapacity": 5,
+        "GlueVersion": "3.0",
+        "MaxCapacity": 10,
         "MaxRetries": 0,
         "Name": Object {
           "Fn::Join": Array [
@@ -6567,7 +6322,11 @@ Object {
                 "s3:GetBucket*",
                 "s3:List*",
                 "s3:DeleteObject*",
-                "s3:PutObject*",
+                "s3:PutObject",
+                "s3:PutObjectLegalHold",
+                "s3:PutObjectRetention",
+                "s3:PutObjectTagging",
+                "s3:PutObjectVersionTagging",
                 "s3:Abort*",
               ],
               "Effect": "Allow",
@@ -6607,6 +6366,7 @@ Object {
                 "dynamodb:PutItem",
                 "dynamodb:UpdateItem",
                 "dynamodb:DeleteItem",
+                "dynamodb:DescribeTable",
               ],
               "Effect": "Allow",
               "Resource": Array [
@@ -6645,6 +6405,7 @@ Object {
                 "dynamodb:PutItem",
                 "dynamodb:UpdateItem",
                 "dynamodb:DeleteItem",
+                "dynamodb:DescribeTable",
               ],
               "Effect": "Allow",
               "Resource": Array [
@@ -6726,7 +6487,11 @@ Object {
                   "Fn::Join": Array [
                     "",
                     Array [
-                      "arn:aws:athena:*:",
+                      "arn:",
+                      Object {
+                        "Ref": "AWS::Partition",
+                      },
+                      ":athena:*:",
                       Object {
                         "Ref": "AWS::AccountId",
                       },
@@ -6779,7 +6544,11 @@ Object {
                 "Fn::Join": Array [
                   "",
                   Array [
-                    "arn:aws:logs:",
+                    "arn:",
+                    Object {
+                      "Ref": "AWS::Partition",
+                    },
+                    ":logs:",
                     Object {
                       "Ref": "AWS::Region",
                     },
@@ -6812,7 +6581,11 @@ Object {
                 "Fn::Join": Array [
                   "",
                   Array [
-                    "arn:aws:glacier:",
+                    "arn:",
+                    Object {
+                      "Ref": "AWS::Partition",
+                    },
+                    ":glacier:",
                     Object {
                       "Ref": "AWS::Region",
                     },
@@ -6893,41 +6666,9 @@ Object {
       "Properties": Object {
         "Code": Object {
           "S3Bucket": Object {
-            "Ref": "AssetParameters61114b22b6e7f2ce583d0a501da9649fb9d4d9b43b501f06d89d6da1a1dc5ec7S3Bucket343F805E",
+            "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": Object {
-            "Fn::Join": Array [
-              "",
-              Array [
-                Object {
-                  "Fn::Select": Array [
-                    0,
-                    Object {
-                      "Fn::Split": Array [
-                        "||",
-                        Object {
-                          "Ref": "AssetParameters61114b22b6e7f2ce583d0a501da9649fb9d4d9b43b501f06d89d6da1a1dc5ec7S3VersionKey0891DD5F",
-                        },
-                      ],
-                    },
-                  ],
-                },
-                Object {
-                  "Fn::Select": Array [
-                    1,
-                    Object {
-                      "Fn::Split": Array [
-                        "||",
-                        Object {
-                          "Ref": "AssetParameters61114b22b6e7f2ce583d0a501da9649fb9d4d9b43b501f06d89d6da1a1dc5ec7S3VersionKey0891DD5F",
-                        },
-                      ],
-                    },
-                  ],
-                },
-              ],
-            ],
-          },
+          "S3Key": "1cc81cb99831a7b47b766f6cffc33123971361bf75e7dd9175f52873c5a47d1e.zip",
         },
         "Environment": Object {
           "Variables": Object {
@@ -6989,7 +6730,7 @@ Object {
             "Arn",
           ],
         },
-        "Runtime": "nodejs14.x",
+        "Runtime": "nodejs16.x",
         "Tags": Array [
           Object {
             "Key": "solution",
@@ -7037,15 +6778,12 @@ Object {
               "Effect": "Allow",
               "Principal": Object {
                 "Service": Object {
-                  "Fn::Join": Array [
-                    "",
-                    Array [
-                      "states.",
-                      Object {
-                        "Ref": "AWS::Region",
-                      },
-                      ".amazonaws.com",
-                    ],
+                  "Fn::FindInMap": Array [
+                    "ServiceprincipalMap",
+                    Object {
+                      "Ref": "AWS::Region",
+                    },
+                    "states",
                   ],
                 },
               },
@@ -7114,7 +6852,11 @@ Object {
                 "s3:GetBucket*",
                 "s3:List*",
                 "s3:DeleteObject*",
-                "s3:PutObject*",
+                "s3:PutObject",
+                "s3:PutObjectLegalHold",
+                "s3:PutObjectRetention",
+                "s3:PutObjectTagging",
+                "s3:PutObjectVersionTagging",
                 "s3:Abort*",
               ],
               "Effect": "Allow",
@@ -7144,22 +6886,54 @@ Object {
             Object {
               "Action": "lambda:InvokeFunction",
               "Effect": "Allow",
-              "Resource": Object {
-                "Fn::GetAtt": Array [
-                  "stageTwoRequestArchives06ED0831",
-                  "Arn",
-                ],
-              },
+              "Resource": Array [
+                Object {
+                  "Fn::GetAtt": Array [
+                    "stageTwoRequestArchives06ED0831",
+                    "Arn",
+                  ],
+                },
+                Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      Object {
+                        "Fn::GetAtt": Array [
+                          "stageTwoRequestArchives06ED0831",
+                          "Arn",
+                        ],
+                      },
+                      ":*",
+                    ],
+                  ],
+                },
+              ],
             },
             Object {
               "Action": "lambda:InvokeFunction",
               "Effect": "Allow",
-              "Resource": Object {
-                "Fn::GetAtt": Array [
-                  "statisticsSendAnonymousStatsD2E34707",
-                  "Arn",
-                ],
-              },
+              "Resource": Array [
+                Object {
+                  "Fn::GetAtt": Array [
+                    "statisticsSendAnonymousStatsD2E34707",
+                    "Arn",
+                  ],
+                },
+                Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      Object {
+                        "Fn::GetAtt": Array [
+                          "statisticsSendAnonymousStatsD2E34707",
+                          "Arn",
+                        ],
+                      },
+                      ":*",
+                    ],
+                  ],
+                },
+              ],
             },
             Object {
               "Action": Array [
@@ -7167,6 +6941,7 @@ Object {
                 "dynamodb:PutItem",
                 "dynamodb:UpdateItem",
                 "dynamodb:DeleteItem",
+                "dynamodb:DescribeTable",
               ],
               "Effect": "Allow",
               "Resource": Array [
@@ -7279,7 +7054,11 @@ Object {
                   "Fn::Join": Array [
                     "",
                     Array [
-                      "arn:aws:athena:*:",
+                      "arn:",
+                      Object {
+                        "Ref": "AWS::Partition",
+                      },
+                      ":athena:*:",
                       Object {
                         "Ref": "AWS::AccountId",
                       },
@@ -7359,7 +7138,11 @@ Object {
                 "Fn::Join": Array [
                   "",
                   Array [
-                    "arn:aws:glue:",
+                    "arn:",
+                    Object {
+                      "Ref": "AWS::Partition",
+                    },
+                    ":glue:",
                     Object {
                       "Ref": "AWS::Region",
                     },
@@ -7399,6 +7182,168 @@ Object {
         "Roles": Array [
           Object {
             "Ref": "stageTwoStepfunctionsOrchestratorRole1165D332",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "stageTwodeployGlueJobScriptRole655D516F": Object {
+      "DependsOn": Array [
+        "monitoringCalculateMetricsDynamoDBEventSourceteststackdynamoDataCatalogStatusTable4AFD52BCA4A6AAB1",
+        "monitoringCalculateMetrics1B70CF5B",
+        "monitoringcalculateMetricsLogGroup9961A214",
+        "monitoringCalculateMetricsRoleDefaultPolicy22C0E657",
+        "monitoringCalculateMetricsRoleA76278A7",
+        "monitoringCalculateMetricsRolePolicy0C1EF64D",
+        "monitoringcalculateTreehashLogGroup6FC738B3",
+        "monitoringcopyChunkLogGroup5D04918E",
+        "monitoringcopyToDestinationBucketLogGroup4BB91669",
+        "monitoringdeployGlueJobScriptLogGroupAA50E4DE",
+        "monitoringdownloadInventoryLogGroup2471C2FF",
+        "monitoringdownloadInventoryPartLogGroupD9E69690",
+        "monitoringgenerateUuidLogGroup18A074CF",
+        "monitoringglacierrefreezerdashboardE7F6D8AE",
+        "monitoringPostMetrics98F9F947",
+        "monitoringPostMetricScheduleAllowEventRuleteststackmonitoringPostMetrics8C0DEF1A842DEFFF",
+        "monitoringPostMetricSchedule8675C968",
+        "monitoringpostMetricsLogGroup670566A8",
+        "monitoringPostMetricsRole87B61E7B",
+        "monitoringPostMetricsRolePolicy596F9F4D",
+        "monitoringrequestArchivesLogGroup70D7C9C5",
+        "monitoringrequestInventoryLogGroupB7C9607D",
+        "monitoringsendAnonymousStatsLogGroup0C9968BB",
+        "monitoringsplitArchiveLogGroup026DE41D",
+        "monitoringstageTwoOrchestratorLogGroup62996996",
+        "monitoringtoLowercaseLogGroupC05CBA29",
+      ],
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "Tags": Array [
+          Object {
+            "Key": "solution",
+            "Value": "amazon-s3-glacier-refreezer",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "stageTwodeployGlueJobScriptRoleDefaultPolicyA573D7F7": Object {
+      "DependsOn": Array [
+        "monitoringCalculateMetricsDynamoDBEventSourceteststackdynamoDataCatalogStatusTable4AFD52BCA4A6AAB1",
+        "monitoringCalculateMetrics1B70CF5B",
+        "monitoringcalculateMetricsLogGroup9961A214",
+        "monitoringCalculateMetricsRoleDefaultPolicy22C0E657",
+        "monitoringCalculateMetricsRoleA76278A7",
+        "monitoringCalculateMetricsRolePolicy0C1EF64D",
+        "monitoringcalculateTreehashLogGroup6FC738B3",
+        "monitoringcopyChunkLogGroup5D04918E",
+        "monitoringcopyToDestinationBucketLogGroup4BB91669",
+        "monitoringdeployGlueJobScriptLogGroupAA50E4DE",
+        "monitoringdownloadInventoryLogGroup2471C2FF",
+        "monitoringdownloadInventoryPartLogGroupD9E69690",
+        "monitoringgenerateUuidLogGroup18A074CF",
+        "monitoringglacierrefreezerdashboardE7F6D8AE",
+        "monitoringPostMetrics98F9F947",
+        "monitoringPostMetricScheduleAllowEventRuleteststackmonitoringPostMetrics8C0DEF1A842DEFFF",
+        "monitoringPostMetricSchedule8675C968",
+        "monitoringpostMetricsLogGroup670566A8",
+        "monitoringPostMetricsRole87B61E7B",
+        "monitoringPostMetricsRolePolicy596F9F4D",
+        "monitoringrequestArchivesLogGroup70D7C9C5",
+        "monitoringrequestInventoryLogGroupB7C9607D",
+        "monitoringsendAnonymousStatsLogGroup0C9968BB",
+        "monitoringsplitArchiveLogGroup026DE41D",
+        "monitoringstageTwoOrchestratorLogGroup62996996",
+        "monitoringtoLowercaseLogGroupC05CBA29",
+      ],
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": Array [
+                "logs:CreateLogGroup",
+                "logs:CreateLogStream",
+                "logs:PutLogEvents",
+              ],
+              "Effect": "Allow",
+              "Resource": Object {
+                "Fn::Join": Array [
+                  "",
+                  Array [
+                    "arn:",
+                    Object {
+                      "Ref": "AWS::Partition",
+                    },
+                    ":logs:",
+                    Object {
+                      "Ref": "AWS::Region",
+                    },
+                    ":",
+                    Object {
+                      "Ref": "AWS::AccountId",
+                    },
+                    ":log-group:/aws/lambda/",
+                    Object {
+                      "Ref": "AWS::StackName",
+                    },
+                    "-deployGlueJobScript:**",
+                  ],
+                ],
+              },
+              "Sid": "allowCloudWatchLogs",
+            },
+            Object {
+              "Action": Array [
+                "s3:DeleteObject*",
+                "s3:PutObject",
+                "s3:PutObjectLegalHold",
+                "s3:PutObjectRetention",
+                "s3:PutObjectTagging",
+                "s3:PutObjectVersionTagging",
+                "s3:Abort*",
+              ],
+              "Effect": "Allow",
+              "Resource": Array [
+                Object {
+                  "Fn::GetAtt": Array [
+                    "stagingBucket",
+                    "Arn",
+                  ],
+                },
+                Object {
+                  "Fn::Join": Array [
+                    "",
+                    Array [
+                      Object {
+                        "Fn::GetAtt": Array [
+                          "stagingBucket",
+                          "Arn",
+                        ],
+                      },
+                      "/*",
+                    ],
+                  ],
+                },
+              ],
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "stageTwodeployGlueJobScriptRoleDefaultPolicyA573D7F7",
+        "Roles": Array [
+          Object {
+            "Ref": "stageTwodeployGlueJobScriptRole655D516F",
           },
         ],
       },
@@ -7536,7 +7481,8 @@ Object {
     },
     "statisticsGenerateUuidF0CAA49C": Object {
       "DependsOn": Array [
-        "statisticsGenerateUuidServiceRole2FEB4F4B",
+        "statisticsgenerateUuidRoleDefaultPolicy8C36F40F",
+        "statisticsgenerateUuidRole29E0057A",
       ],
       "Metadata": Object {
         "cfn_nag": Object {
@@ -7559,41 +7505,9 @@ Object {
       "Properties": Object {
         "Code": Object {
           "S3Bucket": Object {
-            "Ref": "AssetParameters3a320a84681c76fe6bd43d232cd2c4cfcd7c6f7b9bbec7e4567170b03595a776S3Bucket292FC193",
+            "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": Object {
-            "Fn::Join": Array [
-              "",
-              Array [
-                Object {
-                  "Fn::Select": Array [
-                    0,
-                    Object {
-                      "Fn::Split": Array [
-                        "||",
-                        Object {
-                          "Ref": "AssetParameters3a320a84681c76fe6bd43d232cd2c4cfcd7c6f7b9bbec7e4567170b03595a776S3VersionKeyA8424D0F",
-                        },
-                      ],
-                    },
-                  ],
-                },
-                Object {
-                  "Fn::Select": Array [
-                    1,
-                    Object {
-                      "Fn::Split": Array [
-                        "||",
-                        Object {
-                          "Ref": "AssetParameters3a320a84681c76fe6bd43d232cd2c4cfcd7c6f7b9bbec7e4567170b03595a776S3VersionKeyA8424D0F",
-                        },
-                      ],
-                    },
-                  ],
-                },
-              ],
-            ],
-          },
+          "S3Key": "ff91cbd4e94290957d08cd5e760e2a9bcfbacaa91bbe9469dcdb85c5ca24d9b8.zip",
         },
         "Description": "This function generates UUID for each deployment",
         "FunctionName": Object {
@@ -7611,11 +7525,11 @@ Object {
         "MemorySize": 256,
         "Role": Object {
           "Fn::GetAtt": Array [
-            "statisticsGenerateUuidServiceRole2FEB4F4B",
+            "statisticsgenerateUuidRole29E0057A",
             "Arn",
           ],
         },
-        "Runtime": "nodejs14.x",
+        "Runtime": "nodejs16.x",
         "Tags": Array [
           Object {
             "Key": "solution",
@@ -7625,43 +7539,6 @@ Object {
         "Timeout": 20,
       },
       "Type": "AWS::Lambda::Function",
-    },
-    "statisticsGenerateUuidServiceRole2FEB4F4B": Object {
-      "Properties": Object {
-        "AssumeRolePolicyDocument": Object {
-          "Statement": Array [
-            Object {
-              "Action": "sts:AssumeRole",
-              "Effect": "Allow",
-              "Principal": Object {
-                "Service": "lambda.amazonaws.com",
-              },
-            },
-          ],
-          "Version": "2012-10-17",
-        },
-        "ManagedPolicyArns": Array [
-          Object {
-            "Fn::Join": Array [
-              "",
-              Array [
-                "arn:",
-                Object {
-                  "Ref": "AWS::Partition",
-                },
-                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
-              ],
-            ],
-          },
-        ],
-        "Tags": Array [
-          Object {
-            "Key": "solution",
-            "Value": "amazon-s3-glacier-refreezer",
-          },
-        ],
-      },
-      "Type": "AWS::IAM::Role",
     },
     "statisticsGenerateUuidTriggerAFF2A046": Object {
       "DeletionPolicy": "Delete",
@@ -7678,7 +7555,8 @@ Object {
     },
     "statisticsSendAnonymousStatsD2E34707": Object {
       "DependsOn": Array [
-        "statisticsSendAnonymousStatsServiceRoleFEE7F44D",
+        "statisticssendAnonymousStatsRoleDefaultPolicyACC07FFB",
+        "statisticssendAnonymousStatsRoleDBBBB770",
       ],
       "Metadata": Object {
         "cfn_nag": Object {
@@ -7701,41 +7579,9 @@ Object {
       "Properties": Object {
         "Code": Object {
           "S3Bucket": Object {
-            "Ref": "AssetParameters8bd3964a0b99c6c5dfef12e79f456e9dfb274293be58fd5e7593ff2933dda01dS3Bucket6DB9FADC",
+            "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": Object {
-            "Fn::Join": Array [
-              "",
-              Array [
-                Object {
-                  "Fn::Select": Array [
-                    0,
-                    Object {
-                      "Fn::Split": Array [
-                        "||",
-                        Object {
-                          "Ref": "AssetParameters8bd3964a0b99c6c5dfef12e79f456e9dfb274293be58fd5e7593ff2933dda01dS3VersionKeyF839DB89",
-                        },
-                      ],
-                    },
-                  ],
-                },
-                Object {
-                  "Fn::Select": Array [
-                    1,
-                    Object {
-                      "Fn::Split": Array [
-                        "||",
-                        Object {
-                          "Ref": "AssetParameters8bd3964a0b99c6c5dfef12e79f456e9dfb274293be58fd5e7593ff2933dda01dS3VersionKeyF839DB89",
-                        },
-                      ],
-                    },
-                  ],
-                },
-              ],
-            ],
-          },
+          "S3Key": "beddfbf20f9c0ba9c56824dbd6a3625b3406482a81c650517fab28e8a34e9ba5.zip",
         },
         "Description": "This function sends anonymous statistics to the AWS Solutions Builders team",
         "Environment": Object {
@@ -7781,11 +7627,11 @@ Object {
         "MemorySize": 128,
         "Role": Object {
           "Fn::GetAtt": Array [
-            "statisticsSendAnonymousStatsServiceRoleFEE7F44D",
+            "statisticssendAnonymousStatsRoleDBBBB770",
             "Arn",
           ],
         },
-        "Runtime": "nodejs14.x",
+        "Runtime": "nodejs16.x",
         "Tags": Array [
           Object {
             "Key": "solution",
@@ -7796,7 +7642,7 @@ Object {
       },
       "Type": "AWS::Lambda::Function",
     },
-    "statisticsSendAnonymousStatsServiceRoleFEE7F44D": Object {
+    "statisticsgenerateUuidRole29E0057A": Object {
       "Properties": Object {
         "AssumeRolePolicyDocument": Object {
           "Statement": Array [
@@ -7810,20 +7656,6 @@ Object {
           ],
           "Version": "2012-10-17",
         },
-        "ManagedPolicyArns": Array [
-          Object {
-            "Fn::Join": Array [
-              "",
-              Array [
-                "arn:",
-                Object {
-                  "Ref": "AWS::Partition",
-                },
-                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
-              ],
-            ],
-          },
-        ],
         "Tags": Array [
           Object {
             "Key": "solution",
@@ -7832,6 +7664,154 @@ Object {
         ],
       },
       "Type": "AWS::IAM::Role",
+    },
+    "statisticsgenerateUuidRoleDefaultPolicy8C36F40F": Object {
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": Array [
+                "logs:CreateLogGroup",
+                "logs:CreateLogStream",
+                "logs:PutLogEvents",
+              ],
+              "Effect": "Allow",
+              "Resource": Object {
+                "Fn::Join": Array [
+                  "",
+                  Array [
+                    "arn:",
+                    Object {
+                      "Ref": "AWS::Partition",
+                    },
+                    ":logs:",
+                    Object {
+                      "Ref": "AWS::Region",
+                    },
+                    ":",
+                    Object {
+                      "Ref": "AWS::AccountId",
+                    },
+                    ":log-group:/aws/lambda/",
+                    Object {
+                      "Ref": "AWS::StackName",
+                    },
+                    "-generateUuid:**",
+                  ],
+                ],
+              },
+              "Sid": "allowCloudWatchLogs",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "statisticsgenerateUuidRoleDefaultPolicy8C36F40F",
+        "Roles": Array [
+          Object {
+            "Ref": "statisticsgenerateUuidRole29E0057A",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "statisticssendAnonymousStatsRoleDBBBB770": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "Tags": Array [
+          Object {
+            "Key": "solution",
+            "Value": "amazon-s3-glacier-refreezer",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "statisticssendAnonymousStatsRoleDefaultPolicyACC07FFB": Object {
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": Array [
+                "logs:CreateLogGroup",
+                "logs:CreateLogStream",
+                "logs:PutLogEvents",
+              ],
+              "Effect": "Allow",
+              "Resource": Object {
+                "Fn::Join": Array [
+                  "",
+                  Array [
+                    "arn:",
+                    Object {
+                      "Ref": "AWS::Partition",
+                    },
+                    ":logs:",
+                    Object {
+                      "Ref": "AWS::Region",
+                    },
+                    ":",
+                    Object {
+                      "Ref": "AWS::AccountId",
+                    },
+                    ":log-group:/aws/lambda/",
+                    Object {
+                      "Ref": "AWS::StackName",
+                    },
+                    "-sendAnonymousStats:**",
+                  ],
+                ],
+              },
+              "Sid": "allowCloudWatchLogs",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "statisticssendAnonymousStatsRoleDefaultPolicyACC07FFB",
+        "Roles": Array [
+          Object {
+            "Ref": "statisticssendAnonymousStatsRoleDBBBB770",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+  },
+  "Rules": Object {
+    "CheckBootstrapVersion": Object {
+      "Assertions": Array [
+        Object {
+          "Assert": Object {
+            "Fn::Not": Array [
+              Object {
+                "Fn::Contains": Array [
+                  Array [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                  ],
+                  Object {
+                    "Ref": "BootstrapVersion",
+                  },
+                ],
+              },
+            ],
+          },
+          "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI.",
+        },
+      ],
     },
   },
 }

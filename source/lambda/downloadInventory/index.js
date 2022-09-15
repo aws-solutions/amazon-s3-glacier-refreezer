@@ -1,5 +1,5 @@
 /*********************************************************************************************************************
- *  Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.                                      *
+ *  Copyright 2022 Amazon.com, Inc. or its affiliates. All Rights Reserved.                                      *
  *                                                                                                                    *
  *  Licensed under the Apache License, Version 2.0 (the "License"). You may not use this file except in compliance    *
  *  with the License. A copy of the License is located at                                                             *
@@ -116,6 +116,7 @@ async function inventoryMultiPart(jobId, size) {
         const endByte = (MAX_SIZE * i) - 1
         console.log(`Inventory part ${i} : ${startByte} - ${endByte} :`)
         partCopyRequests.push(uploadPart(jobId, uploadId, i, startByte, endByte))
+        await sleep(10000);
         i++
     }
 
@@ -146,6 +147,10 @@ async function inventoryMultiPart(jobId, size) {
         });
         throw e;
     }
+}
+
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 module.exports = {
