@@ -11,7 +11,7 @@
   "dependencies": {
     "csv-parser": "^2.3.3",
     "fast-xml-parser": "^3.17.4",
-    "moment": "^2.29.1"
+    "moment": "^2.29.4"
   },
   "devDependencies": {
     "aws-sdk": "^2.1001.0",
