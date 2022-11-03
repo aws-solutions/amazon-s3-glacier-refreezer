@@ -15,9 +15,9 @@
  * @author Solution Builders
  */
 
-'use strict';
+"use strict";
 
-const axios = require('axios');
+const axios = require("axios");
 
 async function sendResponse(event, context, responseStatus, responseData) {
     let data;
@@ -29,7 +29,7 @@ async function sendResponse(event, context, responseStatus, responseData) {
             StackId: event.StackId,
             RequestId: event.RequestId,
             LogicalResourceId: event.LogicalResourceId,
-            Data: responseData
+            Data: responseData,
         });
         let params = {
             url: event.ResponseURL,
@@ -37,18 +37,18 @@ async function sendResponse(event, context, responseStatus, responseData) {
             method: "put",
             headers: {
                 "content-type": "",
-                "content-length": responseBody.length
+                "content-length": responseBody.length,
             },
-            data: responseBody
+            data: responseBody,
         };
         data = await axios(params);
     } catch (err) {
         throw err;
     }
-    console.log(`Send response : ${data.status}`)
+    console.log(`Send response : ${data.status}`);
     return data.status;
 }
 
 module.exports = {
-   sendResponse
+    sendResponse,
 };

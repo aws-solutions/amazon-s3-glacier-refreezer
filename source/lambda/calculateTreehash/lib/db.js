@@ -56,23 +56,25 @@ async function setTimestampNow(archiveId, field) {
 }
 
 async function increaseArchiveFailedBytesAndErrorCount(failedBytes, nBytes, value, nCount, count) {
-    return await dynamodb.updateItem({
-        TableName: METRIC_TABLE,
-        Key: {
-            pk: {
-                S: failedBytes
-            }
-        },
-        ExpressionAttributeNames: {
-            "#t": nBytes,
-            "#f": nCount,
+    return await dynamodb
+        .updateItem({
+            TableName: METRIC_TABLE,
+            Key: {
+                pk: {
+                    S: failedBytes,
+                },
             },
-        ExpressionAttributeValues: {
-            ":val": { N: value },
-            ":count": { N: count },
-        },
-        UpdateExpression: "ADD #t :val, #f :count"
-    }).promise();
+            ExpressionAttributeNames: {
+                "#t": nBytes,
+                "#f": nCount,
+            },
+            ExpressionAttributeValues: {
+                ":val": { N: value },
+                ":count": { N: count },
+            },
+            UpdateExpression: "ADD #t :val, #f :count",
+        })
+        .promise();
 }
 
 async function deleteItem(archiveId, field) {
@@ -95,10 +97,10 @@ async function deleteChunkStatus(archiveId, expression) {
     let params = {
         TableName: STATUS_TABLE,
         Key: {
-            aid: { S: archiveId }
+            aid: { S: archiveId },
         },
-        UpdateExpression: `remove ${expression}`
-    }
+        UpdateExpression: `remove ${expression}`,
+    };
     return await dynamodb.updateItem(params).promise();
 }
 
@@ -144,5 +146,5 @@ module.exports = {
     incrementRetryCount,
     deleteItem,
     increaseArchiveFailedBytesAndErrorCount,
-    deleteChunkStatus
+    deleteChunkStatus,
 };

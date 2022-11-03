@@ -15,12 +15,11 @@
  * @author Solution Builders
  */
 
-'use strict';
+"use strict";
 
 const dynamo = require("./lib/dynamo.js");
 
 async function handler(event) {
-
     let requestedCount = 0;
     let stagedCount = 0;
     let validatedCount = 0;
@@ -50,9 +49,8 @@ async function handler(event) {
         console.log(`rb: ${requestedBytes} sb: ${stagedBytes} vb: ${validatedBytes} cb: ${copiedBytes} `);
         await dynamo.incrementBytes(requestedBytes, stagedBytes, validatedBytes, copiedBytes);
     }
-
 }
 
 module.exports = {
-    handler
+    handler,
 };

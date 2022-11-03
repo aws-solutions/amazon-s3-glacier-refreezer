@@ -15,35 +15,33 @@
  * @author Solution Builders
  */
 
-'use strict';
+"use strict";
 
-const AWS = require('aws-sdk');
+const AWS = require("aws-sdk");
 const dynamodb = new AWS.DynamoDB();
 
-const {
-    METRICS_TABLE,
-} = process.env;
+const { METRICS_TABLE } = process.env;
 
 async function getItem(key) {
     try {
         const params = {
-            KeyConditionExpression: 'pk = :pk',
+            KeyConditionExpression: "pk = :pk",
             ExpressionAttributeValues: {
-                ':pk': { S: key }
+                ":pk": { S: key },
             },
-            TableName: METRICS_TABLE
+            TableName: METRICS_TABLE,
         };
         const data = await dynamodb.query(params).promise();
         if (Array.isArray(data.Items) && data.Items.length) {
             return data.Items[0];
         } else {
-            return null
+            return null;
         }
     } catch (error) {
-        console.error('getItem.error', error);
+        console.error("getItem.error", error);
     }
 }
 
-module.exports = { 
-    getItem
+module.exports = {
+    getItem,
 };

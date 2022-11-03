@@ -15,18 +15,15 @@
  * @author Solution Builders
  */
 
-'use strict';
+"use strict";
 
-const AWS = require('aws-sdk');
+const AWS = require("aws-sdk");
 const cloudwatch = new AWS.CloudWatch();
 
-const {
-    ARCHIVE_NOTIFICATIONS_TOPIC,
-    STACK_NAME
-} = process.env;
+const { ARCHIVE_NOTIFICATIONS_TOPIC, STACK_NAME } = process.env;
 
-const CLOUDWATCH_DIMENSIONS_NAME = 'CloudFormationStack';
-const CLOUDWATCH_NAMESPACE = 'AmazonS3GlacierReFreezer';
+const CLOUDWATCH_DIMENSIONS_NAME = "CloudFormationStack";
+const CLOUDWATCH_NAMESPACE = "AmazonS3GlacierReFreezer";
 
 // publish a cloudwatch metric with a name and value
 async function publishMetric(metricList) {
@@ -35,31 +32,31 @@ async function publishMetric(metricList) {
 
     let metricDataList = [];
     for (const metric of metricList) {
-        metricDataList.push(
-            {
-                MetricName: metric.metricName,
-                Dimensions: [{
+        metricDataList.push({
+            MetricName: metric.metricName,
+            Dimensions: [
+                {
                     Name: CLOUDWATCH_DIMENSIONS_NAME,
-                    Value: STACK_NAME
-                }],
-                Unit: 'None',
-                Value: metric.metricValue,
-            }
-        );
+                    Value: STACK_NAME,
+                },
+            ],
+            Unit: "None",
+            Value: metric.metricValue,
+        });
     }
 
     try {
         const params = {
             MetricData: metricDataList,
-            Namespace: CLOUDWATCH_NAMESPACE
+            Namespace: CLOUDWATCH_NAMESPACE,
         };
         await cloudwatch.putMetricData(params).promise();
     } catch (error) {
-        console.error('publishMetric.error', error);
-        console.error('publishMetric.params', metricList);
+        console.error("publishMetric.error", error);
+        console.error("publishMetric.params", metricList);
     }
 }
 
-module.exports = { 
-    publishMetric
+module.exports = {
+    publishMetric,
 };

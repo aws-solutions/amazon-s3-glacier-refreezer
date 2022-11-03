@@ -15,17 +15,17 @@
  * @author Solution Builders
  */
 
-'use strict';
+"use strict";
 
 const AWS = require("aws-sdk");
 const s3 = new AWS.S3();
 const dynamodb = new AWS.DynamoDB();
-const glacier = new AWS.Glacier({maxRetries: 50});
+const glacier = new AWS.Glacier({ maxRetries: 50 });
 const athena = new AWS.Athena();
 
 const moment = require("moment");
 const csv = require("csv-parser");
-const db = require('./lib/db.js');
+const db = require("./lib/db.js");
 
 var parseFileName = require("./lib/filenameparser.js").parseFileName;
 
@@ -41,7 +41,7 @@ const {
     DATABASE,
     PARTITIONED_INVENTORY_TABLE,
     ATHENA_WORKGROUP,
-    DQL
+    DQL,
 } = process.env;
 
 async function handler(payload) {
@@ -51,15 +51,11 @@ async function handler(payload) {
     // Just in case the GSI index has not been synced for the recently added filename
     const processed = [];
 
-    console.log(
-        `Starting partition: ${payload.nextPartition}. Last partition: ${payload.maxPartition}`
-    );
+    console.log(`Starting partition: ${payload.nextPartition}. Last partition: ${payload.maxPartition}`);
 
     console.log(`Checking progress in DynamoDB`);
     const pid = payload.nextPartition;
-    var partitionMaxProcessedFileNumber = await db.getPartitionMaxProcessedFileNumber(
-        pid
-    );
+    var partitionMaxProcessedFileNumber = await db.getPartitionMaxProcessedFileNumber(pid);
     console.log(`Max Processed File Number : ${partitionMaxProcessedFileNumber}`);
 
     var resultsCSV = await readAthenaPartition(pid);
@@ -79,7 +75,7 @@ async function handler(payload) {
             creationdate: creationdate,
         } = line;
 
-        processedSize += sz
+        processedSize += sz;
 
         if (ifn <= partitionMaxProcessedFileNumber) {
             continue;
@@ -139,22 +135,21 @@ async function handler(payload) {
     payload.nextPartition = pid + 1;
 
     // read throttled bytes data from DDB and add it to the calculation
-    const throttledBytesItem = await db.getItem('throttling');
-    if (!Object.keys(throttledBytesItem).length == 0 && 'throttledBytes' in throttledBytesItem.Item) {
+    const throttledBytesItem = await db.getItem("throttling");
+    if (!Object.keys(throttledBytesItem).length == 0 && "throttledBytes" in throttledBytesItem.Item) {
         var throttledBytes = parseInt(throttledBytesItem.Item.throttledBytes.N);
         var throttledErrorCount = parseInt(throttledBytesItem.Item.errorCount.N);
-    }
-    else {
+    } else {
         var throttledBytes = 0;
         var throttledErrorCount = 0;
     }
 
     // Calculate timeout prior the next batch
-    const dailyQuota = Number(DQL)
+    const dailyQuota = Number(DQL);
     const endTime = new Date().getTime();
-    const timeTaken = Math.floor((endTime-startTime)/1000);
+    const timeTaken = Math.floor((endTime - startTime) / 1000);
 
-    const processedShare = (processedSize + throttledBytes) / dailyQuota
+    const processedShare = (processedSize + throttledBytes) / dailyQuota;
     let timeout = Math.round(86400 * processedShare) - timeTaken;
     timeout = timeout < 0 ? 0 : timeout;
 
@@ -162,7 +157,7 @@ async function handler(payload) {
     if (throttledBytes > 0 && timeout === 0) {
         timeout = MIN_THROTTLING_DELAY;
     }
-        
+
     payload.timeout = timeout;
 
     console.log(`Processed: ${processedSize}`);
@@ -190,7 +185,7 @@ async function readAthenaPartition(partNumber) {
             ResultConfiguration: {
                 OutputLocation: `s3://${STAGING_BUCKET}/results/`,
             },
-            WorkGroup: ATHENA_WORKGROUP
+            WorkGroup: ATHENA_WORKGROUP,
         })
         .promise();
 
@@ -202,11 +197,9 @@ async function readAthenaPartition(partNumber) {
     while (!runComplete) {
         console.log("Waiting for Athena Query to complete");
         await new Promise((resolve) => setTimeout(resolve, 5000));
-        const result = await athena
-            .getQueryExecution({QueryExecutionId})
-            .promise();
-        if (!["QUEUED", "RUNNING", "SUCCEEDED"].includes(result.QueryExecution.Status.State)){
-            console.error(`${JSON.stringify(result)}`)
+        const result = await athena.getQueryExecution({ QueryExecutionId }).promise();
+        if (!["QUEUED", "RUNNING", "SUCCEEDED"].includes(result.QueryExecution.Status.State)) {
+            console.error(`${JSON.stringify(result)}`);
             throw "Athena exception";
         }
         runComplete = result.QueryExecution.Status.State === "SUCCEEDED";
@@ -246,5 +239,5 @@ function calculateNumberOfChunks(sizeInBytes) {
 
 module.exports = {
     handler,
-    readAthenaPartition
+    readAthenaPartition,
 };

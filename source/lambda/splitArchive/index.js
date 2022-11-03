@@ -15,7 +15,7 @@
  * @author Solution Builders
  */
 
-'use strict';
+"use strict";
 
 const AWS = require("aws-sdk");
 const s3 = new AWS.S3();
@@ -23,11 +23,7 @@ const sqs = new AWS.SQS();
 
 const db = require("./lib/db.js");
 
-const {
-    STAGING_BUCKET,
-    STAGING_BUCKET_PREFIX,
-    SQS_CHUNK
-} = process.env;
+const { STAGING_BUCKET, STAGING_BUCKET_PREFIX, SQS_CHUNK } = process.env;
 
 const CHUNK_SIZE = 4 * 1024 * 1024 * 1024;
 
@@ -62,9 +58,8 @@ async function handler(event) {
 }
 
 async function processAndSendChunkMessage(glacierRetrievalStatus, key, numberOfChunks) {
-
     let queueUrl = await sqs.getQueueUrl({ QueueName: SQS_CHUNK }).promise();
-    if (numberOfChunks > 1){
+    if (numberOfChunks > 1) {
         console.log(`${key} : multiPart : ${numberOfChunks}`);
 
         let multiPartUpload = await s3
@@ -97,24 +92,17 @@ async function processAndSendChunkMessage(glacierRetrievalStatus, key, numberOfC
         let endByte = glacierRetrievalStatus.ArchiveSizeInBytes - 1;
 
         await sendChunkMessage(
-                queueUrl.QueueUrl,
-                glacierRetrievalStatus,
-                multiPartUpload.UploadId,
-                key,
-                i,
-                startByte,
-                endByte
-        );
-    } else {
-        await sendChunkMessage(
             queueUrl.QueueUrl,
             glacierRetrievalStatus,
-            null,
+            multiPartUpload.UploadId,
             key,
-            null,
-            null,
-            null)
-    }    
+            i,
+            startByte,
+            endByte
+        );
+    } else {
+        await sendChunkMessage(queueUrl.QueueUrl, glacierRetrievalStatus, null, key, null, null, null);
+    }
 }
 
 function sendChunkMessage(queueUrl, glacierRetrievalStatus, uploadId, key, partNo, startByte, endByte) {
@@ -127,12 +115,14 @@ function sendChunkMessage(queueUrl, glacierRetrievalStatus, uploadId, key, partN
         endByte,
     });
 
-    return sqs.sendMessage({
+    return sqs
+        .sendMessage({
             QueueUrl: queueUrl,
             MessageBody: messageBody,
-        }).promise();
+        })
+        .promise();
 }
 
 module.exports = {
-    handler
+    handler,
 };

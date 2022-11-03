@@ -15,22 +15,14 @@
  * @author Solution Builders
  */
 
-'use strict';
+"use strict";
 
 const moment = require("moment");
-const axios = require('axios');
+const axios = require("axios");
 
-const {
-    UUID,
-    SOLUTION_ID,
-    REGION,
-    VERSION,
-    STORAGE_CLASS,
-    RETRIEVAL_TIER,
-    SEND_ANONYMOUS_STATISTICS
-} = process.env;
+const { UUID, SOLUTION_ID, REGION, VERSION, STORAGE_CLASS, RETRIEVAL_TIER, SEND_ANONYMOUS_STATISTICS } = process.env;
 
-const SOLUTION_BUILDERS_ENDPOINT='https://metrics.awssolutionsbuilder.com/generic';
+const SOLUTION_BUILDERS_ENDPOINT = "https://metrics.awssolutionsbuilder.com/generic";
 
 async function handler(event, context) {
     console.log(`${JSON.stringify(event)}`);
@@ -42,17 +34,17 @@ async function handler(event, context) {
         TimeStamp: moment().format(),
         Data: {
             Region: REGION,
-            Version: VERSION.startsWith('%%') ? '0.9.0' : VERSION,
+            Version: VERSION.startsWith("%%") ? "0.9.0" : VERSION,
             StorageClass: STORAGE_CLASS,
             RetrievalTier: RETRIEVAL_TIER,
             VaultSize: event.vaultSize,
-            ArchiveCount: event.archiveCount
-        }
+            ArchiveCount: event.archiveCount,
+        },
     };
     console.log(anonymousData);
 
-    if (SEND_ANONYMOUS_STATISTICS !== 'Yes') {
-        console.log('Sending anonymous data has been disabled. Exiting.');
+    if (SEND_ANONYMOUS_STATISTICS !== "Yes") {
+        console.log("Sending anonymous data has been disabled. Exiting.");
         return;
     }
 
@@ -63,14 +55,14 @@ async function handler(event, context) {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
-            "Content-Length": request.length
+            "Content-Length": request.length,
         },
-        data: request
+        data: request,
     };
     response = await axios(params);
     // console.log(response.data);
 }
 
 module.exports = {
-    handler
+    handler,
 };

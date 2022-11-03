@@ -15,94 +15,92 @@
  * @author Solution Builders
  */
 
-'use strict';
+"use strict";
 
-const AWS = require('aws-sdk');
+const AWS = require("aws-sdk");
 const dynamodb = new AWS.DynamoDB();
 
-const moment = require('moment')
+const moment = require("moment");
 
-const {
-    STATUS_TABLE,
-    METRIC_TABLE,
-} = process.env;
+const { STATUS_TABLE, METRIC_TABLE } = process.env;
 
 async function getStatusRecord(archiveId) {
-    return await dynamodb.getItem(
-        {
+    return await dynamodb
+        .getItem({
             TableName: STATUS_TABLE,
             Key: {
-                'aid': { S: archiveId },
-            }
-        }
-    ).promise()
+                aid: { S: archiveId },
+            },
+        })
+        .promise();
 }
 
 // started   - psdt
 // completed - sgt
 async function setTimestampNow(archiveId, field) {
-    const now = moment().format()
-    return await dynamodb.updateItem(
-        {
+    const now = moment().format();
+    return await dynamodb
+        .updateItem({
             TableName: STATUS_TABLE,
             Key: {
-                aid: { S: archiveId }
+                aid: { S: archiveId },
             },
             UpdateExpression: "set #t = :val",
             ExpressionAttributeNames: {
-                "#t": field
+                "#t": field,
             },
             ExpressionAttributeValues: {
-                ":val": { S: now }
+                ":val": { S: now },
             },
-            ReturnValues: "ALL_NEW"
-        }).promise();
+            ReturnValues: "ALL_NEW",
+        })
+        .promise();
 }
 
-
 async function increaseThrottleAndErrorCount(throttled, nBytes, value, nCount, count) {
-    return await dynamodb.updateItem({
-        TableName: METRIC_TABLE,
-        Key: {
-            pk: {
-                S: throttled
-            }
-        },
-        ExpressionAttributeNames: {
-            "#t": nBytes,
-            "#f": nCount,
+    return await dynamodb
+        .updateItem({
+            TableName: METRIC_TABLE,
+            Key: {
+                pk: {
+                    S: throttled,
+                },
             },
-        ExpressionAttributeValues: {
-            ":val": { N: value },
-            ":count": { N: count },
-        },
-        UpdateExpression: "ADD #t :val, #f :count"
-    }).promise();
+            ExpressionAttributeNames: {
+                "#t": nBytes,
+                "#f": nCount,
+            },
+            ExpressionAttributeValues: {
+                ":val": { N: value },
+                ":count": { N: count },
+            },
+            UpdateExpression: "ADD #t :val, #f :count",
+        })
+        .promise();
 }
 
 async function updateChunkStatusGetLatest(archiveId, partNumber, val) {
     let params = {
         TableName: STATUS_TABLE,
         Key: {
-            aid: { S: archiveId }
+            aid: { S: archiveId },
         },
         UpdateExpression: "set #f = :val",
         ExpressionAttributeNames: {
-            "#f": `chunk${partNumber}`
+            "#f": `chunk${partNumber}`,
         },
         ExpressionAttributeValues: {
-            ":val": { S: val }
+            ":val": { S: val },
         },
-        ReturnValues: "ALL_NEW"
-    }
+        ReturnValues: "ALL_NEW",
+    };
 
     return await dynamodb.updateItem(params).promise();
 }
-
 
 module.exports = {
     setTimestampNow,
     updateChunkStatusGetLatest,
     getStatusRecord,
-    increaseThrottleAndErrorCount
-}
+    increaseThrottleAndErrorCount,
+};

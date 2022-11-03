@@ -15,64 +15,69 @@
  * @author Solution Builders
  */
 
-'use strict';
+"use strict";
 
-const parameterParser = require('./lib/parameterParser')
-const storageService = require('./lib/storageService')
-const glacierService = require('./lib/glacierService')
-const cloudformation = require('./lib/cloudformation')
+const parameterParser = require("./lib/parameterParser");
+const storageService = require("./lib/storageService");
+const glacierService = require("./lib/glacierService");
+const cloudformation = require("./lib/cloudformation");
 
-const {
-    SOURCE_VAULT,
-    DESTINATION_BUCKET,
-    SNS_TOPIC_ARN,
-    FILELIST_LOCATION,
-    SNS_VAULT_CONF,
-    CLOUDTRAIL_EXPORT_CONF
-} = process.env;
+const { SOURCE_VAULT, DESTINATION_BUCKET, SNS_TOPIC_ARN, FILELIST_LOCATION, SNS_VAULT_CONF, CLOUDTRAIL_EXPORT_CONF } =
+    process.env;
 
 async function handler(event, context) {
-    console.log(`${JSON.stringify(event)}`)
-    let responseData = {}
+    console.log(`${JSON.stringify(event)}`);
+    let responseData = {};
 
     //------------------------------------------------------------------------
     // [ ON DELETE ]
-    if (event.RequestType == 'Delete') {
+    if (event.RequestType == "Delete") {
         try {
-            console.log('Cleaning up staging bucket: started');
+            console.log("Cleaning up staging bucket: started");
             // Cleaning up staging bucket folders except the "staging".
             // If any of the archives have not been copied over to the destination bucket the folder will be present
             // and the bucket deletion by cloudformation will fail, preserving the data for investigation
             await storageService.cleanupStagingBucket();
-            responseData = {message: 'Cleaning up staging/log buckets: completed'};
+            responseData = { message: "Cleaning up staging/log buckets: completed" };
             console.log(responseData.message);
             await cloudformation.sendResponse(event, context, "SUCCESS", responseData);
         } catch (err) {
             console.error(err);
-            await cloudformation.sendResponse(event, context, "FAILED",
-                {message: `Staging Bucket cleanup failed: ${JSON.stringify(err)}`});
+            await cloudformation.sendResponse(event, context, "FAILED", {
+                message: `Staging Bucket cleanup failed: ${JSON.stringify(err)}`,
+            });
         }
         return;
     }
 
     //------------------------------------------------------------------------
     // [ ON CREATE ]
-    const jobName = SOURCE_VAULT + '_' + "request_inventory_job_" + Date.now();
+    const jobName = SOURCE_VAULT + "_" + "request_inventory_job_" + Date.now();
 
     // validating the cost impacting acknowledgements
-    if (!parameterParser.isValidParameter("Yes", CLOUDTRAIL_EXPORT_CONF) ||
-        !parameterParser.isValidParameter("Yes", SNS_VAULT_CONF)) {
-        responseData = {message: "You can only run this cloudformation template with (1). single CloudTrail export to S3 (2). acceptance that SNS notification topic on the vault has been disabled, or it is okay to receive notification for ALL files in the vault."};
+    if (
+        !parameterParser.isValidParameter("Yes", CLOUDTRAIL_EXPORT_CONF) ||
+        !parameterParser.isValidParameter("Yes", SNS_VAULT_CONF)
+    ) {
+        responseData = {
+            message:
+                "You can only run this cloudformation template with (1). single CloudTrail export to S3 (2). acceptance that SNS notification topic on the vault has been disabled, or it is okay to receive notification for ALL files in the vault.",
+        };
         console.error(responseData.message);
         await cloudformation.sendResponse(event, context, "FAILED", responseData);
         return;
     }
 
     // validating key parameters
-    if (!parameterParser.checkRquiredParameter(SOURCE_VAULT) ||
+    if (
+        !parameterParser.checkRquiredParameter(SOURCE_VAULT) ||
         !parameterParser.checkRquiredParameter(SNS_TOPIC_ARN) ||
-        !parameterParser.checkRquiredParameter(DESTINATION_BUCKET)) {
-        responseData = {message: "The SOURCE_VAULT, SNS_TOPIC or DESTINATION_BUCKET is missing. Check if the environment variables have been set."};
+        !parameterParser.checkRquiredParameter(DESTINATION_BUCKET)
+    ) {
+        responseData = {
+            message:
+                "The SOURCE_VAULT, SNS_TOPIC or DESTINATION_BUCKET is missing. Check if the environment variables have been set.",
+        };
         console.error(responseData.message);
         await cloudformation.sendResponse(event, context, "FAILED", responseData);
         return;
@@ -81,15 +86,17 @@ async function handler(event, context) {
     // Checking access to the target bucket
     const bucketAccessible = await storageService.checkBucketExists(DESTINATION_BUCKET);
     if (!bucketAccessible) {
-        responseData = {message: "The destination bucket does not exist or is not accessible. Validate the destination bucket and its permissions before running again."};
+        responseData = {
+            message:
+                "The destination bucket does not exist or is not accessible. Validate the destination bucket and its permissions before running again.",
+        };
         console.error(responseData.message);
         await cloudformation.sendResponse(event, context, "FAILED", responseData);
         return;
     }
 
     // Copy archive description override file, if exists
-    if (FILELIST_LOCATION &&
-        FILELIST_LOCATION.trim() != "") {
+    if (FILELIST_LOCATION && FILELIST_LOCATION.trim() != "") {
         await storageService.copyFilelist(FILELIST_LOCATION);
     }
 
@@ -102,24 +109,26 @@ async function handler(event, context) {
             Description: jobName,
             Format: "CSV",
             SNSTopic: SNS_TOPIC_ARN,
-            Type: "inventory-retrieval"
+            Type: "inventory-retrieval",
         },
-        vaultName: SOURCE_VAULT
+        vaultName: SOURCE_VAULT,
     };
     const data = await glacierService.startJob(params);
     console.log(`Output from glacier request inventory call ${JSON.stringify(data)}`);
 
     if (data.location && data.jobId) {
-        responseData = {message: `Glacier Inventory Job has been started successfully: ${data.jobId}`};
+        responseData = { message: `Glacier Inventory Job has been started successfully: ${data.jobId}` };
         console.log(responseData);
         await cloudformation.sendResponse(event, context, "SUCCESS", responseData);
     } else {
-        responseData = {message: `ERROR: Lambda Function to Invoke the Inventory Retrieval Job has failed ${JSON.stringify(data)}`};
+        responseData = {
+            message: `ERROR: Lambda Function to Invoke the Inventory Retrieval Job has failed ${JSON.stringify(data)}`,
+        };
         console.error(responseData.message);
         await cloudformation.sendResponse(event, context, "FAILED", responseData);
     }
 }
 
 module.exports = {
-    handler
+    handler,
 };

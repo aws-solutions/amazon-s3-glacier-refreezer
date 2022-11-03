@@ -15,36 +15,35 @@
  * @author Solution Builders
  */
 
-'use strict';
+"use strict";
 
-const cloudformation = require('./lib/cloudformation');
-const AWS = require('aws-sdk');
+const cloudformation = require("./lib/cloudformation");
+const AWS = require("aws-sdk");
 const s3 = new AWS.S3();
-var fs = require('fs');
+var fs = require("fs");
 
-const {
-    STAGING_BUCKET
-} = process.env;
+const { STAGING_BUCKET } = process.env;
 
-const FILE_NAME='partition-inventory.py'
+const FILE_NAME = "partition-inventory.py";
 
 async function handler(event, context) {
     console.log(JSON.stringify(event));
 
     //------------------------------------------------------------------------
     // [ ON CREATE ]
-    if (event.RequestType === 'Create') {
-        console.log('Deploying Glue Job PySpark code');
-        let readStream = fs.createReadStream(__dirname+'/'+FILE_NAME);
+    if (event.RequestType === "Create") {
+        console.log("Deploying Glue Job PySpark code");
+        let readStream = fs.createReadStream(__dirname + "/" + FILE_NAME);
         let copyResult = await s3
             .putObject({
                 Bucket: STAGING_BUCKET,
                 Key: `glue/${FILE_NAME}`,
                 Body: readStream,
-            }) .promise();
+            })
+            .promise();
 
         console.log(JSON.stringify(copyResult));
-        await cloudformation.sendResponse(event, context, "SUCCESS", {message: 'Glue Script Copied'});
+        await cloudformation.sendResponse(event, context, "SUCCESS", { message: "Glue Script Copied" });
         return;
     }
 
@@ -52,5 +51,5 @@ async function handler(event, context) {
 }
 
 module.exports = {
-    handler
+    handler,
 };
