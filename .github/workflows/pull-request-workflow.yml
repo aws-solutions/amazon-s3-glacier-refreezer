@@ -9,6 +9,7 @@ jobs:
     name: Status Checks
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v3
       - name: Viperlight
         run: |
           wget -q https://viperlight-scanner.s3.amazonaws.com/latest/.viperlightrc
