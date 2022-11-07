@@ -15,21 +15,21 @@
  * @author Solution Builders
  */
 
-'use strict';
+"use strict";
 
-const chai = require('chai');
-const chaiAsPromised = require('chai-as-promised');
-const { mock } = require('sinon');
-const sinon = require('sinon');
-const proxyquire = require('proxyquire').noCallThru();
+const chai = require("chai");
+const chaiAsPromised = require("chai-as-promised");
+const { mock } = require("sinon");
+const sinon = require("sinon");
+const proxyquire = require("proxyquire").noCallThru();
 
 const expect = chai.expect;
 chai.use(chaiAsPromised);
 
 // (Optional) Keep test output free of error messages printed by our lambda function
-sinon.stub(console, 'error');
+sinon.stub(console, "error");
 
-describe('-- Download Inventory Test --', () => {
+describe("-- Download Inventory Test --", () => {
     var AWS;
 
     var getJobOutputFunc;
@@ -43,22 +43,20 @@ describe('-- Download Inventory Test --', () => {
 
     var index;
 
-
     var startExecutionResult;
 
-    const validJobId = 'zbxcm3Z_3z5UkoroF7SuZKrxgGoDc3RloGduS7Eg-RO47Yc6FxsdGBgf_Q2DK5Ejh18CnTS5XW4_XqlNHS61dsO4CnMW';
-    const validBucketName = 'Test-Glacier-Bucket';
-    const MAX_SIZE = 4 * 1024 * 1024 * 1024 
+    const validJobId = "zbxcm3Z_3z5UkoroF7SuZKrxgGoDc3RloGduS7Eg-RO47Yc6FxsdGBgf_Q2DK5Ejh18CnTS5XW4_XqlNHS61dsO4CnMW";
+    const validBucketName = "Test-Glacier-Bucket";
+    const MAX_SIZE = 4 * 1024 * 1024 * 1024;
     const MULTI_PART_SIZE = 4 * 1024 * 1024 * 1024 * 2;
-
 
     //Init
     before(function () {
-        process.env.INVENTORY_BUCKET = validBucketName
-        process.env.BUCKET_PREFIX = 'Test'
-        process.env.GLACIER_VAULT = 'Test-Glacier-Vault'
-        process.env.INVENTORY_PART_FUNCTION = 'downloadInventoryPart'
-        process.env.STAGE_TWO_SF_ARN = 'StageTwoOrchestrator'
+        process.env.INVENTORY_BUCKET = validBucketName;
+        process.env.BUCKET_PREFIX = "Test";
+        process.env.GLACIER_VAULT = "Test-Glacier-Vault";
+        process.env.INVENTORY_PART_FUNCTION = "downloadInventoryPart";
+        process.env.STAGE_TWO_SF_ARN = "StageTwoOrchestrator";
 
         getJobOutputFunc = sinon.stub();
         putObjectFunc = sinon.stub();
@@ -71,35 +69,34 @@ describe('-- Download Inventory Test --', () => {
 
         AWS = {
             Glacier: sinon.stub().returns({
-                getJobOutput: getJobOutputFunc
+                getJobOutput: getJobOutputFunc,
             }),
             S3: sinon.stub().returns({
                 putObject: putObjectFunc,
                 createMultipartUpload: createMultipartUploadFunc,
                 completeMultipartUpload: completeMultipartUploadFunc,
-                abortMultipartUpload: abortMultipartUploadFunc
+                abortMultipartUpload: abortMultipartUploadFunc,
             }),
             Lambda: sinon.stub().returns({
-                invoke: invokeFunc
+                invoke: invokeFunc,
             }),
             StepFunctions: sinon.stub().returns({
-                startExecution: startExecutionFunc
-            })
-        }
-
+                startExecution: startExecutionFunc,
+            }),
+        };
 
         startExecutionResult = {
             data: {
-                executionArn: "arn:aws:sns:ap-southeast-2:111122223333:stepfunction:21be56ed-a058-49f5-8c98-aedd2564c486",
-                startDate: Date.now().toString()
+                executionArn:
+                    "arn:aws:sns:ap-southeast-2:111122223333:stepfunction:21be56ed-a058-49f5-8c98-aedd2564c486",
+                startDate: Date.now().toString(),
             },
-            err: null
-        }
+            err: null,
+        };
         // Overwrite internal references with mock proxies
-        index = proxyquire('../index.js', {
-            'aws-sdk': AWS
-        })
-
+        index = proxyquire("../index.js", {
+            "aws-sdk": AWS,
+        });
     });
     afterEach(() => {
         delete process.env.INVENTORY_BUCKET;
@@ -109,9 +106,8 @@ describe('-- Download Inventory Test --', () => {
         delete process.env.STAGE_TWO_SF_ARN;
     });
 
-
     //Tests
-    describe('inventorySinglePart', () => {
+    describe("inventorySinglePart", () => {
         before(function () {
             //Matchers
             const jobOutPutStream = Buffer.alloc(MAX_SIZE);
@@ -121,125 +117,125 @@ describe('-- Download Inventory Test --', () => {
                     acceptRanges: "bytes",
                     body: jobOutPutStream,
                     contentType: "application/json",
-                    status: 200
+                    status: 200,
                 },
-                err: null
-            }
+                err: null,
+            };
             const putObjectSucessResult = {
                 data: {
-                    ETag: "\"6805f2cfc46c0f04559748bb039d69ae\"",
-                    VersionId: "Kirh.unyZwjQ69YxcQLA8z4F5j3kJJKr"
+                    ETag: '"6805f2cfc46c0f04559748bb039d69ae"',
+                    VersionId: "Kirh.unyZwjQ69YxcQLA8z4F5j3kJJKr",
                 },
-                err: null
-            }
-            getJobOutputFunc.withArgs(sinon.match(function (param) {
-                return param.jobId === validJobId
-            })).returns(
-                {
-                    createReadStream: sinon.stub().returns(jobOutputSuccessResult)
-                }
-            )
+                err: null,
+            };
+            getJobOutputFunc
+                .withArgs(
+                    sinon.match(function (param) {
+                        return param.jobId === validJobId;
+                    })
+                )
+                .returns({
+                    createReadStream: sinon.stub().returns(jobOutputSuccessResult),
+                });
 
-            getJobOutputFunc.withArgs(sinon.match(function (param) {
-                return param.jobId !== validJobId
-            })).returns(
-                {
-                    createReadStream: () => { throw new Error('Job not found') }
-                }
-            )
+            getJobOutputFunc
+                .withArgs(
+                    sinon.match(function (param) {
+                        return param.jobId !== validJobId;
+                    })
+                )
+                .returns({
+                    createReadStream: () => {
+                        throw new Error("Job not found");
+                    },
+                });
 
-
-            putObjectFunc.withArgs(sinon.match.any).returns(
-                {
-                    promise: () => putObjectSucessResult
-                }
-            )
+            putObjectFunc.withArgs(sinon.match.any).returns({
+                promise: () => putObjectSucessResult,
+            });
 
             startExecutionFunc.withArgs(sinon.match.any).returns({
-                promise: () => startExecutionResult
-            })
-        })
+                promise: () => startExecutionResult,
+            });
+        });
 
+        const event = require("./snsMessage.json");
 
-        const event = require('./snsMessage.json');
-
-        it('Should call inventorySinglePart when size is less than MAX_SIZE', async () => {            
+        it("Should call inventorySinglePart when size is less than MAX_SIZE", async () => {
             await expect(index.handler(event)).to.not.be.rejected;
-        })
-        it('Should invoke stepFunction successfully if valid job id is supplied', async () => {
+        });
+        it("Should invoke stepFunction successfully if valid job id is supplied", async () => {
             await expect(index.handler(event)).to.not.be.rejected;
-        })
-        it('Should throw ERROR if invalid job id is supplied', async () => {
+        });
+        it("Should throw ERROR if invalid job id is supplied", async () => {
             let mockMsg = JSON.parse(event.Records[0].Sns.Message);
-            mockMsg.JobId = "some-random-jopb-id"; 
-            event.Records[0].Sns.Message = JSON.stringify(mockMsg);                    
-            await expect(index.handler(event)).to.be.rejectedWith('Job not found');
-        })
+            mockMsg.JobId = "some-random-jopb-id";
+            event.Records[0].Sns.Message = JSON.stringify(mockMsg);
+            await expect(index.handler(event)).to.be.rejectedWith("Job not found");
+        });
+    });
 
-    })
-
-    describe('inventoryMultiPart', () => {
+    describe("inventoryMultiPart", () => {
         before(function () {
-            //Matchers  
+            //Matchers
             const createMultipartUploadSucessResult = {
                 data: {
                     Bucket: "examplebucket",
                     Key: "largeobject",
-                    UploadId: "ibZBv_75gd9r8lH_gqXatLdxMVpAlj6ZQjEs.OwyF3953YdwbcQnMA2BLGn8Lx12fQNICtMw5KyteFeHw.Sjng--"
+                    UploadId:
+                        "ibZBv_75gd9r8lH_gqXatLdxMVpAlj6ZQjEs.OwyF3953YdwbcQnMA2BLGn8Lx12fQNICtMw5KyteFeHw.Sjng--",
                 },
-                err: null
-            }
+                err: null,
+            };
             createMultipartUploadFunc.withArgs(sinon.match.any).returns({
-                promise: () => createMultipartUploadSucessResult
-            })
+                promise: () => createMultipartUploadSucessResult,
+            });
 
             const completeMultipartUploadSucessResult = {
                 data: {
                     Bucket: "examplebucket",
-                    ETag: "\"4d9031c7644d8081c2829f4ea23c55f7-2\"",
+                    ETag: '"4d9031c7644d8081c2829f4ea23c55f7-2"',
                     Key: "bigobject",
-                    Location: "https://examplebucket.s3.<Region>.amazonaws.com/bigobject"
+                    Location: "https://examplebucket.s3.<Region>.amazonaws.com/bigobject",
                 },
-                err: null
-            }
+                err: null,
+            };
             completeMultipartUploadFunc.withArgs(sinon.match.any).returns({
-                promise: () => completeMultipartUploadSucessResult
-            })
-
+                promise: () => completeMultipartUploadSucessResult,
+            });
 
             const abortMultipartUploadSucessResult = {
                 data: {
-                    RequestCharged: "\"4d9031c7644d8081c2829f4ea23c55f7-2\""
+                    RequestCharged: '"4d9031c7644d8081c2829f4ea23c55f7-2"',
                 },
-                err: null
-            }
+                err: null,
+            };
             abortMultipartUploadFunc.withArgs(sinon.match.any).returns({
-                promise: () => abortMultipartUploadSucessResult
-            })
+                promise: () => abortMultipartUploadSucessResult,
+            });
 
             const invokePayload = { ETag: "4d9031c7644d8081c2829f4ea23c55f7-2" };
             const invokeLambdaSuccessResult = {
                 Payload: JSON.stringify(invokePayload),
-                StatusCode: 200
-            }
+                StatusCode: 200,
+            };
             invokeFunc.withArgs(sinon.match.any).returns({
-                promise: () => invokeLambdaSuccessResult
-            })
+                promise: () => invokeLambdaSuccessResult,
+            });
 
             startExecutionFunc.withArgs(sinon.match.any).returns({
-                promise: () => startExecutionResult
-            })
-        })
+                promise: () => startExecutionResult,
+            });
+        });
 
         //Tests
-        const event = require('./snsMessage.json');
+        const event = require("./snsMessage.json");
 
-        it('Should call inventoryMultiPart when size exceeds MAX_SIZE (default 4GB)', async () => {
+        it("Should call inventoryMultiPart when size exceeds MAX_SIZE (default 4GB)", async () => {
             let mockMsg = JSON.parse(event.Records[0].Sns.Message);
-            mockMsg.InventorySizeInBytes = MULTI_PART_SIZE; 
-            event.Records[0].Sns.Message = JSON.stringify(mockMsg);           
+            mockMsg.InventorySizeInBytes = MULTI_PART_SIZE;
+            event.Records[0].Sns.Message = JSON.stringify(mockMsg);
             await expect(index.handler(event)).to.not.be.rejected;
-        })
-
-    })
+        });
+    });
 });

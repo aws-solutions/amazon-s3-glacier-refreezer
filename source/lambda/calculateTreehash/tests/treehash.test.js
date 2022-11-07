@@ -15,13 +15,13 @@
  * @author Solution Builders
  */
 
-'use strict';
+"use strict";
 
-const fs = require('fs');
-const chai = require('chai');
-const chaiAsPromised = require('chai-as-promised');
-const sinon = require('sinon');
-const proxyquire = require('proxyquire').noCallThru();
+const fs = require("fs");
+const chai = require("chai");
+const chaiAsPromised = require("chai-as-promised");
+const sinon = require("sinon");
+const proxyquire = require("proxyquire").noCallThru();
 
 const expect = chai.expect;
 chai.use(chaiAsPromised);
@@ -31,13 +31,13 @@ const ONE_MB = 1024 * 1024;
 // (Optional) Keep test output free of error messages printed by our lambda function
 // sinon.stub(console, 'error');
 
-describe('-- Calculate TreeHash Test --', () => {
-    describe('-- TreeHash Test --', () => {
+describe("-- Calculate TreeHash Test --", () => {
+    describe("-- TreeHash Test --", () => {
         var AWS;
         var treehash;
         var getObjectFunc;
         var readStream;
-        const fixtureFile = 'tests/fixtures/data.bin';
+        const fixtureFile = "tests/fixtures/data.bin";
 
         //Init
         before(function () {
@@ -45,29 +45,37 @@ describe('-- Calculate TreeHash Test --', () => {
 
             AWS = {
                 S3: sinon.stub().returns({
-                    getObject: getObjectFunc
-                })
+                    getObject: getObjectFunc,
+                }),
             };
-            getObjectFunc.withArgs(sinon.match(function (param) {
-                let [start, end] = param.Range.replace(/bytes=/, "").split("-");
-                readStream = fs.createReadStream(fixtureFile, { start: parseInt(start), end: parseInt(end) });
-                return true;
-            })).returns({ createReadStream: () => { return readStream } });
+            getObjectFunc
+                .withArgs(
+                    sinon.match(function (param) {
+                        let [start, end] = param.Range.replace(/bytes=/, "").split("-");
+                        readStream = fs.createReadStream(fixtureFile, { start: parseInt(start), end: parseInt(end) });
+                        return true;
+                    })
+                )
+                .returns({
+                    createReadStream: () => {
+                        return readStream;
+                    },
+                });
 
             // Overwrite internal references with mock proxies
-            treehash = proxyquire('../lib/treehash.js', {
-                'aws-sdk': AWS
+            treehash = proxyquire("../lib/treehash.js", {
+                "aws-sdk": AWS,
             });
-        })
+        });
 
         //Tests
-        describe('-- getChunkHash --', () => {
-            it('Should RETURN valid SHA256 hash for the whole 2Mb fixture file', async () => {
-                const chunkHash = 'c7a55f3b8f819232d326caffd03a9ac121b9b84bad058214bc6a30c8d853143d';
-                const response = await treehash.getChunkHash('data-2mb.bin', '2mb', 0, 2 * ONE_MB);
+        describe("-- getChunkHash --", () => {
+            it("Should RETURN valid SHA256 hash for the whole 2Mb fixture file", async () => {
+                const chunkHash = "c7a55f3b8f819232d326caffd03a9ac121b9b84bad058214bc6a30c8d853143d";
+                const response = await treehash.getChunkHash("data-2mb.bin", "2mb", 0, 2 * ONE_MB);
                 expect(response.length).to.be.equal(64);
                 expect(response).to.be.equal(chunkHash);
-            })
-        })
-    })
+            });
+        });
+    });
 });

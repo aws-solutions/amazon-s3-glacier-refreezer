@@ -15,16 +15,16 @@
  * @author Solution Builders
  */
 
-'use strict';
+"use strict";
 
-const AWS = require('aws-sdk')
+const AWS = require("aws-sdk");
 const glacier = new AWS.Glacier();
 
 async function startJob(params) {
     const result = await glacier.initiateJob(params).promise();
     return result;
-};
+}
 
 module.exports = {
-    startJob
-}
+    startJob,
+};

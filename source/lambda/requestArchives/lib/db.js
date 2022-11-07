@@ -15,49 +15,47 @@
  * @author Solution Builders
  */
 
-'use strict';
+"use strict";
 
-const AWS = require('aws-sdk');
+const AWS = require("aws-sdk");
 const dynamodb = new AWS.DynamoDB();
 
-const {
-    STATUS_TABLE,
-    METRICS_TABLE
-} = process.env;
-
+const { STATUS_TABLE, METRICS_TABLE } = process.env;
 
 async function getItem(pk) {
-    return await dynamodb.getItem(
-        {
+    return await dynamodb
+        .getItem({
             TableName: METRICS_TABLE,
             Key: {
-                'pk': { S: pk },
-            }
-        }
-    ).promise()
+                pk: { S: pk },
+            },
+        })
+        .promise();
 }
 
 async function decrementThrottledBytes(bytes, errorCount) {
     bytes = bytes * -1;
     errorCount = errorCount * -1;
 
-    await dynamodb.updateItem({
-        TableName: METRICS_TABLE,
-        Key: {
-            pk: {
-                S: "throttling"
-            }
-        },
-        ExpressionAttributeValues: {
-            ":throttledBytes": { N: `${bytes}` },
-            ":errorCount": { N: `${errorCount}` }
-        },
-        ExpressionAttributeNames: {
-            "#t": 'throttledBytes',
-            "#e": 'errorCount'
-        },
-        UpdateExpression: "ADD #t :throttledBytes, #e :errorCount"
-    }).promise();
+    await dynamodb
+        .updateItem({
+            TableName: METRICS_TABLE,
+            Key: {
+                pk: {
+                    S: "throttling",
+                },
+            },
+            ExpressionAttributeValues: {
+                ":throttledBytes": { N: `${bytes}` },
+                ":errorCount": { N: `${errorCount}` },
+            },
+            ExpressionAttributeNames: {
+                "#t": "throttledBytes",
+                "#e": "errorCount",
+            },
+            UpdateExpression: "ADD #t :throttledBytes, #e :errorCount",
+        })
+        .promise();
 }
 
 async function getPartitionMaxProcessedFileNumber(pid) {
@@ -68,7 +66,7 @@ async function getPartitionMaxProcessedFileNumber(pid) {
             IndexName: "max-file-index",
             KeyConditionExpression: "pid = :pid",
             ExpressionAttributeValues: {
-                ":pid": {N: pid.toString()},
+                ":pid": { N: pid.toString() },
             },
             ProjectionExpression: "ifn, aid",
             ScanIndexForward: false,
@@ -77,14 +75,12 @@ async function getPartitionMaxProcessedFileNumber(pid) {
         .promise();
 
     if (result.Count == 0) {
-        console.log(
-            `No records for partition ${pid} found. Setting the last item number to 0`
-        );
+        console.log(`No records for partition ${pid} found. Setting the last item number to 0`);
         return 0;
     }
 
-    const lastIfn =  result.Items[0].ifn.N;
-    const aid =  result.Items[0].aid.S;
+    const lastIfn = result.Items[0].ifn.N;
+    const aid = result.Items[0].aid.S;
 
     console.log(`Last registered item is ${lastIfn}. ArchiveID (aid): ${aid} `);
     return lastIfn;
@@ -97,7 +93,7 @@ const filenameExists = async (fname) => {
             IndexName: "name-index",
             KeyConditionExpression: "fname = :fname",
             ExpressionAttributeValues: {
-                ":fname": {S: fname},
+                ":fname": { S: fname },
             },
             Select: "COUNT",
             Limit: 1,
@@ -111,5 +107,5 @@ module.exports = {
     getItem,
     decrementThrottledBytes,
     getPartitionMaxProcessedFileNumber,
-    filenameExists
+    filenameExists,
 };

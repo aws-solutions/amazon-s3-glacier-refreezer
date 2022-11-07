@@ -15,50 +15,49 @@
  * @author Solution Builders
  */
 
-'use strict';
+"use strict";
 
-const AWS = require('aws-sdk');
+const AWS = require("aws-sdk");
 const dynamodb = new AWS.DynamoDB();
 
-const moment = require('moment')
+const moment = require("moment");
 
-const {
-    STATUS_TABLE
-} = process.env;
+const { STATUS_TABLE } = process.env;
 
 async function getStatusRecord(archiveId) {
-    return await dynamodb.getItem(
-        {
+    return await dynamodb
+        .getItem({
             TableName: STATUS_TABLE,
             Key: {
-                'aid': { S: archiveId },
-            }
-        }
-    ).promise()
+                aid: { S: archiveId },
+            },
+        })
+        .promise();
 }
 
 // started   - psdt
 // completed - sgt
 async function setTimestampNow(archiveId, field) {
-    const now = moment().format()
-    return await dynamodb.updateItem(
-        {
+    const now = moment().format();
+    return await dynamodb
+        .updateItem({
             TableName: STATUS_TABLE,
             Key: {
-                aid: { S: archiveId }
+                aid: { S: archiveId },
             },
             UpdateExpression: "set #t = :val",
             ExpressionAttributeNames: {
-                "#t": field
+                "#t": field,
             },
             ExpressionAttributeValues: {
-                ":val": { S: now }
+                ":val": { S: now },
             },
-            ReturnValues: "ALL_NEW"
-        }).promise();
+            ReturnValues: "ALL_NEW",
+        })
+        .promise();
 }
 
 module.exports = {
     setTimestampNow,
-    getStatusRecord
+    getStatusRecord,
 };

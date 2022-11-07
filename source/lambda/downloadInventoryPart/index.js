@@ -15,35 +15,37 @@
  * @author Solution Builders
  */
 
-'use strict';
+"use strict";
 
-const AWS = require('aws-sdk');
+const AWS = require("aws-sdk");
 const s3 = new AWS.S3();
 const glacier = new AWS.Glacier();
 
 async function handler(event) {
+    console.log(`inventory - ${event.partNo}`);
 
-    console.log(`inventory - ${event.partNo}`)
-
-    let inventoryStream = glacier.getJobOutput(
-        {
+    let inventoryStream = glacier
+        .getJobOutput({
             accountId: "-",
             jobId: event.jobId,
             range: `bytes=${event.startByte}-${event.endByte}`,
             vaultName: event.vault,
-        }).createReadStream()
+        })
+        .createReadStream();
 
-    inventoryStream.length = event.endByte - event.startByte + 1
+    inventoryStream.length = event.endByte - event.startByte + 1;
 
-    return await s3.uploadPart({
-        UploadId: event.uploadId,
-        Bucket: event.bucket,
-        Key: event.key,
-        PartNumber: event.partNo,
-        Body: inventoryStream
-    }).promise()
+    return await s3
+        .uploadPart({
+            UploadId: event.uploadId,
+            Bucket: event.bucket,
+            Key: event.key,
+            PartNumber: event.partNo,
+            Body: inventoryStream,
+        })
+        .promise();
 }
 
 module.exports = {
-    handler
+    handler,
 };

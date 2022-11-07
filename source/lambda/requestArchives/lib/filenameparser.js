@@ -15,65 +15,63 @@
  * @author Solution Builders
  */
 
-'use strict';
+"use strict";
 
-const { XMLParser } = require('fast-xml-parser');
+const { XMLParser } = require("fast-xml-parser");
 const parser = new XMLParser();
 
 function parseFileName(archiveId, archiveDescription) {
-
     let fname = detectAndParseDescription(archiveDescription.trim()).trim();
 
     // Empty file names: using archiveId
     if (fname === "") {
-        console.log(`Empty filename in Archive Description: ${archiveDescription} for ${archiveId}`)
-        console.log(`Restoring as "00undefined/${archiveId}"`)
-        fname += `00undefined/${archiveId}`
+        console.log(`Empty filename in Archive Description: ${archiveDescription} for ${archiveId}`);
+        console.log(`Restoring as "00undefined/${archiveId}"`);
+        fname += `00undefined/${archiveId}`;
     }
 
     // [ Windows slash format (backward)]
     if (fname.includes("\\")) {
-        fname = fname.replace(/\\/g, "/")
+        fname = fname.replace(/\\/g, "/");
     }
 
-    return fname
+    return fname;
 }
 
 function detectAndParseDescription(archiveDescription) {
     // [ FAST GLACIER v 2,3,4 ]
     if (archiveDescription.match(/<m>.*<\/m>/m)) {
-        return parseFastGlacier(archiveDescription, 'm', 'p')
+        return parseFastGlacier(archiveDescription, "m", "p");
     }
 
     // [ FAST GLACIER v 1 ]
     if (archiveDescription.match(/<ArchiveMetadata>.*<\/ArchiveMetadata>/m)) {
-        return parseFastGlacier(archiveDescription, 'ArchiveMetadata', 'Path')
+        return parseFastGlacier(archiveDescription, "ArchiveMetadata", "Path");
     }
 
     // [ JSON ]
     if (archiveDescription.match(/{\s*\\*\".*}\s*/)) {
         try {
-            let jsonObject = JSON.parse(archiveDescription)
-            if (typeof jsonObject === 'string')
-                jsonObject = JSON.parse(jsonObject)
+            let jsonObject = JSON.parse(archiveDescription);
+            if (typeof jsonObject === "string") jsonObject = JSON.parse(jsonObject);
 
             // [ CLOUD BERRY ]
-            if (jsonObject.hasOwnProperty('Path')) return jsonObject.Path
+            if (jsonObject.hasOwnProperty("Path")) return jsonObject.Path;
         } catch (err) {
-            console.warn(`Failed to parse JSON: ${archiveDescription}`)
-            console.warn(`Err:  ${err}`)
+            console.warn(`Failed to parse JSON: ${archiveDescription}`);
+            console.warn(`Err:  ${err}`);
         }
     }
 
-    return archiveDescription
+    return archiveDescription;
 }
 
 function parseFastGlacier(archiveDescription, metadata, path) {
     const jsonObj = parser.parse(archiveDescription);
-    return Buffer.from(jsonObj[metadata][path], 'base64').toString('ascii')
+    return Buffer.from(jsonObj[metadata][path], "base64").toString("ascii");
 }
 
 module.exports = {
     detectAndParseDescription,
-    parseFileName
-}
+    parseFileName,
+};

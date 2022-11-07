@@ -15,9 +15,9 @@
  * @author Solution Builders
  */
 
-'use strict';
+"use strict";
 
-import { StackProps } from  'aws-cdk-lib';
+import { StackProps } from "aws-cdk-lib";
 
 export interface SolutionStackProps extends StackProps {
     readonly solutionId: string;

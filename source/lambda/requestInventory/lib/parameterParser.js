@@ -15,7 +15,7 @@
  * @author Solution Builders
  */
 
-'use strict';
+"use strict";
 
 async function checkRquiredParameter(param) {
     if (!param) return false;
@@ -30,5 +30,5 @@ async function isValidParameter(desiredValue, actualValue) {
 
 module.exports = {
     checkRquiredParameter,
-    isValidParameter
-}
+    isValidParameter,
+};

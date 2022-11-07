@@ -94,5 +94,5 @@ module.exports = {
     setTimestampNow,
     updateChunkStatusGetLatest,
     getStatusRecord,
-    incrementRetryCount
+    incrementRetryCount,
 };

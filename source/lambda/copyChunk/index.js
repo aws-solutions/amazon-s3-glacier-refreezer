@@ -15,91 +15,78 @@
  * @author Solution Builders
  */
 
-'use strict';
+"use strict";
 
-const AWS = require('aws-sdk');
+const AWS = require("aws-sdk");
 const glacier = new AWS.Glacier();
 const s3 = new AWS.S3();
 
-const db = require('./lib/db.js');
-const trigger = require('./lib/trigger.js');
+const db = require("./lib/db.js");
+const trigger = require("./lib/trigger.js");
 
-const {
-    VAULT,
-    STAGING_BUCKET,
-    STAGING_BUCKET_PREFIX
-} = process.env;
+const { VAULT, STAGING_BUCKET, STAGING_BUCKET_PREFIX } = process.env;
 
-async function handler(event, context, callback){
-    let request = JSON.parse(event.Records[0].body)
-    let {
-        glacierRetrievalStatus,
-        uploadId,
-        key,
-        partNo,
-        startByte,
-        endByte
-    } = request
+async function handler(event, context, callback) {
+    let request = JSON.parse(event.Records[0].body);
+    let { glacierRetrievalStatus, uploadId, key, partNo, startByte, endByte } = request;
 
     let jobId = glacierRetrievalStatus.JobId;
     let archiveId = glacierRetrievalStatus.ArchiveId;
-    
 
-    // If sgt is present, it means that copy is already done 
-    // but the calcHash failed (either single or multipart copy). 
+    // If sgt is present, it means that copy is already done
+    // but the calcHash failed (either single or multipart copy).
     let statusRecord = await db.getStatusRecord(archiveId);
     statusRecord.Attributes = statusRecord.Item;
-    let archiveSize = statusRecord.Attributes.sz.N
+    let archiveSize = statusRecord.Attributes.sz.N;
     if (statusRecord.Attributes.sgt && statusRecord.Attributes.sgt.S) {
-        console.log(`${key} : upload has already been processed`)
-        await trigger.calcHash(statusRecord)
-        return
+        console.log(`${key} : upload has already been processed`);
+        await trigger.calcHash(statusRecord);
+        return;
     }
 
     //singleChunk has no uploadId
-    if (uploadId == null){
-        await singleChunkCopy(glacierRetrievalStatus, jobId, archiveId, key, statusRecord, archiveSize, callback)
+    if (uploadId == null) {
+        await singleChunkCopy(glacierRetrievalStatus, jobId, archiveId, key, statusRecord, archiveSize, callback);
     } else {
-        await multiChunkCopy(uploadId, jobId, archiveId, key, partNo, startByte, endByte, archiveSize, callback)
+        await multiChunkCopy(uploadId, jobId, archiveId, key, partNo, startByte, endByte, archiveSize, callback);
     }
 }
-
 
 function ErrorException(name, message) {
     this.name = name;
     this.message = message;
 }
 
-async function checkAndThrowException(exception, archiveId, archiveSize, callback){
-    if (exception === "ThrottlingException"){
+async function checkAndThrowException(exception, archiveId, archiveSize, callback) {
+    if (exception === "ThrottlingException") {
         // increment throttled bytes if throttling
         await db.increaseThrottleAndErrorCount("throttling", "throttledBytes", archiveSize, "errorCount", "1");
         ErrorException.prototype = new Error();
-        const err = new ErrorException(exception,"Throttled. Retrying.");
+        const err = new ErrorException(exception, "Throttled. Retrying.");
         callback(err);
     } else {
         ErrorException.prototype = new Error();
-        const err = new ErrorException(exception,"Retry is automatic. No action is required.");
+        const err = new ErrorException(exception, "Retry is automatic. No action is required.");
         callback(err);
     }
 }
 
-
 async function singleChunkCopy(glacierRetrievalStatus, jobId, archiveId, key, statusRecord, archiveSize, callback) {
-
     let params = {
         accountId: "-",
         jobId: jobId,
-        vaultName: VAULT
+        vaultName: VAULT,
     };
 
-    let glacierStream = glacier.getJobOutput(params).
-        createReadStream().on('error', function (error){
-            checkAndThrowException(error.code, archiveId, archiveSize, callback)
+    let glacierStream = glacier
+        .getJobOutput(params)
+        .createReadStream()
+        .on("error", function (error) {
+            checkAndThrowException(error.code, archiveId, archiveSize, callback);
         });
-    
+
     glacierStream.length = glacierRetrievalStatus.ArchiveSizeInBytes;
-    
+
     let copyResult = await s3
         .putObject({
             Bucket: STAGING_BUCKET,
@@ -110,90 +97,94 @@ async function singleChunkCopy(glacierRetrievalStatus, jobId, archiveId, key, st
     let etag = copyResult.ETag;
 
     console.log(`${key} : etag : ${etag}`);
-    
-    await db.setTimestampNow(archiveId,"sgt");
+
+    await db.setTimestampNow(archiveId, "sgt");
     await trigger.calcHash(statusRecord);
 }
 
 async function multiChunkCopy(uploadId, jobId, archiveId, key, partNo, startByte, endByte, archiveSize, callback) {
-    console.log(`chunk upload ${key} - ${partNo} : ${startByte}-${endByte}`)
+    console.log(`chunk upload ${key} - ${partNo} : ${startByte}-${endByte}`);
 
-    let glacierStream = glacier.getJobOutput({
-        accountId: "-",
-        jobId: jobId,
-        range: `bytes=${startByte}-${endByte}`,
-        vaultName: VAULT
-    }).createReadStream().on('error', function (error){
-        checkAndThrowException(error.code, archiveId, archiveSize, callback)
-    });
+    let glacierStream = glacier
+        .getJobOutput({
+            accountId: "-",
+            jobId: jobId,
+            range: `bytes=${startByte}-${endByte}`,
+            vaultName: VAULT,
+        })
+        .createReadStream()
+        .on("error", function (error) {
+            checkAndThrowException(error.code, archiveId, archiveSize, callback);
+        });
 
     glacierStream.length = endByte - startByte + 1;
 
-    let uploadResult = await s3.uploadPart({
-        UploadId: uploadId,
-        Bucket: STAGING_BUCKET,
-        Key: `${STAGING_BUCKET_PREFIX}/${key}`,
-        PartNumber: partNo,
-        Body: glacierStream
-    }).promise()
+    let uploadResult = await s3
+        .uploadPart({
+            UploadId: uploadId,
+            Bucket: STAGING_BUCKET,
+            Key: `${STAGING_BUCKET_PREFIX}/${key}`,
+            PartNumber: partNo,
+            Body: glacierStream,
+        })
+        .promise();
 
     let etag = uploadResult.ETag;
 
-    console.log(`${key}  - ${partNo}: updating chunk etag : ${etag}`)
-    let statusRecord = await db.updateChunkStatusGetLatest(archiveId, partNo, etag)
+    console.log(`${key}  - ${partNo}: updating chunk etag : ${etag}`);
+    let statusRecord = await db.updateChunkStatusGetLatest(archiveId, partNo, etag);
 
-    let cc = parseInt(statusRecord.Attributes.cc.N)
+    let cc = parseInt(statusRecord.Attributes.cc.N);
 
-    let count = 0
+    let count = 0;
     for (const entry in statusRecord.Attributes) {
-        if (entry.includes("chunk") &&
-            statusRecord.Attributes[entry].S) {
-            count++
+        if (entry.includes("chunk") && statusRecord.Attributes[entry].S) {
+            count++;
         }
     }
 
     // [ CHECK IF ALL CHUNKS ARE COMPLETED ]
-    if (count < cc) return
+    if (count < cc) return;
 
-    console.log(`${key}  - ${partNo}: all chunks processed`)
-    await closeMultipartUpload(key, uploadId, statusRecord)
+    console.log(`${key}  - ${partNo}: all chunks processed`);
+    await closeMultipartUpload(key, uploadId, statusRecord);
 
-    console.log(`${key} : setting complete timestamp`)
+    console.log(`${key} : setting complete timestamp`);
     // setTimeStampNow is before calcHash because we need a way to know if closeMultipartUpload is completed. If completed, trigger calcHash.
-    await db.setTimestampNow(statusRecord.Attributes.aid.S, "sgt")
+    await db.setTimestampNow(statusRecord.Attributes.aid.S, "sgt");
 
-    await trigger.calcHash(statusRecord)
-    
+    await trigger.calcHash(statusRecord);
 }
 
 async function closeMultipartUpload(key, multipartUploadId, statusRecord) {
+    let cc = parseInt(statusRecord.Attributes.cc.N);
 
-    let cc = parseInt(statusRecord.Attributes.cc.N)
-
-    console.log(`${key} : closing off multipart upload`)
-    let etags = []
+    console.log(`${key} : closing off multipart upload`);
+    let etags = [];
 
     Array.from(Array(cc)).forEach((_, i) => {
-        const chunkId = i + 1
-        let entry = statusRecord.Attributes[`chunk${chunkId}`].S
+        const chunkId = i + 1;
+        let entry = statusRecord.Attributes[`chunk${chunkId}`].S;
         etags.push({
             PartNumber: chunkId,
-            ETag: entry
-        })
+            ETag: entry,
+        });
     });
 
-    console.log(`ETAGS: ${JSON.stringify(etags)}`)
+    console.log(`ETAGS: ${JSON.stringify(etags)}`);
 
-    let complete = await s3.completeMultipartUpload({
-        Bucket: STAGING_BUCKET,
-        Key: `${STAGING_BUCKET_PREFIX}/${key}`,
-        UploadId: multipartUploadId,
-        MultipartUpload: {
-            Parts: etags
-        }
-    }).promise()
+    let complete = await s3
+        .completeMultipartUpload({
+            Bucket: STAGING_BUCKET,
+            Key: `${STAGING_BUCKET_PREFIX}/${key}`,
+            UploadId: multipartUploadId,
+            MultipartUpload: {
+                Parts: etags,
+            },
+        })
+        .promise();
 }
 
 module.exports = {
-    handler
+    handler,
 };

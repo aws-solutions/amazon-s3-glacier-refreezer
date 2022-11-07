@@ -15,29 +15,24 @@
  * @author Solution Builders
  */
 
-'use strict';
+"use strict";
 
-const AWS = require('aws-sdk');
+const AWS = require("aws-sdk");
 const sqs = new AWS.SQS();
 const s3 = new AWS.S3();
 
-const {
-    DESTINATION_BUCKET,
-    STORAGE_CLASS,
-    SQS_COPY_TO_DESTINATION_NOTIFICATION
-} = process.env;
+const { DESTINATION_BUCKET, STORAGE_CLASS, SQS_COPY_TO_DESTINATION_NOTIFICATION } = process.env;
 
-const CHUNK_SIZE = 4 * 1024 * 1024 * 1024
+const CHUNK_SIZE = 4 * 1024 * 1024 * 1024;
 
 exports.triggerCopyToDestinationBucket = async (statusRecord) => {
-
     let key = statusRecord.Attributes.fname.S;
     let aid = statusRecord.Attributes.aid.S;
     let numberOfParts = parseInt(statusRecord.Attributes.cc.N);
     let size = parseInt(statusRecord.Attributes.sz.N);
 
-    console.log(`${key} : trigger sending messages to copyToDestinationQueue`)
-    console.log(` Number of parts : ${numberOfParts} `)
+    console.log(`${key} : trigger sending messages to copyToDestinationQueue`);
+    console.log(` Number of parts : ${numberOfParts} `);
 
     let queueUrl = await sqs.getQueueUrl({ QueueName: SQS_COPY_TO_DESTINATION_NOTIFICATION }).promise();
 
@@ -48,13 +43,13 @@ exports.triggerCopyToDestinationBucket = async (statusRecord) => {
     }
 
     if (numberOfParts > 1) {
-        console.log(`Starting multipart copy for : ${key} : parts : ${numberOfParts}`)
+        console.log(`Starting multipart copy for : ${key} : parts : ${numberOfParts}`);
 
         let multiPartUpload = await s3
             .createMultipartUpload({
                 Bucket: DESTINATION_BUCKET,
                 StorageClass: STORAGE_CLASS,
-                Key: key
+                Key: key,
             })
             .promise();
 
@@ -79,27 +74,10 @@ exports.triggerCopyToDestinationBucket = async (statusRecord) => {
         let startByte = (partNo - 1) * CHUNK_SIZE;
         let endByte = size - 1;
 
-        await sendMessageToCopyQueue(
-            queueUrl.QueueUrl,
-            aid,
-            multiPartUpload.UploadId,
-            key,
-            partNo,
-            startByte,
-            endByte
-        );
+        await sendMessageToCopyQueue(queueUrl.QueueUrl, aid, multiPartUpload.UploadId, key, partNo, startByte, endByte);
     } else {
-
-        console.log(`Starting single part copy for : ${key}`)
-        await sendMessageToCopyQueue(
-            queueUrl.QueueUrl,
-            aid,
-            null,
-            key,
-            null,
-            null,
-            null
-        );
+        console.log(`Starting single part copy for : ${key}`);
+        await sendMessageToCopyQueue(queueUrl.QueueUrl, aid, null, key, null, null, null);
     }
 
     function sendMessageToCopyQueue(queueUrl, aid, uploadId, key, partNo, startByte, endByte) {
@@ -109,13 +87,15 @@ exports.triggerCopyToDestinationBucket = async (statusRecord) => {
             key,
             partNo,
             startByte,
-            endByte
+            endByte,
         });
 
-        return sqs.sendMessage({
-            QueueUrl: queueUrl,
-            MessageBody: messageBody,
-        }).promise();
+        return sqs
+            .sendMessage({
+                QueueUrl: queueUrl,
+                MessageBody: messageBody,
+            })
+            .promise();
     }
 
     async function fileExists(Bucket, key) {
@@ -123,7 +103,8 @@ exports.triggerCopyToDestinationBucket = async (statusRecord) => {
             .listObjectsV2({
                 Bucket,
                 Prefix: key,
-            }).promise();
+            })
+            .promise();
 
         for (let r of objects.Contents) {
             console.log(r.Key);
@@ -133,4 +114,4 @@ exports.triggerCopyToDestinationBucket = async (statusRecord) => {
         }
         return false;
     }
-}
+};

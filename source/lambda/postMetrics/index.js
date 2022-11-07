@@ -15,17 +15,16 @@
  * @author Solution Builders
  */
 
-'use strict';
+"use strict";
 
-const dynamo = require('./lib/dynamo.js');
-const metrics = require('./lib/metrics.js');
+const dynamo = require("./lib/dynamo.js");
+const metrics = require("./lib/metrics.js");
 
 async function handler() {
-
-    const progressCount = await dynamo.getItem('count');
-    const progressVolume = await dynamo.getItem('volume');
-    const throttling = await dynamo.getItem('throttling');
-    const failedArchives = await dynamo.getItem('archives-failed');
+    const progressCount = await dynamo.getItem("count");
+    const progressVolume = await dynamo.getItem("volume");
+    const throttling = await dynamo.getItem("throttling");
+    const failedArchives = await dynamo.getItem("archives-failed");
 
     let totalCount = progressCount && progressCount.total ? parseInt(progressCount.total.N) : null;
     let requestedCount = progressCount && progressCount.requested ? parseInt(progressCount.requested.N) : 0;
@@ -41,8 +40,10 @@ async function handler() {
 
     let totalThrottledBytes = throttling && throttling.throttledBytes ? parseInt(throttling.throttledBytes.N) : null;
     let totalThrottlingErrorCount = throttling && throttling.errorCount ? parseInt(throttling.errorCount.N) : null;
-    let totalFailedArchivesBytes = failedArchives && failedArchives.failedBytes ? parseInt(failedArchives.failedBytes.N) : null;
-    let totalFailedArchivesErrorCount = failedArchives && failedArchives.errorCount ? parseInt(failedArchives.errorCount.N) : null;
+    let totalFailedArchivesBytes =
+        failedArchives && failedArchives.failedBytes ? parseInt(failedArchives.failedBytes.N) : null;
+    let totalFailedArchivesErrorCount =
+        failedArchives && failedArchives.errorCount ? parseInt(failedArchives.errorCount.N) : null;
 
     let metricList = [];
 
@@ -57,32 +58,32 @@ async function handler() {
         validatedBytes = validatedBytes > totalBytes ? totalBytes : validatedBytes;
         copiedBytes = copiedBytes > totalBytes ? totalBytes : copiedBytes;
 
-        metricList.push({metricName: "ArchiveCountTotal", metricValue: totalCount});
-        metricList.push({metricName: "BytesTotal", metricValue: totalBytes});
+        metricList.push({ metricName: "ArchiveCountTotal", metricValue: totalCount });
+        metricList.push({ metricName: "BytesTotal", metricValue: totalBytes });
     }
 
     if (totalThrottlingErrorCount !== null) {
-        metricList.push({metricName: "ThrottledBytes", metricValue: totalThrottledBytes});
-        metricList.push({metricName: "ThrottledErrorCount", metricValue: totalThrottlingErrorCount});
+        metricList.push({ metricName: "ThrottledBytes", metricValue: totalThrottledBytes });
+        metricList.push({ metricName: "ThrottledErrorCount", metricValue: totalThrottlingErrorCount });
     }
 
     if (totalFailedArchivesErrorCount !== null) {
-        metricList.push({metricName: "FailedArchivesBytes", metricValue: totalFailedArchivesBytes});
-        metricList.push({metricName: "FailedArchivesErrorCount", metricValue: totalFailedArchivesErrorCount});
+        metricList.push({ metricName: "FailedArchivesBytes", metricValue: totalFailedArchivesBytes });
+        metricList.push({ metricName: "FailedArchivesErrorCount", metricValue: totalFailedArchivesErrorCount });
     }
 
-    metricList.push({metricName: "ArchiveCountRequested", metricValue: requestedCount});
-    metricList.push({metricName: "ArchiveCountStaged", metricValue: stagedCount});
-    metricList.push({metricName: "ArchiveCountValidated", metricValue: validatedCount});
-    metricList.push({metricName: "ArchiveCountCompleted", metricValue: copiedCount});
-    metricList.push({metricName: "BytesRequested", metricValue: requestedBytes});
-    metricList.push({metricName: "BytesStaged", metricValue: stagedBytes});
-    metricList.push({metricName: "BytesValidated", metricValue: validatedBytes});
-    metricList.push({metricName: "BytesCompleted", metricValue: copiedBytes});
+    metricList.push({ metricName: "ArchiveCountRequested", metricValue: requestedCount });
+    metricList.push({ metricName: "ArchiveCountStaged", metricValue: stagedCount });
+    metricList.push({ metricName: "ArchiveCountValidated", metricValue: validatedCount });
+    metricList.push({ metricName: "ArchiveCountCompleted", metricValue: copiedCount });
+    metricList.push({ metricName: "BytesRequested", metricValue: requestedBytes });
+    metricList.push({ metricName: "BytesStaged", metricValue: stagedBytes });
+    metricList.push({ metricName: "BytesValidated", metricValue: validatedBytes });
+    metricList.push({ metricName: "BytesCompleted", metricValue: copiedBytes });
 
     await metrics.publishMetric(metricList);
 }
 
 module.exports = {
-    handler
+    handler,
 };

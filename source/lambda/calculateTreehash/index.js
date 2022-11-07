@@ -15,7 +15,7 @@
  * @author Solution Builders
  */
 
-'use strict';
+"use strict";
 
 const AWS = require("aws-sdk");
 const s3 = new AWS.S3();
@@ -25,20 +25,17 @@ const db = require("./lib/db.js");
 const treehash = require("./lib/treehash.js");
 const trigger = require("./lib/trigger.js");
 
-const {
-    STAGING_BUCKET,
-    SQS_ARCHIVE_NOTIFICATION,
-} = process.env;
+const { STAGING_BUCKET, SQS_ARCHIVE_NOTIFICATION } = process.env;
 
 async function handler(event) {
-    let {aid, key, partNo, startByte, endByte} = JSON.parse(event.Records[0].body);
+    let { aid, key, partNo, startByte, endByte } = JSON.parse(event.Records[0].body);
 
     console.log(`${key} - ${partNo} hash : ${startByte}-${endByte}`);
 
-    // the only way vdt is present at this section of the code is if the treehash is successfully validated already, but 
+    // the only way vdt is present at this section of the code is if the treehash is successfully validated already, but
     // triggerCopyToDestinationBucket fails, hence retry triggerCopyToDestinationBucket.
     let resultRecord = await db.getStatusRecord(aid);
-    
+
     if (resultRecord.Item.vdt && resultRecord.Item.vdt.S) {
         resultRecord.Attributes = resultRecord.Item;
         console.log(`${key} : treehash has already been processed. Skipping`);
@@ -89,14 +86,18 @@ async function validateTreehash(s3hash, statusRecord) {
 
         let retryCount = parseInt(statusRecord.Attributes.rc.N);
         if (retryCount < 3) {
-            console.error(
-                `ERROR : sha256treehash validation failed for ${key}. Retry: ${retryCount}.\n`
-            );
+            console.error(`ERROR : sha256treehash validation failed for ${key}. Retry: ${retryCount}.\n`);
             await failArchiveAndRetry(statusRecord, key);
             return;
         } else {
             // on 3rd failed calcHash attempt, we log in db
-            await db.increaseArchiveFailedBytesAndErrorCount("archives-failed", "failedBytes", statusRecord.Attributes.sz.N, "errorCount", "1")
+            await db.increaseArchiveFailedBytesAndErrorCount(
+                "archives-failed",
+                "failedBytes",
+                statusRecord.Attributes.sz.N,
+                "errorCount",
+                "1"
+            );
             console.error(
                 `ERROR : sha256treehash validation failed after MULTIPLE retry for ${key}. Manual intervention required.\n`
             );
@@ -104,25 +105,23 @@ async function validateTreehash(s3hash, statusRecord) {
         }
     }
     // now that TreeHash is successfully verified, we start the copy to destination bucket via sending a message to the SQS
-   
+
     // setTimestampNow runs here because we want to mark the time when the validation was completed
     await db.setTimestampNow(statusRecord.Attributes.aid.S, "vdt");
 
     await trigger.triggerCopyToDestinationBucket(statusRecord);
+}
 
-    }
-
-async function getListOfChunks(statusRecord){
+async function getListOfChunks(statusRecord) {
     let cc = parseInt(statusRecord.Attributes.cc.N);
     var chunkString = "chunk";
-    var finalChunkString= "";
-    for (var chunkNumber = 1; chunkNumber < cc ; chunkNumber ++){
+    var finalChunkString = "";
+    for (var chunkNumber = 1; chunkNumber < cc; chunkNumber++) {
         finalChunkString = finalChunkString.concat(chunkString.concat(chunkNumber.toString()).concat(", "));
     }
     finalChunkString = finalChunkString.concat(chunkString.concat(cc.toString()));
-    return finalChunkString
+    return finalChunkString;
 }
-
 
 async function failArchiveAndRetry(statusRecord, key) {
     let params = {
@@ -130,9 +129,7 @@ async function failArchiveAndRetry(statusRecord, key) {
         Key: key,
     };
     try {
-        console.log(
-            `Deleting object ${key} from Staging Bucket ${STAGING_BUCKET} after mismatch in hash comparison`
-        );
+        console.log(`Deleting object ${key} from Staging Bucket ${STAGING_BUCKET} after mismatch in hash comparison`);
         await s3.deleteObject(params).promise();
     } catch (e) {
         console.error(
@@ -141,14 +138,9 @@ async function failArchiveAndRetry(statusRecord, key) {
         console.error(e);
     }
 
-    const updatedItem = await db.incrementRetryCount(
-        statusRecord.Attributes.aid.S,
-        "rc"
-    );
+    const updatedItem = await db.incrementRetryCount(statusRecord.Attributes.aid.S, "rc");
     const retryCount = parseInt(updatedItem.Attributes.rc.N);
-    console.error(
-        `Submitting retry copy request message on SQS. New retry counter is ${retryCount} for ${key}`
-    );
+    console.error(`Submitting retry copy request message on SQS. New retry counter is ${retryCount} for ${key}`);
 
     // wipe sgt and chunks' status and start over
     await db.deleteItem(statusRecord.Attributes.aid.S, "sgt");
@@ -180,5 +172,5 @@ async function failArchiveAndRetry(statusRecord, key) {
 }
 
 module.exports = {
-    handler
-}
+    handler,
+};

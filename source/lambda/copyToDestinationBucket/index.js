@@ -15,7 +15,7 @@
  * @author Solution Builders
  */
 
-'use strict';
+"use strict";
 
 const AWS = require("aws-sdk");
 const s3 = new AWS.S3();
@@ -23,23 +23,16 @@ const s3 = new AWS.S3();
 const db = require("./lib/db.js");
 const copy = require("./lib/copy.js");
 
-const {
-    DESTINATION_BUCKET
-} = process.env;
+const { DESTINATION_BUCKET } = process.env;
 
 async function handler(event) {
-    let {
-        key,
-        aid,
-        uploadId,
-        partNo,
-        startByte,
-        endByte
-    } = JSON.parse(event.Records[0].body);
+    let { key, aid, uploadId, partNo, startByte, endByte } = JSON.parse(event.Records[0].body);
 
     const file = await fileExists(DESTINATION_BUCKET, key);
     if (file) {
-        console.log(`${key} : already copied to the target bucket. Possible duplicated SQS message. No action is required.`);
+        console.log(
+            `${key} : already copied to the target bucket. Possible duplicated SQS message. No action is required.`
+        );
         return;
     }
 
@@ -51,7 +44,8 @@ async function fileExists(Bucket, key) {
         .listObjectsV2({
             Bucket,
             Prefix: key,
-        }).promise();
+        })
+        .promise();
 
     for (let r of objects.Contents) {
         console.log(r.Key);
@@ -63,5 +57,5 @@ async function fileExists(Bucket, key) {
 }
 
 module.exports = {
-    handler
-}
+    handler,
+};

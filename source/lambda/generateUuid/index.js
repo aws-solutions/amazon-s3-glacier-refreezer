@@ -15,32 +15,32 @@
  * @author Solution Builders
  */
 
-'use strict';
+"use strict";
 
-const cloudformation = require('./lib/cloudformation')
-const uuid = require('uuid');
+const cloudformation = require("./lib/cloudformation");
+const uuid = require("uuid");
 
 async function handler(event, context) {
-    console.log(`${JSON.stringify(event)}`)
+    console.log(`${JSON.stringify(event)}`);
 
     //------------------------------------------------------------------------
     // [ ON CREATE ]
-    if (event.RequestType === 'Create') {
-        console.log('Generating deployment UUID');
+    if (event.RequestType === "Create") {
+        console.log("Generating deployment UUID");
         const uuidv4 = uuid.v4();
 
         let responseData = {
-            UUID: uuidv4
+            UUID: uuidv4,
         };
         console.log(responseData.UUID);
         await cloudformation.sendResponse(event, context, "SUCCESS", responseData);
         return;
     }
 
-    let responseData = {message: 'OK'};
+    let responseData = { message: "OK" };
     await cloudformation.sendResponse(event, context, "SUCCESS", responseData);
 }
 
 module.exports = {
-    handler
+    handler,
 };
