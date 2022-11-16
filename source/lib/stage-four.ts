@@ -146,9 +146,11 @@ export class StageFour extends Construct {
             },
         });
 
-        copyToDestinationBucketRole.addToPrincipalPolicy(
-            iamSec.IamPermissions.lambdaLogGroup(`${Aws.STACK_NAME}-copyToDestinationBucket`)
-        );
+        const copyToDestinationBucketPolicy = new iam.Policy(this, "copyToDestinationBucketPolicy", {
+            statements: [iamSec.IamPermissions.lambdaLogGroup(`${Aws.STACK_NAME}-copyToDestinationBucket`)],
+        });
+
+        copyToDestinationBucketPolicy.attachToRole(copyToDestinationBucketRole);
         props.stagingBucket.grantReadWrite(copyToDestinationBucketRole);
         props.statusTable.grantReadWriteData(copyToDestinationBucketRole);
         destinationBucket.grantReadWrite(copyToDestinationBucketRole);
