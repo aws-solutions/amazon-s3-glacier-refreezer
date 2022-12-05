@@ -1279,7 +1279,7 @@ Object {
           "S3Bucket": Object {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": "cbf7167a71925588d851632a00676f76b19141e78b0cc792fc883fab37e4b0d2.zip",
+          "S3Key": "024abf63e050813943e17a2441e08902279e4ab6a1f0c578725e9e1c8a2f328b.zip",
         },
         "FunctionName": Object {
           "Fn::Join": Array [
@@ -1403,7 +1403,7 @@ Object {
           "S3Bucket": Object {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": "c4e94d39972e9a431064cd34c75f473b941ce18e70c741fc8a1e6c0efb387770.zip",
+          "S3Key": "78d0f3817b0550d036f206c68b53363ff1b12c9437977cac4aea730759c86c0a.zip",
         },
         "Environment": Object {
           "Variables": Object {
@@ -1666,7 +1666,7 @@ Object {
           "S3Bucket": Object {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": "799f6ca70bbe99c72c3e6456f05d78bed0cb686105414fdb29daad68cf4e1277.zip",
+          "S3Key": "7bcf7c24503f4b16e264ba2e4964f87b45edb0ee473870b250ca2f437c56e666.zip",
         },
         "Environment": Object {
           "Variables": Object {
@@ -2850,7 +2850,7 @@ Object {
           "S3Bucket": Object {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": "da7cdc9bf1e4a238b8c125f7091aedf90a688bcda9bf2a9142361a5e9048ef03.zip",
+          "S3Key": "df95eca83fccc0765f38a318030950f554ecf35b1a022951804718e09c37e84c.zip",
         },
         "Environment": Object {
           "Variables": Object {
@@ -2958,7 +2958,7 @@ Object {
           "S3Bucket": Object {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": "baa7a88af52866192719332da4882905f07f1fec5469ca9e47a5a63099f49433.zip",
+          "S3Key": "d976c9bbf6f7387fa57df19855ba4601428b834a287f7032c0f7904e77f9c1c1.zip",
         },
         "Environment": Object {
           "Variables": Object {
@@ -3008,30 +3008,7 @@ Object {
       },
       "Type": "AWS::Lambda::Function",
     },
-    "stageFourcopyToDestinationBucketRole072254ED": Object {
-      "Properties": Object {
-        "AssumeRolePolicyDocument": Object {
-          "Statement": Array [
-            Object {
-              "Action": "sts:AssumeRole",
-              "Effect": "Allow",
-              "Principal": Object {
-                "Service": "lambda.amazonaws.com",
-              },
-            },
-          ],
-          "Version": "2012-10-17",
-        },
-        "Tags": Array [
-          Object {
-            "Key": "solution",
-            "Value": "amazon-s3-glacier-refreezer",
-          },
-        ],
-      },
-      "Type": "AWS::IAM::Role",
-    },
-    "stageFourcopyToDestinationBucketRoleDefaultPolicyC0C83D3D": Object {
+    "stageFourcopyToDestinationBucketPolicy8ED4DD04": Object {
       "Properties": Object {
         "PolicyDocument": Object {
           "Statement": Array [
@@ -3068,6 +3045,45 @@ Object {
               },
               "Sid": "allowCloudWatchLogs",
             },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "stageFourcopyToDestinationBucketPolicy8ED4DD04",
+        "Roles": Array [
+          Object {
+            "Ref": "stageFourcopyToDestinationBucketRole072254ED",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "stageFourcopyToDestinationBucketRole072254ED": Object {
+      "Properties": Object {
+        "AssumeRolePolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": Object {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "Tags": Array [
+          Object {
+            "Key": "solution",
+            "Value": "amazon-s3-glacier-refreezer",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "stageFourcopyToDestinationBucketRoleDefaultPolicyC0C83D3D": Object {
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
             Object {
               "Action": Array [
                 "s3:GetObject*",
@@ -3455,7 +3471,7 @@ Object {
           "S3Bucket": Object {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": "4a5d29b06c7e57f3d32cb2d04c8ae7a5aa2bfb272c2507667fcc53ea7056761f.zip",
+          "S3Key": "89cc22ccf767f1a2f2ba8af10dc371dbf9b30ac23196754f322f99ba9da93740.zip",
         },
         "Environment": Object {
           "Variables": Object {
@@ -3645,7 +3661,7 @@ Object {
           "S3Bucket": Object {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": "35eeebc6c91af5e852aa1b2b7a40736891ae6044b60a1a0c8e38259eb7058f5d.zip",
+          "S3Key": "52781594c8959dd4953bb1482fbc9cf87829f5d953b261a97a8077e3914fd056.zip",
         },
         "FunctionName": Object {
           "Fn::Join": Array [
@@ -3879,6 +3895,119 @@ Object {
       },
       "Type": "AWS::IAM::Policy",
     },
+    "stageOnedownloadInventoryPolicy48346495": Object {
+      "DependsOn": Array [
+        "monitoringCalculateMetricsDynamoDBEventSourceteststackdynamoDataCatalogStatusTable4AFD52BCA4A6AAB1",
+        "monitoringCalculateMetrics1B70CF5B",
+        "monitoringcalculateMetricsLogGroup9961A214",
+        "monitoringCalculateMetricsRoleDefaultPolicy22C0E657",
+        "monitoringCalculateMetricsRoleA76278A7",
+        "monitoringCalculateMetricsRolePolicy0C1EF64D",
+        "monitoringcalculateTreehashLogGroup6FC738B3",
+        "monitoringcopyChunkLogGroup5D04918E",
+        "monitoringcopyToDestinationBucketLogGroup4BB91669",
+        "monitoringdeployGlueJobScriptLogGroupAA50E4DE",
+        "monitoringdownloadInventoryLogGroup2471C2FF",
+        "monitoringdownloadInventoryPartLogGroupD9E69690",
+        "monitoringgenerateUuidLogGroup18A074CF",
+        "monitoringglacierrefreezerdashboardE7F6D8AE",
+        "monitoringPostMetrics98F9F947",
+        "monitoringPostMetricScheduleAllowEventRuleteststackmonitoringPostMetrics8C0DEF1A842DEFFF",
+        "monitoringPostMetricSchedule8675C968",
+        "monitoringpostMetricsLogGroup670566A8",
+        "monitoringPostMetricsRole87B61E7B",
+        "monitoringPostMetricsRolePolicy596F9F4D",
+        "monitoringrequestArchivesLogGroup70D7C9C5",
+        "monitoringrequestInventoryLogGroupB7C9607D",
+        "monitoringsendAnonymousStatsLogGroup0C9968BB",
+        "monitoringsplitArchiveLogGroup026DE41D",
+        "monitoringstageTwoOrchestratorLogGroup62996996",
+        "monitoringtoLowercaseLogGroupC05CBA29",
+      ],
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": Array [
+                "logs:CreateLogGroup",
+                "logs:CreateLogStream",
+                "logs:PutLogEvents",
+              ],
+              "Effect": "Allow",
+              "Resource": Object {
+                "Fn::Join": Array [
+                  "",
+                  Array [
+                    "arn:",
+                    Object {
+                      "Ref": "AWS::Partition",
+                    },
+                    ":logs:",
+                    Object {
+                      "Ref": "AWS::Region",
+                    },
+                    ":",
+                    Object {
+                      "Ref": "AWS::AccountId",
+                    },
+                    ":log-group:/aws/lambda/",
+                    Object {
+                      "Ref": "AWS::StackName",
+                    },
+                    "-downloadInventory:**",
+                  ],
+                ],
+              },
+              "Sid": "allowCloudWatchLogs",
+            },
+            Object {
+              "Action": Array [
+                "glacier:GetJobOutput",
+                "glacier:InitiateJob",
+              ],
+              "Condition": Object {
+                "Bool": Object {
+                  "aws:SecureTransport": true,
+                },
+              },
+              "Effect": "Allow",
+              "Resource": Object {
+                "Fn::Join": Array [
+                  "",
+                  Array [
+                    "arn:",
+                    Object {
+                      "Ref": "AWS::Partition",
+                    },
+                    ":glacier:",
+                    Object {
+                      "Ref": "AWS::Region",
+                    },
+                    ":",
+                    Object {
+                      "Ref": "AWS::AccountId",
+                    },
+                    ":vaults/",
+                    Object {
+                      "Ref": "SourceVault",
+                    },
+                  ],
+                ],
+              },
+              "Sid": "allowGlacierAccess",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "stageOnedownloadInventoryPolicy48346495",
+        "Roles": Array [
+          Object {
+            "Ref": "stageOnedownloadInventoryRoleAA298206",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
     "stageOnedownloadInventoryRoleAA298206": Object {
       "DependsOn": Array [
         "monitoringCalculateMetricsDynamoDBEventSourceteststackdynamoDataCatalogStatusTable4AFD52BCA4A6AAB1",
@@ -3964,39 +4093,6 @@ Object {
           "Statement": Array [
             Object {
               "Action": Array [
-                "logs:CreateLogGroup",
-                "logs:CreateLogStream",
-                "logs:PutLogEvents",
-              ],
-              "Effect": "Allow",
-              "Resource": Object {
-                "Fn::Join": Array [
-                  "",
-                  Array [
-                    "arn:",
-                    Object {
-                      "Ref": "AWS::Partition",
-                    },
-                    ":logs:",
-                    Object {
-                      "Ref": "AWS::Region",
-                    },
-                    ":",
-                    Object {
-                      "Ref": "AWS::AccountId",
-                    },
-                    ":log-group:/aws/lambda/",
-                    Object {
-                      "Ref": "AWS::StackName",
-                    },
-                    "-downloadInventory:**",
-                  ],
-                ],
-              },
-              "Sid": "allowCloudWatchLogs",
-            },
-            Object {
-              "Action": Array [
                 "s3:GetObject*",
                 "s3:GetBucket*",
                 "s3:List*",
@@ -4031,42 +4127,6 @@ Object {
                   ],
                 },
               ],
-            },
-            Object {
-              "Action": Array [
-                "glacier:GetJobOutput",
-                "glacier:InitiateJob",
-              ],
-              "Condition": Object {
-                "Bool": Object {
-                  "aws:SecureTransport": true,
-                },
-              },
-              "Effect": "Allow",
-              "Resource": Object {
-                "Fn::Join": Array [
-                  "",
-                  Array [
-                    "arn:",
-                    Object {
-                      "Ref": "AWS::Partition",
-                    },
-                    ":glacier:",
-                    Object {
-                      "Ref": "AWS::Region",
-                    },
-                    ":",
-                    Object {
-                      "Ref": "AWS::AccountId",
-                    },
-                    ":vaults/",
-                    Object {
-                      "Ref": "SourceVault",
-                    },
-                  ],
-                ],
-              },
-              "Sid": "allowGlacierAccess",
             },
             Object {
               "Action": "lambda:InvokeFunction",
@@ -4167,7 +4227,7 @@ Object {
           "S3Bucket": Object {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": "4c354ea21c7a85e17b47c2c62decfe711f6069c4fb6b0b822f38b21ae1378d55.zip",
+          "S3Key": "e70fd953f155e136b974fcfa9b42ab688c19846c138ded98b61339d993f925dd.zip",
         },
         "Environment": Object {
           "Variables": Object {
@@ -4224,6 +4284,150 @@ Object {
         "Timeout": 900,
       },
       "Type": "AWS::Lambda::Function",
+    },
+    "stageOnerequestInventoryPolicyD8543EB2": Object {
+      "DependsOn": Array [
+        "monitoringCalculateMetricsDynamoDBEventSourceteststackdynamoDataCatalogStatusTable4AFD52BCA4A6AAB1",
+        "monitoringCalculateMetrics1B70CF5B",
+        "monitoringcalculateMetricsLogGroup9961A214",
+        "monitoringCalculateMetricsRoleDefaultPolicy22C0E657",
+        "monitoringCalculateMetricsRoleA76278A7",
+        "monitoringCalculateMetricsRolePolicy0C1EF64D",
+        "monitoringcalculateTreehashLogGroup6FC738B3",
+        "monitoringcopyChunkLogGroup5D04918E",
+        "monitoringcopyToDestinationBucketLogGroup4BB91669",
+        "monitoringdeployGlueJobScriptLogGroupAA50E4DE",
+        "monitoringdownloadInventoryLogGroup2471C2FF",
+        "monitoringdownloadInventoryPartLogGroupD9E69690",
+        "monitoringgenerateUuidLogGroup18A074CF",
+        "monitoringglacierrefreezerdashboardE7F6D8AE",
+        "monitoringPostMetrics98F9F947",
+        "monitoringPostMetricScheduleAllowEventRuleteststackmonitoringPostMetrics8C0DEF1A842DEFFF",
+        "monitoringPostMetricSchedule8675C968",
+        "monitoringpostMetricsLogGroup670566A8",
+        "monitoringPostMetricsRole87B61E7B",
+        "monitoringPostMetricsRolePolicy596F9F4D",
+        "monitoringrequestArchivesLogGroup70D7C9C5",
+        "monitoringrequestInventoryLogGroupB7C9607D",
+        "monitoringsendAnonymousStatsLogGroup0C9968BB",
+        "monitoringsplitArchiveLogGroup026DE41D",
+        "monitoringstageTwoOrchestratorLogGroup62996996",
+        "monitoringtoLowercaseLogGroupC05CBA29",
+      ],
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": Array [
+                "logs:CreateLogGroup",
+                "logs:CreateLogStream",
+                "logs:PutLogEvents",
+              ],
+              "Effect": "Allow",
+              "Resource": Object {
+                "Fn::Join": Array [
+                  "",
+                  Array [
+                    "arn:",
+                    Object {
+                      "Ref": "AWS::Partition",
+                    },
+                    ":logs:",
+                    Object {
+                      "Ref": "AWS::Region",
+                    },
+                    ":",
+                    Object {
+                      "Ref": "AWS::AccountId",
+                    },
+                    ":log-group:/aws/lambda/",
+                    Object {
+                      "Ref": "AWS::StackName",
+                    },
+                    "-requestInventory:**",
+                  ],
+                ],
+              },
+              "Sid": "allowCloudWatchLogs",
+            },
+            Object {
+              "Action": Array [
+                "s3:ListBucket",
+                "s3:ListBucketMultipartUploads",
+                "s3:GetBucketLocation",
+                "s3:GetObject",
+                "s3:GetObjectAcl",
+              ],
+              "Condition": Object {
+                "Bool": Object {
+                  "aws:SecureTransport": true,
+                },
+              },
+              "Effect": "Allow",
+              "Resource": Object {
+                "Fn::Join": Array [
+                  "",
+                  Array [
+                    "arn:",
+                    Object {
+                      "Ref": "AWS::Partition",
+                    },
+                    ":s3:::",
+                    Object {
+                      "Ref": "FilelistS3Location",
+                    },
+                  ],
+                ],
+              },
+              "Sid": "allowS3Access",
+            },
+            Object {
+              "Action": Array [
+                "glacier:GetJobOutput",
+                "glacier:InitiateJob",
+              ],
+              "Condition": Object {
+                "Bool": Object {
+                  "aws:SecureTransport": true,
+                },
+              },
+              "Effect": "Allow",
+              "Resource": Object {
+                "Fn::Join": Array [
+                  "",
+                  Array [
+                    "arn:",
+                    Object {
+                      "Ref": "AWS::Partition",
+                    },
+                    ":glacier:",
+                    Object {
+                      "Ref": "AWS::Region",
+                    },
+                    ":",
+                    Object {
+                      "Ref": "AWS::AccountId",
+                    },
+                    ":vaults/",
+                    Object {
+                      "Ref": "SourceVault",
+                    },
+                  ],
+                ],
+              },
+              "Sid": "allowGlacierAccess",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "stageOnerequestInventoryPolicyD8543EB2",
+        "Roles": Array [
+          Object {
+            "Ref": "stageOnerequestInventoryRoleC0473E06",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
     },
     "stageOnerequestInventoryRoleC0473E06": Object {
       "DependsOn": Array [
@@ -4310,39 +4514,6 @@ Object {
           "Statement": Array [
             Object {
               "Action": Array [
-                "logs:CreateLogGroup",
-                "logs:CreateLogStream",
-                "logs:PutLogEvents",
-              ],
-              "Effect": "Allow",
-              "Resource": Object {
-                "Fn::Join": Array [
-                  "",
-                  Array [
-                    "arn:",
-                    Object {
-                      "Ref": "AWS::Partition",
-                    },
-                    ":logs:",
-                    Object {
-                      "Ref": "AWS::Region",
-                    },
-                    ":",
-                    Object {
-                      "Ref": "AWS::AccountId",
-                    },
-                    ":log-group:/aws/lambda/",
-                    Object {
-                      "Ref": "AWS::StackName",
-                    },
-                    "-requestInventory:**",
-                  ],
-                ],
-              },
-              "Sid": "allowCloudWatchLogs",
-            },
-            Object {
-              "Action": Array [
                 "s3:GetObject*",
                 "s3:GetBucket*",
                 "s3:List*",
@@ -4426,73 +4597,6 @@ Object {
                 },
               ],
             },
-            Object {
-              "Action": Array [
-                "s3:ListBucket",
-                "s3:ListBucketMultipartUploads",
-                "s3:GetBucketLocation",
-                "s3:GetObject",
-                "s3:GetObjectAcl",
-              ],
-              "Condition": Object {
-                "Bool": Object {
-                  "aws:SecureTransport": true,
-                },
-              },
-              "Effect": "Allow",
-              "Resource": Object {
-                "Fn::Join": Array [
-                  "",
-                  Array [
-                    "arn:",
-                    Object {
-                      "Ref": "AWS::Partition",
-                    },
-                    ":s3:::",
-                    Object {
-                      "Ref": "FilelistS3Location",
-                    },
-                  ],
-                ],
-              },
-              "Sid": "allowS3Access",
-            },
-            Object {
-              "Action": Array [
-                "glacier:GetJobOutput",
-                "glacier:InitiateJob",
-              ],
-              "Condition": Object {
-                "Bool": Object {
-                  "aws:SecureTransport": true,
-                },
-              },
-              "Effect": "Allow",
-              "Resource": Object {
-                "Fn::Join": Array [
-                  "",
-                  Array [
-                    "arn:",
-                    Object {
-                      "Ref": "AWS::Partition",
-                    },
-                    ":glacier:",
-                    Object {
-                      "Ref": "AWS::Region",
-                    },
-                    ":",
-                    Object {
-                      "Ref": "AWS::AccountId",
-                    },
-                    ":vaults/",
-                    Object {
-                      "Ref": "SourceVault",
-                    },
-                  ],
-                ],
-              },
-              "Sid": "allowGlacierAccess",
-            },
           ],
           "Version": "2012-10-17",
         },
@@ -4574,7 +4678,7 @@ Object {
           "S3Bucket": Object {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": "94eb343c06f44986da8f426f8036717c0346871cfce520ecda815e2bb4968166.zip",
+          "S3Key": "ab89001feb9a1b04a27051526273c87b061549d735af06ebececb9a9ad4906e7.zip",
         },
         "Environment": Object {
           "Variables": Object {
@@ -4924,7 +5028,7 @@ Object {
           "S3Bucket": Object {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": "fca9565544b80b327b329e31a50e0e73bdf43a787f73e0af7e456e66dc8ce5df.zip",
+          "S3Key": "395ec1affb972724bd0996d776202588be4ddb21236e4bbd63f63bba8773e6d6.zip",
         },
         "Environment": Object {
           "Variables": Object {
@@ -5533,7 +5637,7 @@ Object {
           "S3Bucket": Object {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": "07c89d8b348b1450c00bbda543b23ff170908ed760e664e92aed7cbbeaa9fc42.zip",
+          "S3Key": "d1b70cfb75a5415a5c2c75de4087a1466eaded58fe4d9e472c444d4385a1ecb9.zip",
         },
         "Environment": Object {
           "Variables": Object {
@@ -6668,7 +6772,7 @@ Object {
           "S3Bucket": Object {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": "07a530436cd1a2f2f1bf2602179c779260a348021dfa5cbe5bcc1193183b299b.zip",
+          "S3Key": "dbc83b83f8234e83423836fb933afb5866303d207f6615edafa03b6d35f1834e.zip",
         },
         "Environment": Object {
           "Variables": Object {
@@ -7507,7 +7611,7 @@ Object {
           "S3Bucket": Object {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": "4d8445d1c31803a36379c4f561917ce20a84fe1960e038063f194df571c23d68.zip",
+          "S3Key": "99ad5e4558ddad051bd6be4ba7136e06d38f119817670debc026bf8f6c465be9.zip",
         },
         "Description": "This function generates UUID for each deployment",
         "FunctionName": Object {
@@ -7581,7 +7685,7 @@ Object {
           "S3Bucket": Object {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": "b255886659851f77d8edff828d255436752719ed17ccddb0a5f8b79e07d5ba67.zip",
+          "S3Key": "a1581c47bdb428ca74f8409c72ce9ac6f777fd970fe1e02835dee23498ca4897.zip",
         },
         "Description": "This function sends anonymous statistics to the AWS Solutions Builders team",
         "Environment": Object {

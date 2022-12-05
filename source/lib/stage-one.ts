@@ -85,17 +85,19 @@ export class StageOne extends Construct {
             },
         });
 
-        requestInventoryRole.addToPrincipalPolicy(
-            iamSec.IamPermissions.lambdaLogGroup(`${Aws.STACK_NAME}-requestInventory`)
-        );
+        const requestInventoryPolicy = new iam.Policy(this, "requestInventoryPolicy", {
+            statements: [
+                iamSec.IamPermissions.lambdaLogGroup(`${Aws.STACK_NAME}-requestInventory`),
+                iamSec.IamPermissions.s3ReadOnly([`arn:${Aws.PARTITION}:s3:::${props.filelistS3location}`]),
+                iamSec.IamPermissions.glacier(props.sourceGlacierVault),
+            ],
+        });
+        requestInventoryPolicy.attachToRole(requestInventoryRole);
         props.stagingBucket.grantReadWrite(requestInventoryRole);
         s3.Bucket.fromBucketName(this, "destinationBucket", props.destinationBucket).grantReadWrite(
             requestInventoryRole
         );
-        requestInventoryRole.addToPrincipalPolicy(
-            iamSec.IamPermissions.s3ReadOnly([`arn:${Aws.PARTITION}:s3:::${props.filelistS3location}`])
-        );
-        requestInventoryRole.addToPrincipalPolicy(iamSec.IamPermissions.glacier(props.sourceGlacierVault));
+
         CfnNagSuppressor.addLambdaSuppression(requestInventory);
 
         const requestInventoryTrigger = new CustomResource(this, "requestInventoryTrigger", {
@@ -152,11 +154,11 @@ export class StageOne extends Construct {
             },
         });
 
-        downloadInventoryRole.addToPrincipalPolicy(
-            iamSec.IamPermissions.lambdaLogGroup(`${Aws.STACK_NAME}-downloadInventory`)
-        );
+        const downloadInventoryPolicy = new iam.Policy(this, "downloadInventoryPolicy", {
+            statements: [iamSec.IamPermissions.lambdaLogGroup(`${Aws.STACK_NAME}-downloadInventory`), glacierAccess],
+        });
+        downloadInventoryPolicy.attachToRole(downloadInventoryRole);
         props.stagingBucket.grantReadWrite(downloadInventoryRole);
-        downloadInventoryRole.addToPrincipalPolicy(glacierAccess);
         downloadInventoryPart.grantInvoke(downloadInventoryRole);
         props.stageTwoOrchestrator.grant(downloadInventoryRole, "states:StartExecution");
         CfnNagSuppressor.addLambdaSuppression(downloadInventory);
