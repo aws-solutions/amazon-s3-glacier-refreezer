@@ -1,0 +1,42 @@
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+package-dir = {"" = "source"}
+
+[project]
+name = "refreezer"
+version = "2.0.0a0"
+description = "S3 Glacier Vault to Bucket ReFreezer on AWS"
+readme = "README.md"
+requires-python = ">=3.9"
+license = {text = "Apache Software License"}
+classifiers = [
+    "Development Status :: 2 - Pre-Alpha",
+    "Framework :: AWS CDK :: 2",
+    "License :: OSI Approved :: Apache Software License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Typing :: Typed",
+]
+dependencies = [
+    "boto3",
+    "aws-cdk-lib==2.60.0",
+    "constructs>=10.0.0,<11.0.0",
+]
+
+[project.scripts]
+cdk-app = "refreezer.app:main"
+
+[project.optional-dependencies]
+dev = [
+    "tox",
+    "boto3-stubs-lite[essential]",
+    "boto3-stubs-lite[ssm]"
+]

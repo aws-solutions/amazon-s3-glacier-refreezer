@@ -1,13 +1,3 @@
-# npm package lock
-source/package-lock.json
-
 # Emails are expected in these files
 CODE_OF_CONDUCT.md:4
 CONTRIBUTING.md:50
-
-# Using fake AccountId in a unit tests
-source/lambda/downloadInventory/tests/snsMessage.json:6
-source/lambda/downloadInventory/tests/index.test.js:93
-source/lambda/requestInventory/tests/glacierService.test.js:47
-source/lambda/calculateTreehash/tests/trigger.test.js:58
-source/lambda/copyChunk/tests/trigger.test.js:55
