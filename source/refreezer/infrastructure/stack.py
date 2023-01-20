@@ -5,18 +5,34 @@ SPDX-License-Identifier: Apache-2.0
 
 from aws_cdk import (
     Stack,
+    CfnOutput,
 )
-from aws_cdk import aws_ssm as ssm
+from aws_cdk import aws_dynamodb as dynamodb
 from constructs import Construct
 
 
+class OutputKeys:
+    ASYNC_FACILITATOR_TABLE_NAME = "AsyncFacilitatorTableName"
+
+
 class RefreezerStack(Stack):
+    outputs: dict[str, CfnOutput]
+
     def __init__(self, scope: Construct, construct_id: str) -> None:
         super().__init__(scope, construct_id)
 
-        ssm.StringParameter(
+        self.outputs = {}
+
+        table = dynamodb.Table(
             self,
-            "SomeParameter",
-            parameter_name="/refreezer/parameter",
-            string_value="foo",
+            "AsyncFacilitatorTable",
+            partition_key=dynamodb.Attribute(
+                name="job_id", type=dynamodb.AttributeType.STRING
+            ),
+        )
+
+        self.outputs[OutputKeys.ASYNC_FACILITATOR_TABLE_NAME] = CfnOutput(
+            self,
+            OutputKeys.ASYNC_FACILITATOR_TABLE_NAME,
+            value=table.table_name,
         )

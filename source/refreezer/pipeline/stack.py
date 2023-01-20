@@ -13,6 +13,10 @@ from constructs import Construct
 from refreezer.pipeline.source import CodeStarSource
 from refreezer.infrastructure.stack import RefreezerStack
 
+DEPLOY_STAGE_NAME = "test-deploy"
+REFREEZER_STACK_NAME = "refreezer"
+STACK_NAME = f"{DEPLOY_STAGE_NAME}-{REFREEZER_STACK_NAME}"
+
 
 class PipelineStack(Stack):
     """
@@ -86,7 +90,8 @@ class PipelineStack(Stack):
             ),
         )
 
-        pipeline.add_stage(DeployStage(self, "Deploy"))
+        deploy_stage = DeployStage(self, DEPLOY_STAGE_NAME)
+        pipeline.add_stage(deploy_stage)
 
         test_wave = pipeline.add_wave("Test")
         test_wave.add_post(
@@ -98,14 +103,22 @@ class PipelineStack(Stack):
                 commands=[
                     "tox -e integration -- --junitxml=pytest-integration-report.xml"
                 ],
+                env_from_cfn_outputs=deploy_stage.refreezer_stack.outputs,
                 role_policy_statements=[
                     iam.PolicyStatement(
                         effect=iam.Effect.ALLOW,
-                        actions=["ssm:Describe*", "ssm:Get*", "ssm:List*"],
-                        resources=[
-                            f"arn:aws:ssm:{Aws.REGION}:{Aws.ACCOUNT_ID}:parameter/refreezer/*"
+                        actions=[
+                            "dynamodb:GetItem",
+                            "dynamodb:PutItem",
+                            "dynamodb:DeleteItem",
                         ],
-                    )
+                        resources=[
+                            (
+                                f"arn:aws:dynamodb:{Aws.REGION}:{Aws.ACCOUNT_ID}:table/"
+                                f"{STACK_NAME}-AsyncFacilitatorTable*"
+                            )
+                        ],
+                    ),
                 ],
                 partial_build_spec=codebuild.BuildSpec.from_object(
                     {
@@ -125,7 +138,4 @@ class DeployStage(Stage):
     def __init__(self, scope: Construct, construct_id: str) -> None:
         super().__init__(scope, construct_id)
 
-        RefreezerStack(self, "refreezer")
-
-
-
+        self.refreezer_stack = RefreezerStack(self, REFREEZER_STACK_NAME)

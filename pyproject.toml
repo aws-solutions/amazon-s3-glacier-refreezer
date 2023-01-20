@@ -37,6 +37,7 @@ cdk-app = "refreezer.app:main"
 [project.optional-dependencies]
 dev = [
     "tox",
+    "pytest",
     "boto3-stubs-lite[essential]",
-    "boto3-stubs-lite[ssm]"
+    "boto3-stubs-lite[cloudformation]",
 ]
