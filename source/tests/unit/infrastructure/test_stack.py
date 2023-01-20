@@ -5,6 +5,7 @@ SPDX-License-Identifier: Apache-2.0
 
 import aws_cdk as core
 import aws_cdk.assertions as assertions
+import cdk_nag
 import pytest
 
 from refreezer.infrastructure.stack import (
@@ -16,12 +17,31 @@ from refreezer.infrastructure.stack import (
 @pytest.fixture
 def stack() -> RefreezerStack:
     app = core.App()
-    return RefreezerStack(app, "refreezer")
+    stack = RefreezerStack(app, "refreezer")
+    core.Aspects.of(stack).add(
+        cdk_nag.AwsSolutionsChecks(log_ignores=True, verbose=True)
+    )
+    return stack
 
 
 @pytest.fixture
 def template(stack: RefreezerStack) -> assertions.Template:
     return assertions.Template.from_stack(stack)
+
+
+def test_cdk_app() -> None:
+    import refreezer.app
+
+    refreezer.app.main()
+
+
+def test_cdk_nag(stack: RefreezerStack) -> None:
+    assertions.Annotations.from_stack(stack).has_no_error(
+        "*", assertions.Match.any_value()
+    )
+    assertions.Annotations.from_stack(stack).has_no_warning(
+        "*", assertions.Match.any_value()
+    )
 
 
 def test_job_tracking_table_created_with_cfn_output(
