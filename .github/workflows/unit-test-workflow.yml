@@ -1,6 +1,6 @@
 name: Unit test workflow
 
-on: [push]
+on: [push, pull_request]
 
 jobs:
   build:
@@ -25,10 +25,12 @@ jobs:
           pip install --upgrade pip
           pip install tox
           pip install tox-gh-actions
-      - name: Cache tox
+      - name: Cache tox and mypy
         uses: actions/cache@v3
         with:
-          path: .tox
+          path: |
+            .tox
+            .mypy_cache
           key: ${{ matrix.os }}-${{ matrix.python}}-tox-${{ hashFiles('pyproject.toml') }}-${{ hashFiles('tox.ini') }}-${{ hashFiles('.github/workflows/unit-test-workflow.yml') }}
       - name: Run Tox
         run: |

@@ -5,15 +5,56 @@ SPDX-License-Identifier: Apache-2.0
 
 import aws_cdk as core
 import aws_cdk.assertions as assertions
+import pytest
 
-from refreezer.infrastructure.stack import RefreezerStack
+from refreezer.infrastructure.stack import (
+    RefreezerStack,
+    OutputKeys,
+)
 
 
-def test_ssm_parameter_created() -> None:
+@pytest.fixture
+def stack() -> RefreezerStack:
     app = core.App()
-    stack = RefreezerStack(app, "refreezer")
-    template = assertions.Template.from_stack(stack)
-    template.resource_count_is("AWS::SSM::Parameter", 1)
-    template.has_resource_properties(
-        "AWS::SSM::Parameter", {"Name": "/refreezer/parameter"}
+    return RefreezerStack(app, "refreezer")
+
+
+@pytest.fixture
+def template(stack: RefreezerStack) -> assertions.Template:
+    return assertions.Template.from_stack(stack)
+
+
+def test_job_tracking_table_created_with_cfn_output(
+    stack: RefreezerStack, template: assertions.Template
+) -> None:
+    table = stack.node.find_child("AsyncFacilitatorTable").node.default_child
+    assert isinstance(table, core.CfnElement)
+    table_logical_id = stack.get_logical_id(table)
+
+    template_tables = template.find_resources(
+        "AWS::DynamoDB::Table",
+        {
+            "Properties": {
+                "KeySchema": [
+                    {
+                        "AttributeName": "job_id",
+                        "KeyType": "HASH",
+                    }
+                ],
+                "AttributeDefinitions": [
+                    {"AttributeName": "job_id", "AttributeType": "S"}
+                ],
+            },
+        },
     )
+    assert table_logical_id in template_tables
+    assert 1 == len(template_tables)
+
+    template.has_output(
+        OutputKeys.ASYNC_FACILITATOR_TABLE_NAME, {"Value": {"Ref": table_logical_id}}
+    )
+
+
+def test_cfn_outputs_logical_id_is_same_as_key(stack: RefreezerStack) -> None:
+    for key, output in stack.outputs.items():
+        assert key == stack.get_logical_id(output)
