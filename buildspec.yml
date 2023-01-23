@@ -1,29 +1,23 @@
 version: 0.2
 
 phases:
-  install:
-    runtime-versions:
-      nodejs: 14
-    commands:
-      - echo "nothing to do in install"
   pre_build:
     commands:
       - echo "Installing dependencies and executing unit tests - `pwd`"
-      - npm install -g npm@8.9.0
-      - echo "node use 16"
-      - n 16
-      - cd source
-      - chmod +x ./run-all-tests.sh && ./run-all-tests.sh
+      - mkdir -p deployment/global-s3-assets
+      - mkdir -p deployment/regional-s3-assets
+      - mkdir -p deployment/open-source
+      - touch deployment/open-source/source-is-on-github
+      - pip install ".[dev]"
+      - tox -- --cov --cov-report=term-missing --cov-report "xml:deployment/coverage.xml"
       - echo "Installing dependencies and executing unit tests completed `date`"
   build:
     commands:
       - echo "Starting build `date` in `pwd`"
-      - cd ../deployment
-      - chmod +x ./build-s3-dist.sh && ./build-s3-dist.sh $DIST_OUTPUT_BUCKET $SOLUTION_NAME $VERSION
+      - tox -e build
+      - mv dist/* deployment/regional-s3-assets
+      - npx cdk synth --asset-metadata false --path-metadata false refreezer > deployment/global-s3-assets/refreezer.template
       - echo "Build completed `date`"
-      - echo "Starting open-source-dist `date` in `pwd`"
-      - chmod +x ./build-open-source-dist.sh && ./build-open-source-dist.sh $SOLUTION_NAME
-      - echo "Open Source Dist completed `date`"
 
   post_build:
     commands:
@@ -35,5 +29,13 @@ phases:
 artifacts:
   files:
       - deployment/**/*
+      - source/**/*
       - buildspec.yml
       - CHANGELOG.md
+      - LICENSE.txt
+      - NOTICE.txt
+      - README.md
+      - CODE_OF_CONDUCT.md
+      - CONTRIBUTING.md
+      - sonar-project.properties
+      - .gitignore

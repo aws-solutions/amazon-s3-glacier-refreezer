@@ -29,6 +29,7 @@ class RefreezerStack(Stack):
             partition_key=dynamodb.Attribute(
                 name="job_id", type=dynamodb.AttributeType.STRING
             ),
+            point_in_time_recovery=True,
         )
 
         self.outputs[OutputKeys.ASYNC_FACILITATOR_TABLE_NAME] = CfnOutput(
