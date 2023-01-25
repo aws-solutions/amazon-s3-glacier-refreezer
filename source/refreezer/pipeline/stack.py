@@ -3,7 +3,9 @@ Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
 SPDX-License-Identifier: Apache-2.0
 """
 
-from aws_cdk import Stack, Stage, Aws
+from typing import Mapping
+
+from aws_cdk import Stack, Stage, Aws, CfnOutput
 from aws_cdk import aws_codebuild as codebuild
 from aws_cdk import pipelines
 from aws_cdk import aws_ssm as ssm
@@ -42,7 +44,30 @@ class PipelineStack(Stack):
     def __init__(self, scope: Construct, construct_id: str) -> None:
         super().__init__(scope, construct_id)
 
-        connection = CodeStarSource(
+        pipeline = pipelines.CodePipeline(
+            self,
+            "Pipeline",
+            synth=self.get_synth_step(),
+            code_build_defaults=pipelines.CodeBuildOptions(
+                build_environment=codebuild.BuildEnvironment(
+                    build_image=codebuild.LinuxBuildImage.STANDARD_6_0,
+                    compute_type=codebuild.ComputeType.LARGE,
+                )
+            ),
+        )
+
+        deploy_stage = DeployStage(self, DEPLOY_STAGE_NAME)
+        pipeline.add_stage(
+            deploy_stage,
+            post=[
+                self.get_integration_test_step(
+                    outputs_map=deploy_stage.refreezer_stack.outputs
+                )
+            ],
+        )
+
+    def get_connection(self) -> CodeStarSource:
+        return CodeStarSource(
             name="CodeStarConnection",
             connection_arn=ssm.StringParameter.value_for_string_parameter(
                 self, "/refreezer-build/connection/arn"
@@ -58,79 +83,61 @@ class PipelineStack(Stack):
             ),
         )
 
-        pipeline = pipelines.CodePipeline(
-            self,
-            "Pipeline",
-            synth=pipelines.CodeBuildStep(
-                "Synth",
-                input=connection,
-                install_commands=[
-                    'pip install ".[dev]"',
-                    "tox -- --junitxml=pytest-report.xml",
-                ],
-                commands=[
-                    "npx cdk synth",
-                ],
-                partial_build_spec=codebuild.BuildSpec.from_object(
-                    {
-                        "reports": {
-                            "pytest_reports": {
-                                "files": ["pytest-report.xml"],
-                                "file-format": "JUNITXML",
-                            }
-                        }
-                    }
+    def get_synth_step(self) -> pipelines.CodeBuildStep:
+        return pipelines.CodeBuildStep(
+            "Synth",
+            input=self.get_connection(),
+            install_commands=[
+                'pip install ".[dev]"',
+                "tox -- --junitxml=pytest-report.xml",
+            ],
+            commands=[
+                "npx cdk synth",
+            ],
+            partial_build_spec=self.get_reports_partial_build_spec("pytest-report.xml"),
+        )
+
+    def get_integration_test_step(
+        self, outputs_map: Mapping[str, CfnOutput]
+    ) -> pipelines.CodeBuildStep:
+        return pipelines.CodeBuildStep(
+            "IntegrationTest",
+            install_commands=[
+                "pip install tox",
+            ],
+            commands=["tox -e integration -- --junitxml=pytest-integration-report.xml"],
+            env_from_cfn_outputs=outputs_map,
+            role_policy_statements=[
+                iam.PolicyStatement(
+                    effect=iam.Effect.ALLOW,
+                    actions=[
+                        "dynamodb:GetItem",
+                        "dynamodb:PutItem",
+                        "dynamodb:DeleteItem",
+                    ],
+                    resources=[
+                        (
+                            f"arn:aws:dynamodb:{Aws.REGION}:{Aws.ACCOUNT_ID}:table/"
+                            f"{STACK_NAME}-AsyncFacilitatorTable*"
+                        )
+                    ],
                 ),
-            ),
-            code_build_defaults=pipelines.CodeBuildOptions(
-                build_environment=codebuild.BuildEnvironment(
-                    build_image=codebuild.LinuxBuildImage.STANDARD_6_0,
-                    compute_type=codebuild.ComputeType.LARGE,
-                )
+            ],
+            partial_build_spec=self.get_reports_partial_build_spec(
+                "pytest-integration-report.xml"
             ),
         )
 
-        deploy_stage = DeployStage(self, DEPLOY_STAGE_NAME)
-        pipeline.add_stage(deploy_stage)
-
-        test_wave = pipeline.add_wave("Test")
-        test_wave.add_post(
-            pipelines.CodeBuildStep(
-                "IntegrationTest",
-                install_commands=[
-                    "pip install tox",
-                ],
-                commands=[
-                    "tox -e integration -- --junitxml=pytest-integration-report.xml"
-                ],
-                env_from_cfn_outputs=deploy_stage.refreezer_stack.outputs,
-                role_policy_statements=[
-                    iam.PolicyStatement(
-                        effect=iam.Effect.ALLOW,
-                        actions=[
-                            "dynamodb:GetItem",
-                            "dynamodb:PutItem",
-                            "dynamodb:DeleteItem",
-                        ],
-                        resources=[
-                            (
-                                f"arn:aws:dynamodb:{Aws.REGION}:{Aws.ACCOUNT_ID}:table/"
-                                f"{STACK_NAME}-AsyncFacilitatorTable*"
-                            )
-                        ],
-                    ),
-                ],
-                partial_build_spec=codebuild.BuildSpec.from_object(
-                    {
-                        "reports": {
-                            "pytest_reports": {
-                                "files": ["pytest-integration-report.xml"],
-                                "file-format": "JUNITXML",
-                            }
-                        }
+    def get_reports_partial_build_spec(self, filename: str) -> codebuild.BuildSpec:
+        return codebuild.BuildSpec.from_object(
+            {
+                "reports": {
+                    "pytest_reports": {
+                        "files": [filename],
+                        "file-format": "JUNITXML",
                     }
-                ),
-            )
+                }
+            }
         )
 
 
