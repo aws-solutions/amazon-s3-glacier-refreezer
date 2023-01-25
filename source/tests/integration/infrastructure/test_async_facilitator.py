@@ -16,9 +16,11 @@ from refreezer.pipeline.stack import STACK_NAME
 if typing.TYPE_CHECKING:
     from mypy_boto3_cloudformation import CloudFormationClient
     from mypy_boto3_dynamodb import DynamoDBClient
+    from mypy_boto3_sns import SNSClient
 else:
     CloudFormationClient = object
     DynamoDBClient = object
+    SNSClient = object
 
 
 @pytest.fixture(autouse=True)
@@ -47,3 +49,11 @@ def test_table_access_pattern_and_partition_key() -> None:
         == client.get_item(TableName=table_name, Key=key)["Item"]["testing_value"]["S"]
     )
     client.delete_item(TableName=table_name, Key=key)
+
+
+def test_topic_publish() -> None:
+    topic_arn = os.environ[OutputKeys.ASYNC_FACILITATOR_TOPIC_ARN]
+    client: SNSClient = boto3.client("sns")
+
+    response = client.publish(Message="test message", TopicArn=topic_arn)
+    assert 200 == response["ResponseMetadata"]["HTTPStatusCode"]

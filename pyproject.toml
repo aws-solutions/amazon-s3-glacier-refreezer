@@ -42,4 +42,5 @@ dev = [
     "cdk-nag",
     "boto3-stubs-lite[essential]",
     "boto3-stubs-lite[cloudformation]",
+    "boto3-stubs-lite[sns]",
 ]
