@@ -34,19 +34,22 @@ def template(stack: RefreezerStack) -> assertions.Template:
 def assert_resource_name_has_correct_type_and_props(
     stack: RefreezerStack,
     template: assertions.Template,
-    name: str,
+    resources_list: typing.List[str],
     cfn_type: str,
     props: typing.Any,
 ) -> None:
     resources = template.find_resources(type=cfn_type, props=props)
     assert 1 == len(resources)
-    assert get_logical_id(stack, name) in resources
+    assert get_logical_id(stack, resources_list) in resources
 
 
-def get_logical_id(stack: RefreezerStack, name: str) -> str:
-    element = stack.node.find_child(name).node.default_child
-    assert isinstance(element, core.CfnElement)
-    return stack.get_logical_id(element)
+def get_logical_id(stack: RefreezerStack, resources_list: typing.List[str]) -> str:
+    node = stack.node
+    for resource in resources_list:
+        node = node.find_child(resource).node
+    cfnElement = node.default_child
+    assert isinstance(cfnElement, core.CfnElement)
+    return stack.get_logical_id(cfnElement)
 
 
 def test_cdk_app() -> None:
@@ -67,11 +70,11 @@ def test_cdk_nag(stack: RefreezerStack) -> None:
 def test_job_tracking_table_created_with_cfn_output(
     stack: RefreezerStack, template: assertions.Template
 ) -> None:
-    resource_name = "AsyncFacilitatorTable"
+    resources_list = ["AsyncFacilitatorTable"]
     assert_resource_name_has_correct_type_and_props(
         stack,
         template,
-        name=resource_name,
+        resources_list=resources_list,
         cfn_type="AWS::DynamoDB::Table",
         props={
             "Properties": {
@@ -90,7 +93,7 @@ def test_job_tracking_table_created_with_cfn_output(
 
     template.has_output(
         OutputKeys.ASYNC_FACILITATOR_TABLE_NAME,
-        {"Value": {"Ref": get_logical_id(stack, resource_name)}},
+        {"Value": {"Ref": get_logical_id(stack, resources_list)}},
     )
 
 
@@ -108,12 +111,12 @@ def test_cfn_outputs_logical_id_is_same_as_key(stack: RefreezerStack) -> None:
 def test_glacier_sns_topic_created(
     stack: RefreezerStack, template: assertions.Template
 ) -> None:
-    resource_name = "AsyncFacilitatorTopic"
-    logical_id = get_logical_id(stack, resource_name)
+    resources_list = ["AsyncFacilitatorTopic"]
+    logical_id = get_logical_id(stack, resources_list)
     assert_resource_name_has_correct_type_and_props(
         stack,
         template,
-        name=resource_name,
+        resources_list=resources_list,
         cfn_type="AWS::SNS::Topic",
         props={"Properties": {"KmsMasterKeyId": assertions.Match.any_value()}},
     )
