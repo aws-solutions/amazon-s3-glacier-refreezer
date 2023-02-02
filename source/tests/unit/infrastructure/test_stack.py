@@ -172,3 +172,192 @@ def test_buckets_created(stack: RefreezerStack, template: assertions.Template) -
     assert 2 == len(resources)
     assert get_logical_id(stack, ["OutputBucket"]) in resources
     assert get_logical_id(stack, ["InventoryBucket"]) in resources
+
+    template.has_resource_properties(
+        "AWS::S3::BucketPolicy",
+        {
+            "Bucket": {"Ref": logical_id},
+            "PolicyDocument": {
+                "Statement": [
+                    {
+                        "Action": "s3:*",
+                        "Condition": {"Bool": {"aws:SecureTransport": "false"}},
+                        "Effect": "Deny",
+                        "Principal": {"AWS": "*"},
+                        "Resource": [
+                            {"Fn::GetAtt": [logical_id, "Arn"]},
+                            {
+                                "Fn::Join": [
+                                    "",
+                                    [
+                                        {
+                                            "Fn::GetAtt": [
+                                                logical_id,
+                                                "Arn",
+                                            ]
+                                        },
+                                        "/*",
+                                    ],
+                                ]
+                            },
+                        ],
+                    },
+                ],
+            },
+        },
+    )
+
+
+def test_step_function_created(
+    stack: RefreezerStack, template: assertions.Template
+) -> None:
+    resources_list = ["InitiateRetrievalNestedDistributedMap", "StateMachine"]
+    state_machine_logical_id = get_logical_id(stack, resources_list)
+    bucket_logical_id = get_logical_id(stack, ["InventoryBucket"])
+    log_group_logical_id = get_logical_id(
+        stack, ["InitiateRetrievalNestedDistributedMap", "SfnLogGroup"]
+    )
+    assert_resource_name_has_correct_type_and_props(
+        stack,
+        template,
+        resources_list=resources_list,
+        cfn_type="AWS::StepFunctions::StateMachine",
+        props={
+            "Properties": {
+                "DefinitionString": {
+                    "Fn::Join": [
+                        "",
+                        [
+                            assertions.Match.string_like_regexp(
+                                (
+                                    r'{"StartAt":"ProcessS3Objects","States":{"ProcessS3Objects":{"End":true,"Type":"Map","MaxConcurrency":[0-9]+,'
+                                    r'"ItemReader":{"Resource":"arn:aws:states:::s3:listObjectsV2",'
+                                    r'"ReaderConfig":{},"Parameters":{"Bucket":"'
+                                )
+                            ),
+                            {"Ref": bucket_logical_id},
+                            '"}},"ItemSelector":{"bucket":"',
+                            {"Ref": bucket_logical_id},
+                            assertions.Match.string_like_regexp(
+                                (
+                                    r'","item.\$":"\$\$.Map.Item.Value"},'
+                                    r'"ItemProcessor":{"ProcessorConfig":{"Mode":"DISTRIBUTED","ExecutionType":"STANDARD"},'
+                                    r'"StartAt":"ProcessCSVFile","States":{"ProcessCSVFile":{"End":true,"Type":"Map","MaxConcurrency":[0-9]+,'
+                                    r'"ItemReader":{"Resource":"arn:aws:states:::s3:getObject","ReaderConfig":{"InputType":"CSV","CSVHeaderLocation":"FIRST_ROW"},'
+                                    r'"Parameters":{"Bucket.\$":"\$.bucket","Key.\$":"\$.item.Key"}},'
+                                    r'"ItemSelector":{"bucket.\$":"\$.bucket","key.\$":"\$.item.Key","item.\$":"\$\$.Map.Item.Value"},'
+                                    r'"ItemProcessor":{"ProcessorConfig":{"Mode":"DISTRIBUTED","ExecutionType":"STANDARD"},'
+                                    r'"StartAt":".+","States":[\s\{]*(\{.*\})[\s\}]*},'
+                                    r'"ResultSelector":{},"ResultPath":"\$.map_result"}}},'
+                                    r'"ResultSelector":{},"ResultPath":"\$.map_result"}}}'
+                                )
+                            ),
+                        ],
+                    ]
+                },
+                "LoggingConfiguration": {
+                    "Destinations": [
+                        {
+                            "CloudWatchLogsLogGroup": {
+                                "LogGroupArn": {
+                                    "Fn::GetAtt": [log_group_logical_id, "Arn"]
+                                }
+                            }
+                        }
+                    ],
+                    "Level": "ALL",
+                },
+                "TracingConfiguration": {"Enabled": True},
+            }
+        },
+    )
+
+    template.has_resource_properties(
+        "AWS::Logs::LogGroup",
+        {"RetentionInDays": assertions.Match.any_value()},
+    )
+
+    template.has_resource_properties(
+        "AWS::IAM::Policy",
+        {
+            "PolicyDocument": {
+                "Statement": [
+                    {
+                        "Action": [
+                            "logs:CreateLogDelivery",
+                            "logs:GetLogDelivery",
+                            "logs:UpdateLogDelivery",
+                            "logs:DeleteLogDelivery",
+                            "logs:ListLogDeliveries",
+                            "logs:PutResourcePolicy",
+                            "logs:DescribeResourcePolicies",
+                            "logs:DescribeLogGroups",
+                        ],
+                        "Effect": "Allow",
+                        "Resource": "*",
+                    },
+                    {
+                        "Action": [
+                            "xray:PutTraceSegments",
+                            "xray:PutTelemetryRecords",
+                            "xray:GetSamplingRules",
+                            "xray:GetSamplingTargets",
+                        ],
+                        "Effect": "Allow",
+                        "Resource": "*",
+                    },
+                    {
+                        "Action": ["s3:GetObject*", "s3:GetBucket*", "s3:List*"],
+                        "Effect": "Allow",
+                        "Resource": [
+                            {"Fn::GetAtt": [bucket_logical_id, "Arn"]},
+                            {
+                                "Fn::Join": [
+                                    "",
+                                    [{"Fn::GetAtt": [bucket_logical_id, "Arn"]}, "/*"],
+                                ]
+                            },
+                        ],
+                    },
+                ],
+            },
+        },
+    )
+
+    template.has_resource_properties(
+        "AWS::IAM::Policy",
+        {
+            "PolicyDocument": {
+                "Statement": [
+                    {
+                        "Action": "states:StartExecution",
+                        "Effect": "Allow",
+                        "Resource": {"Ref": state_machine_logical_id},
+                    },
+                    {
+                        "Action": ["states:DescribeExecution", "states:StopExecution"],
+                        "Effect": "Allow",
+                        "Resource": {
+                            "Fn::Join": [
+                                "",
+                                [
+                                    "arn:aws:states:",
+                                    {"Ref": "AWS::Region"},
+                                    ":",
+                                    {"Ref": "AWS::AccountId"},
+                                    ":execution:",
+                                    {
+                                        "Fn::GetAtt": [
+                                            state_machine_logical_id,
+                                            "Name",
+                                        ]
+                                    },
+                                    "/*",
+                                ],
+                            ]
+                        },
+                    },
+                ],
+            }
+        },
+    )
