@@ -24,6 +24,7 @@ class OutputKeys:
     ASYNC_FACILITATOR_TOPIC_ARN = "AsyncFacilitatorTopicArn"
     OUTPUT_BUCKET_NAME = "OutputBucketName"
     INVENTORY_BUCKET_NAME = "InventoryBucketName"
+    INITIATE_RETRIEVAL_STATE_MACHINE_ARN = "InitiateRetrievalStateMachineArn"
 
 
 class RefreezerStack(Stack):
@@ -67,40 +68,6 @@ class RefreezerStack(Stack):
                 principals=[iam.AnyPrincipal()],
                 resources=[topic.topic_arn],
             )
-        )
-
-        access_log_bucket = s3.Bucket(
-            self,
-            "AccessLogBucket",
-            block_public_access=s3.BlockPublicAccess.BLOCK_ALL,
-            encryption=s3.BucketEncryption.S3_MANAGED,
-            enforce_ssl=True,
-            versioned=True,
-            removal_policy=RemovalPolicy.DESTROY,
-            server_access_logs_prefix="logBucketAccessLog",
-        )
-
-        inventory_bucket = s3.Bucket(
-            self,
-            "InventoryBucket",
-            block_public_access=s3.BlockPublicAccess.BLOCK_ALL,
-            encryption=s3.BucketEncryption.S3_MANAGED,
-            enforce_ssl=True,
-            versioned=True,
-            removal_policy=RemovalPolicy.DESTROY,
-            server_access_logs_bucket=access_log_bucket,
-            server_access_logs_prefix="log",
-        )
-
-        # TODO to be replaced by Initiate Retrieval state machine inner logic.
-        inner_logic_definition = sfn.Succeed(self, "Test Success state")
-
-        NestedDistributedMap(
-            self,
-            nested_distributed_map_id="InitiateRetrievalNestedDistributedMap",
-            bucket=inventory_bucket,
-            definition=inner_logic_definition,
-            max_concurrency=1,
         )
 
         self.outputs[OutputKeys.ASYNC_FACILITATOR_TOPIC_ARN] = CfnOutput(
@@ -163,4 +130,21 @@ class RefreezerStack(Stack):
                     "reason": "Inventory Bucket has server access logs disabled and will be addressed later.",
                 }
             ],
+        )
+
+        # TODO to be replaced by Initiate Retrieval state machine inner logic.
+        inner_logic_definition = sfn.Succeed(self, "Test Success state")
+
+        initiate_retrieval_nested_distributed_map = NestedDistributedMap(
+            self,
+            nested_distributed_map_id="InitiateRetrievalNestedDistributedMap",
+            bucket=inventory_bucket,
+            definition=inner_logic_definition,
+            max_concurrency=1,
+        )
+
+        self.outputs[OutputKeys.INITIATE_RETRIEVAL_STATE_MACHINE_ARN] = CfnOutput(
+            self,
+            OutputKeys.INITIATE_RETRIEVAL_STATE_MACHINE_ARN,
+            value=initiate_retrieval_nested_distributed_map.state_machine.state_machine_arn,
         )

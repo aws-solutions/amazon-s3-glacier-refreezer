@@ -173,40 +173,6 @@ def test_buckets_created(stack: RefreezerStack, template: assertions.Template) -
     assert get_logical_id(stack, ["OutputBucket"]) in resources
     assert get_logical_id(stack, ["InventoryBucket"]) in resources
 
-    template.has_resource_properties(
-        "AWS::S3::BucketPolicy",
-        {
-            "Bucket": {"Ref": logical_id},
-            "PolicyDocument": {
-                "Statement": [
-                    {
-                        "Action": "s3:*",
-                        "Condition": {"Bool": {"aws:SecureTransport": "false"}},
-                        "Effect": "Deny",
-                        "Principal": {"AWS": "*"},
-                        "Resource": [
-                            {"Fn::GetAtt": [logical_id, "Arn"]},
-                            {
-                                "Fn::Join": [
-                                    "",
-                                    [
-                                        {
-                                            "Fn::GetAtt": [
-                                                logical_id,
-                                                "Arn",
-                                            ]
-                                        },
-                                        "/*",
-                                    ],
-                                ]
-                            },
-                        ],
-                    },
-                ],
-            },
-        },
-    )
-
 
 def test_step_function_created(
     stack: RefreezerStack, template: assertions.Template
