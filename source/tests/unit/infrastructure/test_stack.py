@@ -16,19 +16,19 @@ from refreezer.infrastructure.stack import (
 )
 
 
-@pytest.fixture
-def stack() -> RefreezerStack:
-    app = core.App()
-    stack = RefreezerStack(app, "refreezer")
-    core.Aspects.of(stack).add(
-        cdk_nag.AwsSolutionsChecks(log_ignores=True, verbose=True)
+def test_cdk_app() -> None:
+    import refreezer.app
+
+    refreezer.app.main()
+
+
+def test_cdk_nag(stack: RefreezerStack) -> None:
+    assertions.Annotations.from_stack(stack).has_no_error(
+        "*", assertions.Match.any_value()
     )
-    return stack
-
-
-@pytest.fixture
-def template(stack: RefreezerStack) -> assertions.Template:
-    return assertions.Template.from_stack(stack)
+    assertions.Annotations.from_stack(stack).has_no_warning(
+        "*", assertions.Match.any_value()
+    )
 
 
 def assert_resource_name_has_correct_type_and_props(
@@ -50,21 +50,6 @@ def get_logical_id(stack: RefreezerStack, resources_list: typing.List[str]) -> s
     cfnElement = node.default_child
     assert isinstance(cfnElement, core.CfnElement)
     return stack.get_logical_id(cfnElement)
-
-
-def test_cdk_app() -> None:
-    import refreezer.app
-
-    refreezer.app.main()
-
-
-def test_cdk_nag(stack: RefreezerStack) -> None:
-    assertions.Annotations.from_stack(stack).has_no_error(
-        "*", assertions.Match.any_value()
-    )
-    assertions.Annotations.from_stack(stack).has_no_warning(
-        "*", assertions.Match.any_value()
-    )
 
 
 def test_job_tracking_table_created_with_cfn_output(

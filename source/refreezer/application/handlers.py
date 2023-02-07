@@ -3,22 +3,41 @@ Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
 SPDX-License-Identifier: Apache-2.0
 """
 
-from typing import Dict, Any
+import boto3
 import logging
+from typing import List, Dict, TYPE_CHECKING, Optional, Any
 
+from refreezer.application.facilitator.processor import sns_handler, dynamoDb_handler
 from refreezer.application.chunking.inventory import generate_chunk_array
 from refreezer.application.archive_transfer.facilitator import (
     ArchiveTransferFacilitator,
 )
 
-LOGGER = logging.getLogger()
-LOGGER.setLevel(logging.INFO)
+
+if TYPE_CHECKING:
+    from mypy_boto3_stepfunctions.client import SFNClient
+else:
+    SFNClient = object
+
+logger = logging.getLogger()
+logger.setLevel(logging.INFO)
+
+
+def async_facilitator_handler(
+    event: Dict[str, List[Any]], _: Optional[Dict[str, Any]]
+) -> None:
+    sfn_client: SFNClient = boto3.client("stepfunctions")
+    for record in event["Records"]:
+        if record.get("EventSource") == "aws:sns":
+            sns_handler(record, sfn_client)
+        else:
+            dynamoDb_handler(record, sfn_client)
 
 
 def chunk_retrieval_lambda_handler(
     event: Dict[str, Any], _context: Any
 ) -> Dict[str, Any]:
-    LOGGER.info("Chunk retrieval lambda has been invoked.")
+    logger.info("Chunk retrieval lambda has been invoked.")
     facilitator = ArchiveTransferFacilitator(
         event["JobId"],
         event["VaultName"],
@@ -38,7 +57,7 @@ def chunk_retrieval_lambda_handler(
 def inventory_chunk_lambda_handler(
     event: Dict[str, Any], context: Any
 ) -> Dict[str, Any]:
-    LOGGER.info("Inventory chunk lambda has been invoked.")
+    logger.info("Inventory chunk lambda has been invoked.")
 
     inventory_size = event["InventorySize"]
     maximum_inventory_record_size = event["MaximumInventoryRecordSize"]
@@ -54,6 +73,6 @@ def inventory_chunk_lambda_handler(
 def inventory_chunk_download_lambda_handler(
     event: Dict[str, Any], context: Any
 ) -> Dict[str, Any]:
-    LOGGER.info("Chunk retrieval lambda has been invoked.")
+    logger.info("Chunk retrieval lambda has been invoked.")
 
     return {"InventoryRetrieved": "TRUE"}
