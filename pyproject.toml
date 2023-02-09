@@ -29,6 +29,7 @@ dependencies = [
     "boto3",
     "aws-cdk-lib==2.60.0",
     "constructs>=10.0.0,<11.0.0",
+    "cdk-nag",
 ]
 
 [project.scripts]
@@ -43,4 +44,5 @@ dev = [
     "boto3-stubs-lite[essential]",
     "boto3-stubs-lite[cloudformation]",
     "boto3-stubs-lite[sns]",
+    "boto3-stubs-lite[s3]",
 ]

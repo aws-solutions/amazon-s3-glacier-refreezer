@@ -147,3 +147,29 @@ def test_glacier_sns_topic_created(
             ],
         },
     )
+
+
+def test_buckets_created(stack: RefreezerStack, template: assertions.Template) -> None:
+    resources_list = ["OutputBucket"]
+    assert_resource_name_has_correct_type_and_props(
+        stack,
+        template,
+        resources_list=resources_list,
+        cfn_type="AWS::S3::Bucket",
+        props={
+            "Properties": {
+                "BucketEncryption": {
+                    "ServerSideEncryptionConfiguration": [
+                        {"ServerSideEncryptionByDefault": {"SSEAlgorithm": "AES256"}}
+                    ]
+                },
+                "PublicAccessBlockConfiguration": {
+                    "BlockPublicAcls": True,
+                    "BlockPublicPolicy": True,
+                    "IgnorePublicAcls": True,
+                    "RestrictPublicBuckets": True,
+                },
+                "VersioningConfiguration": {"Status": "Enabled"},
+            }
+        },
+    )

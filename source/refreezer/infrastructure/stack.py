@@ -11,12 +11,16 @@ from aws_cdk import aws_dynamodb as dynamodb
 from aws_cdk import aws_iam as iam
 from aws_cdk import aws_kms as kms
 from aws_cdk import aws_sns as sns
+from aws_cdk import aws_s3 as s3
+from aws_cdk import RemovalPolicy
+from cdk_nag import NagSuppressions
 from constructs import Construct
 
 
 class OutputKeys:
     ASYNC_FACILITATOR_TABLE_NAME = "AsyncFacilitatorTableName"
     ASYNC_FACILITATOR_TOPIC_ARN = "AsyncFacilitatorTopicArn"
+    OUTPUT_BUCKET_NAME = "OutputBucketName"
 
 
 class RefreezerStack(Stack):
@@ -66,4 +70,31 @@ class RefreezerStack(Stack):
             self,
             OutputKeys.ASYNC_FACILITATOR_TOPIC_ARN,
             value=topic.topic_arn,
+        )
+
+        # Bucket to store the restored vault. This will eventually be made configurable.
+        output_bucket = s3.Bucket(
+            self,
+            "OutputBucket",
+            block_public_access=s3.BlockPublicAccess.BLOCK_ALL,
+            encryption=s3.BucketEncryption.S3_MANAGED,
+            enforce_ssl=True,
+            versioned=True,
+            removal_policy=RemovalPolicy.RETAIN,
+        )
+
+        self.outputs[OutputKeys.OUTPUT_BUCKET_NAME] = CfnOutput(
+            self,
+            OutputKeys.OUTPUT_BUCKET_NAME,
+            value=output_bucket.bucket_name,
+        )
+
+        NagSuppressions.add_resource_suppressions(
+            output_bucket,
+            [
+                {
+                    "id": "AwsSolutions-S1",
+                    "reason": "Output Bucket has server access logs disabled and will be address later.",
+                }
+            ],
         )
