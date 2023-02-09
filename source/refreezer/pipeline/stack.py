@@ -129,6 +129,11 @@ class PipelineStack(Stack):
                         f"arn:aws:sns:{Aws.REGION}:{Aws.ACCOUNT_ID}:{STACK_NAME}-AsyncFacilitatorTopic*"
                     ],
                 ),
+                iam.PolicyStatement(
+                    effect=iam.Effect.ALLOW,
+                    actions=["s3:PutObject", "s3:DeleteObject", "s3:GetObject"],
+                    resources=[f"arn:aws:s3:::{STACK_NAME}-outputbucket*"],
+                ),
             ],
             partial_build_spec=self.get_reports_partial_build_spec(
                 "pytest-integration-report.xml"
