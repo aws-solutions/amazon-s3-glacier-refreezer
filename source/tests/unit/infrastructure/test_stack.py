@@ -233,3 +233,27 @@ def test_chunk_retrieval_lambda_created(
         OutputKeys.CHUNK_RETRIEVAL_LAMBDA_ARN,
         {"Value": {"Ref": logical_id}},
     )
+
+
+def test_inventory_chunk_determination_created(
+    stack: RefreezerStack, template: assertions.Template
+) -> None:
+    resources_list = ["InventoryChunkDetermination"]
+    logical_id = get_logical_id(stack, resources_list)
+    assert_resource_name_has_correct_type_and_props(
+        stack,
+        template,
+        resources_list=resources_list,
+        cfn_type="AWS::Lambda::Function",
+        props={
+            "Properties": {
+                "Handler": "refreezer.application.handlers.inventory_chunk_lambda_handler",
+                "Runtime": "python3.9",
+            },
+        },
+    )
+
+    template.has_output(
+        OutputKeys.INVENTORY_CHUNK_DETERMINATION_LAMBDA_ARN,
+        {"Value": {"Ref": logical_id}},
+    )
