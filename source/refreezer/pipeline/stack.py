@@ -132,7 +132,10 @@ class PipelineStack(Stack):
                 iam.PolicyStatement(
                     effect=iam.Effect.ALLOW,
                     actions=["s3:PutObject", "s3:DeleteObject", "s3:GetObject"],
-                    resources=[f"arn:aws:s3:::{STACK_NAME}-outputbucket*"],
+                    resources=[
+                        f"arn:aws:s3:::{STACK_NAME}-outputbucket*",
+                        f"arn:aws:s3:::{STACK_NAME}-inventorybucket*",
+                    ],
                 ),
             ],
             partial_build_spec=self.get_reports_partial_build_spec(

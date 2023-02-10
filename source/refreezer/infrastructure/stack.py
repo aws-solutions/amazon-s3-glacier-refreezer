@@ -21,6 +21,7 @@ class OutputKeys:
     ASYNC_FACILITATOR_TABLE_NAME = "AsyncFacilitatorTableName"
     ASYNC_FACILITATOR_TOPIC_ARN = "AsyncFacilitatorTopicArn"
     OUTPUT_BUCKET_NAME = "OutputBucketName"
+    INVENTORY_BUCKET_NAME = "InventoryBucketName"
 
 
 class RefreezerStack(Stack):
@@ -72,7 +73,8 @@ class RefreezerStack(Stack):
             value=topic.topic_arn,
         )
 
-        # Bucket to store the restored vault. This will eventually be made configurable.
+        # Bucket to store the restored vault.
+        # TODO This bucket will be made configurable in a future task.
         output_bucket = s3.Bucket(
             self,
             "OutputBucket",
@@ -94,7 +96,35 @@ class RefreezerStack(Stack):
             [
                 {
                     "id": "AwsSolutions-S1",
-                    "reason": "Output Bucket has server access logs disabled and will be address later.",
+                    "reason": "Output Bucket has server access logs disabled and will be addressed later.",
+                }
+            ],
+        )
+
+        # Bucket to store the inventory and the Glue output after it's sorted.
+        # TODO This bucket will be made configurable in a future task.
+        inventory_bucket = s3.Bucket(
+            self,
+            "InventoryBucket",
+            block_public_access=s3.BlockPublicAccess.BLOCK_ALL,
+            encryption=s3.BucketEncryption.S3_MANAGED,
+            enforce_ssl=True,
+            versioned=True,
+            removal_policy=RemovalPolicy.RETAIN,
+        )
+
+        self.outputs[OutputKeys.INVENTORY_BUCKET_NAME] = CfnOutput(
+            self,
+            OutputKeys.INVENTORY_BUCKET_NAME,
+            value=inventory_bucket.bucket_name,
+        )
+
+        NagSuppressions.add_resource_suppressions(
+            inventory_bucket,
+            [
+                {
+                    "id": "AwsSolutions-S1",
+                    "reason": "Inventory Bucket has server access logs disabled and will be addressed later.",
                 }
             ],
         )

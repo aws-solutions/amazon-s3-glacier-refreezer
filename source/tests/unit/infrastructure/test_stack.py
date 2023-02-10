@@ -150,12 +150,8 @@ def test_glacier_sns_topic_created(
 
 
 def test_buckets_created(stack: RefreezerStack, template: assertions.Template) -> None:
-    resources_list = ["OutputBucket"]
-    assert_resource_name_has_correct_type_and_props(
-        stack,
-        template,
-        resources_list=resources_list,
-        cfn_type="AWS::S3::Bucket",
+    resources = template.find_resources(
+        type="AWS::S3::Bucket",
         props={
             "Properties": {
                 "BucketEncryption": {
@@ -173,3 +169,6 @@ def test_buckets_created(stack: RefreezerStack, template: assertions.Template) -
             }
         },
     )
+    assert 2 == len(resources)
+    assert get_logical_id(stack, ["OutputBucket"]) in resources
+    assert get_logical_id(stack, ["InventoryBucket"]) in resources
