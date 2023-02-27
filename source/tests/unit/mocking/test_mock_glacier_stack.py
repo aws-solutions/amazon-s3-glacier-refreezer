@@ -10,7 +10,7 @@ import aws_cdk.assertions as assertions
 import cdk_nag
 import pytest
 
-from refreezer.infrastructure.mock_glacier_stack import MockGlacierStack
+from refreezer.mocking.mock_glacier_stack import MockGlacierStack
 
 
 @pytest.fixture
@@ -35,7 +35,7 @@ def test_mock_glacier_initiate_job_lambda_created(
         type="AWS::Lambda::Function",
         props={
             "Properties": {
-                "Handler": "refreezer.application.handlers.mock_glacier_initiate_job_task_handler",
+                "Handler": "refreezer.application.mocking.handlers.mock_glacier_initiate_job_task_handler",
                 "Runtime": "python3.9",
             },
         },
