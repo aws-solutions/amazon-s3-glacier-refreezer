@@ -14,9 +14,11 @@ from constructs import Construct
 
 from refreezer.pipeline.source import CodeStarSource
 from refreezer.infrastructure.stack import RefreezerStack
+from refreezer.infrastructure.mock_glacier_stack import MockGlacierStack
 
 DEPLOY_STAGE_NAME = "test-deploy"
 REFREEZER_STACK_NAME = "refreezer"
+MOCK_GLACIER_STACK_NAME = "mock-glacier"
 STACK_NAME = f"{DEPLOY_STAGE_NAME}-{REFREEZER_STACK_NAME}"
 
 
@@ -159,5 +161,7 @@ class PipelineStack(Stack):
 class DeployStage(Stage):
     def __init__(self, scope: Construct, construct_id: str) -> None:
         super().__init__(scope, construct_id)
-
-        self.refreezer_stack = RefreezerStack(self, REFREEZER_STACK_NAME)
+        mock_glacier_stack = MockGlacierStack(self, MOCK_GLACIER_STACK_NAME)
+        self.refreezer_stack = RefreezerStack(
+            self, REFREEZER_STACK_NAME, mock_glacier_stack.params
+        )

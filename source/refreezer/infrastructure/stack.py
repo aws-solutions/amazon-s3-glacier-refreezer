@@ -12,9 +12,11 @@ from aws_cdk import aws_iam as iam
 from aws_cdk import aws_kms as kms
 from aws_cdk import aws_sns as sns
 from aws_cdk import aws_s3 as s3
+from aws_cdk import aws_stepfunctions as sfn
 from aws_cdk import RemovalPolicy
 from cdk_nag import NagSuppressions
 from constructs import Construct
+from typing import Optional, Dict, Any
 
 
 class OutputKeys:
@@ -27,7 +29,12 @@ class OutputKeys:
 class RefreezerStack(Stack):
     outputs: dict[str, CfnOutput]
 
-    def __init__(self, scope: Construct, construct_id: str) -> None:
+    def __init__(
+        self,
+        scope: Construct,
+        construct_id: str,
+        mock_params: Optional[Dict[str, Any]] = None,
+    ) -> None:
         super().__init__(scope, construct_id)
 
         self.outputs = {}
@@ -126,5 +133,48 @@ class RefreezerStack(Stack):
                     "id": "AwsSolutions-S1",
                     "reason": "Inventory Bucket has server access logs disabled and will be addressed later.",
                 }
+            ],
+        )
+
+        vault_name = "test-vault"
+        state_json = {
+            "Type": "Task",
+            "Parameters": {
+                "AccountId": Stack.of(self).account,
+                "JobParameters": {
+                    "Type": "inventory-retrieval",
+                    "Format": "CSV",
+                    "Description": "Inventory retrieval job",
+                    "SnsTopic": topic.topic_arn,
+                },
+                "VaultName": vault_name,
+            },
+            "Resource": "arn:aws:states:::aws-sdk:glacier:initiateJob",
+        }
+        get_inventory_initiate_job = sfn.CustomState(
+            scope, "GetInventoryInitiateJob", state_json=state_json
+        )
+        if mock_params is not None:
+            # TODO replace each Glacier initiate job task by the mock task
+            mock_glacier_initiate_job_task = mock_params[
+                "mock_glacier_initiate_job_task"
+            ]
+            get_inventory_initiate_job = mock_glacier_initiate_job_task
+
+        state_machine = sfn.StateMachine(
+            self, "StateMachine", definition=get_inventory_initiate_job
+        )
+
+        NagSuppressions.add_resource_suppressions(
+            state_machine,
+            [
+                {
+                    "id": "AwsSolutions-SF1",
+                    "reason": "The Step Function does not log ALL events to CloudWatch and will be addressed later.",
+                },
+                {
+                    "id": "AwsSolutions-SF2",
+                    "reason": "The Step Function does not have X-Ray tracing enabled and will be addressed later.",
+                },
             ],
         )
