@@ -172,3 +172,31 @@ def test_buckets_created(stack: RefreezerStack, template: assertions.Template) -
     assert 2 == len(resources)
     assert get_logical_id(stack, ["OutputBucket"]) in resources
     assert get_logical_id(stack, ["InventoryBucket"]) in resources
+
+
+def test_glue_job_created(stack: RefreezerStack, template: assertions.Template) -> None:
+
+    resources_list = ["InventoryBucket"]
+    inventory_bucket_logical_id = get_logical_id(stack, resources_list)
+    resources = template.find_resources(
+        type="AWS::Glue::Job",
+        props={
+            "Properties": {
+                "Command": {
+                    #  "Name": "glueetl",
+                    #  "PythonVersion": "3",
+                    "ScriptLocation": {
+                        "Fn::Join": [
+                            "",
+                            [
+                                "s3://",
+                                {"Ref": inventory_bucket_logical_id},
+                                "/scripts/script.py",
+                            ],
+                        ]
+                    }
+                },
+            }
+        },
+    )
+    assert 1 == len(resources)
