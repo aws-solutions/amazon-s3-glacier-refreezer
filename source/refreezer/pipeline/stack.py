@@ -137,6 +137,13 @@ class PipelineStack(Stack):
                         f"arn:aws:s3:::{STACK_NAME}-inventorybucket*",
                     ],
                 ),
+                iam.PolicyStatement(
+                    effect=iam.Effect.ALLOW,
+                    actions=["lambda:InvokeFunction"],
+                    resources=[
+                        f"arn:aws:lambda:{Aws.REGION}:{Aws.ACCOUNT_ID}:function:{STACK_NAME}-ChunkRetrieval*"
+                    ],
+                ),
             ],
             partial_build_spec=self.get_reports_partial_build_spec(
                 "pytest-integration-report.xml"

@@ -12,6 +12,7 @@ from aws_cdk import aws_iam as iam
 from aws_cdk import aws_kms as kms
 from aws_cdk import aws_sns as sns
 from aws_cdk import aws_s3 as s3
+from aws_cdk import aws_lambda as lambda_
 from aws_cdk import RemovalPolicy
 from cdk_nag import NagSuppressions
 from constructs import Construct
@@ -22,6 +23,7 @@ class OutputKeys:
     ASYNC_FACILITATOR_TOPIC_ARN = "AsyncFacilitatorTopicArn"
     OUTPUT_BUCKET_NAME = "OutputBucketName"
     INVENTORY_BUCKET_NAME = "InventoryBucketName"
+    CHUNK_RETRIEVAL_LAMBDA_ARN = "ChunkRetrievalLambdaArn"
 
 
 class RefreezerStack(Stack):
@@ -126,5 +128,34 @@ class RefreezerStack(Stack):
                     "id": "AwsSolutions-S1",
                     "reason": "Inventory Bucket has server access logs disabled and will be addressed later.",
                 }
+            ],
+        )
+
+        chunk_retrieval_lambda = lambda_.Function(
+            self,
+            "ChunkRetrieval",
+            handler="refreezer.application.handlers.chunk_retrieval_lambda_handler",
+            runtime=lambda_.Runtime.PYTHON_3_9,
+            code=lambda_.Code.from_asset("source"),
+            description="Lambda to retrieve chunks from Glacier, upload them to S3 and generate file checksums.",
+        )
+
+        self.outputs[OutputKeys.CHUNK_RETRIEVAL_LAMBDA_ARN] = CfnOutput(
+            self,
+            OutputKeys.CHUNK_RETRIEVAL_LAMBDA_ARN,
+            value=chunk_retrieval_lambda.function_name,
+        )
+
+        assert chunk_retrieval_lambda.role is not None
+        NagSuppressions.add_resource_suppressions(
+            chunk_retrieval_lambda.role.node.find_child("Resource"),
+            [
+                {
+                    "id": "AwsSolutions-IAM4",
+                    "reason": "CDK grants AWS managed policy for Lambda basic execution by default. Replacing it with a customer managed policy will be addressed later.",
+                    "appliesTo": [
+                        "Policy::arn:<AWS::Partition>:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+                    ],
+                },
             ],
         )
