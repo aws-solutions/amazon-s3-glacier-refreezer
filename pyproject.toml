@@ -45,4 +45,5 @@ dev = [
     "boto3-stubs-lite[cloudformation]",
     "boto3-stubs-lite[sns]",
     "boto3-stubs-lite[s3]",
+    "boto3-stubs-lite[stepfunctions]",
 ]

@@ -13,6 +13,7 @@ from aws_cdk import aws_kms as kms
 from aws_cdk import aws_sns as sns
 from aws_cdk import aws_s3 as s3
 from aws_cdk import aws_lambda as lambda_
+from aws_cdk import aws_stepfunctions as sfn
 from aws_cdk import RemovalPolicy
 from cdk_nag import NagSuppressions
 from constructs import Construct
@@ -24,6 +25,7 @@ class OutputKeys:
     OUTPUT_BUCKET_NAME = "OutputBucketName"
     INVENTORY_BUCKET_NAME = "InventoryBucketName"
     CHUNK_RETRIEVAL_LAMBDA_ARN = "ChunkRetrievalLambdaArn"
+    INVENTORY_RETRIEVAL_STATE_MACHINE_ARN = "InventoryRetrievalStateMachineArn"
 
 
 class RefreezerStack(Stack):
@@ -131,6 +133,78 @@ class RefreezerStack(Stack):
             ],
         )
 
+        # TODO: To be replaced by InitiateJob custom state for Step Function SDK integration
+        initiate_job = sfn.Pass(self, "InitiateJob")
+
+        # TODO: To be replaced by DynamoDB Put custom state for Step Function SDK integration
+        # pause the workflow using waitForTaskToken mechanism
+        dynamo_db_put = sfn.Pass(self, "DynamoDBPut")
+
+        # TODO: To be replaced by GenerateChunkArray LambdaInvoke task
+        # which will retrun the chunks array
+        parameters = {"chunk_array": ["0-499", "300-799"]}
+        generate_chunk_array_lambda = sfn.Pass(
+            self, "GenerateChunkArrayLambda", parameters=parameters
+        )
+
+        # TODO: To be replaced by InventoryChunkDownload LambdaInvoke task
+        inventory_chunk_download_lambda = sfn.Pass(
+            self,
+            "InventoryChunkDownloadLambda",
+            parameters={"InventoryRetrieved": "TRUE"},
+        )
+
+        # TODO: To be replaced by Map state in Distributed mode
+        distributed_map_state = sfn.Map(
+            self, "DistributedMap", items_path="$.chunk_array"
+        )
+        distributed_map_state.iterator(inventory_chunk_download_lambda)
+
+        # TODO: To be replaced by Glue task
+        glue_order_archives = sfn.Pass(self, "GlueOrderArchives")
+
+        # TODO: To be replaced by InventoryValidationLambda LambdaInvoke task
+        inventory_validation_lambda = sfn.Pass(self, "InventoryValidationLambda")
+
+        glue_order_archives.next(inventory_validation_lambda)
+
+        initiate_job.next(dynamo_db_put).next(generate_chunk_array_lambda).next(
+            distributed_map_state
+        ).next(glue_order_archives)
+
+        definition = (
+            sfn.Choice(self, "Provided Inventory?")
+            .when(
+                sfn.Condition.string_equals("$.provided_inventory", "YES"),
+                glue_order_archives,
+            )
+            .otherwise(initiate_job)
+        )
+
+        inventory_retrieval_state_machine = sfn.StateMachine(
+            self, "InventoryRetrievalStateMachine", definition=definition
+        )
+
+        self.outputs[OutputKeys.INVENTORY_RETRIEVAL_STATE_MACHINE_ARN] = CfnOutput(
+            self,
+            OutputKeys.INVENTORY_RETRIEVAL_STATE_MACHINE_ARN,
+            value=inventory_retrieval_state_machine.state_machine_arn,
+        )
+
+        NagSuppressions.add_resource_suppressions(
+            inventory_retrieval_state_machine,
+            [
+                {
+                    "id": "AwsSolutions-SF1",
+                    "reason": "Step Function logging is disabled and will be addressed later.",
+                },
+                {
+                    "id": "AwsSolutions-SF2",
+                    "reason": "Step Function X-Ray tracing is disabled and will be addressed later.",
+                },
+            ],
+        )
+
         chunk_retrieval_lambda = lambda_.Function(
             self,
             "ChunkRetrieval",
@@ -156,6 +230,6 @@ class RefreezerStack(Stack):
                     "appliesTo": [
                         "Policy::arn:<AWS::Partition>:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
                     ],
-                },
+                }
             ],
         )

@@ -174,6 +174,43 @@ def test_buckets_created(stack: RefreezerStack, template: assertions.Template) -
     assert get_logical_id(stack, ["InventoryBucket"]) in resources
 
 
+def test_get_inventory_step_function_created(
+    stack: RefreezerStack, template: assertions.Template
+) -> None:
+    resources_list = ["InventoryRetrievalStateMachine"]
+    logical_id = get_logical_id(stack, resources_list)
+    assert_resource_name_has_correct_type_and_props(
+        stack,
+        template,
+        resources_list=resources_list,
+        cfn_type="AWS::StepFunctions::StateMachine",
+        props={
+            "Properties": {
+                "DefinitionString": assertions.Match.string_like_regexp(
+                    (
+                        r'{"StartAt":"Provided Inventory\?",'
+                        r'"States":{"Provided Inventory\?":{"Type":"Choice","Choices":\['
+                        r'{"Variable":"\$.provided_inventory","StringEquals":"YES","Next":"GlueOrderArchives"}\],'
+                        r'"Default":"InitiateJob"},'
+                        r'"InitiateJob":{"Type":"Pass","Next":"DynamoDBPut"},'
+                        r'"DynamoDBPut":{"Type":"Pass","Next":"GenerateChunkArrayLambda"},'
+                        r'"GenerateChunkArrayLambda":{"Type":"Pass","Parameters":{"chunk_array":\["\d+-\d+"(,+"\d+-\d+")+\]},"Next":"DistributedMap"},'
+                        r'"DistributedMap":{"Type":"Map","Next":"GlueOrderArchives","Iterator":{"StartAt":"InventoryChunkDownloadLambda",'
+                        r'"States":{"InventoryChunkDownloadLambda":{"Type":"Pass","Parameters":{"InventoryRetrieved":"TRUE"},"End":true}}},"ItemsPath":"\$.chunk_array"},'
+                        r'"GlueOrderArchives":{"Type":"Pass","Next":"InventoryValidationLambda"},'
+                        r'"InventoryValidationLambda":{"Type":"Pass","End":true}}}'
+                    )
+                )
+            }
+        },
+    )
+
+    template.has_output(
+        OutputKeys.INVENTORY_RETRIEVAL_STATE_MACHINE_ARN,
+        {"Value": {"Ref": logical_id}},
+    )
+
+
 def test_chunk_retrieval_lambda_created(
     stack: RefreezerStack, template: assertions.Template
 ) -> None:

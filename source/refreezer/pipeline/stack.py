@@ -139,6 +139,14 @@ class PipelineStack(Stack):
                 ),
                 iam.PolicyStatement(
                     effect=iam.Effect.ALLOW,
+                    actions=["states:StartExecution", "states:DescribeExecution"],
+                    resources=[
+                        f"arn:aws:states:{Aws.REGION}:{Aws.ACCOUNT_ID}:stateMachine:InventoryRetrievalStateMachine*",
+                        f"arn:aws:states:{Aws.REGION}:{Aws.ACCOUNT_ID}:execution:InventoryRetrievalStateMachine*",
+                    ],
+                ),
+                iam.PolicyStatement(
+                    effect=iam.Effect.ALLOW,
                     actions=["lambda:InvokeFunction"],
                     resources=[
                         f"arn:aws:lambda:{Aws.REGION}:{Aws.ACCOUNT_ID}:function:{STACK_NAME}-ChunkRetrieval*"
