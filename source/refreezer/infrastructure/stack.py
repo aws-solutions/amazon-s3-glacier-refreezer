@@ -389,14 +389,28 @@ class RefreezerStack(Stack):
             ],
         )
 
-        # TODO: To be replaced by DynamoDB Put custom state for Step Function SDK integration
-        # pause the workflow using waitForTaskToken mechanism
-        parameters = {
-            "InventorySize": 2**30 * 3,
-            "MaximumInventoryRecordSize": MAXIMUM_INVENTORY_RECORD_SIZE,
-            "ChunkSize": CHUNK_SIZE,
+        dynamo_db_put_state_json = {
+            "Type": "Task",
+            "Parameters": {
+                "TableName": table.table_name,
+                "Item": {
+                    "task_token": {
+                        "S.$": "$$.Task.Token",
+                    },
+                    "job_id": {
+                        "S.$": "$.JobId",
+                    },
+                    "start_timestamp": {
+                        "S.$": "$$.Execution.StartTime",
+                    },
+                },
+            },
+            "Resource": "arn:aws:states:::aws-sdk:dynamodb:putItem.waitForTaskToken",
         }
-        dynamo_db_put = sfn.Pass(self, "DynamoDBPut", parameters=parameters)
+
+        dynamo_db_put = sfn.CustomState(
+            scope, "AsyncFacilitatorDynamoDBPut", state_json=dynamo_db_put_state_json
+        )
 
         inventory_chunk_determination_lambda = lambda_.Function(
             self,
@@ -412,6 +426,15 @@ class RefreezerStack(Stack):
             "GenerateChunkArrayLambda",
             lambda_function=inventory_chunk_determination_lambda,
             payload_response_only=True,
+            payload=sfn.TaskInput.from_object(
+                {
+                    "InventorySize": sfn.JsonPath.string_at(
+                        "$.job_result.InventorySizeInBytes"
+                    ),
+                    "MaximumInventoryRecordSize": MAXIMUM_INVENTORY_RECORD_SIZE,
+                    "ChunkSize": CHUNK_SIZE,
+                }
+            ),
         )
 
         self.outputs[OutputKeys.INVENTORY_CHUNK_DETERMINATION_LAMBDA_ARN] = CfnOutput(
@@ -515,6 +538,7 @@ class RefreezerStack(Stack):
         )
 
         initiate_job_state_policy.attach_to_role(inventory_retrieval_state_machine.role)
+        table.grant_read_write_data(inventory_retrieval_state_machine)
 
         self.outputs[OutputKeys.INVENTORY_RETRIEVAL_STATE_MACHINE_ARN] = CfnOutput(
             self,

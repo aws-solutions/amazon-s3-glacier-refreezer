@@ -13,8 +13,10 @@ import pytest
 
 if typing.TYPE_CHECKING:
     from mypy_boto3_stepfunctions import SFNClient
+    from mypy_boto3_dynamodb import DynamoDBClient
 else:
     SFNClient = object
+    DynamoDBClient = object
 
 
 @pytest.fixture
@@ -58,7 +60,7 @@ def test_state_machine_start_execution_provided_inventory_no(
         stateMachineArn=os.environ[OutputKeys.INVENTORY_RETRIEVAL_STATE_MACHINE_ARN],
         input=default_input,
     )
-    sf_output = get_state_machine_output(response["executionArn"], timeout=20)
+    sf_output = get_state_machine_output(response["executionArn"], timeout=60)
     assert "InventoryRetrieved" in sf_output
 
 
@@ -69,7 +71,7 @@ def test_initiate_job_task_succeeded(default_input: str) -> None:
         input=default_input,
     )
 
-    wait_till_state_machine_finish(response["executionArn"], timeout=20)
+    wait_till_state_machine_finish(response["executionArn"], timeout=60)
 
     sf_history_output = client.get_execution_history(
         executionArn=response["executionArn"], maxResults=1000
@@ -84,6 +86,39 @@ def test_initiate_job_task_succeeded(default_input: str) -> None:
         if detail["name"] == "MockGlacierInitiateJobTask":
             state_output = detail["output"]
             assert "JobId" in state_output and "Location" in state_output
+            break
+
+
+def test_dynamo_db_put_item_async_behavior(default_input: str) -> None:
+    client: SFNClient = boto3.client("stepfunctions")
+    response = client.start_execution(
+        stateMachineArn=os.environ[OutputKeys.INVENTORY_RETRIEVAL_STATE_MACHINE_ARN],
+        input=default_input,
+    )
+
+    wait_till_state_machine_finish(response["executionArn"], timeout=60)
+
+    sf_history_output = client.get_execution_history(
+        executionArn=response["executionArn"], maxResults=1000
+    )
+    event_details = [
+        event["taskSucceededEventDetails"]
+        for event in sf_history_output["events"]
+        if "taskSucceededEventDetails" in event
+    ]
+
+    for detail in event_details:
+        if detail["resourceType"] == "aws-sdk:dynamodb":
+            state_output = json.loads(detail["output"])
+            job_id = state_output["job_result"]["JobId"]
+
+            table_name = os.environ[OutputKeys.ASYNC_FACILITATOR_TABLE_NAME]
+            db_client: DynamoDBClient = boto3.client("dynamodb")
+            key = {"job_id": {"S": job_id}}
+            item = db_client.get_item(TableName=table_name, Key=key)["Item"]
+            assert (
+                item["task_token"] is not None and item["finish_timestamp"] is not None
+            )
             break
 
 
