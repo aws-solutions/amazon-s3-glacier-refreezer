@@ -29,6 +29,7 @@ class OutputKeys:
     INVENTORY_BUCKET_NAME = "InventoryBucketName"
     CHUNK_RETRIEVAL_LAMBDA_ARN = "ChunkRetrievalLambdaArn"
     INVENTORY_RETRIEVAL_STATE_MACHINE_ARN = "InventoryRetrievalStateMachineArn"
+    INVENTORY_CHUNK_DETERMINATION_LAMBDA_ARN = "InventoryChunkDeterminationLambdaArn"
 
 
 class RefreezerStack(Stack):
@@ -157,6 +158,35 @@ class RefreezerStack(Stack):
         parameters = {"chunk_array": ["0-499", "300-799"]}
         generate_chunk_array_lambda = sfn.Pass(
             self, "GenerateChunkArrayLambda", parameters=parameters
+        )
+
+        inventory_chunk_determination_lambda = lambda_.Function(
+            self,
+            "InventoryChunkDetermination",
+            handler="refreezer.application.handlers.inventory_chunk_lambda_handler",
+            runtime=lambda_.Runtime.PYTHON_3_9,
+            code=lambda_.Code.from_asset("source"),
+            description="Lambda to generate the correct byte offsets to retrieve the inventory.",
+        )
+
+        self.outputs[OutputKeys.INVENTORY_CHUNK_DETERMINATION_LAMBDA_ARN] = CfnOutput(
+            self,
+            OutputKeys.INVENTORY_CHUNK_DETERMINATION_LAMBDA_ARN,
+            value=inventory_chunk_determination_lambda.function_name,
+        )
+
+        assert inventory_chunk_determination_lambda.role is not None
+        NagSuppressions.add_resource_suppressions(
+            inventory_chunk_determination_lambda.role.node.find_child("Resource"),
+            [
+                {
+                    "id": "AwsSolutions-IAM4",
+                    "reason": "CDK grants AWS managed policy for Lambda basic execution by default. Replacing it with a customer managed policy will be addressed later.",
+                    "appliesTo": [
+                        "Policy::arn:<AWS::Partition>:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+                    ],
+                },
+            ],
         )
 
         # TODO: To be replaced by InventoryChunkDownload LambdaInvoke task

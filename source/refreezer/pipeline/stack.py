@@ -154,6 +154,13 @@ class PipelineStack(Stack):
                         f"arn:aws:lambda:{Aws.REGION}:{Aws.ACCOUNT_ID}:function:{STACK_NAME}-ChunkRetrieval*"
                     ],
                 ),
+                iam.PolicyStatement(
+                    effect=iam.Effect.ALLOW,
+                    actions=["lambda:InvokeFunction"],
+                    resources=[
+                        f"arn:aws:lambda:{Aws.REGION}:{Aws.ACCOUNT_ID}:function:{STACK_NAME}-InventoryChunkDetermination*"
+                    ],
+                ),
             ],
             partial_build_spec=self.get_reports_partial_build_spec(
                 "pytest-integration-report.xml"
