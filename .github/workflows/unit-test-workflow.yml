@@ -1,5 +1,8 @@
 name: Unit test workflow
 
+env:
+  REGION: us-east-1
+
 on: [push, pull_request]
 
 jobs:
@@ -32,6 +35,9 @@ jobs:
             .tox
             .mypy_cache
           key: ${{ matrix.os }}-${{ matrix.python}}-tox-${{ hashFiles('pyproject.toml') }}-${{ hashFiles('tox.ini') }}-${{ hashFiles('.github/workflows/unit-test-workflow.yml') }}
+      - name: Configure AWS Region
+        run: |
+          aws configure set region ${{env.REGION}}
       - name: Run Tox
         run: |
           tox
