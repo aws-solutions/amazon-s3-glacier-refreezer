@@ -17,6 +17,9 @@ from aws_cdk import aws_stepfunctions as sfn
 from aws_cdk import RemovalPolicy
 from cdk_nag import NagSuppressions
 from constructs import Construct
+from typing import Optional, Union
+
+from refreezer.mocking.mock_glacier_stack import MockingParams
 
 
 class OutputKeys:
@@ -31,7 +34,12 @@ class OutputKeys:
 class RefreezerStack(Stack):
     outputs: dict[str, CfnOutput]
 
-    def __init__(self, scope: Construct, construct_id: str) -> None:
+    def __init__(
+        self,
+        scope: Construct,
+        construct_id: str,
+        mock_params: Optional[MockingParams] = None,
+    ) -> None:
         super().__init__(scope, construct_id)
 
         self.outputs = {}
@@ -134,7 +142,11 @@ class RefreezerStack(Stack):
         )
 
         # TODO: To be replaced by InitiateJob custom state for Step Function SDK integration
-        initiate_job = sfn.Pass(self, "InitiateJob")
+        get_inventory_initiate_job: Union[sfn.IChainable, sfn.INextable]
+        get_inventory_initiate_job = sfn.Pass(self, "InitiateJob")
+
+        if mock_params is not None:
+            get_inventory_initiate_job = mock_params.mock_glacier_initiate_job_task
 
         # TODO: To be replaced by DynamoDB Put custom state for Step Function SDK integration
         # pause the workflow using waitForTaskToken mechanism
@@ -168,9 +180,9 @@ class RefreezerStack(Stack):
 
         glue_order_archives.next(inventory_validation_lambda)
 
-        initiate_job.next(dynamo_db_put).next(generate_chunk_array_lambda).next(
-            distributed_map_state
-        ).next(glue_order_archives)
+        get_inventory_initiate_job.next(dynamo_db_put).next(
+            generate_chunk_array_lambda
+        ).next(distributed_map_state).next(glue_order_archives)
 
         definition = (
             sfn.Choice(self, "Provided Inventory?")
@@ -178,7 +190,7 @@ class RefreezerStack(Stack):
                 sfn.Condition.string_equals("$.provided_inventory", "YES"),
                 glue_order_archives,
             )
-            .otherwise(initiate_job)
+            .otherwise(get_inventory_initiate_job)
         )
 
         inventory_retrieval_state_machine = sfn.StateMachine(
