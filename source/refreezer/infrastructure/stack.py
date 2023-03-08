@@ -15,8 +15,10 @@ from aws_cdk import aws_sns as sns
 from aws_cdk import aws_s3 as s3
 from aws_cdk import aws_lambda as lambda_
 from aws_cdk import aws_stepfunctions as sfn
+from aws_cdk import aws_stepfunctions_tasks as tasks
 from aws_cdk import RemovalPolicy
 from cdk_nag import NagSuppressions
+from aws_cdk import CfnElement
 from constructs import Construct
 from typing import Optional, Union
 
@@ -24,13 +26,14 @@ from refreezer.mocking.mock_glacier_stack import MockingParams
 
 
 class OutputKeys:
-    ASYNC_FACILITATOR_TABLE_NAME = "AsyncFacilitatorTableName"
-    ASYNC_FACILITATOR_TOPIC_ARN = "AsyncFacilitatorTopicArn"
-    OUTPUT_BUCKET_NAME = "OutputBucketName"
-    INVENTORY_BUCKET_NAME = "InventoryBucketName"
-    CHUNK_RETRIEVAL_LAMBDA_ARN = "ChunkRetrievalLambdaArn"
-    INVENTORY_RETRIEVAL_STATE_MACHINE_ARN = "InventoryRetrievalStateMachineArn"
-    INVENTORY_CHUNK_DETERMINATION_LAMBDA_ARN = "InventoryChunkDeterminationLambdaArn"
+    ASYNC_FACILITATOR_TABLE_NAME = "AFTN"
+    ASYNC_FACILITATOR_TOPIC_ARN = "AFTA"
+    OUTPUT_BUCKET_NAME = "OBN"
+    INVENTORY_BUCKET_NAME = "IBN"
+    CHUNK_RETRIEVAL_LAMBDA_ARN = "CRLA"
+    INVENTORY_CHUNK_RETRIEVAL_LAMBDA_ARN = "ICRLA"
+    INVENTORY_RETRIEVAL_STATE_MACHINE_ARN = "IRSMA"
+    INVENTORY_CHUNK_DETERMINATION_LAMBDA_ARN = "ICDLA"
 
 
 class RefreezerStack(Stack):
@@ -235,11 +238,41 @@ class RefreezerStack(Stack):
             ],
         )
 
-        # TODO: To be replaced by InventoryChunkDownload LambdaInvoke task
-        inventory_chunk_download_lambda = sfn.Pass(
+        inventory_chunk_download_lambda_function = lambda_.Function(
+            self,
+            "InventoryChunkDownload",
+            handler="refreezer.application.handlers.inventory_chunk_download_lambda_handler",
+            runtime=lambda_.Runtime.PYTHON_3_9,
+            code=lambda_.Code.from_asset("source"),
+            description="Lambda to download inventory chunks from Glacier.",
+        )
+
+        assert inventory_chunk_download_lambda_function.role is not None
+        NagSuppressions.add_resource_suppressions(
+            inventory_chunk_download_lambda_function.role.node.find_child("Resource"),
+            [
+                {
+                    "id": "AwsSolutions-IAM4",
+                    "reason": "CDK grants AWS managed policy for Lambda basic execution by default. Replacing it with a customer managed policy will be addressed later.",
+                    "appliesTo": [
+                        "Policy::arn:<AWS::Partition>:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+                    ],
+                }
+            ],
+        )
+
+        # Add lambda invoke step
+        inventory_chunk_download_lambda = tasks.LambdaInvoke(
             self,
             "InventoryChunkDownloadLambda",
-            parameters={"InventoryRetrieved": "TRUE"},
+            lambda_function=inventory_chunk_download_lambda_function,
+            payload_response_only=True,
+        )
+
+        self.outputs[OutputKeys.INVENTORY_CHUNK_RETRIEVAL_LAMBDA_ARN] = CfnOutput(
+            self,
+            OutputKeys.INVENTORY_CHUNK_RETRIEVAL_LAMBDA_ARN,
+            value=inventory_chunk_download_lambda_function.function_name,
         )
 
         # TODO: To be replaced by Map state in Distributed mode
@@ -279,6 +312,31 @@ class RefreezerStack(Stack):
             self,
             OutputKeys.INVENTORY_RETRIEVAL_STATE_MACHINE_ARN,
             value=inventory_retrieval_state_machine.state_machine_arn,
+        )
+
+        assert isinstance(
+            inventory_chunk_download_lambda_function.node.default_child, CfnElement
+        )
+        assert inventory_chunk_download_lambda_function.role is not None
+        inventory_chunk_download_lambda_function_logical_id = Stack.of(
+            self
+        ).get_logical_id(inventory_chunk_download_lambda_function.node.default_child)
+
+        NagSuppressions.add_resource_suppressions(
+            inventory_retrieval_state_machine.role.node.find_child(
+                "DefaultPolicy"
+            ).node.find_child("Resource"),
+            [
+                {
+                    "id": "AwsSolutions-IAM5",
+                    "reason": "By default wildcard permission is granted to the lambda.  This will be replaced with a proper IAM role later.",
+                    "appliesTo": [
+                        "Resource::<"
+                        + inventory_chunk_download_lambda_function_logical_id
+                        + ".Arn>:*"
+                    ],
+                }
+            ],
         )
 
         NagSuppressions.add_resource_suppressions(
