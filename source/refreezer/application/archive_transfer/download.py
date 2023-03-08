@@ -4,7 +4,14 @@ SPDX-License-Identifier: Apache-2.0
 """
 
 import boto3
-from typing import Any
+import typing
+
+if typing.TYPE_CHECKING:
+    from mypy_boto3_glacier.client import GlacierClient
+    from mypy_boto3_glacier.type_defs import GetJobOutputOutputTypeDef
+else:
+    GlacierClient = object
+    GetJobOutputOutputTypeDef = object
 
 
 class GlacierDownload:
@@ -21,13 +28,19 @@ class GlacierDownload:
             "range": f"bytes={start_byte}-{end_byte}",
             "vaultName": vault_name,
         }
-        self.glacier = boto3.client("glacier")
+        self.glacier: GlacierClient = boto3.client("glacier")
         self.chunk_size = chunk_size
-        self.response = self.glacier.get_job_output(**self.params)
+        self.response: GetJobOutputOutputTypeDef = self.glacier.get_job_output(
+            **self.params
+        )
+        self.accessed = False
 
-    def iter(self) -> Any:
+    def __iter__(self) -> typing.Iterator[bytes]:
+        if self.accessed:
+            raise Exception("GlacierDownload object has already been accessed")
+        self.accessed = True
         return self.response["body"].iter_chunks(chunk_size=self.chunk_size)
 
-    def checksum(self) -> Any:
+    def checksum(self) -> typing.Optional[str]:
         print(self.response)
         return self.response.get("checksum")

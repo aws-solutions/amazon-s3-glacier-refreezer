@@ -4,13 +4,19 @@ SPDX-License-Identifier: Apache-2.0
 """
 
 import boto3
-from moto import mock_s3  # type: ignore
+import typing
 from refreezer.application.archive_transfer.upload import S3Upload
+from moto import mock_s3  # type: ignore
+
+if typing.TYPE_CHECKING:
+    from mypy_boto3_s3.client import S3Client
+else:
+    S3Client = object
 
 
 @mock_s3  # type: ignore[misc]
 def test_initiate_multipart_upload() -> None:
-    s3 = boto3.client("s3")
+    s3: S3Client = boto3.client("s3")
     s3.create_bucket(Bucket="test-bucket")
 
     s3_upload = S3Upload(
@@ -21,7 +27,7 @@ def test_initiate_multipart_upload() -> None:
 
 @mock_s3  # type: ignore[misc]
 def test_upload_part() -> None:
-    s3 = boto3.client("s3")
+    s3: S3Client = boto3.client("s3")
     s3.create_bucket(Bucket="test-bucket")
 
     s3_upload = S3Upload(
@@ -33,7 +39,7 @@ def test_upload_part() -> None:
 
 @mock_s3  # type: ignore[misc]
 def test_complete_upload() -> None:
-    s3 = boto3.client("s3")
+    s3: S3Client = boto3.client("s3")
     s3.create_bucket(Bucket="test-bucket")
 
     s3_upload = S3Upload(
@@ -46,7 +52,7 @@ def test_complete_upload() -> None:
 
 @mock_s3  # type: ignore[misc]
 def test_upload_part_after_complete() -> None:
-    s3 = boto3.client("s3")
+    s3: S3Client = boto3.client("s3")
     s3.create_bucket(Bucket="test-bucket")
 
     s3_upload = S3Upload(

@@ -3,20 +3,28 @@ Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
 SPDX-License-Identifier: Apache-2.0
 """
 import boto3
+import pytest
+import typing
 from unittest.mock import patch
-from moto import mock_glacier  # type: ignore
 from datetime import timedelta
 from refreezer.application.archive_transfer.download import GlacierDownload
-from typing import Any
+from moto import mock_glacier  # type: ignore
+
+if typing.TYPE_CHECKING:
+    from mypy_boto3_glacier.client import GlacierClient
+    from mypy_boto3_glacier.type_defs import InitiateJobOutputTypeDef
+else:
+    GlacierClient = object
+    InitiateJobOutputTypeDef = object
 
 
 @mock_glacier  # type: ignore[misc]
 def test_init() -> None:
     job_id = setup_glacier()
-    vault_name = "vault_name"
-    start_byte = 0
-    end_byte = 1024
-    chunk_size = 256
+    vault_name: str = "vault_name"
+    start_byte: int = 0
+    end_byte: int = 1024
+    chunk_size: int = 256
 
     # Create a GlacierDownload object
     download = GlacierDownload(job_id, vault_name, start_byte, end_byte, chunk_size)
@@ -29,29 +37,38 @@ def test_init() -> None:
 
 
 @mock_glacier  # type: ignore[misc]
-def test_iter() -> None:
-    test_response = b"test"
+def test_iter_correctness() -> None:
+    test_response: bytes = b"test"
     job_id = setup_glacier(test_response)
-
-    # Test the iter() method of GlacierDownload object
     download = GlacierDownload(job_id, "vault_name", 0, 1024, 1)
 
     # Test that iter() method returns the correct chunks
-    chunks = []
-    for chunk in download.iter():
+    chunks: list[bytes] = []
+    for chunk in download:
         chunks.append(chunk)
     assert len(chunks) == len(test_response)
     assert b"".join(chunks) == test_response
 
 
-def setup_glacier(test_body: bytes = b"test") -> Any:
-    glacier = boto3.client("glacier", region_name="us-east-1")
+@mock_glacier  # type: ignore[misc]
+def test_iter_prevents_second_access() -> None:
+    job_id = setup_glacier()
+    download = GlacierDownload(job_id, "vault_name", 0, 1024, 1)
+
+    for _ in download:
+        pass
+    with pytest.raises(Exception):
+        for _ in download:
+            pass
+
+
+def setup_glacier(test_body: bytes = b"test") -> str:
+    glacier: GlacierClient = boto3.client("glacier", region_name="us-east-1")
     glacier.create_vault(vaultName="vault_name")
     archive_response = glacier.upload_archive(vaultName="vault_name", body=test_body)
-    print(archive_response)
     archive_id = archive_response["archiveId"]
     with patch("datetime.timedelta", return_value=timedelta(seconds=0)):
-        job_response = glacier.initiate_job(
+        job_response: InitiateJobOutputTypeDef = glacier.initiate_job(
             vaultName="vault_name",
             jobParameters={
                 "Type": "archive-retrieval",
