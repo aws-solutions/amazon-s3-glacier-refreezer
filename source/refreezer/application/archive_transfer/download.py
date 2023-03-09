@@ -42,5 +42,4 @@ class GlacierDownload:
         return self.response["body"].iter_chunks(chunk_size=self.chunk_size)
 
     def checksum(self) -> typing.Optional[str]:
-        print(self.response)
         return self.response.get("checksum")
