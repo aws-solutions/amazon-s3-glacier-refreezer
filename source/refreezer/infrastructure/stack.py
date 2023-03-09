@@ -20,6 +20,7 @@ from constructs import Construct
 from typing import Optional, Union
 
 from refreezer.mocking.mock_glacier_stack import MockingParams
+from refreezer.infrastructure.nag_suppressor import nagSuppressor
 
 
 class OutputKeys:
@@ -104,16 +105,6 @@ class RefreezerStack(Stack):
             value=output_bucket.bucket_name,
         )
 
-        NagSuppressions.add_resource_suppressions(
-            output_bucket,
-            [
-                {
-                    "id": "AwsSolutions-S1",
-                    "reason": "Output Bucket has server access logs disabled and will be addressed later.",
-                }
-            ],
-        )
-
         # Bucket to store the inventory and the Glue output after it's sorted.
         # TODO This bucket will be made configurable in a future task.
         inventory_bucket = s3.Bucket(
@@ -130,16 +121,6 @@ class RefreezerStack(Stack):
             self,
             OutputKeys.INVENTORY_BUCKET_NAME,
             value=inventory_bucket.bucket_name,
-        )
-
-        NagSuppressions.add_resource_suppressions(
-            inventory_bucket,
-            [
-                {
-                    "id": "AwsSolutions-S1",
-                    "reason": "Inventory Bucket has server access logs disabled and will be addressed later.",
-                }
-            ],
         )
 
         # TODO: To be replaced by InitiateJob custom state for Step Function SDK integration
@@ -176,18 +157,6 @@ class RefreezerStack(Stack):
         )
 
         assert inventory_chunk_determination_lambda.role is not None
-        NagSuppressions.add_resource_suppressions(
-            inventory_chunk_determination_lambda.role.node.find_child("Resource"),
-            [
-                {
-                    "id": "AwsSolutions-IAM4",
-                    "reason": "CDK grants AWS managed policy for Lambda basic execution by default. Replacing it with a customer managed policy will be addressed later.",
-                    "appliesTo": [
-                        "Policy::arn:<AWS::Partition>:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
-                    ],
-                },
-            ],
-        )
 
         # TODO: To be replaced by InventoryChunkDownload LambdaInvoke task
         inventory_chunk_download_lambda = sfn.Pass(
@@ -233,20 +202,6 @@ class RefreezerStack(Stack):
             value=inventory_retrieval_state_machine.state_machine_arn,
         )
 
-        NagSuppressions.add_resource_suppressions(
-            inventory_retrieval_state_machine,
-            [
-                {
-                    "id": "AwsSolutions-SF1",
-                    "reason": "Step Function logging is disabled and will be addressed later.",
-                },
-                {
-                    "id": "AwsSolutions-SF2",
-                    "reason": "Step Function X-Ray tracing is disabled and will be addressed later.",
-                },
-            ],
-        )
-
         chunk_retrieval_lambda = lambda_.Function(
             self,
             "ChunkRetrieval",
@@ -263,15 +218,26 @@ class RefreezerStack(Stack):
         )
 
         assert chunk_retrieval_lambda.role is not None
-        NagSuppressions.add_resource_suppressions(
-            chunk_retrieval_lambda.role.node.find_child("Resource"),
-            [
-                {
-                    "id": "AwsSolutions-IAM4",
-                    "reason": "CDK grants AWS managed policy for Lambda basic execution by default. Replacing it with a customer managed policy will be addressed later.",
-                    "appliesTo": [
-                        "Policy::arn:<AWS::Partition>:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
-                    ],
-                }
-            ],
-        )
+
+        for kwargs in [
+            {"nag_obj": output_bucket, "nag_id_list": ["AwsSolutions-S1"]},
+            {"nag_obj": inventory_bucket, "nag_id_list": ["AwsSolutions-S1"]},
+            {
+                "nag_obj": inventory_retrieval_state_machine,
+                "nag_id_list": ["AwsSolutions-SF1", "AwsSolutions-SF2"],
+            },
+            {
+                "nag_obj": inventory_chunk_determination_lambda.role.node.find_child(
+                    "Resource"
+                ),
+                "nag_id_list": ["AwsSolutions-IAM4"],
+                "applies_to": "service-role/AWSLambdaBasicExecutionRole",
+            },
+            {
+                "nag_obj": chunk_retrieval_lambda.role.node.find_child("Resource"),
+                "nag_id_list": ["AwsSolutions-IAM4"],
+                "applies_to": "service-role/AWSLambdaBasicExecutionRole",
+            }
+        ]:
+            nagSuppressor(**kwargs)
+
