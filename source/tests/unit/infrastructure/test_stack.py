@@ -175,7 +175,6 @@ def test_buckets_created(stack: RefreezerStack, template: assertions.Template) -
 
 
 def test_glue_job_created(stack: RefreezerStack, template: assertions.Template) -> None:
-
     resources_list = ["InventoryBucket"]
     inventory_bucket_logical_id = get_logical_id(stack, resources_list)
     resources = template.find_resources(
