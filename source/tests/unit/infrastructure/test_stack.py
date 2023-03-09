@@ -200,3 +200,88 @@ def test_glue_job_created(stack: RefreezerStack, template: assertions.Template) 
         },
     )
     assert 1 == len(resources)
+
+
+def test_get_inventory_step_function_created(
+    stack: RefreezerStack, template: assertions.Template
+) -> None:
+    resources_list = ["InventoryRetrievalStateMachine"]
+    logical_id = get_logical_id(stack, resources_list)
+    assert_resource_name_has_correct_type_and_props(
+        stack,
+        template,
+        resources_list=resources_list,
+        cfn_type="AWS::StepFunctions::StateMachine",
+        props={
+            "Properties": {
+                "DefinitionString": assertions.Match.string_like_regexp(
+                    (
+                        r'{"StartAt":"Provided Inventory\?",'
+                        r'"States":{"Provided Inventory\?":{"Type":"Choice","Choices":\['
+                        r'{"Variable":"\$.provided_inventory","StringEquals":"YES","Next":"GlueOrderArchives"}\],'
+                        r'"Default":"InitiateJob"},'
+                        r'"InitiateJob":{"Type":"Pass","Next":"DynamoDBPut"},'
+                        r'"DynamoDBPut":{"Type":"Pass","Next":"GenerateChunkArrayLambda"},'
+                        r'"GenerateChunkArrayLambda":{"Type":"Pass","Parameters":{"chunk_array":\["\d+-\d+"(,+"\d+-\d+")+\]},"Next":"DistributedMap"},'
+                        r'"DistributedMap":{"Type":"Map","Next":"GlueOrderArchives","Iterator":{"StartAt":"InventoryChunkDownloadLambda",'
+                        r'"States":{"InventoryChunkDownloadLambda":{"Type":"Pass","Parameters":{"InventoryRetrieved":"TRUE"},"End":true}}},"ItemsPath":"\$.chunk_array"},'
+                        r'"GlueOrderArchives":{"Type":"Pass","Next":"InventoryValidationLambda"},'
+                        r'"InventoryValidationLambda":{"Type":"Pass","End":true}}}'
+                    )
+                )
+            }
+        },
+    )
+
+    template.has_output(
+        OutputKeys.INVENTORY_RETRIEVAL_STATE_MACHINE_ARN,
+        {"Value": {"Ref": logical_id}},
+    )
+
+
+def test_chunk_retrieval_lambda_created(
+    stack: RefreezerStack, template: assertions.Template
+) -> None:
+    resources_list = ["ChunkRetrieval"]
+    logical_id = get_logical_id(stack, resources_list)
+    assert_resource_name_has_correct_type_and_props(
+        stack,
+        template,
+        resources_list=resources_list,
+        cfn_type="AWS::Lambda::Function",
+        props={
+            "Properties": {
+                "Handler": "refreezer.application.handlers.chunk_retrieval_lambda_handler",
+                "Runtime": "python3.9",
+            },
+        },
+    )
+
+    template.has_output(
+        OutputKeys.CHUNK_RETRIEVAL_LAMBDA_ARN,
+        {"Value": {"Ref": logical_id}},
+    )
+
+
+def test_inventory_chunk_determination_created(
+    stack: RefreezerStack, template: assertions.Template
+) -> None:
+    resources_list = ["InventoryChunkDetermination"]
+    logical_id = get_logical_id(stack, resources_list)
+    assert_resource_name_has_correct_type_and_props(
+        stack,
+        template,
+        resources_list=resources_list,
+        cfn_type="AWS::Lambda::Function",
+        props={
+            "Properties": {
+                "Handler": "refreezer.application.handlers.inventory_chunk_lambda_handler",
+                "Runtime": "python3.9",
+            },
+        },
+    )
+
+    template.has_output(
+        OutputKeys.INVENTORY_CHUNK_DETERMINATION_LAMBDA_ARN,
+        {"Value": {"Ref": logical_id}},
+    )
