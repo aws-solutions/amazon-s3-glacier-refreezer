@@ -231,13 +231,12 @@ class RefreezerStack(Stack):
                     "Resource"
                 ),
                 "nag_id_list": ["AwsSolutions-IAM4"],
-                "applies_to": "service-role/AWSLambdaBasicExecutionRole",
+                "applies_to": ["service-role/AWSLambdaBasicExecutionRole"],
             },
             {
                 "nag_obj": chunk_retrieval_lambda.role.node.find_child("Resource"),
                 "nag_id_list": ["AwsSolutions-IAM4"],
-                "applies_to": "service-role/AWSLambdaBasicExecutionRole",
-            }
+                "applies_to": ["service-role/AWSLambdaBasicExecutionRole"],
+            },
         ]:
             nagSuppressor(**kwargs)
-
