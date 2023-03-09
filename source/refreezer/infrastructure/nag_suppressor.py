@@ -34,7 +34,7 @@ def nagSuppressor(
     NagSuppressions.add_resource_suppressions(nag_obj, suppressions)
 
 
-def add_applies_to(suppression, nag_id, applies_to) -> None:
+def add_applies_to(suppression: Any, nag_id: List[str], applies_to: Optional[list[str]]) -> None:
     if not (ID_REASON_MAP[nag_id].get("applies_to") or applies_to):
         return
     suppression["appliesTo"] = []
