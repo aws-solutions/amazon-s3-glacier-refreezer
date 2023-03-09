@@ -239,4 +239,4 @@ class RefreezerStack(Stack):
                 "applies_to": ["service-role/AWSLambdaBasicExecutionRole"],
             },
         ]:
-            nagSuppressor(**kwargs)
+            nagSuppressor(**kwargs)  # type: ignore

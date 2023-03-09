@@ -1,3 +1,8 @@
+"""
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+SPDX-License-Identifier: Apache-2.0
+"""
+
 from typing import List, Optional, Any
 from cdk_nag import NagSuppressions
 
@@ -17,27 +22,27 @@ ID_REASON_MAP = {
     },
 }
 
+
 def nagSuppressor(
     nag_obj: Any,
     nag_id_list: List[str],
     applies_to: Optional[list[str]] = None,
     custom_reason: Optional[str] = None,
 ) -> None:
-
     suppressions = []
     for nag_id in nag_id_list:
         reason = custom_reason or ID_REASON_MAP[nag_id]["reason"]
         suppression = {"id": nag_id, "reason": reason}
         add_applies_to(suppression, nag_id, applies_to)
         suppressions.append(suppression)
-
     NagSuppressions.add_resource_suppressions(nag_obj, suppressions)
 
 
-def add_applies_to(suppression: Any, nag_id: List[str], applies_to: Optional[list[str]]) -> None:
-    if not (ID_REASON_MAP[nag_id].get("applies_to") or applies_to):
-        return
-    suppression["appliesTo"] = []
-    for apply_to in applies_to:
-        applies_to_str = ID_REASON_MAP[nag_id].get("applies_to").format(apply_to)
-        suppression["appliesTo"].append(applies_to_str)
+def add_applies_to(
+    suppression: Any, nag_id: str, applies_to: Optional[list[str]]
+) -> None:
+    if ID_REASON_MAP[nag_id].get("applies_to") and applies_to:
+        suppression["appliesTo"] = []
+        for apply_to in applies_to:
+            applies_to_str = ID_REASON_MAP[nag_id]["applies_to"].format(apply_to)
+            suppression["appliesTo"].append(applies_to_str)
