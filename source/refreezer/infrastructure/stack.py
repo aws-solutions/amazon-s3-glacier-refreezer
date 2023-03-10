@@ -4,6 +4,7 @@ SPDX-License-Identifier: Apache-2.0
 """
 
 from aws_cdk import (
+    Aws,
     Stack,
     CfnOutput,
 )
@@ -142,12 +143,57 @@ class RefreezerStack(Stack):
             ],
         )
 
-        # TODO: To be replaced by InitiateJob custom state for Step Function SDK integration
+        state_json = {
+            "Type": "Task",
+            "Parameters": {
+                "AccountId": Stack.of(self).account,
+                "JobParameters": {
+                    "Type": "inventory-retrieval",
+                    "Description.$": "$.description",
+                    "Format": "CSV",
+                    "SnsTopic": topic.topic_arn,
+                },
+                "VaultName.$": "$.vault_name",
+            },
+            "Resource": "arn:aws:states:::aws-sdk:glacier:initiateJob",
+        }
+
         get_inventory_initiate_job: Union[sfn.IChainable, sfn.INextable]
-        get_inventory_initiate_job = sfn.Pass(self, "InitiateJob")
+        get_inventory_initiate_job = sfn.CustomState(
+            scope, "GetInventoryInitiateJob", state_json=state_json
+        )
 
         if mock_params is not None:
             get_inventory_initiate_job = mock_params.mock_glacier_initiate_job_task
+
+        initiate_job_state_policy = iam.Policy(
+            self,
+            "InitiateJobStatePolicy",
+            statements=[
+                iam.PolicyStatement(
+                    effect=iam.Effect.ALLOW,
+                    actions=[
+                        "glacier:InitiateJob",
+                    ],
+                    resources=[
+                        f"arn:aws:glacier:{Aws.REGION}:{Aws.ACCOUNT_ID}:vaults/*"
+                    ],
+                ),
+            ],
+        )
+
+        NagSuppressions.add_resource_suppressions(
+            initiate_job_state_policy,
+            [
+                {
+                    "id": "AwsSolutions-IAM5",
+                    "reason": "It's necessary to have wildcard permissions for inventory retrieval initiate job, since the vault name is an input that is not known in advance",
+                    "appliesTo": [
+                        "Resource::arn:aws:glacier:<AWS::Region>:<AWS::AccountId>:vaults/*"
+                    ],
+                },
+            ],
+        )
 
         # TODO: To be replaced by DynamoDB Put custom state for Step Function SDK integration
         # pause the workflow using waitForTaskToken mechanism
@@ -226,6 +272,8 @@ class RefreezerStack(Stack):
         inventory_retrieval_state_machine = sfn.StateMachine(
             self, "InventoryRetrievalStateMachine", definition=definition
         )
+
+        initiate_job_state_policy.attach_to_role(inventory_retrieval_state_machine.role)
 
         self.outputs[OutputKeys.INVENTORY_RETRIEVAL_STATE_MACHINE_ARN] = CfnOutput(
             self,

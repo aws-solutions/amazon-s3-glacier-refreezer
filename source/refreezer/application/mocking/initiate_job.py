@@ -13,6 +13,6 @@ def generate_inventory_retrieval_response(
 ) -> Dict[str, Any]:
     job_id = "".join(random.choices(string.ascii_letters + string.digits, k=92))
     return {
-        "location": f"/{account_id}/vaults/{vault_name}/jobs/{job_id}",
-        "jobId": job_id,
+        "Location": f"/{account_id}/vaults/{vault_name}/jobs/{job_id}",
+        "JobId": job_id,
     }

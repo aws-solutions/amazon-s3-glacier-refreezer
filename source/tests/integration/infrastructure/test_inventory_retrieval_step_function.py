@@ -7,13 +7,25 @@ import os
 import typing
 import boto3
 import time
-
+import json
 from refreezer.infrastructure.stack import OutputKeys
+import pytest
 
 if typing.TYPE_CHECKING:
     from mypy_boto3_stepfunctions import SFNClient
 else:
     SFNClient = object
+
+
+@pytest.fixture
+def default_input() -> str:
+    return json.dumps(
+        dict(
+            provided_inventory="NO",
+            vault_name="test-vault-01",
+            description="This is a test",
+        )
+    )
 
 
 def test_state_machine_start_execution() -> None:
@@ -36,15 +48,41 @@ def test_state_machine_start_execution_provided_inventory_yes() -> None:
     assert "retrieveInventory" not in sf_output
 
 
-def test_state_machine_start_execution_provided_inventory_no() -> None:
+def test_state_machine_start_execution_provided_inventory_no(
+    default_input: str,
+) -> None:
     client: SFNClient = boto3.client("stepfunctions")
-    input = '{"provided_inventory": "NO"}'
     response = client.start_execution(
         stateMachineArn=os.environ[OutputKeys.INVENTORY_RETRIEVAL_STATE_MACHINE_ARN],
-        input=input,
+        input=default_input,
     )
     sf_output = get_state_machine_output(response["executionArn"], timeout=10)
     assert "InventoryRetrieved" in sf_output
+
+
+def test_initiate_job_task_succeeded(default_input: str) -> None:
+    client: SFNClient = boto3.client("stepfunctions")
+    response = client.start_execution(
+        stateMachineArn=os.environ[OutputKeys.INVENTORY_RETRIEVAL_STATE_MACHINE_ARN],
+        input=default_input,
+    )
+
+    wait_till_state_machine_finish(response["executionArn"], timeout=10)
+
+    sf_history_output = client.get_execution_history(
+        executionArn=response["executionArn"], maxResults=1000
+    )
+    event_details = [
+        event["stateExitedEventDetails"]
+        for event in sf_history_output["events"]
+        if "stateExitedEventDetails" in event
+    ]
+
+    for detail in event_details:
+        if detail["name"] == "MockGlacierInitiateJobTask":
+            state_output = detail["output"]
+            assert "JobId" in state_output and "Location" in state_output
+            break
 
 
 def get_state_machine_output(executionArn: str, timeout: int) -> str:
@@ -65,3 +103,15 @@ def get_state_machine_output(executionArn: str, timeout: int) -> str:
             raise Exception(f"Execution {status}")
 
     return sf_output
+
+
+def wait_till_state_machine_finish(executionArn: str, timeout: int) -> None:
+    client: SFNClient = boto3.client("stepfunctions")
+    start_time = time.time()
+    while (time.time() - start_time) < timeout:
+        time.sleep(1)
+        sf_describe_response = client.describe_execution(executionArn=executionArn)
+        status = sf_describe_response["status"]
+        if status == "RUNNING":
+            continue
+        break

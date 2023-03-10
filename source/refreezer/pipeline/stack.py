@@ -141,7 +141,11 @@ class PipelineStack(Stack):
                 ),
                 iam.PolicyStatement(
                     effect=iam.Effect.ALLOW,
-                    actions=["states:StartExecution", "states:DescribeExecution"],
+                    actions=[
+                        "states:StartExecution",
+                        "states:DescribeExecution",
+                        "states:GetExecutionHistory",
+                    ],
                     resources=[
                         f"arn:aws:states:{Aws.REGION}:{Aws.ACCOUNT_ID}:stateMachine:InventoryRetrievalStateMachine*",
                         f"arn:aws:states:{Aws.REGION}:{Aws.ACCOUNT_ID}:execution:InventoryRetrievalStateMachine*",
