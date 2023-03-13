@@ -19,11 +19,13 @@ else:
 
 @pytest.fixture
 def default_input() -> str:
+    topic_arn = os.environ[OutputKeys.ASYNC_FACILITATOR_TOPIC_ARN]
     return json.dumps(
         dict(
             provided_inventory="NO",
             vault_name="test-vault-01",
             description="This is a test",
+            sns_topic=topic_arn,
         )
     )
 
