@@ -5,6 +5,7 @@ SPDX-License-Identifier: Apache-2.0
 
 from aws_cdk import (
     Aws,
+    Duration,
     Stack,
     CfnOutput,
 )
@@ -365,8 +366,54 @@ class RefreezerStack(Stack):
             handler="refreezer.application.handlers.chunk_retrieval_lambda_handler",
             runtime=lambda_.Runtime.PYTHON_3_9,
             code=lambda_.Code.from_asset("source"),
+            memory_size=4096,
+            timeout=Duration.minutes(15),
             description="Lambda to retrieve chunks from Glacier, upload them to S3 and generate file checksums.",
         )
+
+        get_job_output_policy = iam.Policy(
+            self,
+            "GetJobOutputPolicy",
+            statements=[
+                iam.PolicyStatement(
+                    effect=iam.Effect.ALLOW,
+                    actions=[
+                        "glacier:GetJobOutput",
+                        "s3:PutObject",
+                    ],
+                    resources=[
+                        f"arn:aws:glacier:{Aws.REGION}:{Aws.ACCOUNT_ID}:vaults/*",
+                        f"arn:aws:s3:::{output_bucket.bucket_name}/*",
+                    ],
+                ),
+            ],
+        )
+
+        NagSuppressions.add_resource_suppressions(
+            get_job_output_policy,
+            [
+                {
+                    "id": "AwsSolutions-IAM5",
+                    "reason": "It's necessary to have wildcard permissions for inventory retrieval initiate job, since the vault name is an input that is not known in advance",
+                    "appliesTo": [
+                        "Resource::arn:aws:glacier:<AWS::Region>:<AWS::AccountId>:vaults/*",
+                    ],
+                },
+            ],
+        )
+
+        NagSuppressions.add_resource_suppressions(
+            get_job_output_policy,
+            [
+                {
+                    "id": "AwsSolutions-IAM5",
+                    "reason": "It's necessary to have wildcard permissions for s3 put object, to allow for copying glacier archives over to s3 in any location",
+                },
+            ],
+        )
+
+        assert chunk_retrieval_lambda.role is not None
+        get_job_output_policy.attach_to_role(chunk_retrieval_lambda.role)
 
         self.outputs[OutputKeys.CHUNK_RETRIEVAL_LAMBDA_ARN] = CfnOutput(
             self,

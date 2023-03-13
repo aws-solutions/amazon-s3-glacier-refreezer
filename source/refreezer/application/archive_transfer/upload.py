@@ -27,36 +27,41 @@ class S3Upload:
         key: str,
         archive_id: str,
         upload_id: typing.Optional[str] = None,
-        part_number: int = 1,
+        part_number: typing.Optional[int] = None,
     ) -> None:
         self.s3: S3Client = boto3.client("s3")
+
         self.bucket_name = bucket_name
         self.key = key
         self.archive_id = archive_id
-        self.part_number = part_number
         self.parts: list[CompletedPartTypeDef] = []
+
+        self.part_number = part_number or 1
         self.upload_id = upload_id or self._initiate_multipart_upload()
+
         self.completed: bool = False
 
     def _initiate_multipart_upload(self) -> str:
         response: CreateMultipartUploadOutputTypeDef = self.s3.create_multipart_upload(
-            Bucket=self.bucket_name, Key=self.key, ChecksumAlgorithm="SHA256"
+            Bucket=self.bucket_name, Key=self.key
         )
         return response["UploadId"]
 
     def upload_part(self, chunk: bytes) -> None:
         if self.completed:
             raise Exception("Upload already completed")
+        part_number = self.part_number
+        self.part_number += 1
         response: UploadPartOutputTypeDef = self.s3.upload_part(
             Body=chunk,
             Bucket=self.bucket_name,
             Key=self.key,
-            PartNumber=self.part_number,
+            PartNumber=part_number,
             UploadId=self.upload_id,
         )
-        self.parts.append({"PartNumber": self.part_number, "ETag": response["ETag"]})
-        # self._update_part_info(self.archive_id, self.part_number, response['ETag'], response['ChecksumSHA256'])
-        self.part_number += 1
+        self.parts.insert(
+            part_number - 1, {"PartNumber": part_number, "ETag": response["ETag"]}
+        )
 
     def complete_upload(self) -> None:
         self.s3.complete_multipart_upload(
