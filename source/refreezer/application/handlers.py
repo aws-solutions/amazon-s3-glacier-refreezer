@@ -34,3 +34,11 @@ def inventory_chunk_lambda_handler(
     )
 
     return {"body": chunks}
+
+
+def inventory_chunk_download_lambda_handler(
+    event: Dict[str, Any], context: Any
+) -> Dict[str, Any]:
+    LOGGER.info("Chunk retrieval lambda has been invoked.")
+
+    return {"InventoryRetrieved": "TRUE"}

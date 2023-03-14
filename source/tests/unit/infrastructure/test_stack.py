@@ -180,6 +180,7 @@ def test_get_inventory_step_function_created(
     resources_list = ["InventoryRetrievalStateMachine"]
     logical_id = get_logical_id(stack, resources_list)
     topic_logical_id = get_logical_id(stack, ["AsyncFacilitatorTopic"])
+    inventory_lambda_logical_id = get_logical_id(stack, ["InventoryChunkDownload"])
     assert_resource_name_has_correct_type_and_props(
         stack,
         template,
@@ -192,13 +193,11 @@ def test_get_inventory_step_function_created(
                         "",
                         [
                             assertions.Match.string_like_regexp(
-                                (
-                                    r'{"StartAt":"Provided Inventory\?",'
-                                    r'"States":{"Provided Inventory\?":{"Type":"Choice","Choices":\['
-                                    r'{"Variable":"\$.provided_inventory","StringEquals":"YES","Next":"GlueOrderArchives"}\],'
-                                    r'"Default":"GetInventoryInitiateJob"},'
-                                    r'"GetInventoryInitiateJob":{"Next":"DynamoDBPut","Type":"Task","Parameters":{"AccountId":"'
-                                )
+                                r'{"StartAt":"Provided Inventory\?",'
+                                r'"States":{"Provided Inventory\?":{"Type":"Choice","Choices":\['
+                                r'{"Variable":"\$.provided_inventory","StringEquals":"YES","Next":"GlueOrderArchives"}\],'
+                                r'"Default":"GetInventoryInitiateJob"},'
+                                r'"GetInventoryInitiateJob":{"Next":"DynamoDBPut","Type":"Task","Parameters":{"AccountId":"'
                             ),
                             {"Ref": "AWS::AccountId"},
                             assertions.Match.string_like_regexp(
@@ -206,15 +205,18 @@ def test_get_inventory_step_function_created(
                             ),
                             {"Ref": topic_logical_id},
                             assertions.Match.string_like_regexp(
-                                (
-                                    r'"},"VaultName.\$":"\$.vault_name"},"Resource":"arn:aws:states:::aws-sdk:glacier:initiateJob"},'
-                                    r'"DynamoDBPut":{"Type":"Pass","Next":"GenerateChunkArrayLambda"},'
-                                    r'"GenerateChunkArrayLambda":{"Type":"Pass","Parameters":{"chunk_array":\["\d+-\d+"(,+"\d+-\d+")+\]},"Next":"DistributedMap"},'
-                                    r'"DistributedMap":{"Type":"Map","Next":"GlueOrderArchives","Iterator":{"StartAt":"InventoryChunkDownloadLambda",'
-                                    r'"States":{"InventoryChunkDownloadLambda":{"Type":"Pass","Parameters":{"InventoryRetrieved":"TRUE"},"End":true}}},"ItemsPath":"\$.chunk_array"},'
-                                    r'"GlueOrderArchives":{"Type":"Pass","Next":"InventoryValidationLambda"},'
-                                    r'"InventoryValidationLambda":{"Type":"Pass","End":true}}}'
-                                )
+                                r'"},"VaultName.\$":"\$.vault_name"},"Resource":"arn:aws:states:::aws-sdk:glacier:initiateJob"},'
+                                r'"DynamoDBPut":{"Type":"Pass","Next":"GenerateChunkArrayLambda"},'
+                                r'"GenerateChunkArrayLambda":{"Type":"Pass","Parameters":{"chunk_array":\["\d+-\d+"(,+"\d+-\d+")+\]},"Next":"DistributedMap"},'
+                                r'"DistributedMap":{"Type":"Map","Next":"GlueOrderArchives","Iterator":{"StartAt":"InventoryChunkDownloadLambda",'
+                                r'"States":{"InventoryChunkDownloadLambda":{"End":true,"Retry":\[{"ErrorEquals":\["Lambda.ServiceException","Lambda.AWSLambdaException","Lambda.SdkClientException"\],'
+                                r'"IntervalSeconds":\d+,"MaxAttempts":\d+,"BackoffRate":\d+}],"Type":"Task","Resource":'
+                            ),
+                            {"Fn::GetAtt": [inventory_lambda_logical_id, "Arn"]},
+                            assertions.Match.string_like_regexp(
+                                r'"ItemsPath":"\$.chunk_array"},'
+                                r'"GlueOrderArchives":{"Type":"Pass","Next":"InventoryValidationLambda"},'
+                                r'"InventoryValidationLambda":{"Type":"Pass","End":true'
                             ),
                         ],
                     ]
