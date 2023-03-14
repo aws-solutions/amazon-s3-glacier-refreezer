@@ -122,6 +122,31 @@ def test_dynamo_db_put_item_async_behavior(default_input: str) -> None:
             break
 
 
+def test_state_machine_distributed_map(default_input: str) -> None:
+    client: SFNClient = boto3.client("stepfunctions")
+    response = client.start_execution(
+        stateMachineArn=os.environ[OutputKeys.INVENTORY_RETRIEVAL_STATE_MACHINE_ARN],
+        input=default_input,
+    )
+
+    wait_till_state_machine_finish(response["executionArn"], timeout=60)
+
+    sf_history_output = client.get_execution_history(
+        executionArn=response["executionArn"], maxResults=1000
+    )
+
+    events = [
+        event
+        for event in sf_history_output["events"]
+        if "MapRunSucceeded" in event["type"]
+    ]
+
+    if not events:
+        raise AssertionError(
+            "Inventory retrieval distributed map failed to run successfully."
+        )
+
+
 def get_state_machine_output(executionArn: str, timeout: int) -> str:
     client: SFNClient = boto3.client("stepfunctions")
     start_time = time.time()
