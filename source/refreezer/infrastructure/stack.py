@@ -168,6 +168,12 @@ class RefreezerStack(Stack):
 
         if mock_params is not None:
             get_inventory_initiate_job = mock_params.mock_glacier_initiate_job_task
+            mock_notify_sns_lambda_role = iam.Role.from_role_arn(
+                self,
+                "MockNotifySNSLambdaRole",
+                mock_params.mock_notify_sns_lambda_role_arn,
+            )
+            topic.grant_publish(mock_notify_sns_lambda_role)
 
         initiate_job_state_policy = iam.Policy(
             self,
