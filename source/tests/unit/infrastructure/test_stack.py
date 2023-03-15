@@ -261,17 +261,17 @@ def test_get_inventory_step_function_created(
                                 ]
                             },
                             assertions.Match.string_like_regexp(
-                                r'"Parameters":{"InventorySize.\$":"\$.job_result.InventorySizeInBytes","MaximumInventoryRecordSize":\d+,"ChunkSize":\d+}},'
+                                r'","Parameters":{"InventorySize.\$":"\$.job_result.InventorySizeInBytes","MaximumInventoryRecordSize":\d+,"ChunkSize":\d+}},'
                                 r'"InventoryChunkRetrievalDistributedMap":{"Next":"ValidateMultipartUploadLambdaTask","Type":"Map","ItemProcessor":{"ProcessorConfig":{"Mode":"DISTRIBUTED","ExecutionType":"STANDARD"},'
                                 r'"StartAt":"InventoryChunkDownloadLambda","States":{"InventoryChunkDownloadLambda":{"End":true,"Retry":\[{"ErrorEquals":\["Lambda.ServiceException","Lambda.AWSLambdaException","Lambda.SdkClientException"\],'
                                 r'"IntervalSeconds":\d+,"MaxAttempts":\d+,"BackoffRate":\d+}\],'
-                                r'"Type":"Task","Resource"'
+                                r'"Type":"Task","Resource":"'
                             ),
                             {"Fn::GetAtt": [inventory_lambda_logical_id, "Arn"]},
                             assertions.Match.string_like_regexp(
-                                r'"ItemsPath":"\$.body"},"ValidateMultipartUploadLambdaTask":{"Next":"GlueJobAutogenerateEtl","Retry":\[{"ErrorEquals":\["Lambda.ServiceException","Lambda.AWSLambdaException","Lambda.SdkClientException"\],'
+                                r'"}}},"ItemsPath":"\$.body"},"ValidateMultipartUploadLambdaTask":{"Next":"GlueJobAutogenerateEtl","Retry":\[{"ErrorEquals":\["Lambda.ServiceException","Lambda.AWSLambdaException","Lambda.SdkClientException"\],'
                                 r'"IntervalSeconds":\d+,"MaxAttempts":\d+,"BackoffRate":\d+}\],'
-                                r'"Type":"Task","Resource"'
+                                r'"Type":"Task","Resource":"'
                             ),
                             {
                                 "Fn::GetAtt": [
@@ -326,44 +326,74 @@ def test_get_inventory_step_function_created(
         {"Value": {"Ref": logical_id}},
     )
 
-
-def test_initiate_retrieval_step_function_created(
-    stack: RefreezerStack, template: assertions.Template
-) -> None:
-    resources_list = ["InitiateRetrievalStateMachine"]
-    logical_id = get_logical_id(stack, resources_list)
-
-    glacier_object_table_logical_id = get_logical_id(stack, ["GlacierObjectRetrieval"])
-    assert_resource_name_has_correct_type_and_props(
-        stack,
-        template,
-        resources_list=resources_list,
-        cfn_type="AWS::StepFunctions::StateMachine",
-        props={
-            "Properties": {
-                "DefinitionString": {
-                    "Fn::Join": [
-                        "",
-                        [
-                            assertions.Match.string_like_regexp(
-                                r'{"StartAt":"InitiateRetrievalDistributedMap","States":{"InitiateRetrievalDistributedMap":{"Type":"Map","End":true,"Iterator":{"StartAt":"InitiateRetrievalInnerDistributedMap","States":{"InitiateRetrievalInnerDistributedMap":{"Type":"Map","End":true,"Iterator":{"StartAt":"InitiateRetrievalInitiateJob","States":{"InitiateRetrievalInitiateJob":{"Type":"Pass","Next":"InitiateRetrievalWorkflowDynamoDBPut"},'
-                                r'"InitiateRetrievalWorkflowDynamoDBPut":{"End":true,"Type":"Task","Parameters":{"TableName":"'
-                            ),
-                            {"Ref": glacier_object_table_logical_id},
-                            assertions.Match.string_like_regexp(
-                                r'","Item":{"pk":{"S":"IR:\$.ArchiveId"},"sk":{"S":"meta"},"job_id":{"S":"\$.JobId"},"start_timestamp":{"S":"\$\$.Execution.StartTime"}}},"Resource":"arn:aws:states:::aws-sdk:dynamodb:putItem"}'
-                            ),
-                        ],
-                    ]
+    def test_initiate_retrieval_step_function_created(
+        stack: RefreezerStack, template: assertions.Template
+    ) -> None:
+        resources_list = ["InitiateRetrievalStateMachine"]
+        logical_id = get_logical_id(stack, resources_list)
+        glacier_object_table_logical_id = get_logical_id(
+            stack, ["GlacierObjectRetrieval"]
+        )
+        inventory_bucket_logical_id = get_logical_id(stack, ["InventoryBucket"])
+        assert_resource_name_has_correct_type_and_props(
+            stack,
+            template,
+            resources_list=resources_list,
+            cfn_type="AWS::StepFunctions::StateMachine",
+            props={
+                "Properties": {
+                    "DefinitionString": {
+                        "Fn::Join": [
+                            "",
+                            [
+                                assertions.Match.string_like_regexp(
+                                    r'{"StartAt":"InitiateRetrievalDistributedMap","States":{"InitiateRetrievalDistributedMap":{"End":true,"Type":"Map",'
+                                    r'"ItemProcessor":{"ProcessorConfig":{"Mode":"DISTRIBUTED","ExecutionType":"STANDARD"},'
+                                    r'"StartAt":"InitiateRetrievalInnerDistributedMap","States":{"InitiateRetrievalInnerDistributedMap":{"End":true,"Type":"Map",'
+                                    r'"ItemProcessor":{"ProcessorConfig":{"Mode":"DISTRIBUTED","ExecutionType":"STANDARD"},'
+                                    r'"StartAt":"InitiateRetrievalInitiateJob","States":{"InitiateRetrievalInitiateJob":{"Type":"Pass","Next":"InitiateRetrievalWorkflowDynamoDBPut"},'
+                                    r'"InitiateRetrievalWorkflowDynamoDBPut":{"End":true,"Type":"Task","Parameters":{"TableName":"'
+                                ),
+                                {"Ref": glacier_object_table_logical_id},
+                                assertions.Match.string_like_regexp(
+                                    r'","Item":{"pk":{"S":"IR:\$.ArchiveId"},"sk":{"S":"meta"},"job_id":{"S":"\$.JobId"},'
+                                    r'"start_timestamp":{"S":"\$\$.Execution.StartTime"}}},"Resource":"arn:aws:states:::aws-sdk:dynamodb:putItem"}}},'
+                                    r'"MaxConcurrency":1,"ItemSelector":{"bucket.\$":"\$.bucket","key.\$":"\$.item.Key","item.\$":"\$\$.Map.Item.Value"},'
+                                    r'"ResultWriter":{"Resource":"arn:aws:states:::s3:putObject","Parameters":{"Bucket":"'
+                                ),
+                                {"Ref": inventory_bucket_logical_id},
+                                assertions.Match.string_like_regexp(
+                                    r'","Prefix.\$":"States.Format(\'{}/initiate_retrieval_inner_distributed_map_output\', \$.workflow_run)"}},'
+                                    r'"ResultPath":"\$.map_result","ItemReader":{"Resource":"arn:aws:states:::s3:getObject",'
+                                    r'"ReaderConfig":{"InputType":"CSV","CSVHeaderLocation":"FIRST_ROW"},'
+                                    r'"Parameters":{"Bucket.\$":"\$.bucket","Key.\$":"\$.item.Key"}}}}},"MaxConcurrency":1,"ItemSelector":{"bucket":"'
+                                ),
+                                {"Ref": inventory_bucket_logical_id},
+                                assertions.Match.string_like_regexp(
+                                    r'","workflow_run.\$":"\$.workflow_run","item.\$":"\$\$.Map.Item.Value"},'
+                                    r'"ResultWriter":{"Resource":"arn:aws:states:::s3:putObject","Parameters":{"Bucket":"'
+                                ),
+                                {"Ref": inventory_bucket_logical_id},
+                                assertions.Match.string_like_regexp(
+                                    r'","Prefix.\$":"States.Format(\'{}/initiate_retrieval_distributed_map_output\', \$.workflow_run)"}},'
+                                    r'"ResultPath":"\$.map_result",'
+                                    r'"ItemReader":{"Resource":"arn:aws:states:::s3:listObjectsV2","Parameters":{"Bucket":"'
+                                ),
+                                {"Ref": inventory_bucket_logical_id},
+                                assertions.Match.string_like_regexp(
+                                    r'","Prefix.\$":"States.Format(\'{}/sorted_inventory\', \$.workflow_run)"}}}}}'
+                                ),
+                            ],
+                        ]
+                    }
                 }
-            }
-        },
-    )
+            },
+        )
 
-    template.has_output(
-        OutputKeys.INITIATE_RETRIEVAL_STATE_MACHINE_ARN,
-        {"Value": {"Ref": logical_id}},
-    )
+        template.has_output(
+            OutputKeys.INITIATE_RETRIEVAL_STATE_MACHINE_ARN,
+            {"Value": {"Ref": logical_id}},
+        )
 
 
 def test_retrieve_archive_step_function_created(
