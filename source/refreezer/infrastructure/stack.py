@@ -40,6 +40,7 @@ class OutputKeys:
     INVENTORY_CHUNK_DETERMINATION_LAMBDA_ARN = "ICDLA"
     ASYNC_FACILITATOR_LAMBDA_NAME = "AFLN"
     INITIATE_RETRIEVAL_STATE_MACHINE_ARN = "INRSMA"
+    RETRIEVE_ARCHIVE_STATE_MACHINE_ARN = "RASMA"
 
 
 class RefreezerStack(Stack):
@@ -666,6 +667,106 @@ class RefreezerStack(Stack):
 
         NagSuppressions.add_resource_suppressions(
             initiate_retrieval_state_machine,
+            [
+                {
+                    "id": "AwsSolutions-SF1",
+                    "reason": "Step Function logging is disabled and will be addressed later.",
+                },
+                {
+                    "id": "AwsSolutions-SF2",
+                    "reason": "Step Function X-Ray tracing is disabled and will be addressed later.",
+                },
+            ],
+        )
+
+        # =============================================================================
+        # =======================  Retrieve Archive Workflow  =========================
+        # =============================================================================
+
+        # TODO: To be replaced by DynamoDB GetItem (Synchronous mode)
+        retrieve_archive_dynamo_db_get_job = sfn.Pass(
+            self, "RetrieveArchiveDynamoDBGetJob"
+        )
+
+        # TODO: To be replaced by DynamoDB Put custom state for Step Function SDK integration
+        # pause the workflow using waitForTaskToken mechanism
+        retrieve_archive_dynamo_db_put = sfn.Pass(self, "RetrieveArchiveDynamoDBPut")
+
+        # TODO: To be replaced by s3:createMultipartUpload task
+        retrieve_archive_start_multipart_upload = sfn.Pass(
+            self, "RetrieveArchiveStartMultipartUpload"
+        )
+
+        # TODO: To be replaced by generate chunk array LambdaInvoke task
+        retrieve_archive_generate_chunk_array_lambda_task = sfn.Pass(
+            self, "RetrieveArchiveGenerateChunkArrayLambda"
+        )
+
+        # TODO: To be replaced by chunk processing LambdaInvoke task
+        retrieve_archive_chunk_processing_lambda_task = sfn.Pass(
+            self, "RetrieveArchivechunkProcessingLambdaTask"
+        )
+
+        # TODO: To be replaced by a Map state in Distributed mode
+        retrieve_archive_chunk_distributed_map_state = sfn.Map(
+            self, "RetrieveArchiveChunkDistributedMap"
+        )
+        retrieve_archive_chunk_distributed_map_state.iterator(
+            retrieve_archive_chunk_processing_lambda_task
+        )
+
+        retrieve_archive_definition = (
+            retrieve_archive_dynamo_db_get_job.next(retrieve_archive_dynamo_db_put)
+            .next(retrieve_archive_start_multipart_upload)
+            .next(retrieve_archive_generate_chunk_array_lambda_task)
+            .next(retrieve_archive_chunk_distributed_map_state)
+        )
+
+        # TODO: To be replaced by nested Map states in Distributed mode
+        retrieve_archive_distributed_map_state = sfn.Map(
+            self, "RetrieveArchiveDistributedMap"
+        )
+
+        # TODO: To be replaced by nested Map states in Distributed mode
+        retrieve_archive_inner_distributed_map_state = sfn.Map(
+            self, "RetrieveArchiveInnerDistributedMap"
+        )
+        retrieve_archive_inner_distributed_map_state.iterator(
+            retrieve_archive_definition
+        )
+
+        retrieve_archive_distributed_map_state.iterator(
+            retrieve_archive_inner_distributed_map_state
+        )
+
+        # TODO: To be replaced by validate LambdaInvoke task
+        retrieve_archive_validate_lambda_task = sfn.Pass(
+            self, "RetrieveArchiveValidateLambdaTask"
+        )
+
+        # TODO: To be replaced by s3:abortMultipartUpload
+        retrieve_archive_close_multipart_upload = sfn.Pass(
+            self, "RetrieveArchiveCloseMultipartUpload"
+        )
+
+        retrieve_archive_state_machine = sfn.StateMachine(
+            self,
+            "RetrieveArchiveStateMachine",
+            definition=retrieve_archive_distributed_map_state.next(
+                retrieve_archive_validate_lambda_task.next(
+                    retrieve_archive_close_multipart_upload
+                )
+            ),
+        )
+
+        self.outputs[OutputKeys.RETRIEVE_ARCHIVE_STATE_MACHINE_ARN] = CfnOutput(
+            self,
+            OutputKeys.RETRIEVE_ARCHIVE_STATE_MACHINE_ARN,
+            value=retrieve_archive_state_machine.state_machine_arn,
+        )
+
+        NagSuppressions.add_resource_suppressions(
+            retrieve_archive_state_machine,
             [
                 {
                     "id": "AwsSolutions-SF1",
