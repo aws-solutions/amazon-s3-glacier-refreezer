@@ -388,14 +388,22 @@ def test_get_inventory_step_function_created(
                                     r'"ItemProcessor":{"ProcessorConfig":{"Mode":"DISTRIBUTED","ExecutionType":"STANDARD"},'
                                     r'"StartAt":"InitiateRetrievalInnerDistributedMap","States":{"InitiateRetrievalInnerDistributedMap":{"End":true,"Type":"Map",'
                                     r'"ItemProcessor":{"ProcessorConfig":{"Mode":"DISTRIBUTED","ExecutionType":"STANDARD"},'
-                                    r'"StartAt":"InitiateRetrievalInitiateJob","States":{"InitiateRetrievalInitiateJob":{"Type":"Pass","Next":"InitiateRetrievalWorkflowDynamoDBPut"},'
+                                    r'"StartAt":"InitiateRetrievalInitiateJob","States":{"InitiateRetrievalInitiateJob":'
+                                    r'{"Next":"InitiateRetrievalWorkflowDynamoDBPut","Type":"Task","Parameters":{"AccountId":"'
+                                ),
+                                {"Ref": "AWS::AccountId"},
+                                assertions.Match.string_like_regexp(
+                                    r'","JobParameters":{"Type":"archive-retrieval","ArchiveId.\$":"\$.archive_id","Description.\$":"\$.description","SnsTopic":"'
+                                ),
+                                {"Ref": "AsyncFacilitatorTopic97DDDA95"},
+                                assertions.Match.string_like_regexp(
+                                    r'","Tier.\$":"\$.tier"},"VaultName.\$":"\$.vault_name"},"Resource":"arn:aws:states:::aws-sdk:glacier:initiateJob"},'
                                     r'"InitiateRetrievalWorkflowDynamoDBPut":{"End":true,"Type":"Task","Parameters":{"TableName":"'
                                 ),
                                 {"Ref": glacier_object_table_logical_id},
                                 assertions.Match.string_like_regexp(
-                                    r'","Item":{"pk":{"S":"IR:\$.ArchiveId"},"sk":{"S":"meta"},"job_id":{"S":"\$.JobId"},'
-                                    r'"start_timestamp":{"S":"\$\$.Execution.StartTime"}}},"Resource":"arn:aws:states:::aws-sdk:dynamodb:putItem"}}},'
-                                    r'"MaxConcurrency":1,"ItemSelector":{"bucket.\$":"\$.bucket","key.\$":"\$.item.Key","item.\$":"\$\$.Map.Item.Value"},'
+                                    r'","Item":{"pk":{"S":"IR:\$.ArchiveId"},"sk":{"S":"meta"},"job_id":{"S":"\$.JobId"},"start_timestamp":{"S":"\$\$.Execution.StartTime"}}},'
+                                    r'"Resource":"arn:aws:states:::aws-sdk:dynamodb:putItem"}}},"MaxConcurrency":1,"ItemSelector":{"bucket.\$":"\$.bucket","key.\$":"\$.item.Key","item.\$":"\$\$.Map.Item.Value"},'
                                     r'"ResultWriter":{"Resource":"arn:aws:states:::s3:putObject","Parameters":{"Bucket":"'
                                 ),
                                 {"Ref": inventory_bucket_logical_id},
@@ -744,6 +752,70 @@ def test_glue_job_role_created(
                         },
                         "PolicyName": "GlueS3Policy",
                     }
+                ],
+            },
+        },
+    )
+
+
+def test_initiate_job_policy(
+    stack: RefreezerStack, template: assertions.Template
+) -> None:
+    inventory_retrieval_state_machine_role_logical_id = get_logical_id(
+        stack, ["InventoryRetrievalStateMachine", "Role"]
+    )
+    initiate_retrieval_state_machine_role_logical_id = get_logical_id(
+        stack, ["InitiateRetrievalStateMachine", "Role"]
+    )
+    glue_order_job_logical_id = get_logical_id(stack, ["GlueOrderingJob"])
+    resources_list = ["InitiateJobStatePolicy"]
+    assert_resource_name_has_correct_type_and_props(
+        stack,
+        template,
+        resources_list=resources_list,
+        cfn_type="AWS::IAM::Policy",
+        props={
+            "Properties": {
+                "PolicyDocument": {
+                    "Statement": [
+                        {
+                            "Action": "glacier:InitiateJob",
+                            "Effect": "Allow",
+                            "Resource": {
+                                "Fn::Join": [
+                                    "",
+                                    [
+                                        "arn:aws:glacier:",
+                                        {"Ref": "AWS::Region"},
+                                        ":",
+                                        {"Ref": "AWS::AccountId"},
+                                        ":vaults/*",
+                                    ],
+                                ]
+                            },
+                        },
+                        {
+                            "Action": ["glue:UpdateJob", "glue:StartJobRun"],
+                            "Effect": "Allow",
+                            "Resource": {
+                                "Fn::Join": [
+                                    "",
+                                    [
+                                        "arn:aws:glue:",
+                                        {"Ref": "AWS::Region"},
+                                        ":",
+                                        {"Ref": "AWS::AccountId"},
+                                        ":job/",
+                                        {"Ref": glue_order_job_logical_id},
+                                    ],
+                                ]
+                            },
+                        },
+                    ]
+                },
+                "Roles": [
+                    {"Ref": inventory_retrieval_state_machine_role_logical_id},
+                    {"Ref": initiate_retrieval_state_machine_role_logical_id},
                 ],
             },
         },

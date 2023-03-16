@@ -310,7 +310,9 @@ class RefreezerStack(Stack):
         )
 
         if mock_params is not None:
-            get_inventory_initiate_job = mock_params.mock_glacier_initiate_job_task
+            get_inventory_initiate_job = (
+                mock_params.mock_glacier_inventory_initiate_job_task
+            )
             mock_notify_sns_lambda_role = iam.Role.from_role_arn(
                 self,
                 "MockNotifySNSLambdaRole",
@@ -1004,8 +1006,32 @@ class RefreezerStack(Stack):
         # ======================  Initiate Retrieval Workflow  ========================
         # =============================================================================
 
-        # TODO: To be replaced by InitiateJob custom state for Step Function SDK integration
-        initiate_retrieval_initiate_job = sfn.Pass(self, "InitiateRetrievalInitiateJob")
+        state_json = {
+            "Type": "Task",
+            "Parameters": {
+                "AccountId": Aws.ACCOUNT_ID,
+                "JobParameters": {
+                    "Type": "archive-retrieval",
+                    "ArchiveId.$": "$.archive_id",
+                    "Description.$": "$.description",
+                    "SnsTopic": topic.topic_arn,
+                    "Tier.$": "$.tier",
+                },
+                "VaultName.$": "$.vault_name",
+                "ResultPath": "$.initiate_job_result",
+            },
+            "Resource": "arn:aws:states:::aws-sdk:glacier:initiateJob",
+        }
+
+        initiate_retrieval_initiate_job: Union[sfn.IChainable, sfn.INextable]
+        initiate_retrieval_initiate_job = sfn.CustomState(
+            scope, "InitiateRetrievalInitiateJob", state_json=state_json
+        )
+
+        if mock_params is not None:
+            initiate_retrieval_initiate_job = (
+                mock_params.mock_glacier_archive_initiate_job_task
+            )
 
         dynamo_db_put_state_json = {
             "Type": "Task",
@@ -1048,6 +1074,8 @@ class RefreezerStack(Stack):
             "InitiateRetrievalStateMachine",
             definition=initiate_retrieval_distributed_map.distributed_map_state,
         )
+
+        initiate_job_state_policy.attach_to_role(initiate_retrieval_state_machine.role)
 
         self.outputs[OutputKeys.INITIATE_RETRIEVAL_STATE_MACHINE_ARN] = CfnOutput(
             self,

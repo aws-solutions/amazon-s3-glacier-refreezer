@@ -11,7 +11,8 @@ from aws_cdk import aws_stepfunctions_tasks as tasks
 
 
 class MockingParams:
-    mock_glacier_initiate_job_task: tasks.LambdaInvoke
+    mock_glacier_inventory_initiate_job_task: tasks.LambdaInvoke
+    mock_glacier_archive_initiate_job_task: tasks.LambdaInvoke
     mock_glacier_initiate_job_lambda_arn: str
     mock_notify_sns_lambda_role_arn: str
 
@@ -45,16 +46,29 @@ class MockGlacierStack(Stack):
 
         mock_notify_sns_lambda.grant_invoke(mock_glacier_initiate_job_lambda)
 
-        mock_glacier_initiate_job_task = tasks.LambdaInvoke(
+        mock_glacier_inventory_initiate_job_task = tasks.LambdaInvoke(
             scope,
-            "MockGlacierInitiateJobTask",
+            "MockGlacierInventoryInitiateJobTask",
+            lambda_function=mock_glacier_initiate_job_lambda,
+            result_path="$.initiate_job_result",
+            payload_response_only=True,
+        )
+
+        mock_glacier_archive_initiate_job_task = tasks.LambdaInvoke(
+            scope,
+            "MockGlacierArchiveInitiateJobTask",
             lambda_function=mock_glacier_initiate_job_lambda,
             result_path="$.initiate_job_result",
             payload_response_only=True,
         )
 
         self.params = MockingParams()
-        self.params.mock_glacier_initiate_job_task = mock_glacier_initiate_job_task
+        self.params.mock_glacier_inventory_initiate_job_task = (
+            mock_glacier_inventory_initiate_job_task
+        )
+        self.params.mock_glacier_archive_initiate_job_task = (
+            mock_glacier_archive_initiate_job_task
+        )
         self.params.mock_glacier_initiate_job_lambda_arn = (
             mock_glacier_initiate_job_lambda.function_arn
         )
