@@ -24,6 +24,8 @@ from constructs import Construct
 from typing import Optional, Union
 
 from refreezer.mocking.mock_glacier_stack import MockingParams
+from aws_cdk.aws_sns_subscriptions import LambdaSubscription
+from aws_cdk.aws_lambda_event_sources import DynamoEventSource
 
 
 class OutputKeys:
@@ -35,6 +37,7 @@ class OutputKeys:
     INVENTORY_CHUNK_RETRIEVAL_LAMBDA_ARN = "ICRLA"
     INVENTORY_RETRIEVAL_STATE_MACHINE_ARN = "IRSMA"
     INVENTORY_CHUNK_DETERMINATION_LAMBDA_ARN = "ICDLA"
+    ASYNC_FACILITATOR_LAMBDA_NAME = "AFLN"
 
 
 class RefreezerStack(Stack):
@@ -60,6 +63,7 @@ class RefreezerStack(Stack):
                 name="job_id", type=dynamodb.AttributeType.STRING
             ),
             point_in_time_recovery=True,
+            stream=dynamodb.StreamViewType.NEW_AND_OLD_IMAGES,
         )
 
         self.outputs[OutputKeys.ASYNC_FACILITATOR_TABLE_NAME] = CfnOutput(
@@ -92,6 +96,71 @@ class RefreezerStack(Stack):
             self,
             OutputKeys.ASYNC_FACILITATOR_TOPIC_ARN,
             value=topic.topic_arn,
+        )
+
+        facilitator_lambda = lambda_.Function(
+            self,
+            "AsyncFacilitator",
+            handler="refreezer.application.handlers.async_facilitator_handler",
+            code=lambda_.Code.from_asset("source"),
+            runtime=lambda_.Runtime.PYTHON_3_9,
+            memory_size=256,
+        )
+
+        facilitator_lambda.add_event_source(
+            DynamoEventSource(
+                table, starting_position=lambda_.StartingPosition.TRIM_HORIZON
+            )
+        )
+        facilitator_lambda.add_environment("DDB_TABLE_NAME", table.table_name)
+
+        topic.add_subscription(LambdaSubscription(facilitator_lambda))
+
+        self.outputs[OutputKeys.ASYNC_FACILITATOR_LAMBDA_NAME] = CfnOutput(
+            self,
+            OutputKeys.ASYNC_FACILITATOR_LAMBDA_NAME,
+            value=facilitator_lambda.function_name,
+        )
+
+        table.grant(facilitator_lambda, *["dynamodb:Query", "dynamodb:PutItem"])
+        table.grant_stream(
+            facilitator_lambda,
+            *[
+                "dynamodb:DescribeStream",
+                "dynamodb:GetRecords",
+                "dynamodb:GetShardIterator",
+                "dynamodb:ListStreams",
+            ],
+        )
+
+        assert facilitator_lambda.role is not None
+        NagSuppressions.add_resource_suppressions(
+            facilitator_lambda.role,
+            [
+                {
+                    "id": "AwsSolutions-IAM4",
+                    "reason": "CDK grants AWS managed policy for Lambda basic execution by default. Replacing it with a customer managed policy will be addressed later",
+                    "appliesTo": [
+                        "Policy::arn:<AWS::Partition>:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+                    ],
+                },
+            ],
+        )
+
+        NagSuppressions.add_resource_suppressions(
+            facilitator_lambda.role.node.try_find_child(  # type: ignore
+                "DefaultPolicy"
+            ).node.find_child("Resource"),
+            [
+                {
+                    "id": "AwsSolutions-IAM5",
+                    "reason": "When activating stream for dynamodb table. It automatically allow listStreams to all resources with a wildcard and should be suppressed",
+                    "appliesTo": [
+                        "Resource::<AsyncFacilitatorTable8420A92A.Arn>/stream/*",
+                        "Resource::*",
+                    ],
+                },
+            ],
         )
 
         # Bucket to store the restored vault.

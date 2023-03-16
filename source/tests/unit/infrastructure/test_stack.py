@@ -278,3 +278,82 @@ def test_inventory_chunk_determination_created(
         OutputKeys.INVENTORY_CHUNK_DETERMINATION_LAMBDA_ARN,
         {"Value": {"Ref": logical_id}},
     )
+
+
+def test_facilitator_lambda_created(
+    stack: RefreezerStack, template: assertions.Template
+) -> None:
+    match = assertions.Match()
+
+    template.has_resource_properties(
+        "AWS::Lambda::Function",
+        {
+            "Code": {
+                "S3Bucket": {"Fn::Sub": match.any_value()},
+                "S3Key": match.any_value(),
+            },
+            "Role": {
+                "Fn::GetAtt": [
+                    match.string_like_regexp("AsyncFacilitatorServiceRole*"),
+                    "Arn",
+                ]
+            },
+            "Handler": "refreezer.application.handlers.async_facilitator_handler",
+            "MemorySize": 256,
+            "Runtime": "python3.9",
+        },
+    )
+
+
+def test_facilitator_lambda_with_dynamoDb_event_source(
+    template: assertions.Template,
+) -> None:
+    match = assertions.Match()
+    template.has_resource_properties(
+        "AWS::Lambda::EventSourceMapping",
+        {
+            "FunctionName": {"Ref": match.any_value()},
+        },
+    )
+
+
+def test_facilitator_default_policy(
+    stack: RefreezerStack, template: assertions.Template
+) -> None:
+    match = assertions.Match()
+    db_resource_name = ["AsyncFacilitatorTable"]
+    facilitator_table_logical_id = get_logical_id(stack, db_resource_name)
+    template.has_resource_properties(
+        "AWS::IAM::Policy",
+        {
+            "PolicyDocument": {
+                "Statement": match.array_with(
+                    [
+                        {
+                            "Action": ["dynamodb:Query", "dynamodb:PutItem"],
+                            "Effect": "Allow",
+                            "Resource": [
+                                {"Fn::GetAtt": [facilitator_table_logical_id, "Arn"]},
+                                {"Ref": match.any_value()},
+                            ],
+                        },
+                        {
+                            "Action": [
+                                "dynamodb:DescribeStream",
+                                "dynamodb:GetRecords",
+                                "dynamodb:GetShardIterator",
+                                "dynamodb:ListStreams",
+                            ],
+                            "Effect": "Allow",
+                            "Resource": {
+                                "Fn::GetAtt": [
+                                    facilitator_table_logical_id,
+                                    "StreamArn",
+                                ]
+                            },
+                        },
+                    ]
+                )
+            }
+        },
+    )
