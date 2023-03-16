@@ -9,7 +9,15 @@ import typing
 import boto3
 import pytest
 
+import aws_cdk as core
+import aws_cdk.assertions as assertions
+import cdk_nag
+
 from moto import mock_s3, mock_glacier, mock_dynamodb  # type: ignore
+
+from refreezer.infrastructure.stack import (
+    RefreezerStack,
+)
 
 
 if typing.TYPE_CHECKING:
@@ -25,6 +33,36 @@ else:
     Table = object
 
 
+@pytest.fixture
+def glacier_job_result() -> typing.Dict[str, typing.Any]:
+    return {
+        "Action": "InventoryRetrieval",
+        "ArchiveId": None,
+        "ArchiveSHA256TreeHash": None,
+        "ArchiveSizeInBytes": None,
+        "Completed": True,
+        "CompletionDate": "2023-03-03T21:42:40.684Z",
+        "CreationDate": "2023-03-03T17:53:45.420Z",
+        "InventoryRetrievalParameters": {
+            "EndDate": None,
+            "Format": "CSV",
+            "Limit": None,
+            "Marker": None,
+            "StartDate": None,
+        },
+        "InventorySizeInBytes": 1024,
+        "JobDescription": "This is a test",
+        "JobId": "KXt2zItqLEKWXWyHk__7sVM8PfNIrdrsdtTLMPsyzXMnIriEK4lzltZgN7erM6_-VLXwOioQapa8EOgKfqTpqeGWuGpk",
+        "RetrievalByteRange": None,
+        "SHA256TreeHash": None,
+        "SNSTopic": "ARN",
+        "StatusCode": "Succeeded",
+        "StatusMessage": "Succeeded",
+        "Tier": None,
+        "VaultARN": "ARN",
+    }
+
+
 @pytest.fixture(scope="module")
 def aws_credentials() -> None:
     """Mocked AWS Credentials for moto"""
@@ -34,7 +72,7 @@ def aws_credentials() -> None:
     os.environ["AWS_SESSION_TOKEN"] = "testing"
     os.environ["AWS_DEFAULT_REGION"] = "us-east-1"
     os.environ["AWS_REGION"] = "us-east-1"
-    os.environ["DDB_TABLE_NAME"] = "DDB_TABLE_NAME"
+    os.environ["DDB_TABLE_NAME"] = "FacilitatorTable"
 
 
 @pytest.fixture(scope="module")
@@ -61,7 +99,9 @@ def dynamodb_resource(
 
 
 @pytest.fixture(scope="module")
-def common_dynamodb_table_mock(dynamodb_resource: DynamoDBServiceResource) -> Table:
+def common_dynamodb_table_mock(
+    aws_credentials: None, dynamodb_resource: DynamoDBServiceResource
+) -> Table:
     dynamodb_resource.create_table(
         AttributeDefinitions=[
             {"AttributeName": "job_id", "AttributeType": "S"},
@@ -77,3 +117,18 @@ def common_dynamodb_table_mock(dynamodb_resource: DynamoDBServiceResource) -> Ta
         BillingMode="PAY_PER_REQUEST",
     )
     return dynamodb_resource.Table(os.environ["DDB_TABLE_NAME"])
+
+
+@pytest.fixture
+def stack() -> RefreezerStack:
+    app = core.App()
+    stack = RefreezerStack(app, "refreezer")
+    core.Aspects.of(stack).add(
+        cdk_nag.AwsSolutionsChecks(log_ignores=True, verbose=True)
+    )
+    return stack
+
+
+@pytest.fixture
+def template(stack: RefreezerStack) -> assertions.Template:
+    return assertions.Template.from_stack(stack)
