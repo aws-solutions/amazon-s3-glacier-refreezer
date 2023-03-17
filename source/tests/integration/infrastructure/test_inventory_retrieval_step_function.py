@@ -58,7 +58,7 @@ def test_state_machine_start_execution_provided_inventory_no(
         stateMachineArn=os.environ[OutputKeys.INVENTORY_RETRIEVAL_STATE_MACHINE_ARN],
         input=default_input,
     )
-    sf_output = get_state_machine_output(response["executionArn"], timeout=10)
+    sf_output = get_state_machine_output(response["executionArn"], timeout=20)
     assert "InventoryRetrieved" in sf_output
 
 
@@ -69,7 +69,7 @@ def test_initiate_job_task_succeeded(default_input: str) -> None:
         input=default_input,
     )
 
-    wait_till_state_machine_finish(response["executionArn"], timeout=10)
+    wait_till_state_machine_finish(response["executionArn"], timeout=20)
 
     sf_history_output = client.get_execution_history(
         executionArn=response["executionArn"], maxResults=1000
@@ -90,7 +90,7 @@ def test_initiate_job_task_succeeded(default_input: str) -> None:
 def get_state_machine_output(executionArn: str, timeout: int) -> str:
     client: SFNClient = boto3.client("stepfunctions")
     start_time = time.time()
-    sf_output: str
+    sf_output: str = "TIMEOUT EXCEEDED"
     while (time.time() - start_time) < timeout:
         time.sleep(1)
         sf_describe_response = client.describe_execution(executionArn=executionArn)

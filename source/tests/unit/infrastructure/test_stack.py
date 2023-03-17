@@ -166,6 +166,10 @@ def test_get_inventory_step_function_created(
     logical_id = get_logical_id(stack, resources_list)
     topic_logical_id = get_logical_id(stack, ["AsyncFacilitatorTopic"])
     inventory_lambda_logical_id = get_logical_id(stack, ["InventoryChunkDownload"])
+    inventory_chunk_determination_logical_id = get_logical_id(
+        stack, ["InventoryChunkDetermination"]
+    )
+
     assert_resource_name_has_correct_type_and_props(
         stack,
         template,
@@ -191,15 +195,25 @@ def test_get_inventory_step_function_created(
                             {"Ref": topic_logical_id},
                             assertions.Match.string_like_regexp(
                                 r'"},"VaultName.\$":"\$.vault_name"},"Resource":"arn:aws:states:::aws-sdk:glacier:initiateJob"},'
-                                r'"DynamoDBPut":{"Type":"Pass","Next":"GenerateChunkArrayLambda"},'
-                                r'"GenerateChunkArrayLambda":{"Type":"Pass","Parameters":{"chunk_array":\["\d+-\d+"(,+"\d+-\d+")+\]},"Next":"DistributedMap"},'
+                                r'"DynamoDBPut":{"Type":"Pass","Parameters":{"InventorySize":\d+,"MaximumInventoryRecordSize":\d+,"ChunkSize":\d+},"Next":"GenerateChunkArrayLambda"},'
+                                r'"GenerateChunkArrayLambda":{"Next":"DistributedMap","Retry":\[{"ErrorEquals":\["Lambda.ServiceException","Lambda.AWSLambdaException","Lambda.SdkClientException"\],'
+                                r'"IntervalSeconds":\d+,"MaxAttempts":\d+,"BackoffRate":\d+}\],'
+                                r'"Type":"Task","Resource":"'
+                            ),
+                            {
+                                "Fn::GetAtt": [
+                                    inventory_chunk_determination_logical_id,
+                                    "Arn",
+                                ]
+                            },
+                            assertions.Match.string_like_regexp(
                                 r'"DistributedMap":{"Type":"Map","Next":"GlueOrderArchives","Iterator":{"StartAt":"InventoryChunkDownloadLambda",'
                                 r'"States":{"InventoryChunkDownloadLambda":{"End":true,"Retry":\[{"ErrorEquals":\["Lambda.ServiceException","Lambda.AWSLambdaException","Lambda.SdkClientException"\],'
                                 r'"IntervalSeconds":\d+,"MaxAttempts":\d+,"BackoffRate":\d+}],"Type":"Task","Resource":'
                             ),
                             {"Fn::GetAtt": [inventory_lambda_logical_id, "Arn"]},
                             assertions.Match.string_like_regexp(
-                                r'"ItemsPath":"\$.chunk_array"},'
+                                r'"ItemsPath":"\$.body"},'
                                 r'"GlueOrderArchives":{"Type":"Pass","Next":"InventoryValidationLambda"},'
                                 r'"InventoryValidationLambda":{"Type":"Pass","End":true'
                             ),
