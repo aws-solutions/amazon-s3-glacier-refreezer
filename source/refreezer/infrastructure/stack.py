@@ -48,6 +48,9 @@ class RefreezerStack(Stack):
     ) -> None:
         super().__init__(scope, construct_id)
 
+        MAXIMUM_INVENTORY_RECORD_SIZE = 2**10 * 2
+        CHUNK_SIZE = 2**20 * 5
+
         self.outputs = {}
 
         table = dynamodb.Table(
@@ -207,14 +210,12 @@ class RefreezerStack(Stack):
 
         # TODO: To be replaced by DynamoDB Put custom state for Step Function SDK integration
         # pause the workflow using waitForTaskToken mechanism
-        dynamo_db_put = sfn.Pass(self, "DynamoDBPut")
-
-        # TODO: To be replaced by GenerateChunkArray LambdaInvoke task
-        # which will retrun the chunks array
-        parameters = {"chunk_array": ["0-499", "300-799"]}
-        generate_chunk_array_lambda = sfn.Pass(
-            self, "GenerateChunkArrayLambda", parameters=parameters
-        )
+        parameters = {
+            "InventorySize": 2**30 * 3,
+            "MaximumInventoryRecordSize": MAXIMUM_INVENTORY_RECORD_SIZE,
+            "ChunkSize": CHUNK_SIZE,
+        }
+        dynamo_db_put = sfn.Pass(self, "DynamoDBPut", parameters=parameters)
 
         inventory_chunk_determination_lambda = lambda_.Function(
             self,
@@ -223,6 +224,13 @@ class RefreezerStack(Stack):
             runtime=lambda_.Runtime.PYTHON_3_9,
             code=lambda_.Code.from_asset("source"),
             description="Lambda to generate the correct byte offsets to retrieve the inventory.",
+        )
+
+        generate_chunk_array_lambda = tasks.LambdaInvoke(
+            self,
+            "GenerateChunkArrayLambda",
+            lambda_function=inventory_chunk_determination_lambda,
+            payload_response_only=True,
         )
 
         self.outputs[OutputKeys.INVENTORY_CHUNK_DETERMINATION_LAMBDA_ARN] = CfnOutput(
@@ -268,7 +276,6 @@ class RefreezerStack(Stack):
             ],
         )
 
-        # Add lambda invoke step
         inventory_chunk_download_lambda = tasks.LambdaInvoke(
             self,
             "InventoryChunkDownloadLambda",
@@ -283,9 +290,7 @@ class RefreezerStack(Stack):
         )
 
         # TODO: To be replaced by Map state in Distributed mode
-        distributed_map_state = sfn.Map(
-            self, "DistributedMap", items_path="$.chunk_array"
-        )
+        distributed_map_state = sfn.Map(self, "DistributedMap", items_path="$.body")
         distributed_map_state.iterator(inventory_chunk_download_lambda)
 
         # TODO: To be replaced by Glue task
@@ -340,6 +345,31 @@ class RefreezerStack(Stack):
                     "appliesTo": [
                         "Resource::<"
                         + inventory_chunk_download_lambda_function_logical_id
+                        + ".Arn>:*"
+                    ],
+                }
+            ],
+        )
+
+        assert isinstance(
+            inventory_chunk_determination_lambda.node.default_child, CfnElement
+        )
+        assert inventory_chunk_determination_lambda.role is not None
+        inventory_chunk_determination_lambda_logical_id = Stack.of(self).get_logical_id(
+            inventory_chunk_determination_lambda.node.default_child
+        )
+
+        NagSuppressions.add_resource_suppressions(
+            inventory_retrieval_state_machine.role.node.find_child(
+                "DefaultPolicy"
+            ).node.find_child("Resource"),
+            [
+                {
+                    "id": "AwsSolutions-IAM5",
+                    "reason": "By default wildcard permission is granted to the lambda.  This will be replaced with a proper IAM role later.",
+                    "appliesTo": [
+                        "Resource::<"
+                        + inventory_chunk_determination_lambda_logical_id
                         + ".Arn>:*"
                     ],
                 }
