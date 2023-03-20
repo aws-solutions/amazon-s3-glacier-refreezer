@@ -47,7 +47,7 @@ def sns_handler(
     job_id = job_result["JobId"]
     facilitator_model = FacilitatorModel(job_id=job_id)
     facilitator_model.job_result = job_result
-    if not facilitator_model.check_if_job_finished():
+    if facilitator_model.check_still_in_progress():
         return
 
     facilitator_model.finish_timestamp = job_result["CompletionDate"]
