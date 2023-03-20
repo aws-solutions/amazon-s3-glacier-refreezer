@@ -126,7 +126,7 @@ class PipelineStack(Stack):
                 ),
                 iam.PolicyStatement(
                     effect=iam.Effect.ALLOW,
-                    actions=["sns:Publish"],
+                    actions=["sns:Publish", "sns:ListSubscriptionsByTopic"],
                     resources=[
                         f"arn:aws:sns:{Aws.REGION}:{Aws.ACCOUNT_ID}:{STACK_NAME}-AsyncFacilitatorTopic*"
                     ],
@@ -156,6 +156,13 @@ class PipelineStack(Stack):
                     actions=["lambda:InvokeFunction"],
                     resources=[
                         f"arn:aws:lambda:{Aws.REGION}:{Aws.ACCOUNT_ID}:function:{STACK_NAME}-ChunkRetrieval*"
+                    ],
+                ),
+                iam.PolicyStatement(
+                    effect=iam.Effect.ALLOW,
+                    actions=["lambda:InvokeFunction", "lambda:GetFunction"],
+                    resources=[
+                        f"arn:aws:lambda:{Aws.REGION}:{Aws.ACCOUNT_ID}:function:{STACK_NAME}-AsyncFacilitator*"
                     ],
                 ),
                 iam.PolicyStatement(
