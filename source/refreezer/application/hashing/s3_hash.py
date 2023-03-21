@@ -4,13 +4,17 @@ SPDX-License-Identifier: Apache-2.0
 """
 
 import hashlib
+import typing
 
 
 class S3Hash:
     def __init__(self) -> None:
         self.hashes: list[bytes] = []
 
-    def include(self, hash: bytes) -> None:
+    def include(self, hash: bytes, index: typing.Optional[int] = None) -> None:
+        if index is not None:
+            self.hashes.insert(index, hash)
+            return
         self.hashes.append(hash)
 
     def _concat(self) -> bytes:

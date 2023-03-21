@@ -459,13 +459,23 @@ class RefreezerStack(Stack):
             ],
         )
 
+        boto3_lambda_layer = lambda_.LayerVersion(
+            self,
+            "boto3_lambda_layer",
+            code=lambda_.Code.from_asset("layers/boto3.zip"),
+            compatible_runtimes=[lambda_.Runtime.PYTHON_3_9],
+            license="Apache-2.0",
+            description="A Boto3 layer to use (v1.26.70) rather than the default provided by lambda",
+        )
+
         chunk_retrieval_lambda = lambda_.Function(
             self,
             "ChunkRetrieval",
             handler="refreezer.application.handlers.chunk_retrieval_lambda_handler",
             runtime=lambda_.Runtime.PYTHON_3_9,
             code=lambda_.Code.from_asset("source"),
-            memory_size=4096,
+            layers=[boto3_lambda_layer],
+            memory_size=2560,
             timeout=Duration.minutes(15),
             description="Lambda to retrieve chunks from Glacier, upload them to S3 and generate file checksums.",
         )
