@@ -35,8 +35,8 @@ class FacilitatorModel:
         )
         return result
 
-    def check_if_job_finished(self) -> bool:
+    def check_still_in_progress(self) -> bool:
         if self.job_result["StatusCode"] == StatusCode.IN_PROGRESS:
             logger.info(f"The job with job-id {self.job_id} is still in progress")
-            return False
-        return True
+            return True
+        return False
