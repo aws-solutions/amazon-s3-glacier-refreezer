@@ -147,10 +147,11 @@ class RefreezerStack(Stack):
             ],
         )
 
+        assert facilitator_lambda.role is not None
         NagSuppressions.add_resource_suppressions(
-            facilitator_lambda.role.node.try_find_child(  # type: ignore
-                "DefaultPolicy"
-            ).node.find_child("Resource"),
+            facilitator_lambda.role.node.find_child("DefaultPolicy").node.find_child(
+                "Resource"
+            ),
             [
                 {
                     "id": "AwsSolutions-IAM5",
@@ -158,6 +159,14 @@ class RefreezerStack(Stack):
                     "appliesTo": [
                         "Resource::<AsyncFacilitatorTable8420A92A.Arn>/stream/*",
                         "Resource::*",
+                    ],
+                },
+                {
+                    "id": "AwsSolutions-IAM5",
+                    "reason": "Lambda permission needed to SendTaskSuccess and SendTaskFailure.",
+                    "appliesTo": [
+                        "Resource::arn:aws:states:<AWS::Region>:<AWS::AccountId>:stateMachine:InventoryRetrievalStateMachine*",
+                        "Resource::arn:aws:states:<AWS::Region>:<AWS::AccountId>:execution:InventoryRetrievalStateMachine*",
                     ],
                 },
             ],
@@ -385,6 +394,21 @@ class RefreezerStack(Stack):
 
         inventory_retrieval_state_machine = sfn.StateMachine(
             self, "InventoryRetrievalStateMachine", definition=definition
+        )
+
+        facilitator_lambda.add_to_role_policy(
+            iam.PolicyStatement(
+                effect=iam.Effect.ALLOW,
+                actions=[
+                    "states:SendTaskSuccess",
+                    "states:DescribeExecution",
+                    "states:SendTaskFailure",
+                ],
+                resources=[
+                    f"arn:aws:states:{Aws.REGION}:{Aws.ACCOUNT_ID}:stateMachine:InventoryRetrievalStateMachine*",
+                    f"arn:aws:states:{Aws.REGION}:{Aws.ACCOUNT_ID}:execution:InventoryRetrievalStateMachine*",
+                ],
+            ),
         )
 
         initiate_job_state_policy.attach_to_role(inventory_retrieval_state_machine.role)
