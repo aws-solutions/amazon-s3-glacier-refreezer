@@ -103,7 +103,7 @@ def test_glacier_sns_topic_created(
         template,
         resources_list=resources_list,
         cfn_type="AWS::SNS::Topic",
-        props={"Properties": {"KmsMasterKeyId": assertions.Match.any_value()}},
+        props={},
     )
 
     template.has_output(
@@ -121,6 +121,17 @@ def test_glacier_sns_topic_created(
                         "Condition": {"Bool": {"aws:SecureTransport": False}},
                         "Effect": "Deny",
                         "Principal": {"AWS": "*"},
+                        "Resource": {"Ref": logical_id},
+                    },
+                    {
+                        "Action": "SNS:Publish",
+                        "Condition": {
+                            "StringEquals": {
+                                "AWS:SourceOwner": {"Ref": "AWS::AccountId"}
+                            }
+                        },
+                        "Effect": "Allow",
+                        "Principal": {"Service": "glacier.amazonaws.com"},
                         "Resource": {"Ref": logical_id},
                     },
                 ],

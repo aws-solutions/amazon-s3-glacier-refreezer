@@ -72,15 +72,7 @@ class RefreezerStack(Stack):
             value=table.table_name,
         )
 
-        sns_default_key = kms.Alias.from_alias_name(
-            self, "DefaultKeySNS", "alias/aws/sns"
-        )
-
-        topic = sns.Topic(
-            self,
-            "AsyncFacilitatorTopic",
-            master_key=sns_default_key,
-        )
+        topic = sns.Topic(self, "AsyncFacilitatorTopic")
 
         topic.add_to_resource_policy(
             iam.PolicyStatement(
@@ -90,6 +82,28 @@ class RefreezerStack(Stack):
                 principals=[iam.AnyPrincipal()],
                 resources=[topic.topic_arn],
             )
+        )
+
+        topic.add_to_resource_policy(
+            iam.PolicyStatement(
+                actions=["SNS:Publish"],
+                effect=iam.Effect.ALLOW,
+                resources=[topic.topic_arn],
+                principals=[
+                    iam.ServicePrincipal("glacier.amazonaws.com"),
+                ],
+                conditions={"StringEquals": {"AWS:SourceOwner": Aws.ACCOUNT_ID}},
+            )
+        )
+
+        NagSuppressions.add_resource_suppressions(
+            topic.node.find_child("Resource"),
+            [
+                {
+                    "id": "AwsSolutions-SNS2",
+                    "reason": "SNS Topic does not have server-side encryption enabled to be able to receive notifications from Glacier",
+                },
+            ],
         )
 
         self.outputs[OutputKeys.ASYNC_FACILITATOR_TOPIC_ARN] = CfnOutput(
