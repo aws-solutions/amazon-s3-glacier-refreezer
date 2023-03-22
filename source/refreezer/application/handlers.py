@@ -54,6 +54,13 @@ def chunk_retrieval_lambda_handler(
     return {"body": "Chunk retrieval lambda has completed."}
 
 
+def chunk_validation_lambda_handler(
+    event: Dict[str, Any], _context: Any
+) -> Dict[str, Any]:
+    logger.info("Chunk validation lambda has been invoked.")
+    return {"body": "Chunk validation lambda has completed."}
+
+
 def inventory_chunk_lambda_handler(
     event: Dict[str, Any], context: Any
 ) -> Dict[str, Any]:

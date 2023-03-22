@@ -34,6 +34,7 @@ class OutputKeys:
     OUTPUT_BUCKET_NAME = "OBN"
     INVENTORY_BUCKET_NAME = "IBN"
     CHUNK_RETRIEVAL_LAMBDA_ARN = "CRLA"
+    CHUNK_VALIDATION_LAMBDA_ARN = "CVLA"
     INVENTORY_CHUNK_RETRIEVAL_LAMBDA_ARN = "ICRLA"
     INVENTORY_RETRIEVAL_STATE_MACHINE_ARN = "IRSMA"
     INVENTORY_CHUNK_DETERMINATION_LAMBDA_ARN = "ICDLA"
@@ -571,6 +572,38 @@ class RefreezerStack(Stack):
         assert chunk_retrieval_lambda.role is not None
         NagSuppressions.add_resource_suppressions(
             chunk_retrieval_lambda.role.node.find_child("Resource"),
+            [
+                {
+                    "id": "AwsSolutions-IAM4",
+                    "reason": "CDK grants AWS managed policy for Lambda basic execution by default. Replacing it with a customer managed policy will be addressed later.",
+                    "appliesTo": [
+                        "Policy::arn:<AWS::Partition>:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+                    ],
+                }
+            ],
+        )
+
+        chunk_validation_lambda = lambda_.Function(
+            self,
+            "ChunkValidation",
+            handler="refreezer.application.handlers.chunk_validation_lambda_handler",
+            runtime=lambda_.Runtime.PYTHON_3_9,
+            code=lambda_.Code.from_asset("source"),
+            layers=[boto3_lambda_layer],
+            memory_size=128,
+            timeout=Duration.minutes(3),
+            description="Lambda to validate retrieved chunks and complete the S3 multipart upload.",
+        )
+
+        self.outputs[OutputKeys.CHUNK_VALIDATION_LAMBDA_ARN] = CfnOutput(
+            self,
+            OutputKeys.CHUNK_VALIDATION_LAMBDA_ARN,
+            value=chunk_validation_lambda.function_name,
+        )
+
+        assert chunk_validation_lambda.role is not None
+        NagSuppressions.add_resource_suppressions(
+            chunk_validation_lambda.role.node.find_child("Resource"),
             [
                 {
                     "id": "AwsSolutions-IAM4",
