@@ -640,7 +640,7 @@ class RefreezerStack(Stack):
             runtime=lambda_.Runtime.PYTHON_3_9,
             code=lambda_.Code.from_asset("source"),
             layers=[boto3_lambda_layer],
-            memory_size=2560,
+            memory_size=1536,
             timeout=Duration.minutes(15),
             description="Lambda to retrieve chunks from Glacier, upload them to S3 and generate file checksums.",
         )
