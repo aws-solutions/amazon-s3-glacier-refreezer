@@ -9,8 +9,8 @@ from typing import List, Dict, TYPE_CHECKING, Optional, Any
 
 from refreezer.application.facilitator.processor import sns_handler, dynamoDb_handler
 from refreezer.application.chunking.inventory import generate_chunk_array
-from refreezer.application.archive_transfer.facilitator import (
-    ArchiveTransferFacilitator,
+from refreezer.application.glacier_s3_transfer.facilitator import (
+    GlacierToS3Facilitator,
 )
 
 
@@ -38,19 +38,18 @@ def chunk_retrieval_lambda_handler(
     event: Dict[str, Any], _context: Any
 ) -> Dict[str, Any]:
     logger.info("Chunk retrieval lambda has been invoked.")
-    facilitator = ArchiveTransferFacilitator(
+    facilitator = GlacierToS3Facilitator(
         event["JobId"],
         event["VaultName"],
         event["StartByte"],
         event["EndByte"],
-        event["ChunkSize"],
-        event["DestinationBucket"],
-        event["ArchiveKey"],
-        event["ArchiveId"],
-        event.get("UploadId"),
-        event.get("PartNumber"),
+        event["GlacierObjectId"],
+        event["S3DestinationBucket"],
+        event["S3DestinationKey"],
+        event["UploadId"],
+        event["PartNumber"],
     )
-    facilitator.transfer_archive()
+    facilitator.transfer()
     return {"body": "Chunk retrieval lambda has completed."}
 
 

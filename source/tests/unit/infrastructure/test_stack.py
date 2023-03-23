@@ -280,7 +280,7 @@ def test_chunk_retrieval_lambda_created(
             "Properties": {
                 "Handler": "refreezer.application.handlers.chunk_retrieval_lambda_handler",
                 "Runtime": "python3.9",
-                "MemorySize": 2560,
+                "MemorySize": 1536,
                 "Timeout": 900,
             },
         },
