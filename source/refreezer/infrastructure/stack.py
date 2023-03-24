@@ -29,6 +29,8 @@ from aws_cdk.aws_lambda_event_sources import DynamoEventSource
 from aws_cdk.aws_glue_alpha import Job, JobExecutable, PythonVersion, GlueVersion, Code
 from refreezer.infrastructure.distributed_map import DistributedMap
 
+from refreezer.infrastructure.glue_helper.glue_sfn_update import GlueSfnUpdate
+
 
 class OutputKeys:
     ARCHIVE_CHUNK_DETERMINATION_LAMBDA_ARN = "ArchiveChunkDeterminationLambdaArn"
@@ -57,9 +59,9 @@ class RefreezerStack(Stack):
         mock_params: Optional[MockingParams] = None,
     ) -> None:
         super().__init__(scope, construct_id)
-
         MAXIMUM_INVENTORY_RECORD_SIZE = 2**10 * 2
         CHUNK_SIZE = 2**20 * 5
+        GLUE_MAX_CONCURENT_RUNS = 10
 
         self.outputs = {}
 
@@ -296,7 +298,6 @@ class RefreezerStack(Stack):
             },
             "Resource": "arn:aws:states:::aws-sdk:glacier:initiateJob",
         }
-
         get_inventory_initiate_job: Union[sfn.IChainable, sfn.INextable]
         get_inventory_initiate_job = sfn.CustomState(
             scope, "GetInventoryInitiateJob", state_json=state_json
@@ -332,7 +333,9 @@ class RefreezerStack(Stack):
             )
         )
 
-        glue_script_location = "scripts/inventory_sort_script.py"
+        # TODO soon should be updated for now it is hardcoded
+        workflow_run_id = "workflow_run_id"
+        glue_script_location = f"{workflow_run_id}/scripts/inventory_sort_script.py"
         glue_job = Job(
             self,
             "GlueOrderingJob",
@@ -356,7 +359,14 @@ class RefreezerStack(Stack):
                     resources=[
                         f"arn:aws:glacier:{Aws.REGION}:{Aws.ACCOUNT_ID}:vaults/*"
                     ],
-                )
+                ),
+                iam.PolicyStatement(
+                    effect=iam.Effect.ALLOW,
+                    actions=["glue:UpdateJob", "glue:StartJobRun"],
+                    resources=[
+                        f"arn:aws:glue:{Aws.REGION}:{Aws.ACCOUNT_ID}:job/{glue_job.job_name}"
+                    ],
+                ),
             ],
         )
 
@@ -535,8 +545,22 @@ class RefreezerStack(Stack):
             items_path="$.body",
         )
 
-        # TODO: To be replaced by Glue task
-        glue_order_archives = sfn.Pass(self, "GlueOrderArchives")
+        glue_sfn_update = GlueSfnUpdate(
+            self,
+            "GlueSfnUpdate",
+            inventory_bucket.bucket_name,
+            inventory_bucket.bucket_arn,
+            glue_job.job_name,
+            glue_job.role.role_arn,
+            glue_script_location,
+            glue_max_concurent_runs=GLUE_MAX_CONCURENT_RUNS
+            if mock_params is not None
+            else 1,
+        )
+
+        glue_order_archives = glue_sfn_update.autogenerate_etl_script().next(
+            glue_sfn_update.start_job()
+        )
 
         # TODO: To be replaced by InventoryValidationLambda LambdaInvoke task
         inventory_validation_lambda = sfn.Pass(self, "InventoryValidationLambda")
@@ -579,6 +603,7 @@ class RefreezerStack(Stack):
             inventory_retrieval_state_machine
         )
 
+        inventory_bucket.grant_put(inventory_retrieval_state_machine)
         initiate_job_state_policy.attach_to_role(inventory_retrieval_state_machine.role)
         table.grant_read_write_data(inventory_retrieval_state_machine)
 
@@ -672,9 +697,9 @@ class RefreezerStack(Stack):
                     "id": "AwsSolutions-IAM5",
                     "reason": "By default wildcard permission is granted to the lambda.  This will be replaced with a proper IAM role later.",
                     "appliesTo": [
-                        "Resource::<"
-                        + inventory_chunk_determination_lambda_logical_id
-                        + ".Arn>:*"
+                        f"Resource::<{inventory_chunk_determination_lambda_logical_id}.Arn>:*",
+                        "Action::s3:Abort*",
+                        f"Resource::<{inventory_bucket_logical_id}.Arn>/*",
                     ],
                 }
             ],
