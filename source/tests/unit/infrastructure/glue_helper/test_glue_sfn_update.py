@@ -87,6 +87,17 @@ def test_autogenerate_etl_script(glue_sfn_update: GlueSfnUpdate) -> None:
                             "Name": "S3 bucket",
                         }
                     },
+                    "node-4": {
+                        "CustomCode": {
+                            "Inputs": ["node-1", "node-2"],
+                            "ClassName": "Validation",
+                            "Code": """
+node_inputs = list(dfc.values())
+assert node_inputs[0].toDF().count() == node_inputs[1].toDF().count()
+""",
+                            "Name": "Validation",
+                        }
+                    },
                 },
                 "Command": {
                     "Name": "glueetl",
