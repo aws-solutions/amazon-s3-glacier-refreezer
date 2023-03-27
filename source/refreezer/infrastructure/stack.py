@@ -39,6 +39,7 @@ class OutputKeys:
     INVENTORY_RETRIEVAL_STATE_MACHINE_ARN = "IRSMA"
     INVENTORY_CHUNK_DETERMINATION_LAMBDA_ARN = "ICDLA"
     ASYNC_FACILITATOR_LAMBDA_NAME = "AFLN"
+    INITIATE_RETRIEVAL_STATE_MACHINE_ARN = "INRSMA"
 
 
 class RefreezerStack(Stack):
@@ -242,6 +243,10 @@ class RefreezerStack(Stack):
                 }
             ],
         )
+
+        # =============================================================================
+        # ==========================  Get Inventory Workflow  =========================
+        # =============================================================================
 
         state_json = {
             "Type": "Task",
@@ -612,5 +617,63 @@ class RefreezerStack(Stack):
                         "Policy::arn:<AWS::Partition>:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
                     ],
                 }
+            ],
+        )
+
+        # =============================================================================
+        # ======================  Initiate Retrieval Workflow  ========================
+        # =============================================================================
+
+        # TODO: To be replaced by InitiateJob custom state for Step Function SDK integration
+        initiate_retrieval_initiate_job = sfn.Pass(self, "InitiateRetrievalInitiateJob")
+
+        # TODO: To be replaced by DynamoDB PutItem (Synchronous mode)
+        initiate_retrieval_dynamo_db_put = sfn.Pass(
+            self, "InitiateRetrievalDynamoDBPut"
+        )
+
+        initiate_retrieval_definition = initiate_retrieval_initiate_job.next(
+            initiate_retrieval_dynamo_db_put
+        )
+
+        # TODO: To be replaced by nested Map states in Distributed mode
+        initiate_retrieval_distributed_map_state = sfn.Map(
+            self, "InitiateRetrievalDistributedMap"
+        )
+
+        initiate_retrieval_inner_distributed_map_state = sfn.Map(
+            self, "InitiateRetrievalInnerDistributedMap"
+        )
+        initiate_retrieval_inner_distributed_map_state.iterator(
+            initiate_retrieval_definition
+        )
+
+        initiate_retrieval_distributed_map_state.iterator(
+            initiate_retrieval_inner_distributed_map_state
+        )
+
+        initiate_retrieval_state_machine = sfn.StateMachine(
+            self,
+            "InitiateRetrievalStateMachine",
+            definition=initiate_retrieval_distributed_map_state,
+        )
+
+        self.outputs[OutputKeys.INITIATE_RETRIEVAL_STATE_MACHINE_ARN] = CfnOutput(
+            self,
+            OutputKeys.INITIATE_RETRIEVAL_STATE_MACHINE_ARN,
+            value=initiate_retrieval_state_machine.state_machine_arn,
+        )
+
+        NagSuppressions.add_resource_suppressions(
+            initiate_retrieval_state_machine,
+            [
+                {
+                    "id": "AwsSolutions-SF1",
+                    "reason": "Step Function logging is disabled and will be addressed later.",
+                },
+                {
+                    "id": "AwsSolutions-SF2",
+                    "reason": "Step Function X-Ray tracing is disabled and will be addressed later.",
+                },
             ],
         )
