@@ -151,6 +151,8 @@ class PipelineStack(Stack):
                         f"arn:aws:states:{Aws.REGION}:{Aws.ACCOUNT_ID}:execution:InventoryRetrievalStateMachine*",
                         f"arn:aws:states:{Aws.REGION}:{Aws.ACCOUNT_ID}:stateMachine:InitiateRetrievalStateMachine*",
                         f"arn:aws:states:{Aws.REGION}:{Aws.ACCOUNT_ID}:execution:InitiateRetrievalStateMachine*",
+                        f"arn:aws:states:{Aws.REGION}:{Aws.ACCOUNT_ID}:stateMachine:RetrieveArchiveStateMachine*",
+                        f"arn:aws:states:{Aws.REGION}:{Aws.ACCOUNT_ID}:execution:RetrieveArchiveStateMachine*",
                     ],
                 ),
                 iam.PolicyStatement(
