@@ -61,11 +61,7 @@ class PipelineStack(Stack):
         deploy_stage = DeployStage(self, DEPLOY_STAGE_NAME)
         pipeline.add_stage(
             deploy_stage,
-            post=[
-                self.get_integration_test_step(
-                    outputs_map=deploy_stage.refreezer_stack.outputs
-                )
-            ],
+            post=[self.get_integration_test_step()],
         )
 
     def get_connection(self) -> CodeStarSource:
@@ -99,17 +95,21 @@ class PipelineStack(Stack):
             partial_build_spec=self.get_reports_partial_build_spec("pytest-report.xml"),
         )
 
-    def get_integration_test_step(
-        self, outputs_map: Mapping[str, CfnOutput]
-    ) -> pipelines.CodeBuildStep:
+    def get_integration_test_step(self) -> pipelines.CodeBuildStep:
         return pipelines.CodeBuildStep(
             "IntegrationTest",
             install_commands=[
                 "pip install tox",
             ],
             commands=["tox -e integration -- --junitxml=pytest-integration-report.xml"],
-            env_from_cfn_outputs=outputs_map,
             role_policy_statements=[
+                iam.PolicyStatement(
+                    effect=iam.Effect.ALLOW,
+                    actions=["cloudformation:DescribeStacks"],
+                    resources=[
+                        f"arn:aws:cloudformation:{Aws.REGION}:{Aws.ACCOUNT_ID}:stack/{STACK_NAME}/*"
+                    ],
+                ),
                 iam.PolicyStatement(
                     effect=iam.Effect.ALLOW,
                     actions=[
