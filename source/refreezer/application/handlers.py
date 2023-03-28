@@ -83,3 +83,24 @@ def inventory_chunk_download_lambda_handler(
     logger.info("Chunk retrieval lambda has been invoked.")
 
     return {"InventoryRetrieved": "TRUE"}
+
+
+def archive_chunk_lambda_handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
+    logger.info("Archive chunk lambda has been invoked.")
+
+    archive_size = event["ArchiveSize"]
+    maximum_archive_record_size = event["MaximumArchiveRecordSize"]
+    archive_chunk_size = event["ArchiveChunkSize"]
+
+    # TODO: This is a temporary (testing) solution to get the chunking working. This will be replaced with a proper chunking solution in a future Asana task.
+    archive_chunks = {
+        "ArchiveChunks": [
+            {
+                "StartByte": 0,
+                "EndByte": archive_chunk_size,
+                "ChunkSize": archive_chunk_size,
+            }
+        ]
+    }
+
+    return {"body": archive_chunks}

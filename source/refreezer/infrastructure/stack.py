@@ -29,6 +29,7 @@ from aws_cdk.aws_lambda_event_sources import DynamoEventSource
 
 
 class OutputKeys:
+    ARCHIVE_CHUNK_DETERMINATION_LAMBDA_ARN = "ACDLA"
     ASYNC_FACILITATOR_TABLE_NAME = "AFTN"
     ASYNC_FACILITATOR_TOPIC_ARN = "AFTA"
     OUTPUT_BUCKET_NAME = "OBN"
@@ -500,6 +501,43 @@ class RefreezerStack(Stack):
                 {
                     "id": "AwsSolutions-SF2",
                     "reason": "Step Function X-Ray tracing is disabled and will be addressed later.",
+                },
+            ],
+        )
+
+        archive_chunk_determination_lambda = lambda_.Function(
+            self,
+            "ArchiveChunkDetermination",
+            handler="refreezer.application.handlers.archive_chunk_determination_lambda_handler",
+            runtime=lambda_.Runtime.PYTHON_3_9,
+            code=lambda_.Code.from_asset("source"),
+            description="Lambda to generate the correct byte offsets to retrieve the archive.",
+        )
+
+        # TODO: Add task to archive state machine once PR 100 is merged
+        # generate_archive_chunk_array_lambda = tasks.LambdaInvoke(
+        #     self,
+        #     "GenerateArchiveChunkArrayLambda",
+        #     lambda_function=archive_chunk_determination_lambda,
+        #     payload_response_only=True,
+        # )
+
+        self.outputs[OutputKeys.ARCHIVE_CHUNK_DETERMINATION_LAMBDA_ARN] = CfnOutput(
+            self,
+            OutputKeys.ARCHIVE_CHUNK_DETERMINATION_LAMBDA_ARN,
+            value=archive_chunk_determination_lambda.function_name,
+        )
+
+        assert archive_chunk_determination_lambda.role is not None
+        NagSuppressions.add_resource_suppressions(
+            archive_chunk_determination_lambda.role.node.find_child("Resource"),
+            [
+                {
+                    "id": "AwsSolutions-IAM4",
+                    "reason": "CDK grants AWS managed policy for Lambda basic execution by default. Replacing it with a customer managed policy will be addressed later.",
+                    "appliesTo": [
+                        "Policy::arn:<AWS::Partition>:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+                    ],
                 },
             ],
         )
