@@ -26,6 +26,7 @@ from typing import Optional, Union
 from refreezer.mocking.mock_glacier_stack import MockingParams
 from aws_cdk.aws_sns_subscriptions import LambdaSubscription
 from aws_cdk.aws_lambda_event_sources import DynamoEventSource
+from aws_cdk.aws_glue_alpha import Job, JobExecutable, PythonVersion, GlueVersion, Code
 
 
 class OutputKeys:
@@ -279,6 +280,39 @@ class RefreezerStack(Stack):
             )
             topic.grant_publish(mock_notify_sns_lambda_role)
 
+        glue_job_role = iam.Role(
+            self,
+            "GlueJobRole",
+            assumed_by=iam.ServicePrincipal("glue.amazonaws.com"),
+            inline_policies={
+                "GlueS3Policy": iam.PolicyDocument(
+                    statements=[
+                        iam.PolicyStatement(
+                            actions=["s3:PutObject", "s3:GetObject"],
+                            resources=[f"{inventory_bucket.bucket_arn}/*"],
+                        )
+                    ]
+                )
+            },
+        )
+        glue_job_role.add_managed_policy(
+            iam.ManagedPolicy.from_aws_managed_policy_name(
+                "service-role/AWSGlueServiceRole"
+            )
+        )
+
+        glue_script_location = "scripts/inventory_sort_script.py"
+        glue_job = Job(
+            self,
+            "GlueOrderingJob",
+            executable=JobExecutable.python_etl(
+                glue_version=GlueVersion.V3_0,
+                python_version=PythonVersion.THREE,
+                script=Code.from_bucket(inventory_bucket, glue_script_location),
+            ),
+            role=glue_job_role,
+        )
+
         initiate_job_state_policy = iam.Policy(
             self,
             "InitiateJobStatePolicy",
@@ -291,7 +325,54 @@ class RefreezerStack(Stack):
                     resources=[
                         f"arn:aws:glacier:{Aws.REGION}:{Aws.ACCOUNT_ID}:vaults/*"
                     ],
-                ),
+                )
+            ],
+        )
+
+        NagSuppressions.add_resource_suppressions(
+            glue_job,
+            [
+                {
+                    "id": "AwsSolutions-GL1",
+                    "reason": "The Glue job does not use a security configuration with CloudWatch Log encryption enabled. Will be addressed later",
+                },
+                {
+                    "id": "AwsSolutions-GL3",
+                    "reason": "The Glue job does not use a security configuration with CloudWatch Log encryption enabled. Will be addressed later",
+                },
+            ],
+        )
+
+        NagSuppressions.add_resource_suppressions(
+            glue_job_role,
+            [
+                {
+                    "id": "AwsSolutions-IAM4",
+                    "reason": "By default Put object is not provided by the glue job default role. ",
+                    "appliesTo": [
+                        "Policy::arn:<AWS::Partition>:iam::aws:policy/service-role/AWSGlueServiceRole"
+                    ],
+                },
+                {
+                    "id": "AwsSolutions-IAM5",
+                    "reason": "Making sure that we can put various objects in the bucket. Output and the script should be store in this bucket ",
+                    "appliesTo": ["Resource::<InventoryBucketA869B8CB.Arn>/*"],
+                },
+            ],
+        )
+
+        NagSuppressions.add_resource_suppressions(
+            glue_job_role.node.find_child("DefaultPolicy").node.find_child("Resource"),
+            [
+                {
+                    "id": "AwsSolutions-IAM5",
+                    "reason": "Automatically the gluejob default added these wildcarded values. Hence the wildcard needs to suppressed.",
+                    "appliesTo": [
+                        "Action::s3:GetObject*",
+                        "Action::s3:GetBucket*",
+                        "Action::s3:List*",
+                    ],
+                },
             ],
         )
 
@@ -456,11 +537,12 @@ class RefreezerStack(Stack):
             [
                 {
                     "id": "AwsSolutions-IAM5",
-                    "reason": "By default wildcard permission is granted to the lambda.  This will be replaced with a proper IAM role later.",
+                    "reason": "By default wildcard permission is granted to the state machine from various sources.  This will be replaced with a proper IAM role later.",
                     "appliesTo": [
-                        "Resource::<"
-                        + inventory_chunk_download_lambda_function_logical_id
-                        + ".Arn>:*"
+                        f"Resource::<{inventory_chunk_download_lambda_function_logical_id}.Arn>:*",
+                        "Action::*",
+                        "Action::s3:Abort*",
+                        "Resource::<InventoryBucketA869B8CB.Arn>/*",
                     ],
                 }
             ],

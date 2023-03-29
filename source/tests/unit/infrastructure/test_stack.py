@@ -180,7 +180,6 @@ def test_get_inventory_step_function_created(
     inventory_chunk_determination_logical_id = get_logical_id(
         stack, ["InventoryChunkDetermination"]
     )
-
     assert_resource_name_has_correct_type_and_props(
         stack,
         template,
@@ -418,5 +417,93 @@ def test_facilitator_default_policy(
                     ]
                 )
             }
+        },
+    )
+
+
+def test_glue_job_created(stack: RefreezerStack, template: assertions.Template) -> None:
+    inventory_bucket_logical_id = get_logical_id(stack, ["InventoryBucket"])
+    resources = template.find_resources(
+        type="AWS::Glue::Job",
+        props={
+            "Properties": {
+                "Command": {
+                    "ScriptLocation": {
+                        "Fn::Join": [
+                            "",
+                            [
+                                "s3://",
+                                {"Ref": inventory_bucket_logical_id},
+                                "/scripts/inventory_sort_script.py",
+                            ],
+                        ]
+                    }
+                },
+            }
+        },
+    )
+    assert 1 == len(resources)
+
+
+def test_glue_job_role_created(
+    stack: RefreezerStack, template: assertions.Template
+) -> None:
+    inventory_bucket_logical_id = get_logical_id(stack, ["InventoryBucket"])
+    match = assertions.Match()
+    template.has_resource(
+        "AWS::IAM::Role",
+        {
+            "Properties": {
+                "AssumeRolePolicyDocument": {
+                    "Statement": [
+                        {
+                            "Action": "sts:AssumeRole",
+                            "Effect": "Allow",
+                            "Principal": {"Service": "glue.amazonaws.com"},
+                        }
+                    ],
+                    "Version": "2012-10-17",
+                },
+                "ManagedPolicyArns": [
+                    {
+                        "Fn::Join": [
+                            "",
+                            [
+                                "arn:",
+                                {"Ref": "AWS::Partition"},
+                                ":iam::aws:policy/service-role/AWSGlueServiceRole",
+                            ],
+                        ]
+                    }
+                ],
+                "Policies": [
+                    {
+                        "PolicyDocument": {
+                            "Statement": [
+                                {
+                                    "Action": ["s3:PutObject", "s3:GetObject"],
+                                    "Effect": "Allow",
+                                    "Resource": {
+                                        "Fn::Join": [
+                                            "",
+                                            [
+                                                {
+                                                    "Fn::GetAtt": [
+                                                        inventory_bucket_logical_id,
+                                                        "Arn",
+                                                    ]
+                                                },
+                                                "/*",
+                                            ],
+                                        ]
+                                    },
+                                }
+                            ],
+                            "Version": match.any_value(),
+                        },
+                        "PolicyName": "GlueS3Policy",
+                    }
+                ],
+            },
         },
     )
