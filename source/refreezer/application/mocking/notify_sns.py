@@ -15,7 +15,7 @@ else:
     SNSClient = object
 
 NOTIFICATION_DELAY_IN_SEC = 5
-INVENTORY_SIZE_IN_BYTES = 1024
+INVENTORY_SIZE_IN_BYTES = 2**20 * 100
 
 
 def notify_sns_job_completion(

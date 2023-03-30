@@ -180,6 +180,7 @@ def test_get_inventory_step_function_created(
     inventory_chunk_determination_logical_id = get_logical_id(
         stack, ["InventoryChunkDetermination"]
     )
+    table_logical_id = get_logical_id(stack, ["AsyncFacilitatorTable"])
     assert_resource_name_has_correct_type_and_props(
         stack,
         template,
@@ -196,7 +197,7 @@ def test_get_inventory_step_function_created(
                                 r'"States":{"Provided Inventory\?":{"Type":"Choice","Choices":\['
                                 r'{"Variable":"\$.provided_inventory","StringEquals":"YES","Next":"GlueOrderArchives"}\],'
                                 r'"Default":"GetInventoryInitiateJob"},'
-                                r'"GetInventoryInitiateJob":{"Next":"DynamoDBPut","Type":"Task","Parameters":{"AccountId":"'
+                                r'"GetInventoryInitiateJob":{"Next":"AsyncFacilitatorDynamoDBPut","Type":"Task","Parameters":{"AccountId":"'
                             ),
                             {"Ref": "AWS::AccountId"},
                             assertions.Match.string_like_regexp(
@@ -205,7 +206,12 @@ def test_get_inventory_step_function_created(
                             {"Ref": topic_logical_id},
                             assertions.Match.string_like_regexp(
                                 r'"},"VaultName.\$":"\$.vault_name"},"Resource":"arn:aws:states:::aws-sdk:glacier:initiateJob"},'
-                                r'"DynamoDBPut":{"Type":"Pass","Parameters":{"InventorySize":\d+,"MaximumInventoryRecordSize":\d+,"ChunkSize":\d+},"Next":"GenerateChunkArrayLambda"},'
+                                r'"AsyncFacilitatorDynamoDBPut":{"Next":"GenerateChunkArrayLambda","Type":"Task","Parameters":{"TableName":"'
+                            ),
+                            {"Ref": table_logical_id},
+                            assertions.Match.string_like_regexp(
+                                r'","Item":{"task_token":{"S.\$":"\$\$.Task.Token"},"job_id":{"S.\$":"\$.JobId"},"start_timestamp":{"S.\$":"\$\$.Execution.StartTime"}}},'
+                                r'"Resource":"arn:aws:states:::aws-sdk:dynamodb:putItem.waitForTaskToken"},'
                                 r'"GenerateChunkArrayLambda":{"Next":"DistributedMap","Retry":\[{"ErrorEquals":\["Lambda.ServiceException","Lambda.AWSLambdaException","Lambda.SdkClientException"\],'
                                 r'"IntervalSeconds":\d+,"MaxAttempts":\d+,"BackoffRate":\d+}\],'
                                 r'"Type":"Task","Resource":"'
@@ -219,13 +225,13 @@ def test_get_inventory_step_function_created(
                             assertions.Match.string_like_regexp(
                                 r'"DistributedMap":{"Type":"Map","Next":"GlueOrderArchives","Iterator":{"StartAt":"InventoryChunkDownloadLambda",'
                                 r'"States":{"InventoryChunkDownloadLambda":{"End":true,"Retry":\[{"ErrorEquals":\["Lambda.ServiceException","Lambda.AWSLambdaException","Lambda.SdkClientException"\],'
-                                r'"IntervalSeconds":\d+,"MaxAttempts":\d+,"BackoffRate":\d+}],"Type":"Task","Resource":'
+                                r'"IntervalSeconds":\d+,"MaxAttempts":\d+,"BackoffRate":\d+}],"Type":"Task","Resource":"'
                             ),
                             {"Fn::GetAtt": [inventory_lambda_logical_id, "Arn"]},
                             assertions.Match.string_like_regexp(
-                                r'"ItemsPath":"\$.body"},'
+                                r'}}},"ItemsPath":"\$.body"},'
                                 r'"GlueOrderArchives":{"Type":"Pass","Next":"InventoryValidationLambda"},'
-                                r'"InventoryValidationLambda":{"Type":"Pass","End":true'
+                                r'"InventoryValidationLambda":{"Type":"Pass","End":true}}}'
                             ),
                         ],
                     ]
