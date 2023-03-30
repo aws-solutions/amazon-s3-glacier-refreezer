@@ -44,6 +44,7 @@ dev = [
     "moto",
     "cdk-nag",
     "moto",
+    "aws-lambda-powertools[aws-sdk]",
     "boto3-stubs-lite[essential]",
     "boto3-stubs-lite[cloudformation]",
     "boto3-stubs-lite[dynamodb]",
