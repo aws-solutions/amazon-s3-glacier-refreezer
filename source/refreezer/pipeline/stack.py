@@ -118,10 +118,10 @@ class PipelineStack(Stack):
                         "dynamodb:DeleteItem",
                     ],
                     resources=[
-                        (
-                            f"arn:aws:dynamodb:{Aws.REGION}:{Aws.ACCOUNT_ID}:table/"
-                            f"{STACK_NAME}-AsyncFacilitatorTable*"
-                        )
+                        f"arn:aws:dynamodb:{Aws.REGION}:{Aws.ACCOUNT_ID}:table/"
+                        f"{STACK_NAME}-AsyncFacilitatorTable*",
+                        f"arn:aws:dynamodb:{Aws.REGION}:{Aws.ACCOUNT_ID}:table/"
+                        f"{STACK_NAME}-GlacierObjectRetrieval*",
                     ],
                 ),
                 iam.PolicyStatement(
