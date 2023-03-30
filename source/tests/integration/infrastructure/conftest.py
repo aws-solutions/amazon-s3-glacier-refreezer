@@ -18,12 +18,11 @@ else:
     CloudFormationClient = object
 
 
-@pytest.fixture(autouse=True)
+@pytest.fixture(autouse=True, scope="package")
 def set_up_environment() -> None:
-    if OutputKeys.ASYNC_FACILITATOR_TABLE_NAME not in os.environ:
-        client: CloudFormationClient = boto3.client("cloudformation")
-        result = client.describe_stacks(StackName=STACK_NAME)["Stacks"]
-        assert 1 == len(result)
-        assert "Outputs" in result[0]
-        for output in result[0]["Outputs"]:
-            os.environ[output["OutputKey"]] = output["OutputValue"]
+    client: CloudFormationClient = boto3.client("cloudformation")
+    result = client.describe_stacks(StackName=STACK_NAME)["Stacks"]
+    assert 1 == len(result)
+    assert "Outputs" in result[0]
+    for output in result[0]["Outputs"]:
+        os.environ[output["OutputKey"]] = output["OutputValue"]
