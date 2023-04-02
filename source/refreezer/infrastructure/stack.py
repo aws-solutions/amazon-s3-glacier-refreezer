@@ -192,6 +192,10 @@ class RefreezerStack(Stack):
             ],
         )
 
+        assert isinstance(table.node.default_child, CfnElement)
+        async_facilitator_table_logical_id = Stack.of(self).get_logical_id(
+            table.node.default_child
+        )
         assert facilitator_lambda.role is not None
         NagSuppressions.add_resource_suppressions(
             facilitator_lambda.role.node.find_child("DefaultPolicy").node.find_child(
@@ -202,7 +206,7 @@ class RefreezerStack(Stack):
                     "id": "AwsSolutions-IAM5",
                     "reason": "When activating stream for dynamodb table. It automatically allow listStreams to all resources with a wildcard and should be suppressed",
                     "appliesTo": [
-                        "Resource::<AsyncFacilitatorTable8420A92A.Arn>/stream/*",
+                        f"Resource::<{async_facilitator_table_logical_id}.Arn>/stream/*",
                         "Resource::*",
                     ],
                 },
@@ -369,6 +373,10 @@ class RefreezerStack(Stack):
             ],
         )
 
+        assert isinstance(inventory_bucket.node.default_child, CfnElement)
+        inventory_bucket_logical_id = Stack.of(self).get_logical_id(
+            inventory_bucket.node.default_child
+        )
         NagSuppressions.add_resource_suppressions(
             glue_job_role,
             [
@@ -382,7 +390,7 @@ class RefreezerStack(Stack):
                 {
                     "id": "AwsSolutions-IAM5",
                     "reason": "Making sure that we can put various objects in the bucket. Output and the script should be store in this bucket ",
-                    "appliesTo": ["Resource::<InventoryBucketA869B8CB.Arn>/*"],
+                    "appliesTo": [f"Resource::<{inventory_bucket_logical_id}.Arn>/*"],
                 },
             ],
         )
@@ -589,10 +597,7 @@ class RefreezerStack(Stack):
                     "id": "AwsSolutions-IAM5",
                     "reason": "By default wildcard permission is granted to the state machine from various sources.  This will be replaced with a proper IAM role later.",
                     "appliesTo": [
-                        f"Resource::<{inventory_chunk_download_lambda_function_logical_id}.Arn>:*",
-                        "Action::*",
-                        "Action::s3:Abort*",
-                        "Resource::<InventoryBucketA869B8CB.Arn>/*",
+                        f"Resource::<{inventory_chunk_download_lambda_function_logical_id}.Arn>:*"
                     ],
                 }
             ],
