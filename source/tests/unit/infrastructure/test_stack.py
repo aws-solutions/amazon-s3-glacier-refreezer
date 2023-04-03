@@ -243,7 +243,7 @@ def test_get_inventory_step_function_created(
                             assertions.Match.string_like_regexp(
                                 r'","Item":{"task_token":{"S.\$":"\$\$.Task.Token"},"job_id":{"S.\$":"\$.JobId"},"start_timestamp":{"S.\$":"\$\$.Execution.StartTime"}}},'
                                 r'"Resource":"arn:aws:states:::aws-sdk:dynamodb:putItem.waitForTaskToken"},'
-                                r'"GenerateChunkArrayLambda":{"Next":"DistributedMap","Retry":\[{"ErrorEquals":\["Lambda.ServiceException","Lambda.AWSLambdaException","Lambda.SdkClientException"\],'
+                                r'"GenerateChunkArrayLambda":{"Next":"InventoryChunkRetrievalDistributedMap","Retry":\[{"ErrorEquals":\["Lambda.ServiceException","Lambda.AWSLambdaException","Lambda.SdkClientException"\],'
                                 r'"IntervalSeconds":\d+,"MaxAttempts":\d+,"BackoffRate":\d+}\],'
                                 r'"Type":"Task","Resource":"'
                             ),
@@ -254,13 +254,14 @@ def test_get_inventory_step_function_created(
                                 ]
                             },
                             assertions.Match.string_like_regexp(
-                                r'"DistributedMap":{"Type":"Map","Next":"GlueOrderArchives","Iterator":{"StartAt":"InventoryChunkDownloadLambda",'
+                                r'"InventoryChunkRetrievalDistributedMap":{"Next":"GlueOrderArchives","Type":"Map","ItemProcessor":'
+                                r'{"ProcessorConfig":{"Mode":"DISTRIBUTED","ExecutionType":"STANDARD"},"StartAt":"InventoryChunkDownloadLambda",'
                                 r'"States":{"InventoryChunkDownloadLambda":{"End":true,"Retry":\[{"ErrorEquals":\["Lambda.ServiceException","Lambda.AWSLambdaException","Lambda.SdkClientException"\],'
                                 r'"IntervalSeconds":\d+,"MaxAttempts":\d+,"BackoffRate":\d+}],"Type":"Task","Resource":"'
                             ),
                             {"Fn::GetAtt": [inventory_lambda_logical_id, "Arn"]},
                             assertions.Match.string_like_regexp(
-                                r'}}},"ItemsPath":"\$.body"},'
+                                r'"}}},"ItemsPath":"\$.body"},'
                                 r'"GlueOrderArchives":{"Type":"Pass","Next":"InventoryValidationLambda"},'
                                 r'"InventoryValidationLambda":{"Type":"Pass","End":true}}}'
                             ),

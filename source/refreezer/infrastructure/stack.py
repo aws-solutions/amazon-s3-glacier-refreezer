@@ -27,6 +27,7 @@ from refreezer.mocking.mock_glacier_stack import MockingParams
 from aws_cdk.aws_sns_subscriptions import LambdaSubscription
 from aws_cdk.aws_lambda_event_sources import DynamoEventSource
 from aws_cdk.aws_glue_alpha import Job, JobExecutable, PythonVersion, GlueVersion, Code
+from refreezer.infrastructure.distributed_map import DistributedMap
 
 
 class OutputKeys:
@@ -527,9 +528,12 @@ class RefreezerStack(Stack):
             value=inventory_chunk_download_lambda_function.function_name,
         )
 
-        # TODO: To be replaced by Map state in Distributed mode
-        distributed_map_state = sfn.Map(self, "DistributedMap", items_path="$.body")
-        distributed_map_state.iterator(inventory_chunk_download_lambda)
+        distributed_map_state = DistributedMap(
+            self,
+            "InventoryChunkRetrievalDistributedMap",
+            definition=inventory_chunk_download_lambda,
+            items_path="$.body",
+        )
 
         # TODO: To be replaced by Glue task
         glue_order_archives = sfn.Pass(self, "GlueOrderArchives")
@@ -571,6 +575,10 @@ class RefreezerStack(Stack):
             ),
         )
 
+        inventory_chunk_download_lambda_function.grant_invoke(
+            inventory_retrieval_state_machine
+        )
+
         initiate_job_state_policy.attach_to_role(inventory_retrieval_state_machine.role)
         table.grant_read_write_data(inventory_retrieval_state_machine)
 
@@ -598,6 +606,50 @@ class RefreezerStack(Stack):
                     "reason": "By default wildcard permission is granted to the state machine from various sources.  This will be replaced with a proper IAM role later.",
                     "appliesTo": [
                         f"Resource::<{inventory_chunk_download_lambda_function_logical_id}.Arn>:*"
+                    ],
+                }
+            ],
+        )
+
+        inventory_retrieval_state_machine_policy = iam.Policy(
+            self,
+            "InventoryRetrievalStateMachinePolicy",
+            statements=[
+                iam.PolicyStatement(
+                    effect=iam.Effect.ALLOW,
+                    actions=[
+                        "states:StartExecution",
+                    ],
+                    resources=[inventory_retrieval_state_machine.state_machine_arn],
+                ),
+                iam.PolicyStatement(
+                    effect=iam.Effect.ALLOW,
+                    actions=["states:DescribeExecution", "states:StopExecution"],
+                    resources=[
+                        f"arn:aws:states:{Aws.REGION}:{Aws.ACCOUNT_ID}:execution:{inventory_retrieval_state_machine.state_machine_name}/*"
+                    ],
+                ),
+            ],
+        )
+
+        inventory_retrieval_state_machine_policy.attach_to_role(
+            inventory_retrieval_state_machine.role
+        )
+
+        assert isinstance(
+            inventory_retrieval_state_machine.node.default_child, CfnElement
+        )
+        inventory_retrieval_state_machine_logical_id = Stack.of(self).get_logical_id(
+            inventory_retrieval_state_machine.node.default_child
+        )
+        NagSuppressions.add_resource_suppressions(
+            inventory_retrieval_state_machine_policy,
+            [
+                {
+                    "id": "AwsSolutions-IAM5",
+                    "reason": "IAM policy needed to run a Distributed Map state. https://docs.aws.amazon.com/step-functions/latest/dg/iam-policies-eg-dist-map.html",
+                    "appliesTo": [
+                        f"Resource::arn:aws:states:<AWS::Region>:<AWS::AccountId>:execution:<{inventory_retrieval_state_machine_logical_id}.Name>/*"
                     ],
                 }
             ],
