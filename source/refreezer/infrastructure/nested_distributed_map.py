@@ -34,6 +34,7 @@ class NestedDistributedMap:
             item_selector={
                 "bucket.$": "$.bucket",
                 "key.$": "$.item.Key",
+                "workflow_run.$": "$.workflow_run",
                 "item.$": "$$.Map.Item.Value",
             },
             result_writer={

@@ -412,6 +412,96 @@ def test_get_inventory_step_function_created(
         )
 
 
+def test_retrieve_archive_step_machine(
+    stack: RefreezerStack, template: assertions.Template
+) -> None:
+    resources_list = ["RetrieveArchiveStateMachine"]
+    glacier_logical_id = get_logical_id(stack, ["GlacierObjectRetrieval"])
+    inventory_bucket_logical_id = get_logical_id(stack, ["InventoryBucket"])
+    assert_resource_name_has_correct_type_and_props(
+        stack,
+        template,
+        resources_list=resources_list,
+        cfn_type="AWS::StepFunctions::StateMachine",
+        props={
+            "Properties": {
+                "DefinitionString": {
+                    "Fn::Join": [
+                        "",
+                        [
+                            assertions.Match.string_like_regexp(
+                                r'{"StartAt":"RetrieveArchiveDistributedMap","States":{"RetrieveArchiveDistributedMap"'
+                                r':{"Next":"RetrieveArchiveValidateLambdaTask","Type":"Map","ItemProcessor":'
+                                r'{"ProcessorConfig":{"Mode":"DISTRIBUTED","ExecutionType":"STANDARD"},'
+                                r'"StartAt":"RetrieveArchiveInnerDistributedMap","States":{"RetrieveArchiveInnerDistributedMap"'
+                                r':{"End":true,"Type":"Map","ItemProcessor":{"ProcessorConfig":'
+                                r'{"Mode":"DISTRIBUTED","ExecutionType":"STANDARD"},"StartAt":'
+                                r'"RetrieveArchiveDynamoDBGetJob","States":{"RetrieveArchiveDynamoDBGetJob"'
+                                r':{"Next":"RetrieveArchiveDynamoDBPut","Type":"Task","Resource":"arn:'
+                            ),
+                            {"Ref": "AWS::Partition"},
+                            assertions.Match.string_like_regexp(
+                                r':states:::dynamodb:getItem","Parameters":{"Key":{"pk":{"S":"States.Format'
+                                r'\(\'{}_:{}\', \$.workflow_run, \$.item.ArchiveId\)"},"sk":{"S":"meta"}},"TableName":"',
+                            ),
+                            {"Ref": glacier_logical_id},
+                            assertions.Match.string_like_regexp(
+                                r'","ConsistentRead":false}},"RetrieveArchiveDynamoDBPut":{"Type":"Pass",'
+                                r'"Next":"RetrieveArchiveStartMultipartUpload"},"RetrieveArchiveStartMultipartUpload":'
+                                r'{"Type":"Pass","Next":"RetrieveArchiveGenerateChunkArrayLambda"}'
+                                r',"RetrieveArchiveGenerateChunkArrayLambda":{"Type":"Pass","Parameters"'
+                                r':{"chunk_array":\["0-499","500-930"\]},"Next":"RetrieveArchiveChunkDistributedMap"},'
+                                r'"RetrieveArchiveChunkDistributedMap":{"Type":"Map","End":true,"Iterator":{"StartAt":'
+                                r'"RetrieveArchivechunkProcessingLambdaTask","States":{"RetrieveArchivechunkProcessingLambdaTask":'
+                                r'{"Type":"Pass","End":true}}},"ItemsPath":"\$.chunk_array"}}},"ItemSelector":'
+                                r'{"bucket.\$":"\$.bucket","key.\$":"\$.item.Key","workflow_run.\$":"\$.workflow_run","item.\$":"\$\$.Map.Item.Value"}'
+                                r',"ResultWriter":{"Resource":"arn:aws:states:::s3:putObject","Parameters":{"Bucket":"'
+                            ),
+                            {"Ref": inventory_bucket_logical_id},
+                            assertions.Match.string_like_regexp(
+                                r'","Prefix.\$":"States.Format\(\'{}/RetrieveArchiveInnerDistributedMapOutput\','
+                                r' \$.workflow_run\)"}},"ResultPath":"\$.map_result","ItemReader":{"Resource":'
+                                r'"arn:aws:states:::s3:getObject","ReaderConfig":{"InputType":"CSV","CSVHeaderLocation":'
+                                r'"FIRST_ROW"},"Parameters":{"Bucket.\$":"\$.bucket","Key.\$":"\$.item.Key"}}}}},'
+                                r'"ItemSelector":{"bucket":"'
+                            ),
+                            {"Ref": inventory_bucket_logical_id},
+                            assertions.Match.string_like_regexp(
+                                r'","workflow_run.\$":"\$.workflow_run","item.\$":"\$\$.Map.Item.Value"},"ResultWriter"'
+                                r':{"Resource":"arn:aws:states:::s3:putObject","Parameters":{"Bucket":"'
+                            ),
+                            {"Ref": inventory_bucket_logical_id},
+                            assertions.Match.string_like_regexp(
+                                r'","Prefix.\$":"States.Format\(\'{}/RetrieveArchiveDistributedMapOutput\','
+                                r' \$.workflow_run\)"}},"ResultPath":"\$.map_result","ItemReader":{"Resource":"arn:aws:states:::s3:listObjectsV2","Parameters":{"Bucket":"'
+                            ),
+                            {"Ref": inventory_bucket_logical_id},
+                            assertions.Match.string_like_regexp(
+                                r'","Prefix.\$":"States.Format\(\'{}/sorted_inventory\', \$.workflow_run\)"}}}'
+                                r',"RetrieveArchiveValidateLambdaTask":{"Type":"Pass","Next":"RetrieveArchiveCloseMultipartUpload"}'
+                                r',"RetrieveArchiveCloseMultipartUpload":{"Type":"Pass","End":true}}}'
+                            ),
+                        ],
+                    ]
+                }
+            }
+        },
+    )
+
+
+def test_initiate_retrieval_step_function_created(
+    stack: RefreezerStack, template: assertions.Template
+) -> None:
+    resources_list = ["InitiateRetrievalStateMachine"]
+    logical_id = get_logical_id(stack, resources_list)
+    # TODO: Add Assertion for Initiate Retrieval step function DefinitionString
+
+    template.has_output(
+        OutputKeys.INITIATE_RETRIEVAL_STATE_MACHINE_ARN,
+        {"Value": {"Ref": logical_id}},
+    )
+
+
 def test_retrieve_archive_step_function_created(
     stack: RefreezerStack, template: assertions.Template
 ) -> None:

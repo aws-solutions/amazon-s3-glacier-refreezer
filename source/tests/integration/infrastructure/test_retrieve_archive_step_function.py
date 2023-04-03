@@ -56,3 +56,9 @@ def test_state_machine_distributed_map(default_input: str) -> None:
         raise AssertionError(
             "Retrieve archive distributed map failed to run successfully."
         )
+
+
+def test_state_machine_retrieve_archive_from_ddb(default_input: str) -> None:
+    # TODO files needs to be added to s3 bucket to be able to properly run this step function
+    # TODO update the ddb table with the correct values
+    pass

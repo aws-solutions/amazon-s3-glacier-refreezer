@@ -1044,9 +1044,19 @@ class RefreezerStack(Stack):
         # =======================  Retrieve Archive Workflow  =========================
         # =============================================================================
 
-        # TODO: To be replaced by DynamoDB GetItem (Synchronous mode)
-        retrieve_archive_dynamo_db_get_job = sfn.Pass(
-            self, "RetrieveArchiveDynamoDBGetJob"
+        # TODO: Adjust the state to get the actual primary key from the output of the previous state
+        # "States.Format('{}_{}', States.JsonToString($.))"
+        primary_key = "States.Format('{}_:{}', $.workflow_run, $.item.ArchiveId)"
+        retrieve_archive_dynamo_db_get_job = tasks.DynamoGetItem(
+            self,
+            "RetrieveArchiveDynamoDBGetJob",
+            key={
+                "pk": tasks.DynamoAttributeValue.from_string(primary_key),
+                "sk": tasks.DynamoAttributeValue.from_string("meta"),
+            },
+            table=glacier_retrieval_table,
+            # TODO: TO be enabled when the tables have items in it cause with it, will fail some tests
+            # output_path="$.Item",
         )
 
         # TODO: To be replaced by DynamoDB Put custom state for Step Function SDK integration
@@ -1111,6 +1121,8 @@ class RefreezerStack(Stack):
                 )
             ),
         )
+
+        glacier_retrieval_table.grant_read_data(retrieve_archive_state_machine)
 
         self.outputs[OutputKeys.RETRIEVE_ARCHIVE_STATE_MACHINE_ARN] = CfnOutput(
             self,
