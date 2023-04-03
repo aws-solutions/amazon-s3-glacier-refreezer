@@ -43,6 +43,7 @@ class OutputKeys:
     ASYNC_FACILITATOR_LAMBDA_NAME = "AsyncFacilitatorLambdaName"
     INITIATE_RETRIEVAL_STATE_MACHINE_ARN = "InitiateRetrievalStateMachineArn"
     RETRIEVE_ARCHIVE_STATE_MACHINE_ARN = "RetrieveArchiveStateMachineArn"
+    GLACIER_RETRIEVAL_TABLE_NAME = "GlacierRetrievalTableName"
 
 
 class RefreezerStack(Stack):
@@ -75,6 +76,31 @@ class RefreezerStack(Stack):
             self,
             OutputKeys.ASYNC_FACILITATOR_TABLE_NAME,
             value=table.table_name,
+        )
+
+        glacier_retrieval_table = dynamodb.Table(
+            self,
+            "GlacierObjectRetrieval",
+            partition_key=dynamodb.Attribute(
+                name="pk", type=dynamodb.AttributeType.STRING
+            ),
+            sort_key=dynamodb.Attribute(name="sk", type=dynamodb.AttributeType.STRING),
+        )
+
+        self.outputs[OutputKeys.GLACIER_RETRIEVAL_TABLE_NAME] = CfnOutput(
+            self,
+            OutputKeys.GLACIER_RETRIEVAL_TABLE_NAME,
+            value=glacier_retrieval_table.table_name,
+        )
+
+        NagSuppressions.add_resource_suppressions(
+            glacier_retrieval_table.node.find_child("Resource"),
+            [
+                {
+                    "id": "AwsSolutions-DDB3",
+                    "reason": "Point In Time Recovery is disabled by default for the table due to cost considerations.  Will make configuration changes to optionally enable PITR in the future.",
+                },
+            ],
         )
 
         topic = sns.Topic(self, "AsyncFacilitatorTopic")

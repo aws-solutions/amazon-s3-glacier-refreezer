@@ -82,6 +82,37 @@ def test_job_tracking_table_created_with_cfn_output(
     )
 
 
+def test_glacier_retrieval_table_created_with_cfn_output(
+    stack: RefreezerStack, template: assertions.Template
+) -> None:
+    resources_list = ["GlacierObjectRetrieval"]
+    assert_resource_name_has_correct_type_and_props(
+        stack,
+        template,
+        resources_list=resources_list,
+        cfn_type="AWS::DynamoDB::Table",
+        props={
+            "Properties": {
+                "KeySchema": [
+                    {
+                        "AttributeName": "pk",
+                        "KeyType": "HASH",
+                    },
+                    {"AttributeName": "sk", "KeyType": "RANGE"},
+                ],
+                "AttributeDefinitions": [
+                    {"AttributeName": "pk", "AttributeType": "S"},
+                    {"AttributeName": "sk", "AttributeType": "S"},
+                ],
+            },
+        },
+    )
+    template.has_output(
+        OutputKeys.GLACIER_RETRIEVAL_TABLE_NAME,
+        {"Value": {"Ref": get_logical_id(stack, resources_list)}},
+    )
+
+
 def test_cfn_outputs_logical_id_is_same_as_key(stack: RefreezerStack) -> None:
     """
     The outputs are used to build environment variables to pass in to lambdas,
