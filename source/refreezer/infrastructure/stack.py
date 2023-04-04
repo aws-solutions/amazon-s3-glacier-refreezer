@@ -866,11 +866,11 @@ class RefreezerStack(Stack):
 
         # TODO: To be replaced by nested Map states in Distributed mode
         initiate_retrieval_distributed_map_state = sfn.Map(
-            self, "InitiateRetrievalDistributedMap"
+            self, "InitiateRetrievalDistributedMap", items_path="$.items"
         )
 
         initiate_retrieval_inner_distributed_map_state = sfn.Map(
-            self, "InitiateRetrievalInnerDistributedMap"
+            self, "InitiateRetrievalInnerDistributedMap", items_path="$.item"
         )
         initiate_retrieval_inner_distributed_map_state.iterator(
             initiate_retrieval_definition
