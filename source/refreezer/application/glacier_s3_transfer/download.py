@@ -6,6 +6,10 @@ SPDX-License-Identifier: Apache-2.0
 import boto3
 import typing
 
+from refreezer.application.glacier_service.glacier_apis_factory import (
+    GlacierAPIsFactory,
+)
+
 if typing.TYPE_CHECKING:
     from mypy_boto3_glacier.client import GlacierClient
     from mypy_boto3_glacier.type_defs import GetJobOutputOutputTypeDef
@@ -17,6 +21,7 @@ else:
 class GlacierDownload:
     def __init__(
         self,
+        glacier_client: GlacierClient,
         job_id: str,
         vault_name: str,
         start_byte: int,
@@ -27,8 +32,7 @@ class GlacierDownload:
             "range": f"bytes={start_byte}-{end_byte}",
             "vaultName": vault_name,
         }
-        self.glacier: GlacierClient = boto3.client("glacier")
-        self.response: GetJobOutputOutputTypeDef = self.glacier.get_job_output(
+        self.response: GetJobOutputOutputTypeDef = glacier_client.get_job_output(
             **self.params
         )
         self.accessed = False

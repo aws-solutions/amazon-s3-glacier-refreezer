@@ -4,10 +4,12 @@ SPDX-License-Identifier: Apache-2.0
 """
 
 from typing import Dict, Any, TYPE_CHECKING
-import random
-import string
 import boto3
 import json
+
+from refreezer.application.glacier_service.glacier_apis_factory import (
+    GlacierAPIsFactory,
+)
 
 if TYPE_CHECKING:
     from mypy_boto3_lambda import LambdaClient
@@ -22,13 +24,19 @@ def generate_inventory_retrieval_response(
     mock_notify_sns_lambda_arn: str,
 ) -> Dict[str, Any]:
     client: LambdaClient = boto3.client("lambda")
-    job_id = "".join(random.choices(string.ascii_letters + string.digits, k=92))
+
+    glacier_client = GlacierAPIsFactory.create_instance(True)
+    job_response = glacier_client.initiate_job(
+        vaultName=vault_name,
+        accountId=account_id,
+        jobParameters={"Type": "inventory-retrieval"},
+    )
 
     function_params = {
         "account_id": account_id,
         "vault_name": vault_name,
         "sns_topic": sns_topic,
-        "job_id": job_id,
+        "job_id": job_response["jobId"],
     }
     client.invoke(
         FunctionName=mock_notify_sns_lambda_arn,
@@ -37,6 +45,6 @@ def generate_inventory_retrieval_response(
     )
 
     return {
-        "Location": f"/{account_id}/vaults/{vault_name}/jobs/{job_id}",
-        "JobId": job_id,
+        "Location": f"/{account_id}/vaults/{vault_name}/jobs/{job_response['jobId']}",
+        "JobId": job_response["jobId"],
     }

@@ -3,16 +3,9 @@ Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
 SPDX-License-Identifier: Apache-2.0
 """
 
-from abc import ABC, abstractmethod
-from typing import Dict, Any
-from refreezer.application.glacier_service.glacier_apis import GlacierAPIs
+import boto3
+from mypy_boto3_glacier.client import GlacierClient
 from refreezer.application.mocking.mock_glacier_apis import MockGlacierAPIs
-
-
-class GlacierInterface(ABC):
-    @abstractmethod
-    def get_job_output(self, params: Dict[str, Any]) -> None:
-        pass
 
 
 class GlacierAPIsFactory:
@@ -30,7 +23,10 @@ class GlacierAPIsFactory:
     """
 
     @staticmethod
-    def create_instance(mock: bool = False) -> GlacierInterface:
+    def create_instance(mock: bool = False) -> GlacierClient:
         if mock:
-            return MockGlacierAPIs()
-        return GlacierAPIs()
+            return MockGlacierAPIs(
+                []
+            )  # TODO: Find out how to pass in the mock Glacier Vault creation instructions
+        client: GlacierClient = boto3.client("glacier")
+        return client

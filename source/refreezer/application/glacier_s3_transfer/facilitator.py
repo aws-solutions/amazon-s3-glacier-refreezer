@@ -4,22 +4,24 @@ SPDX-License-Identifier: Apache-2.0
 """
 
 from typing import TYPE_CHECKING, Optional
+from mypy_boto3_glacier import GlacierClient
 from refreezer.application.glacier_s3_transfer.download import GlacierDownload
 from refreezer.application.glacier_s3_transfer.upload import S3Upload
 from refreezer.application.hashing.tree_hash import TreeHash
 
 
 if TYPE_CHECKING:
-    from mypy_boto3_s3.type_defs import (
-        CompletedPartTypeDef,
-    )
+    from mypy_boto3_s3.type_defs import CompletedPartTypeDef
+    from mypy_boto3_glacier import GlacierClient
 else:
     CompletedPartTypeDef = object
+    GlacierClient = object
 
 
 class GlacierToS3Facilitator:
     def __init__(
         self,
+        glacier_client: GlacierClient,
         job_id: str,
         vault_name: str,
         start_byte: int,
@@ -31,6 +33,7 @@ class GlacierToS3Facilitator:
         part_number: int,
         ignore_glacier_checksum: Optional[bool] = None,
     ) -> None:
+        self.glacier_client = glacier_client
         self.job_id = job_id
         self.vault_name = vault_name
         self.start_byte = start_byte
@@ -47,6 +50,7 @@ class GlacierToS3Facilitator:
 
     def transfer(self) -> CompletedPartTypeDef:
         download = GlacierDownload(
+            self.glacier_client,
             self.job_id,
             self.vault_name,
             self.start_byte,

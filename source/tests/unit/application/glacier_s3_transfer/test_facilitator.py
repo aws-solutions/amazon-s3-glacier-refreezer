@@ -8,6 +8,7 @@ from unittest.mock import patch, MagicMock
 from refreezer.application.glacier_s3_transfer.facilitator import (
     GlacierToS3Facilitator,
 )
+import boto3
 from typing import Callable, Any, Optional
 
 
@@ -113,6 +114,7 @@ class TestGlacierToS3Facilitator(unittest.TestCase):
         self, ignore_glacier_checksum: Optional[bool] = None
     ) -> GlacierToS3Facilitator:
         return GlacierToS3Facilitator(
+            boto3.client("glacier"),
             self.job_id,
             self.vault_name,
             self.start_byte,
