@@ -20,6 +20,11 @@ CSV_FILE_COLUMNS = [
     {"Name": "Size", "Type": "string"},
     {"Name": "SHA256TreeHash", "Type": "string"},
 ]
+VALIDATION_CODE = """
+node_inputs = list(dfc.values())
+assert node_inputs[0].toDF().count() == node_inputs[1].toDF().count()
+"""
+CUSTOM_CODE_NAME = "Validation"
 
 
 class GlueSfnUpdate(Construct):
@@ -70,6 +75,14 @@ class GlueSfnUpdate(Construct):
                     "SchemaChangePolicy": {"EnableUpdateCatalog": False},
                     "Path": f"s3://{self.s3_bucket_name}/{OUTPUT_BUCKET_PREFIX}",
                     "Name": "S3 bucket",
+                }
+            },
+            "node-4": {
+                "CustomCode": {
+                    "Inputs": ["node-1", "node-2"],
+                    "ClassName": CUSTOM_CODE_NAME,
+                    "Code": VALIDATION_CODE,
+                    "Name": CUSTOM_CODE_NAME,
                 }
             },
         }
