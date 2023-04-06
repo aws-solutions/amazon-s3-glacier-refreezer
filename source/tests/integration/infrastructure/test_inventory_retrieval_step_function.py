@@ -8,6 +8,7 @@ import typing
 import boto3
 import time
 import json
+from refreezer.application.util.exceptions import StepFunctionFailure
 from refreezer.infrastructure.stack import OutputKeys
 import pytest
 
@@ -162,7 +163,7 @@ def get_state_machine_output(executionArn: str, timeout: int) -> str:
             break
         else:
             # for status: FAILED, TIMED_OUT or ABORTED
-            raise Exception(f"Execution {status}")
+            raise StepFunctionFailure(status)
 
     return sf_output
 

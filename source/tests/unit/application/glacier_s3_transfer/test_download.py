@@ -7,6 +7,7 @@ import typing
 from unittest.mock import patch
 from datetime import timedelta
 from refreezer.application.glacier_s3_transfer.download import GlacierDownload
+from refreezer.application.util.exceptions import AccessViolation
 
 if typing.TYPE_CHECKING:
     from mypy_boto3_glacier.client import GlacierClient
@@ -43,7 +44,7 @@ def test_read_correctness(setup_glacier_job: str) -> None:
 def test_read_prevents_second_access(setup_glacier_job: str) -> None:
     download = GlacierDownload(setup_glacier_job, "vault_name", 0, 1024)
     download.read()
-    with pytest.raises(Exception):
+    with pytest.raises(AccessViolation):
         download.read()
 
 

@@ -13,6 +13,7 @@ from refreezer.application.model.facilitator import (
     FacilitatorModel,
     StatusCode,
 )
+from refreezer.application.util.exceptions import ResourceNotFound
 
 if TYPE_CHECKING:
     from mypy_boto3_stepfunctions.client import SFNClient
@@ -29,9 +30,7 @@ def _update_db_entry(facilitator_model: FacilitatorModel) -> None:
     )
 
     if not items:
-        raise Exception(
-            f"The job with id: {facilitator_model.job_id} is not in the database"
-        )
+        raise ResourceNotFound(facilitator_model.job_id)
 
     for key, val in items[0].items():
         setattr(facilitator_model, key, val)

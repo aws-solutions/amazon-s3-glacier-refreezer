@@ -8,6 +8,7 @@ from unittest.mock import patch, MagicMock
 from refreezer.application.glacier_s3_transfer.facilitator import (
     GlacierToS3Facilitator,
 )
+from refreezer.application.util.exceptions import GlacierChecksumMismatch
 from typing import Callable, Any, Optional
 
 
@@ -85,7 +86,7 @@ class TestGlacierToS3Facilitator(unittest.TestCase):
 
         facilitator = self.create_facilitator()
         upload_mock.return_value.upload_part = self.mock_upload
-        with self.assertRaises(Exception):
+        with self.assertRaises(GlacierChecksumMismatch):
             facilitator.transfer()
 
     @patch("refreezer.application.glacier_s3_transfer.facilitator.TreeHash")

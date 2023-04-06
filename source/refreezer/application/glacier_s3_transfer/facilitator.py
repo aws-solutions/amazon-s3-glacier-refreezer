@@ -7,6 +7,7 @@ from typing import TYPE_CHECKING, Optional
 from refreezer.application.glacier_s3_transfer.download import GlacierDownload
 from refreezer.application.glacier_s3_transfer.upload import S3Upload
 from refreezer.application.hashing.tree_hash import TreeHash
+from refreezer.application.util.exceptions import GlacierChecksumMismatch
 
 
 if TYPE_CHECKING:
@@ -62,5 +63,5 @@ class GlacierToS3Facilitator:
             glacier_hash = TreeHash()
             glacier_hash.update(chunk)
             if glacier_hash.digest().hex() != download.checksum():
-                raise Exception("Glacier checksum mismatch")
+                raise GlacierChecksumMismatch()
         return upload.upload_part(chunk, self.part_number)

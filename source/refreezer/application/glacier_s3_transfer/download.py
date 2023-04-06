@@ -6,6 +6,8 @@ SPDX-License-Identifier: Apache-2.0
 import boto3
 import typing
 
+from refreezer.application.util.exceptions import AccessViolation
+
 if typing.TYPE_CHECKING:
     from mypy_boto3_glacier.client import GlacierClient
     from mypy_boto3_glacier.type_defs import GetJobOutputOutputTypeDef
@@ -35,7 +37,7 @@ class GlacierDownload:
 
     def read(self) -> bytes:
         if self.accessed:
-            raise Exception("GlacierDownload object has already been accessed")
+            raise AccessViolation()
         self.accessed = True
         return self.response["body"].read()
 
