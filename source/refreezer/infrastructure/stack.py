@@ -855,9 +855,32 @@ class RefreezerStack(Stack):
         # TODO: To be replaced by InitiateJob custom state for Step Function SDK integration
         initiate_retrieval_initiate_job = sfn.Pass(self, "InitiateRetrievalInitiateJob")
 
-        # TODO: To be replaced by DynamoDB PutItem (Synchronous mode)
-        initiate_retrieval_dynamo_db_put = sfn.Pass(
-            self, "InitiateRetrievalDynamoDBPut"
+        dynamo_db_put_state_json = {
+            "Type": "Task",
+            "Parameters": {
+                "TableName": glacier_retrieval_table.table_name,
+                "Item": {
+                    "pk": {
+                        "S": "IR:$.ArchiveId",
+                    },
+                    "sk": {
+                        "S": "meta",
+                    },
+                    "job_id": {
+                        "S": "$.JobId",
+                    },
+                    "start_timestamp": {
+                        "S": "$$.Execution.StartTime",
+                    },
+                },
+            },
+            "Resource": "arn:aws:states:::aws-sdk:dynamodb:putItem",
+        }
+
+        initiate_retrieval_dynamo_db_put = sfn.CustomState(
+            scope,
+            "InitiateRetrievalWorkflowDynamoDBPut",
+            state_json=dynamo_db_put_state_json,
         )
 
         initiate_retrieval_definition = initiate_retrieval_initiate_job.next(

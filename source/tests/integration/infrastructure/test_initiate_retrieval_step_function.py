@@ -12,8 +12,10 @@ import pytest
 
 if typing.TYPE_CHECKING:
     from mypy_boto3_stepfunctions import SFNClient
+    from mypy_boto3_dynamodb import DynamoDBClient
 else:
     SFNClient = object
+    DynamoDBClient = object
 
 
 @pytest.fixture
@@ -49,3 +51,25 @@ def test_state_machine_start_execution(default_input: str) -> None:
     )
     assert 200 == response["ResponseMetadata"]["HTTPStatusCode"]
     assert response["executionArn"] is not None
+
+    sf_history_output = client.get_execution_history(
+        executionArn=response["executionArn"], maxResults=1000
+    )
+
+    event_details = [
+        event["taskSucceededEventDetails"]
+        for event in sf_history_output["events"]
+        if "taskSucceededEventDetails" in event
+    ]
+
+    for detail in event_details:
+        if detail["resourceType"] == "aws-sdk:dynamodb":
+            state_output = json.loads(detail["output"])
+            archive_id = state_output["job_result"]["ArchiveId"]
+
+            table_name = os.environ[OutputKeys.GLACIER_RETRIEVAL_TABLE_NAME]
+            db_client: DynamoDBClient = boto3.client("dynamodb")
+            key = {"pk": {"S": f"IR:{archive_id}"}, "sk": {"S": "meta"}}
+            item = db_client.get_item(TableName=table_name, Key=key)["Item"]
+            assert item["job_id"] is not None and item["start_timestamp"] is not None
+            break

@@ -283,7 +283,33 @@ def test_initiate_retrieval_step_function_created(
 ) -> None:
     resources_list = ["InitiateRetrievalStateMachine"]
     logical_id = get_logical_id(stack, resources_list)
-    # TODO: Add Assertion for Initiate Retrieval step function DefinitionString
+
+    glacier_object_table_logical_id = get_logical_id(stack, ["GlacierObjectRetrieval"])
+    assert_resource_name_has_correct_type_and_props(
+        stack,
+        template,
+        resources_list=resources_list,
+        cfn_type="AWS::StepFunctions::StateMachine",
+        props={
+            "Properties": {
+                "DefinitionString": {
+                    "Fn::Join": [
+                        "",
+                        [
+                            assertions.Match.string_like_regexp(
+                                r'{"StartAt":"InitiateRetrievalDistributedMap","States":{"InitiateRetrievalDistributedMap":{"Type":"Map","End":true,"Iterator":{"StartAt":"InitiateRetrievalInnerDistributedMap","States":{"InitiateRetrievalInnerDistributedMap":{"Type":"Map","End":true,"Iterator":{"StartAt":"InitiateRetrievalInitiateJob","States":{"InitiateRetrievalInitiateJob":{"Type":"Pass","Next":"InitiateRetrievalWorkflowDynamoDBPut"},'
+                                r'"InitiateRetrievalWorkflowDynamoDBPut":{"End":true,"Type":"Task","Parameters":{"TableName":"'
+                            ),
+                            {"Ref": glacier_object_table_logical_id},
+                            assertions.Match.string_like_regexp(
+                                r'","Item":{"pk":{"S":"IR:\$.ArchiveId"},"sk":{"S":"meta"},"job_id":{"S":"\$.JobId"},"start_timestamp":{"S":"\$\$.Execution.StartTime"}}},"Resource":"arn:aws:states:::aws-sdk:dynamodb:putItem"}'
+                            ),
+                        ],
+                    ]
+                }
+            }
+        },
+    )
 
     template.has_output(
         OutputKeys.INITIATE_RETRIEVAL_STATE_MACHINE_ARN,
