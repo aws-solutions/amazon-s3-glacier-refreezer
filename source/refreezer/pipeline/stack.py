@@ -116,6 +116,7 @@ class PipelineStack(Stack):
                         "dynamodb:GetItem",
                         "dynamodb:PutItem",
                         "dynamodb:DeleteItem",
+                        "dynamodb:Query",
                     ],
                     resources=[
                         f"arn:aws:dynamodb:{Aws.REGION}:{Aws.ACCOUNT_ID}:table/"
