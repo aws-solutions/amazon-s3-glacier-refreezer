@@ -34,3 +34,7 @@ class InventoryChunk(TypedDict):
 class ArchiveChunk(TypedDict):
     ArchiveSize: int
     ArchiveChunkSize: int
+
+
+class ValidateMultipartUpload(TypedDict):
+    ToBeAdded: str

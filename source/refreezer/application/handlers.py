@@ -107,3 +107,12 @@ def archive_chunk_lambda_handler(
     }
 
     return {"body": archive_chunks}
+
+
+def validate_multipart_inventory_upload(
+    event: events.ValidateMultipartUpload, _context: Any
+) -> Dict[str, Any]:
+    logger.info("Validate multipart inventory lambda has been invoked.")
+    return {
+        "body": "InventoryRetrieved - Validate multipart inventory lambda has completed."
+    }
