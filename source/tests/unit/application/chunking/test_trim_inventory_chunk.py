@@ -103,7 +103,7 @@ from refreezer.application.chunking.trim import trim_inventory_chunk
         ),
     ],
 )
-def test_trim_inventory_first_chunk_par(
+def test_trim_inventory(
     chunk: bytes,
     max_record_size: int,
     first_chunk: bool,
