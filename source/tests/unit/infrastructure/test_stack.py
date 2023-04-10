@@ -212,6 +212,9 @@ def test_get_inventory_step_function_created(
         stack, ["InventoryChunkDetermination"]
     )
     table_logical_id = get_logical_id(stack, ["AsyncFacilitatorTable"])
+    glue_order_job_logical_id = get_logical_id(stack, ["GlueOrderingJob"])
+    glue_job_role_logical_id = get_logical_id(stack, ["GlueJobRole"])
+    inventory_bucket_logical_id = get_logical_id(stack, ["InventoryBucket"])
     assert_resource_name_has_correct_type_and_props(
         stack,
         template,
@@ -219,6 +222,7 @@ def test_get_inventory_step_function_created(
         cfn_type="AWS::StepFunctions::StateMachine",
         props={
             "Properties": {
+                "RoleArn": {"Fn::GetAtt": [assertions.Match.any_value(), "Arn"]},
                 "DefinitionString": {
                     "Fn::Join": [
                         "",
@@ -226,7 +230,7 @@ def test_get_inventory_step_function_created(
                             assertions.Match.string_like_regexp(
                                 r'{"StartAt":"Provided Inventory\?",'
                                 r'"States":{"Provided Inventory\?":{"Type":"Choice","Choices":\['
-                                r'{"Variable":"\$.provided_inventory","StringEquals":"YES","Next":"GlueOrderArchives"}\],'
+                                r'{"Variable":"\$.provided_inventory","StringEquals":"YES","Next":"GlueJobAutogenerateEtl"}\],'
                                 r'"Default":"GetInventoryInitiateJob"},'
                                 r'"GetInventoryInitiateJob":{"Next":"AsyncFacilitatorDynamoDBPut","Type":"Task","Parameters":{"AccountId":"'
                             ),
@@ -254,20 +258,50 @@ def test_get_inventory_step_function_created(
                                 ]
                             },
                             assertions.Match.string_like_regexp(
-                                r'"InventoryChunkRetrievalDistributedMap":{"Next":"GlueOrderArchives","Type":"Map","ItemProcessor":'
+                                r'"InventoryChunkRetrievalDistributedMap":{"Next":"GlueJobAutogenerateEtl","Type":"Map","ItemProcessor":'
                                 r'{"ProcessorConfig":{"Mode":"DISTRIBUTED","ExecutionType":"STANDARD"},"StartAt":"InventoryChunkDownloadLambda",'
                                 r'"States":{"InventoryChunkDownloadLambda":{"End":true,"Retry":\[{"ErrorEquals":\["Lambda.ServiceException","Lambda.AWSLambdaException","Lambda.SdkClientException"\],'
                                 r'"IntervalSeconds":\d+,"MaxAttempts":\d+,"BackoffRate":\d+}],"Type":"Task","Resource":"'
                             ),
                             {"Fn::GetAtt": [inventory_lambda_logical_id, "Arn"]},
                             assertions.Match.string_like_regexp(
-                                r'"}}},"ItemsPath":"\$.body"},'
-                                r'"GlueOrderArchives":{"Type":"Pass","Next":"InventoryValidationLambda"},'
-                                r'"InventoryValidationLambda":{"Type":"Pass","End":true}}}'
+                                r'"}}},"ItemsPath":"\$.body"},"GlueJobAutogenerateEtl":{"Next":"GlueStartJobRun","Type":"Task","Resource":"arn:'
+                            ),
+                            {"Ref": "AWS::Partition"},
+                            assertions.Match.string_like_regexp(
+                                r':states:::aws-sdk:glue:updateJob","Parameters":{"JobName":"'
+                            ),
+                            {"Ref": glue_order_job_logical_id},
+                            assertions.Match.string_like_regexp(
+                                r'","JobUpdate":{"GlueVersion":"3.0","Role":"'
+                            ),
+                            {"Fn::GetAtt": [glue_job_role_logical_id, "Arn"]},
+                            assertions.Match.string_like_regexp(
+                                r'","ExecutionProperty":{"MaxConcurrentRuns":\d+},"CodeGenConfigurationNodes":{"node-1":{"S3CsvSource":{"Name":"S3 bucket","Paths":\["s3://'
+                            ),
+                            {"Ref": inventory_bucket_logical_id},
+                            assertions.Match.string_like_regexp(
+                                r'"],"QuoteChar":"quote","Separator":"comma","Recurse":true,"WithHeader":true,"Escaper":"","OutputSchemas":\[{"Columns":\[{"Name":"ArchiveId","Type":"string"},{"Name":"ArchiveDescription","Type":"string"},{"Name":"CreationDate","Type":"string"},{"Name":"Size","Type":"string"},{"Name":"SHA256TreeHash","Type":"string"}]}]}},"node-2":{"SparkSQL":{"Name":"sql","Inputs":\["node\-1"],"SqlQuery":"select \* from myDataSource ORDER BY CreationDate ASC;","SqlAliases":\[{"From":"node-1","Alias":"myDataSource"}]}},"node-3":{"S3DirectTarget":{"Inputs":\["node-2"],"PartitionKeys":\[],"Compression":"none","Format":"csv","SchemaChangePolicy":{"EnableUpdateCatalog":false},"Path":"s3://'
+                            ),
+                            {"Ref": inventory_bucket_logical_id},
+                            assertions.Match.string_like_regexp(
+                                r'/sorted_inventory/","Name":"S3 bucket"}},"node-4":{"CustomCode":{"Inputs":\["node\-1","node\-2"],"ClassName":"Validation","Code":"\\nnode_inputs = list\(dfc\.values\(\)\)\\nassert node_inputs\[0].toDF\(\).count\(\) == node_inputs\[1].toDF\(\).count\(\)\\n","Name":"Validation"}}},"Command":{"Name":"glueetl","ScriptLocation":"s3://'
+                            ),
+                            {"Ref": inventory_bucket_logical_id},
+                            assertions.Match.string_like_regexp(
+                                r'/scripts/inventory_sort_script.py","PythonVersion":"3"}}}},"GlueStartJobRun":{"Next":"InventoryValidationLambda","Type":"Task","Resource":"arn:'
+                            ),
+                            {"Ref": "AWS::Partition"},
+                            assertions.Match.string_like_regexp(
+                                r':states:::glue:startJobRun","Parameters":{"JobName":"'
+                            ),
+                            {"Ref": glue_order_job_logical_id},
+                            assertions.Match.string_like_regexp(
+                                r'","Timeout":30,"NotificationProperty":{"NotifyDelayAfter":5}}},"InventoryValidationLambda":{"Type":"Pass","End":true}}}'
                             ),
                         ],
                     ]
-                }
+                },
             }
         },
     )
@@ -498,7 +532,7 @@ def test_glue_job_created(stack: RefreezerStack, template: assertions.Template) 
                             [
                                 "s3://",
                                 {"Ref": inventory_bucket_logical_id},
-                                "/scripts/inventory_sort_script.py",
+                                "/workflow_run_id/scripts/inventory_sort_script.py",
                             ],
                         ]
                     }
