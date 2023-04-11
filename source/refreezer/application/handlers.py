@@ -3,12 +3,16 @@ Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
 SPDX-License-Identifier: Apache-2.0
 """
 
+import os
 import boto3
 import logging
 from typing import Dict, TYPE_CHECKING, Optional, Any
 
 from refreezer.application.facilitator.processor import sns_handler, dynamoDb_handler
 from refreezer.application.chunking.inventory import generate_chunk_array
+from refreezer.application.glacier_service.glacier_apis_factory import (
+    GlacierAPIsFactory,
+)
 from refreezer.application.model import events
 from refreezer.application.glacier_s3_transfer.facilitator import (
     GlacierToS3Facilitator,
@@ -45,6 +49,7 @@ def chunk_retrieval_lambda_handler(
     logger.info("Chunk retrieval lambda has been invoked.")
 
     facilitator = GlacierToS3Facilitator(
+        GlacierAPIsFactory.create_instance(os.getenv("MockGlacier") == "True"),
         event["JobId"],
         event["VaultName"],
         event["ByteRange"],
@@ -87,6 +92,7 @@ def inventory_chunk_download_lambda_handler(
     logger.info("Chunk retrieval lambda has been invoked.")
 
     facilitator = GlacierToS3Facilitator(
+        GlacierAPIsFactory.create_instance(os.getenv("MockGlacier") == "True"),
         event["JobId"],
         event["VaultName"],
         event["ByteRange"],

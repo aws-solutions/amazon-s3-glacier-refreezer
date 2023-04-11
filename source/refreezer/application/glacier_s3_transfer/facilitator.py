@@ -4,6 +4,7 @@ SPDX-License-Identifier: Apache-2.0
 """
 
 from typing import TYPE_CHECKING, Optional
+from mypy_boto3_glacier import GlacierClient
 from refreezer.application.glacier_s3_transfer.download import GlacierDownload
 from refreezer.application.glacier_s3_transfer.upload import S3Upload
 from refreezer.application.hashing.tree_hash import TreeHash
@@ -12,20 +13,19 @@ from base64 import b64encode
 
 
 if TYPE_CHECKING:
-    from mypy_boto3_s3.type_defs import (
-        CompletedPartTypeDef,
-    )
+    from mypy_boto3_glacier import GlacierClient
     from refreezer.application.model.responses import (
         GlacierRetrieval as GlacierRetrievalResponse,
     )
 else:
-    CompletedPartTypeDef = object
+    GlacierClient = object
     GlacierRetrievalResponse = object
 
 
 class GlacierToS3Facilitator:
     def __init__(
         self,
+        glacier_client: GlacierClient,
         job_id: str,
         vault_name: str,
         byte_range: str,
@@ -36,6 +36,7 @@ class GlacierToS3Facilitator:
         part_number: int,
         ignore_glacier_checksum: Optional[bool] = None,
     ) -> None:
+        self.glacier_client = glacier_client
         self.job_id = job_id
         self.vault_name = vault_name
         self.byte_range = byte_range
@@ -62,6 +63,7 @@ class GlacierToS3Facilitator:
         :raises botocore.exceptions.ClientError: If there is an error communicating with AWS.
         """
         download = GlacierDownload(
+            self.glacier_client,
             self.job_id,
             self.vault_name,
             self.byte_range,
