@@ -61,8 +61,23 @@ def test_state_machine_start_execution_provided_inventory_no(
         stateMachineArn=os.environ[OutputKeys.INVENTORY_RETRIEVAL_STATE_MACHINE_ARN],
         input=default_input,
     )
-    sf_output = get_state_machine_output(response["executionArn"], timeout=60)
-    assert "InventoryRetrieved" in sf_output
+    wait_till_state_machine_finish(response["executionArn"], timeout=60)
+
+    sf_history_output = client.get_execution_history(
+        executionArn=response["executionArn"], maxResults=1000
+    )
+    event_details = [
+        event["stateEnteredEventDetails"]
+        for event in sf_history_output["events"]
+        if "stateEnteredEventDetails" in event
+    ]
+    for detail in event_details:
+        if detail["name"] == "MockGlacierInitiateJobTask":
+            break
+    else:
+        pytest.fail(
+            "The branching logic of the choice state of Get Inventory workflow did not work as expected when the inventory was not provided."
+        )
 
 
 def test_initiate_job_task_succeeded(default_input: str) -> None:
@@ -98,7 +113,6 @@ def test_dynamo_db_put_item_async_behavior(default_input: str) -> None:
     )
 
     wait_till_state_machine_finish(response["executionArn"], timeout=60)
-
     sf_history_output = client.get_execution_history(
         executionArn=response["executionArn"], maxResults=1000
     )
@@ -146,6 +160,37 @@ def test_state_machine_distributed_map(default_input: str) -> None:
         raise AssertionError(
             "Inventory retrieval distributed map failed to run successfully."
         )
+
+
+def test_initiate_job_task_succeeded_provided_inventory_yes_for_glue() -> None:
+    client: SFNClient = boto3.client("stepfunctions")
+    input = '{"provided_inventory": "YES"}'
+    response = client.start_execution(
+        stateMachineArn=os.environ[OutputKeys.INVENTORY_RETRIEVAL_STATE_MACHINE_ARN],
+        input=input,
+    )
+    wait_till_state_machine_finish(response["executionArn"], timeout=20)
+    sf_history_output = client.get_execution_history(
+        executionArn=response["executionArn"], maxResults=1000
+    )
+    event_details = [
+        event["taskSucceededEventDetails"]
+        for event in sf_history_output["events"]
+        if "taskSucceededEventDetails" in event
+    ]
+    for detail in event_details:
+        if detail["resourceType"] == "aws-sdk:glue":
+            state_output_str = detail["output"]
+            state_output = json.loads(state_output_str)
+            "GlueOrderingJob" in state_output["JobName"]
+            break
+
+
+# TODO: Make adjustments for this test at a later time
+def test_initiate_job_task_succeeded_provided_inventory_no_for_glue(
+    default_input: str,
+) -> None:
+    pass
 
 
 def get_state_machine_output(executionArn: str, timeout: int) -> str:

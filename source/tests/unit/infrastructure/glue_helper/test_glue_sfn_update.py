@@ -24,7 +24,14 @@ def glue_sfn_update(stack: RefreezerStack) -> GlueSfnUpdate:
     glue_job_name = "test-job"
     glue_job_arn = "arn:aws:glue:us-east-1:123456789012:job/test-job"
     glue_sfn_update = GlueSfnUpdate(
-        stack, "Name", input_bucket, s3_bucket_arn, glue_job_name, glue_job_arn
+        stack,
+        "Name",
+        input_bucket,
+        s3_bucket_arn,
+        glue_job_name,
+        glue_job_arn,
+        "scripts/inventory_sort_script.py",
+        1,
     )
     return glue_sfn_update
 
@@ -42,6 +49,9 @@ def test_autogenerate_etl_script(glue_sfn_update: GlueSfnUpdate) -> None:
             "JobUpdate": {
                 "GlueVersion": "3.0",
                 "Role": "arn:aws:glue:us-east-1:123456789012:job/test-job",
+                "ExecutionProperty": {
+                    "MaxConcurrentRuns": glue_sfn_update.glue_max_concurent_runs
+                },
                 "CodeGenConfigurationNodes": {
                     "node-1": {
                         "S3CsvSource": {

@@ -11,7 +11,6 @@ PYTHON_VERSION = "3"
 GLUE_VERSION = "3.0"
 JOB_COMMAND_NAME = "glueetl"
 SQL_QUERY = "select * from myDataSource ORDER BY CreationDate ASC;"
-SCRIPT_LOCATION = "scripts/inventory_sort_script.py"
 OUTPUT_BUCKET_PREFIX = "sorted_inventory/"
 CSV_FILE_COLUMNS = [
     {"Name": "ArchiveId", "Type": "string"},
@@ -36,6 +35,8 @@ class GlueSfnUpdate(Construct):
         s3_bucket_arn: str,
         glue_job_name: str,
         glue_job_arn: str,
+        glue_script_location: str,
+        glue_max_concurent_runs: int = 1,
     ) -> None:
         super().__init__(scope, id)
 
@@ -43,6 +44,8 @@ class GlueSfnUpdate(Construct):
         self.s3_bucket_arn = s3_bucket_arn
         self.glue_job_name = glue_job_name
         self.glue_job_arn = glue_job_arn
+        self.glue_script_location = glue_script_location
+        self.glue_max_concurent_runs = glue_max_concurent_runs
 
     def autogenerate_etl_script(self) -> tasks.CallAwsService:
         graph_workflow = {
@@ -97,10 +100,13 @@ class GlueSfnUpdate(Construct):
                 "JobUpdate": {
                     "GlueVersion": GLUE_VERSION,
                     "Role": self.glue_job_arn,
+                    "ExecutionProperty": {
+                        "MaxConcurrentRuns": self.glue_max_concurent_runs
+                    },
                     "CodeGenConfigurationNodes": graph_workflow,
                     "Command": {
                         "Name": JOB_COMMAND_NAME,
-                        "ScriptLocation": f"s3://{self.s3_bucket_name}/{SCRIPT_LOCATION}",
+                        "ScriptLocation": f"s3://{self.s3_bucket_name}/{self.glue_script_location}",
                         "PythonVersion": PYTHON_VERSION,
                     },
                 },
