@@ -26,3 +26,4 @@ def set_up_environment() -> None:
     assert "Outputs" in result[0]
     for output in result[0]["Outputs"]:
         os.environ[output["OutputKey"]] = output["OutputValue"]
+    os.environ["MockGlacier"] = "True"

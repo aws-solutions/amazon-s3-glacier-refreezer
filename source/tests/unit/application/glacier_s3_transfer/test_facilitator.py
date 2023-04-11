@@ -9,6 +9,7 @@ from refreezer.application.glacier_s3_transfer.facilitator import (
     GlacierToS3Facilitator,
 )
 from refreezer.application.util.exceptions import GlacierChecksumMismatch
+import boto3
 from typing import Callable, Any, Optional
 from refreezer.application.model import responses
 
@@ -114,6 +115,7 @@ class TestGlacierToS3Facilitator(unittest.TestCase):
         self, ignore_glacier_checksum: Optional[bool] = None
     ) -> GlacierToS3Facilitator:
         return GlacierToS3Facilitator(
+            boto3.client("glacier"),
             self.job_id,
             self.vault_name,
             self.byte_range,
