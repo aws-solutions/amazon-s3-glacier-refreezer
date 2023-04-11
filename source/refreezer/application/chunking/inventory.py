@@ -5,6 +5,8 @@ SPDX-License-Identifier: Apache-2.0
 
 from typing import List
 
+from refreezer.application.util.exceptions import ChunkSizeTooSmall
+
 
 def generate_chunk_array(
     inventory_size: int, maximum_inventory_record_size: int, chunk_size: int
@@ -20,9 +22,7 @@ def generate_chunk_array(
     end_index = min(inventory_size, chunk_size) - 1
 
     if chunk_size < maximum_inventory_record_size:
-        raise Exception(
-            f"Chunk size can not be smaller than maximum inventory record size: {maximum_inventory_record_size}"
-        )
+        raise ChunkSizeTooSmall(chunk_size, maximum_inventory_record_size)
 
     while end_index < inventory_size - 1:
         chunks.append(f"{start_index}-{end_index}")

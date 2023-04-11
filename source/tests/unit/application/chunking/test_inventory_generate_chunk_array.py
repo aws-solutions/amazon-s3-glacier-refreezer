@@ -7,6 +7,7 @@ import re
 import pytest
 
 from refreezer.application.chunking.inventory import generate_chunk_array
+from refreezer.application.util.exceptions import ChunkSizeTooSmall
 
 
 def test_generate_chunk_array_correct_chunks_last_chunk_same_size() -> None:
@@ -24,7 +25,7 @@ def test_generate_chunk_array_correct_chunks_last_chunk_smaller_size() -> None:
 
 
 def test_generate_chunk_array_chunk_smaller_than_record_size() -> None:
-    with pytest.raises(Exception):
+    with pytest.raises(ChunkSizeTooSmall):
         generate_chunk_array(
             inventory_size=5000, maximum_inventory_record_size=500, chunk_size=200
         )
