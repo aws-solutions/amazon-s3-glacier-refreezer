@@ -9,11 +9,10 @@ import boto3
 import time
 import json
 from refreezer.application.util.exceptions import StepFunctionFailure
-from refreezer.infrastructure.stack import OutputKeys
+from refreezer.infrastructure.output_keys import OutputKeys
 import pytest
 
 from tests.integration.infrastructure import sfn_util
-from refreezer.infrastructure.stack import OutputKeys
 
 
 if typing.TYPE_CHECKING:

@@ -17,7 +17,7 @@ import csv
 import io
 
 from tests.integration.infrastructure import sfn_util
-from refreezer.infrastructure.stack import OutputKeys
+from refreezer.infrastructure.output_keys import OutputKeys
 
 
 if typing.TYPE_CHECKING:

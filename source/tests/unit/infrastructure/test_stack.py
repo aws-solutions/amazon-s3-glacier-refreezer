@@ -10,10 +10,8 @@ import aws_cdk.assertions as assertions
 import cdk_nag
 import pytest
 
-from refreezer.infrastructure.stack import (
-    RefreezerStack,
-    OutputKeys,
-)
+from refreezer.infrastructure.stack import RefreezerStack
+from refreezer.infrastructure.output_keys import OutputKeys
 
 
 def test_cdk_app() -> None:

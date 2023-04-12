@@ -9,7 +9,7 @@ import pytest
 import uuid
 import boto3
 
-from refreezer.infrastructure.stack import OutputKeys
+from refreezer.infrastructure.output_keys import OutputKeys
 
 if typing.TYPE_CHECKING:
     from mypy_boto3_dynamodb import DynamoDBClient

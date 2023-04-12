@@ -9,7 +9,7 @@ import typing
 import boto3
 import pytest
 
-from refreezer.infrastructure.stack import OutputKeys
+from refreezer.infrastructure.output_keys import OutputKeys
 from refreezer.pipeline.stack import STACK_NAME
 
 if typing.TYPE_CHECKING:
