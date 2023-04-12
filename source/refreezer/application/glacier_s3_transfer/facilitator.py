@@ -8,6 +8,8 @@ from refreezer.application.glacier_s3_transfer.download import GlacierDownload
 from refreezer.application.glacier_s3_transfer.upload import S3Upload
 from refreezer.application.hashing.tree_hash import TreeHash
 from refreezer.application.util.exceptions import GlacierChecksumMismatch
+from refreezer.application.model import responses
+from base64 import b64encode
 
 
 if TYPE_CHECKING:
@@ -46,7 +48,19 @@ class GlacierToS3Facilitator:
 
         self.ignore_glacier_checksum = ignore_glacier_checksum
 
-    def transfer(self) -> CompletedPartTypeDef:
+    def transfer(self) -> responses.GlacierRetrieval:
+        """
+        Transfers a chunk of data from an AWS Glacier vault to an S3 bucket.
+
+        Returns a dictionary containing information about the uploaded part.
+
+        :return: A dictionary containing information about the uploaded part.
+        :rtype: responses.GlacierRetrieval
+
+        :raises Exception: If the checksum of the downloaded chunk of data from Glacier does not match the expected checksum.
+
+        :raises botocore.exceptions.ClientError: If there is an error communicating with AWS.
+        """
         download = GlacierDownload(
             self.job_id,
             self.vault_name,
@@ -64,4 +78,7 @@ class GlacierToS3Facilitator:
             glacier_hash.update(chunk)
             if glacier_hash.digest().hex() != download.checksum():
                 raise GlacierChecksumMismatch()
-        return upload.upload_part(chunk, self.part_number)
+        part = upload.upload_part(chunk, self.part_number)
+        if self.ignore_glacier_checksum is None:
+            part["TreeChecksum"] = b64encode(glacier_hash.digest()).decode("ascii")
+        return part

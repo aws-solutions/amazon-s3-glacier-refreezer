@@ -10,6 +10,7 @@ from refreezer.application.glacier_s3_transfer.facilitator import (
 )
 from refreezer.application.util.exceptions import GlacierChecksumMismatch
 from typing import Callable, Any, Optional
+from refreezer.application.model import responses
 
 
 class TestGlacierToS3Facilitator(unittest.TestCase):
@@ -24,11 +25,12 @@ class TestGlacierToS3Facilitator(unittest.TestCase):
         self.upload_id = "upload1"
         self.part_number = 1
         self.mock_upload: Callable[
-            [bytes, int], dict[str, Any]
+            [bytes, int], responses.GlacierRetrieval
         ] = lambda data, part_number: {
             "ETag": "etag1",
             "PartNumber": part_number,
-            "Checksum": data,
+            "ChecksumSHA256": "checksum1",
+            "TreeChecksum": "treechecksum1",
         }
 
     def test_init(self) -> None:
