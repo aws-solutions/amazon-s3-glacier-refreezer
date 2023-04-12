@@ -9,7 +9,7 @@ from typing import List, Dict, TYPE_CHECKING, Optional, Any
 
 from refreezer.application.facilitator.processor import sns_handler, dynamoDb_handler
 from refreezer.application.chunking.inventory import generate_chunk_array
-from refreezer.application.model import events
+from refreezer.application.model import events, responses
 from refreezer.application.glacier_s3_transfer.facilitator import (
     GlacierToS3Facilitator,
 )
@@ -37,7 +37,7 @@ def async_facilitator_handler(event: SQSEvent, _: Optional[Dict[str, Any]]) -> N
 
 def chunk_retrieval_lambda_handler(
     event: events.ArchiveRetrieval, _context: Any
-) -> Dict[str, Any]:
+) -> responses.GlacierRetrieval:
     logger.info("Chunk retrieval lambda has been invoked.")
 
     facilitator = GlacierToS3Facilitator(
@@ -52,8 +52,7 @@ def chunk_retrieval_lambda_handler(
         event["PartNumber"],
     )
 
-    facilitator.transfer()
-    return {"body": "Chunk retrieval lambda has completed."}
+    return facilitator.transfer()
 
 
 def chunk_validation_lambda_handler(
@@ -81,10 +80,23 @@ def inventory_chunk_lambda_handler(
 
 def inventory_chunk_download_lambda_handler(
     event: events.GlacierRetrieval, _context: Any
-) -> Dict[str, Any]:
+) -> responses.GlacierRetrieval:
     logger.info("Chunk retrieval lambda has been invoked.")
 
-    return {"InventoryRetrieved": "TRUE"}
+    facilitator = GlacierToS3Facilitator(
+        event["JobId"],
+        event["VaultName"],
+        event["StartByte"],
+        event["EndByte"],
+        event["VaultName"],
+        event["S3DestinationBucket"],
+        event["S3DestinationKey"],
+        event["UploadId"],
+        event["PartNumber"],
+        True,
+    )
+
+    return facilitator.transfer()
 
 
 def archive_chunk_lambda_handler(

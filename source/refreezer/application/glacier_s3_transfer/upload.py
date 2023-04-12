@@ -7,18 +7,17 @@ import boto3
 import typing
 from base64 import b64encode, b64decode
 from refreezer.application.hashing.s3_hash import S3Hash
+from refreezer.application.model import responses
 
 if typing.TYPE_CHECKING:
     from mypy_boto3_s3.client import S3Client
     from mypy_boto3_s3.type_defs import (
         UploadPartOutputTypeDef,
-        CompletedPartTypeDef,
         CompleteMultipartUploadOutputTypeDef,
     )
 else:
     S3Client = object
     UploadPartOutputTypeDef = object
-    CompletedPartTypeDef = object
     CompleteMultipartUploadOutputTypeDef = object
 
 
@@ -33,10 +32,10 @@ class S3Upload:
 
         self.bucket_name = bucket_name
         self.key = key
-        self.parts: list[CompletedPartTypeDef] = []
+        self.parts: list[responses.GlacierRetrieval] = []
         self.upload_id = upload_id
 
-    def upload_part(self, chunk: bytes, part_number: int) -> CompletedPartTypeDef:
+    def upload_part(self, chunk: bytes, part_number: int) -> responses.GlacierRetrieval:
         checksum = b64encode(S3Hash.hash(chunk)).decode("ascii")
         response: UploadPartOutputTypeDef = self.s3.upload_part(
             Body=chunk,
@@ -69,7 +68,9 @@ class S3Upload:
         )
 
     @staticmethod
-    def _build_part(part_number: int, etag: str, checksum: str) -> CompletedPartTypeDef:
+    def _build_part(
+        part_number: int, etag: str, checksum: str
+    ) -> responses.GlacierRetrieval:
         return {
             "PartNumber": part_number,
             "ETag": etag,
