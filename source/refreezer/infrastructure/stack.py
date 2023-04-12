@@ -437,7 +437,7 @@ class RefreezerStack(Stack):
             ],
         )
 
-        dynamo_db_put_state_json = {
+        put_state_json_async_facilitator_table = {
             "Type": "Task",
             "Parameters": {
                 "TableName": table.table_name,
@@ -457,7 +457,9 @@ class RefreezerStack(Stack):
         }
 
         dynamo_db_put = sfn.CustomState(
-            scope, "AsyncFacilitatorDynamoDBPut", state_json=dynamo_db_put_state_json
+            scope,
+            "AsyncFacilitatorDynamoDBPut",
+            state_json=put_state_json_async_facilitator_table,
         )
 
         inventory_chunk_determination_lambda = lambda_.Function(
@@ -941,7 +943,7 @@ class RefreezerStack(Stack):
         # TODO: To be replaced by InitiateJob custom state for Step Function SDK integration
         initiate_retrieval_initiate_job = sfn.Pass(self, "InitiateRetrievalInitiateJob")
 
-        dynamo_db_put_state_json = {
+        put_state_json_glacier_retrieval_table = {
             "Type": "Task",
             "Parameters": {
                 "TableName": glacier_retrieval_table.table_name,
@@ -966,7 +968,7 @@ class RefreezerStack(Stack):
         initiate_retrieval_dynamo_db_put = sfn.CustomState(
             scope,
             "InitiateRetrievalWorkflowDynamoDBPut",
-            state_json=dynamo_db_put_state_json,
+            state_json=put_state_json_glacier_retrieval_table,
         )
 
         initiate_retrieval_definition = initiate_retrieval_initiate_job.next(
@@ -1024,9 +1026,11 @@ class RefreezerStack(Stack):
             self, "RetrieveArchiveDynamoDBGetJob"
         )
 
-        # TODO: To be replaced by DynamoDB Put custom state for Step Function SDK integration
-        # pause the workflow using waitForTaskToken mechanism
-        retrieve_archive_dynamo_db_put = sfn.Pass(self, "RetrieveArchiveDynamoDBPut")
+        retrieve_archive_dynamo_db_put = sfn.CustomState(
+            scope,
+            "RetrieveArchiveDynamoDBPut",
+            state_json=put_state_json_async_facilitator_table,
+        )
 
         # TODO: To be replaced by s3:createMultipartUpload task
         retrieve_archive_start_multipart_upload = sfn.Pass(
