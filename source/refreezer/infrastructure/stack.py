@@ -47,6 +47,9 @@ class OutputKeys:
     INITIATE_RETRIEVAL_STATE_MACHINE_ARN = "InitiateRetrievalStateMachineArn"
     RETRIEVE_ARCHIVE_STATE_MACHINE_ARN = "RetrieveArchiveStateMachineArn"
     GLACIER_RETRIEVAL_TABLE_NAME = "GlacierRetrievalTableName"
+    INVENTORY_VALIDATE_MULTIPART_UPLOAD_LAMBDA_ARN = (
+        "InventoryValidateMultipartUploadLambdaArn"
+    )
 
 
 class RefreezerStack(Stack):
@@ -562,14 +565,57 @@ class RefreezerStack(Stack):
             glue_sfn_update.start_job()
         )
 
-        # TODO: To be replaced by InventoryValidationLambda LambdaInvoke task
-        inventory_validation_lambda = sfn.Pass(self, "InventoryValidationLambda")
+        validate_multipart_lambda = lambda_.Function(
+            self,
+            "InventoryValidateMultipartUpload",
+            handler="refreezer.application.handlers.validate_multipart_inventory_upload",
+            runtime=lambda_.Runtime.PYTHON_3_9,
+            code=lambda_.Code.from_asset("source"),
+            description="Lambda to close the multipart inventory upload.",
+        )
 
-        glue_order_archives.next(inventory_validation_lambda)
+        self.outputs[
+            OutputKeys.INVENTORY_VALIDATE_MULTIPART_UPLOAD_LAMBDA_ARN
+        ] = CfnOutput(
+            self,
+            OutputKeys.INVENTORY_VALIDATE_MULTIPART_UPLOAD_LAMBDA_ARN,
+            value=validate_multipart_lambda.function_name,
+        )
+
+        validate_multipart_task = tasks.LambdaInvoke(
+            self,
+            "ValidateMultipartUploadLambdaTask",
+            lambda_function=validate_multipart_lambda,
+            payload_response_only=True,
+        )
+
+        assert validate_multipart_lambda.role is not None
+        NagSuppressions.add_resource_suppressions(
+            validate_multipart_lambda.role.node.find_child("Resource"),
+            [
+                {
+                    "id": "AwsSolutions-IAM4",
+                    "reason": "CDK grants AWS managed policy for Lambda basic execution by default. Replacing it with a customer managed policy will be addressed later.",
+                    "appliesTo": [
+                        "Policy::arn:<AWS::Partition>:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+                    ],
+                },
+            ],
+        )
+
+        assert isinstance(validate_multipart_lambda.node.default_child, CfnElement)
+        assert validate_multipart_lambda.role is not None
+        validate_multipart_lambda_logical_id = Stack.of(self).get_logical_id(
+            validate_multipart_lambda.node.default_child
+        )
+
+        glue_order_archives.next(validate_multipart_task)
 
         get_inventory_initiate_job.next(dynamo_db_put).next(
             generate_chunk_array_lambda
-        ).next(distributed_map_state).next(glue_order_archives)
+        ).next(distributed_map_state).next(validate_multipart_task).next(
+            glue_order_archives
+        )
 
         definition = (
             sfn.Choice(self, "Provided Inventory?")
@@ -675,6 +721,21 @@ class RefreezerStack(Stack):
                     "reason": "IAM policy needed to run a Distributed Map state. https://docs.aws.amazon.com/step-functions/latest/dg/iam-policies-eg-dist-map.html",
                     "appliesTo": [
                         f"Resource::arn:aws:states:<AWS::Region>:<AWS::AccountId>:execution:<{inventory_retrieval_state_machine_logical_id}.Name>/*"
+                    ],
+                }
+            ],
+        )
+
+        NagSuppressions.add_resource_suppressions(
+            inventory_retrieval_state_machine.role.node.find_child(
+                "DefaultPolicy"
+            ).node.find_child("Resource"),
+            [
+                {
+                    "id": "AwsSolutions-IAM5",
+                    "reason": "By default wildcard permission is granted to the lambda.  This will be replaced with a proper IAM role later.",
+                    "appliesTo": [
+                        f"Resource::<{validate_multipart_lambda_logical_id}.Arn>:*"
                     ],
                 }
             ],
