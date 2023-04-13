@@ -609,8 +609,6 @@ class RefreezerStack(Stack):
             validate_multipart_lambda.node.default_child
         )
 
-        glue_order_archives.next(validate_multipart_task)
-
         get_inventory_initiate_job.next(dynamo_db_put).next(
             generate_chunk_array_lambda
         ).next(distributed_map_state).next(validate_multipart_task).next(
