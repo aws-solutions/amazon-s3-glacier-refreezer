@@ -280,19 +280,11 @@ def test_get_inventory_step_function_created(
                                 ]
                             },
                             assertions.Match.string_like_regexp(
-                                r'"GlueStartJobRun":{"Next":"ValidateMultipartUploadLambdaTask","Type":"Task","Resource"'
+                                r'"},"GlueJobAutogenerateEtl":{"Next":"GlueStartJobRun","Type":"Task","Resource":"arn:'
                             ),
                             {"Ref": "AWS::Partition"},
                             assertions.Match.string_like_regexp(
-                                r'states:::glue:startJobRun","Parameters":{"JobName"'
-                            ),
-                            {"Ref": glue_order_job_logical_id},
-                            assertions.Match.string_like_regexp(
-                                r'"Timeout":\d+,"NotificationProperty":{"NotifyDelayAfter":\d+}}},'
-                            ),
-                            {"Ref": "AWS::Partition"},
-                            assertions.Match.string_like_regexp(
-                                r':states:::aws-sdk:glue:updateJob","Parameters":{"JobName"'
+                                r':states:::aws-sdk:glue:updateJob","Parameters":{"JobName":"'
                             ),
                             {"Ref": glue_order_job_logical_id},
                             assertions.Match.string_like_regexp(
@@ -312,7 +304,15 @@ def test_get_inventory_step_function_created(
                             ),
                             {"Ref": inventory_bucket_logical_id},
                             assertions.Match.string_like_regexp(
-                                r'/workflow_run_id/scripts/inventory_sort_script.py","PythonVersion":"3"}}}}}}'
+                                r'/workflow_run_id/scripts/inventory_sort_script.py","PythonVersion":"3"}}}},"GlueStartJobRun":{"End":true,"Type":"Task","Resource":"arn:'
+                            ),
+                            {"Ref": "AWS::Partition"},
+                            assertions.Match.string_like_regexp(
+                                r':states:::glue:startJobRun","Parameters":{"JobName":"'
+                            ),
+                            {"Ref": glue_order_job_logical_id},
+                            assertions.Match.string_like_regexp(
+                                r'","Timeout":\d+,"NotificationProperty":{"NotifyDelayAfter":\d+}}}}}'
                             ),
                         ],
                     ]
