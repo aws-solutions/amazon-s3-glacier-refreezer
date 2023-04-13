@@ -22,6 +22,7 @@ class DistributedMap(sfn.CustomState):
         item_reader_parameters: Optional[Dict[str, Any]] = None,
         item_selector: Optional[Dict[str, Any]] = None,
         result_selector: Optional[Dict[str, Any]] = None,
+        result_writer: Optional[Dict[str, Any]] = None,
         result_path: Optional[str] = None,
     ) -> None:
         map = sfn.Map(scope, f"{distributed_map_id}InlineMap")
@@ -44,6 +45,7 @@ class DistributedMap(sfn.CustomState):
             "ItemSelector": item_selector,
             "ItemsPath": items_path,
             "ResultSelector": result_selector,
+            "ResultWriter": result_writer,
             "ResultPath": result_path,
         }.items():
             if value is not None:

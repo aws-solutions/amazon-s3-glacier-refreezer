@@ -12,6 +12,10 @@ from refreezer.application.util.exceptions import StepFunctionFailure
 from refreezer.infrastructure.stack import OutputKeys
 import pytest
 
+from tests.integration.infrastructure import sfn_util
+from refreezer.infrastructure.stack import OutputKeys
+
+
 if typing.TYPE_CHECKING:
     from mypy_boto3_stepfunctions import SFNClient
     from mypy_boto3_dynamodb import DynamoDBClient
@@ -49,7 +53,7 @@ def test_state_machine_start_execution_provided_inventory_yes() -> None:
         stateMachineArn=os.environ[OutputKeys.INVENTORY_RETRIEVAL_STATE_MACHINE_ARN],
         input=input,
     )
-    sf_output = get_state_machine_output(response["executionArn"], timeout=10)
+    sf_output = sfn_util.get_state_machine_output(response["executionArn"], timeout=10)
     assert "retrieveInventory" not in sf_output
 
 
@@ -61,7 +65,7 @@ def test_state_machine_start_execution_provided_inventory_no(
         stateMachineArn=os.environ[OutputKeys.INVENTORY_RETRIEVAL_STATE_MACHINE_ARN],
         input=default_input,
     )
-    wait_till_state_machine_finish(response["executionArn"], timeout=60)
+    sfn_util.wait_till_state_machine_finish(response["executionArn"], timeout=60)
 
     sf_history_output = client.get_execution_history(
         executionArn=response["executionArn"], maxResults=1000
@@ -87,7 +91,7 @@ def test_initiate_job_task_succeeded(default_input: str) -> None:
         input=default_input,
     )
 
-    wait_till_state_machine_finish(response["executionArn"], timeout=60)
+    sfn_util.wait_till_state_machine_finish(response["executionArn"], timeout=60)
 
     sf_history_output = client.get_execution_history(
         executionArn=response["executionArn"], maxResults=1000
@@ -112,7 +116,8 @@ def test_dynamo_db_put_item_async_behavior(default_input: str) -> None:
         input=default_input,
     )
 
-    wait_till_state_machine_finish(response["executionArn"], timeout=60)
+    sfn_util.wait_till_state_machine_finish(response["executionArn"], timeout=60)
+
     sf_history_output = client.get_execution_history(
         executionArn=response["executionArn"], maxResults=1000
     )
@@ -144,7 +149,7 @@ def test_state_machine_distributed_map(default_input: str) -> None:
         input=default_input,
     )
 
-    wait_till_state_machine_finish(response["executionArn"], timeout=60)
+    sfn_util.wait_till_state_machine_finish(response["executionArn"], timeout=60)
 
     sf_history_output = client.get_execution_history(
         executionArn=response["executionArn"], maxResults=1000
@@ -169,7 +174,7 @@ def test_initiate_job_task_succeeded_provided_inventory_yes_for_glue() -> None:
         stateMachineArn=os.environ[OutputKeys.INVENTORY_RETRIEVAL_STATE_MACHINE_ARN],
         input=input,
     )
-    wait_till_state_machine_finish(response["executionArn"], timeout=20)
+    sfn_util.wait_till_state_machine_finish(response["executionArn"], timeout=20)
     sf_history_output = client.get_execution_history(
         executionArn=response["executionArn"], maxResults=1000
     )
@@ -191,35 +196,3 @@ def test_initiate_job_task_succeeded_provided_inventory_no_for_glue(
     default_input: str,
 ) -> None:
     pass
-
-
-def get_state_machine_output(executionArn: str, timeout: int) -> str:
-    client: SFNClient = boto3.client("stepfunctions")
-    start_time = time.time()
-    sf_output: str = "TIMEOUT EXCEEDED"
-    while (time.time() - start_time) < timeout:
-        time.sleep(1)
-        sf_describe_response = client.describe_execution(executionArn=executionArn)
-        status = sf_describe_response["status"]
-        if status == "RUNNING":
-            continue
-        elif status == "SUCCEEDED":
-            sf_output = sf_describe_response["output"]
-            break
-        else:
-            # for status: FAILED, TIMED_OUT or ABORTED
-            raise StepFunctionFailure(status)
-
-    return sf_output
-
-
-def wait_till_state_machine_finish(executionArn: str, timeout: int) -> None:
-    client: SFNClient = boto3.client("stepfunctions")
-    start_time = time.time()
-    while (time.time() - start_time) < timeout:
-        time.sleep(1)
-        sf_describe_response = client.describe_execution(executionArn=executionArn)
-        status = sf_describe_response["status"]
-        if status == "RUNNING":
-            continue
-        break
