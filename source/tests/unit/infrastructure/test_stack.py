@@ -351,8 +351,24 @@ def test_get_inventory_step_function_created(
                                     r'"ItemProcessor":{"ProcessorConfig":{"Mode":"DISTRIBUTED","ExecutionType":"STANDARD"},'
                                     r'"StartAt":"InitiateRetrievalInnerDistributedMap","States":{"InitiateRetrievalInnerDistributedMap":{"End":true,"Type":"Map",'
                                     r'"ItemProcessor":{"ProcessorConfig":{"Mode":"DISTRIBUTED","ExecutionType":"STANDARD"},'
-                                    r'"StartAt":"InitiateRetrievalInitiateJob","States":{"InitiateRetrievalInitiateJob":{"Type":"Pass","Next":"InitiateRetrievalWorkflowDynamoDBPut"},'
-                                    r'"InitiateRetrievalWorkflowDynamoDBPut":{"End":true,"Type":"Task","Parameters":{"TableName":"'
+                                    r'"StartAt":"InitiateRetrievalInitiateJob","States":{"InitiateRetrievalInitiateJob":{"Type":"Pass","Next":"InitiateRetrievalWorkflowDynamoDBPutTask"},'
+                                    r'"InitiateRetrievalDynamoDBPutTask":{"End":true,"Type":"Task","Resource":"arn:"'
+                                ),
+                                {"Ref": "AWS::Partition"},
+                                assertions.Match.string_like_regexp(
+                                    r'":states:::dynamodb:putItem","Parameters":{"Item":'
+                                    r'{"pk":{"S.\$":"\$.ArchiveId"},'
+                                    r'"sk":{"S":"meta"},'
+                                    r'"job_id":{"S.\$":"\$.JobId"},'
+                                    r'"start_timestamp":{"S.\$":"\$\$.Execution.StartTime"},'
+                                    r'"archive_id":{"S.\$":"\$.ArchiveId"},'
+                                    r'"vault_name":{"S.\$":"\$.VaultName"},'
+                                    r'"retrieval_type":{"S.\$":"\$.RetrievalType"},'
+                                    r'"archive_size_in_bytes":{"S.\$":"\$.ArchiveSizeInBytes"},'
+                                    r'"description":{"S.\$":"\$.Description"},'
+                                    r'"s3_bucket":{"S.\$":"\$.S3Bucket"},'
+                                    r'"s3_key":{"S.\$":"\$.S3Key"},'
+                                    r'"TableName":'
                                 ),
                                 {"Ref": glacier_object_table_logical_id},
                                 assertions.Match.string_like_regexp(
