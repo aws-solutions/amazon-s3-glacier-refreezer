@@ -9,7 +9,7 @@ from typing import List, Dict, TYPE_CHECKING, Optional, Any
 
 from refreezer.application.facilitator.processor import sns_handler, dynamoDb_handler
 from refreezer.application.chunking.inventory import generate_chunk_array
-from refreezer.application.model import events, responses
+from refreezer.application.model import events
 from refreezer.application.glacier_s3_transfer.facilitator import (
     GlacierToS3Facilitator,
 )
@@ -18,9 +18,13 @@ from refreezer.application.glacier_s3_transfer.facilitator import (
 if TYPE_CHECKING:
     from mypy_boto3_stepfunctions.client import SFNClient
     from aws_lambda_powertools.utilities.data_classes.sqs_event import SQSEvent
+    from refreezer.application.model.responses import (
+        GlacierRetrieval as GlacierRetrievalResponse,
+    )
 else:
     SFNClient = object
     SQSEvent = object
+    GlacierRetrievalResponse = object
 
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
@@ -37,7 +41,7 @@ def async_facilitator_handler(event: SQSEvent, _: Optional[Dict[str, Any]]) -> N
 
 def chunk_retrieval_lambda_handler(
     event: events.ArchiveRetrieval, _context: Any
-) -> responses.GlacierRetrieval:
+) -> GlacierRetrievalResponse:
     logger.info("Chunk retrieval lambda has been invoked.")
 
     facilitator = GlacierToS3Facilitator(
@@ -80,7 +84,7 @@ def inventory_chunk_lambda_handler(
 
 def inventory_chunk_download_lambda_handler(
     event: events.GlacierRetrieval, _context: Any
-) -> responses.GlacierRetrieval:
+) -> GlacierRetrievalResponse:
     logger.info("Chunk retrieval lambda has been invoked.")
 
     facilitator = GlacierToS3Facilitator(
