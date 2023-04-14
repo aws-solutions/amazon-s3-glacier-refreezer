@@ -8,7 +8,6 @@ from refreezer.application.glacier_s3_transfer.download import GlacierDownload
 from refreezer.application.glacier_s3_transfer.upload import S3Upload
 from refreezer.application.hashing.tree_hash import TreeHash
 from refreezer.application.util.exceptions import GlacierChecksumMismatch
-from refreezer.application.model import responses
 from base64 import b64encode
 
 
@@ -16,8 +15,12 @@ if TYPE_CHECKING:
     from mypy_boto3_s3.type_defs import (
         CompletedPartTypeDef,
     )
+    from refreezer.application.model.responses import (
+        GlacierRetrieval as GlacierRetrievalResponse,
+    )
 else:
     CompletedPartTypeDef = object
+    GlacierRetrievalResponse = object
 
 
 class GlacierToS3Facilitator:
@@ -48,14 +51,14 @@ class GlacierToS3Facilitator:
 
         self.ignore_glacier_checksum = ignore_glacier_checksum
 
-    def transfer(self) -> responses.GlacierRetrieval:
+    def transfer(self) -> GlacierRetrievalResponse:
         """
         Transfers a chunk of data from an AWS Glacier vault to an S3 bucket.
 
         Returns a dictionary containing information about the uploaded part.
 
         :return: A dictionary containing information about the uploaded part.
-        :rtype: responses.GlacierRetrieval
+        :rtype: GlacierRetrievalResponse
 
         :raises Exception: If the checksum of the downloaded chunk of data from Glacier does not match the expected checksum.
 
