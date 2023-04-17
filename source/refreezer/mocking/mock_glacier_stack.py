@@ -49,6 +49,7 @@ class MockGlacierStack(Stack):
             scope,
             "MockGlacierInitiateJobTask",
             lambda_function=mock_glacier_initiate_job_lambda,
+            result_path="$.initiate_job_result",
             payload_response_only=True,
         )
 

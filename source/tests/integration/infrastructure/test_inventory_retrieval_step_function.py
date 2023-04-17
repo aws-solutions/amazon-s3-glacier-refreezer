@@ -33,6 +33,8 @@ def default_input() -> str:
             vault_name="test-vault-01",
             description="This is a test",
             sns_topic=topic_arn,
+            workflow_run="workflow_run_123",
+            upload_id="test_upload_123",
         )
     )
 

@@ -299,6 +299,7 @@ class RefreezerStack(Stack):
                 },
                 "VaultName.$": "$.vault_name",
             },
+            "ResultPath": "$.initiate_job_result",
             "Resource": "arn:aws:states:::aws-sdk:glacier:initiateJob",
         }
         get_inventory_initiate_job: Union[sfn.IChainable, sfn.INextable]
@@ -446,13 +447,14 @@ class RefreezerStack(Stack):
                         "S.$": "$$.Task.Token",
                     },
                     "job_id": {
-                        "S.$": "$.JobId",
+                        "S.$": "$.initiate_job_result.JobId",
                     },
                     "start_timestamp": {
                         "S.$": "$$.Execution.StartTime",
                     },
                 },
             },
+            "ResultPath": "$.async_ddb_put_result",
             "Resource": "arn:aws:states:::aws-sdk:dynamodb:putItem.waitForTaskToken",
         }
 
@@ -477,12 +479,13 @@ class RefreezerStack(Stack):
             payload=sfn.TaskInput.from_object(
                 {
                     "InventorySize": sfn.JsonPath.string_at(
-                        "$.job_result.InventorySizeInBytes"
+                        "$.async_ddb_put_result.job_result.InventorySizeInBytes"
                     ),
                     "MaximumInventoryRecordSize": MAXIMUM_INVENTORY_RECORD_SIZE,
                     "ChunkSize": CHUNK_SIZE,
                 }
             ),
+            result_path="$.chunking_result",
         )
 
         self.outputs[OutputKeys.INVENTORY_CHUNK_DETERMINATION_LAMBDA_ARN] = CfnOutput(
@@ -545,7 +548,16 @@ class RefreezerStack(Stack):
             self,
             "InventoryChunkRetrievalDistributedMap",
             definition=inventory_chunk_download_lambda,
-            items_path="$.body",
+            items_path="$.chunking_result.body",
+            item_selector={
+                "JobId.$": "$.initiate_job_result.JobId",
+                "VaultName.$": "$.vault_name",
+                "ByteRange.$": "$$.Map.Item.Value",
+                "S3DestinationBucket": inventory_bucket.bucket_name,
+                "S3DestinationKey.$": "States.Format('{}/inventory.csv', $.workflow_run)",
+                "UploadId.$": "$.upload_id",
+                "PartNumber.$": "$$.Map.Item.Index",
+            },
         )
 
         glue_sfn_update = GlueSfnUpdate(
