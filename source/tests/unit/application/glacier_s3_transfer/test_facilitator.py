@@ -17,8 +17,7 @@ class TestGlacierToS3Facilitator(unittest.TestCase):
     def setUp(self) -> None:
         self.job_id = "job1"
         self.vault_name = "vault1"
-        self.start_byte = 0
-        self.end_byte = 100
+        self.byte_range = "0-100"
         self.glacier_object_id = "archive1"
         self.s3_destination_bucket = "bucket1"
         self.s3_destination_key = "key1"
@@ -37,8 +36,7 @@ class TestGlacierToS3Facilitator(unittest.TestCase):
         facilitator = self.create_facilitator()
         self.assertEqual(facilitator.job_id, self.job_id)
         self.assertEqual(facilitator.vault_name, self.vault_name)
-        self.assertEqual(facilitator.start_byte, self.start_byte)
-        self.assertEqual(facilitator.end_byte, self.end_byte)
+        self.assertEqual(facilitator.byte_range, self.byte_range)
         self.assertEqual(facilitator.glacier_object_id, self.glacier_object_id)
         self.assertEqual(facilitator.s3_destination_bucket, self.s3_destination_bucket)
         self.assertEqual(facilitator.s3_destination_key, self.s3_destination_key)
@@ -118,8 +116,7 @@ class TestGlacierToS3Facilitator(unittest.TestCase):
         return GlacierToS3Facilitator(
             self.job_id,
             self.vault_name,
-            self.start_byte,
-            self.end_byte,
+            self.byte_range,
             self.glacier_object_id,
             self.s3_destination_bucket,
             self.s3_destination_key,

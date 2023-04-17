@@ -9,8 +9,7 @@ from typing import TypedDict
 class GlacierRetrieval(TypedDict):
     JobId: str
     VaultName: str
-    StartByte: int
-    EndByte: int
+    ByteRange: str
     S3DestinationBucket: str
     S3DestinationKey: str
     UploadId: str

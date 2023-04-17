@@ -21,20 +21,19 @@ TEST_DATA = b"test"
 
 def test_init(setup_glacier_job: str) -> None:
     vault_name: str = "vault_name"
-    start_byte: int = 0
-    end_byte: int = 1024
+    byte_range: str = "0-1024"
 
     # Create a GlacierDownload object
-    download = GlacierDownload(setup_glacier_job, vault_name, start_byte, end_byte)
+    download = GlacierDownload(setup_glacier_job, vault_name, byte_range)
 
     # Test that the object was initialized correctly
     assert download.params["jobId"] == setup_glacier_job
     assert download.params["vaultName"] == vault_name
-    assert download.params["range"] == f"bytes={start_byte}-{end_byte}"
+    assert download.params["range"] == f"bytes={byte_range}"
 
 
 def test_read_correctness(setup_glacier_job: str) -> None:
-    download = GlacierDownload(setup_glacier_job, "vault_name", 0, 1024)
+    download = GlacierDownload(setup_glacier_job, "vault_name", "0-1024")
 
     # Test that iter() method returns the correct chunks
     chunk: bytes = download.read()
@@ -42,7 +41,7 @@ def test_read_correctness(setup_glacier_job: str) -> None:
 
 
 def test_read_prevents_second_access(setup_glacier_job: str) -> None:
-    download = GlacierDownload(setup_glacier_job, "vault_name", 0, 1024)
+    download = GlacierDownload(setup_glacier_job, "vault_name", "0-1024")
     download.read()
     with pytest.raises(AccessViolation):
         download.read()

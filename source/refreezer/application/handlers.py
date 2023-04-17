@@ -47,8 +47,7 @@ def chunk_retrieval_lambda_handler(
     facilitator = GlacierToS3Facilitator(
         event["JobId"],
         event["VaultName"],
-        event["StartByte"],
-        event["EndByte"],
+        event["ByteRange"],
         event["ArchiveId"],
         event["S3DestinationBucket"],
         event["S3DestinationKey"],
@@ -90,8 +89,7 @@ def inventory_chunk_download_lambda_handler(
     facilitator = GlacierToS3Facilitator(
         event["JobId"],
         event["VaultName"],
-        event["StartByte"],
-        event["EndByte"],
+        event["ByteRange"],
         event["VaultName"],
         event["S3DestinationBucket"],
         event["S3DestinationKey"],

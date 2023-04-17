@@ -28,8 +28,7 @@ class GlacierToS3Facilitator:
         self,
         job_id: str,
         vault_name: str,
-        start_byte: int,
-        end_byte: int,
+        byte_range: str,
         glacier_object_id: str,
         s3_destination_bucket: str,
         s3_destination_key: str,
@@ -39,9 +38,7 @@ class GlacierToS3Facilitator:
     ) -> None:
         self.job_id = job_id
         self.vault_name = vault_name
-        self.start_byte = start_byte
-        self.end_byte = end_byte
-
+        self.byte_range = byte_range
         self.glacier_object_id = glacier_object_id
 
         self.s3_destination_bucket = s3_destination_bucket
@@ -67,8 +64,7 @@ class GlacierToS3Facilitator:
         download = GlacierDownload(
             self.job_id,
             self.vault_name,
-            self.start_byte,
-            self.end_byte,
+            self.byte_range,
         )
         upload = S3Upload(
             self.s3_destination_bucket,
