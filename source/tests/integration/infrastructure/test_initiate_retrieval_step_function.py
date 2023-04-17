@@ -4,7 +4,7 @@ SPDX-License-Identifier: Apache-2.0
 """
 
 import os
-import typing
+from typing import TYPE_CHECKING, Any
 import boto3
 import pytest
 import json
@@ -20,7 +20,7 @@ from tests.integration.infrastructure import sfn_util
 from refreezer.infrastructure.stack import OutputKeys
 
 
-if typing.TYPE_CHECKING:
+if TYPE_CHECKING:
     from mypy_boto3_stepfunctions import SFNClient
     from mypy_boto3_dynamodb import DynamoDBClient
     from mypy_boto3_s3 import S3Client
@@ -39,7 +39,7 @@ def default_input() -> str:
 
 
 @pytest.fixture(autouse=True, scope="module")
-def setup() -> typing.Any:
+def setup() -> Any:
     client: S3Client = boto3.client("s3")
 
     num_inventory_files = 2

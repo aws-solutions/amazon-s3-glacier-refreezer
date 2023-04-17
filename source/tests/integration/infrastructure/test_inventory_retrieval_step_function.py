@@ -4,19 +4,19 @@ SPDX-License-Identifier: Apache-2.0
 """
 
 import os
-import typing
 import boto3
-import time
 import json
+import pytest
+
+from typing import TYPE_CHECKING
 from refreezer.application.util.exceptions import StepFunctionFailure
 from refreezer.infrastructure.stack import OutputKeys
-import pytest
 
 from tests.integration.infrastructure import sfn_util
 from refreezer.infrastructure.stack import OutputKeys
 
 
-if typing.TYPE_CHECKING:
+if TYPE_CHECKING:
     from mypy_boto3_stepfunctions import SFNClient
     from mypy_boto3_dynamodb import DynamoDBClient
 else:

@@ -4,13 +4,13 @@ SPDX-License-Identifier: Apache-2.0
 """
 
 import os
-import typing
+from typing import TYPE_CHECKING
 import boto3
 import json
 
 from refreezer.infrastructure.stack import OutputKeys
 
-if typing.TYPE_CHECKING:
+if TYPE_CHECKING:
     from mypy_boto3_lambda import LambdaClient
 else:
     LambdaClient = object

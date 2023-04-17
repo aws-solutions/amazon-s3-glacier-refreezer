@@ -4,11 +4,11 @@ SPDX-License-Identifier: Apache-2.0
 """
 
 import boto3
-import typing
 
+from typing import TYPE_CHECKING, Optional
 from refreezer.application.util.exceptions import AccessViolation
 
-if typing.TYPE_CHECKING:
+if TYPE_CHECKING:
     from mypy_boto3_glacier.client import GlacierClient
     from mypy_boto3_glacier.type_defs import GetJobOutputOutputTypeDef
 else:
@@ -35,5 +35,5 @@ class GlacierDownload:
         self.accessed = True
         return self.response["body"].read()
 
-    def checksum(self) -> typing.Optional[str]:
+    def checksum(self) -> Optional[str]:
         return self.response.get("checksum")

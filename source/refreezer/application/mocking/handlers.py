@@ -16,7 +16,7 @@ logger.setLevel(logging.INFO)
 
 
 def mock_glacier_initiate_job_task_handler(
-    event: Dict[str, Any], context: Any
+    event: Dict[str, Any], _context: Any
 ) -> Dict[str, Any]:
     logger.info("Mock Glacier initiate job task has been invoked.")
     mock_notify_sns_lambda_arn = os.environ["MOCK_NOTIFY_SNS_LAMBDA_ARN"]
@@ -29,7 +29,7 @@ def mock_glacier_initiate_job_task_handler(
     )
 
 
-def mock_notify_sns_handler(event: Dict[str, Any], context: Any) -> None:
+def mock_notify_sns_handler(event: Dict[str, Any], _context: Any) -> None:
     account_id = event.get("account_id", "testing_account_id")
     vault_name = event.get("vault_name", "testing_vault_name")
     sns_topic = event.get("sns_topic", "testing_sns_topic")

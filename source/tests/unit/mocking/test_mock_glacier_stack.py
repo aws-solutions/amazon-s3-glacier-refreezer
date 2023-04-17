@@ -3,7 +3,7 @@ Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
 SPDX-License-Identifier: Apache-2.0
 """
 
-import typing
+from typing import TYPE_CHECKING
 
 import aws_cdk as core
 import aws_cdk.assertions as assertions

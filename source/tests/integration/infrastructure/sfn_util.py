@@ -3,11 +3,11 @@ Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
 SPDX-License-Identifier: Apache-2.0
 """
 
-import typing
+from typing import TYPE_CHECKING
 import boto3
 import time
 
-if typing.TYPE_CHECKING:
+if TYPE_CHECKING:
     from mypy_boto3_stepfunctions import SFNClient
 else:
     SFNClient = object

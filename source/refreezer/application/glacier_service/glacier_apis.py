@@ -16,4 +16,3 @@ class GlacierAPIs(GlacierInterface):
     def get_job_output(self, params: Dict[str, Any]) -> None:
         logger.info("Calling get_job_output in GlacierAPIs.")
         # TODO use actual Glacier get_job_output API
-        pass

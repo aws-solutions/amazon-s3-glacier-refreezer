@@ -4,11 +4,12 @@ SPDX-License-Identifier: Apache-2.0
 """
 
 import boto3
-import typing
+
+from typing import TYPE_CHECKING
 from base64 import b64encode, b64decode
 from refreezer.application.hashing.s3_hash import S3Hash
 
-if typing.TYPE_CHECKING:
+if TYPE_CHECKING:
     from mypy_boto3_s3.client import S3Client
     from mypy_boto3_s3.type_defs import (
         UploadPartOutputTypeDef,

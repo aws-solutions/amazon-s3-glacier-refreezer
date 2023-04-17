@@ -5,14 +5,14 @@ SPDX-License-Identifier: Apache-2.0
 
 import os
 import json
-import typing
+from typing import TYPE_CHECKING, Dict, Any
 import pytest
 import uuid
 import boto3
 
 from refreezer.infrastructure.stack import OutputKeys
 
-if typing.TYPE_CHECKING:
+if TYPE_CHECKING:
     from mypy_boto3_dynamodb import DynamoDBClient
     from mypy_boto3_sns import SNSClient
     from mypy_boto3_dynamodb.service_resource import Table
@@ -23,7 +23,7 @@ else:
 
 
 @pytest.fixture
-def ddb_table(glacier_job_result: typing.Dict[str, typing.Any]) -> Table:
+def ddb_table(glacier_job_result: Dict[str, Any]) -> Table:
     ddb = boto3.resource("dynamodb")
     table_name = os.environ[OutputKeys.ASYNC_FACILITATOR_TABLE_NAME]
     table: Table = ddb.Table(table_name)
@@ -64,7 +64,7 @@ def test_lambda_invoked() -> None:
 
 
 def test_lambda_invoked_by_sns(
-    glacier_job_result: typing.Dict[str, typing.Any], ddb_table: Table
+    glacier_job_result: Dict[str, Any], ddb_table: Table
 ) -> None:
     topic_arn = os.environ[OutputKeys.ASYNC_FACILITATOR_TOPIC_ARN]
     sns_client: SNSClient = boto3.client("sns")

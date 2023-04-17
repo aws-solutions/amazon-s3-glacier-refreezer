@@ -4,7 +4,7 @@ SPDX-License-Identifier: Apache-2.0
 """
 
 import os
-import typing
+from typing import TYPE_CHECKING, Generator, Iterator
 
 import boto3
 import pytest
@@ -20,7 +20,7 @@ from refreezer.infrastructure.stack import (
 )
 
 
-if typing.TYPE_CHECKING:
+if TYPE_CHECKING:
     from mypy_boto3_s3 import S3Client
     from mypy_boto3_glacier import GlacierClient
     from mypy_boto3_dynamodb import DynamoDBServiceResource
@@ -46,14 +46,14 @@ def aws_credentials() -> None:
 
 
 @pytest.fixture(scope="module")
-def s3_client(aws_credentials: None) -> typing.Iterator[S3Client]:
+def s3_client(aws_credentials: None) -> Iterator[S3Client]:
     with mock_s3():
         connection: S3Client = boto3.client("s3", region_name="us-east-1")
         yield connection
 
 
 @pytest.fixture(scope="module")
-def glacier_client(aws_credentials: None) -> typing.Iterator[GlacierClient]:
+def glacier_client(aws_credentials: None) -> Iterator[GlacierClient]:
     with mock_glacier():
         connection: GlacierClient = boto3.client("glacier", region_name="us-east-1")
         yield connection
@@ -62,7 +62,7 @@ def glacier_client(aws_credentials: None) -> typing.Iterator[GlacierClient]:
 @pytest.fixture(scope="module")
 def dynamodb_resource(
     aws_credentials: None,
-) -> typing.Generator[DynamoDBServiceResource, None, None]:
+) -> Generator[DynamoDBServiceResource, None, None]:
     with mock_dynamodb():
         ddb = boto3.resource("dynamodb", "us-east-1")
         yield ddb
