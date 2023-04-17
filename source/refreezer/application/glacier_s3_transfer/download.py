@@ -17,16 +17,10 @@ else:
 
 
 class GlacierDownload:
-    def __init__(
-        self,
-        job_id: str,
-        vault_name: str,
-        start_byte: int,
-        end_byte: int,
-    ) -> None:
+    def __init__(self, job_id: str, vault_name: str, byte_range: str) -> None:
         self.params = {
             "jobId": job_id,
-            "range": f"bytes={start_byte}-{end_byte}",
+            "range": f"bytes={byte_range}",
             "vaultName": vault_name,
         }
         self.glacier: GlacierClient = boto3.client("glacier")
