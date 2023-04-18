@@ -11,7 +11,6 @@ import pytest
 from typing import TYPE_CHECKING
 from refreezer.application.util.exceptions import StepFunctionFailure
 from refreezer.infrastructure.stack import OutputKeys
-
 from tests.integration.infrastructure import sfn_util
 from refreezer.infrastructure.stack import OutputKeys
 
@@ -108,6 +107,31 @@ def test_initiate_job_task_succeeded(default_input: str) -> None:
         if detail["name"] == "MockGlacierInitiateJobTask":
             state_output = detail["output"]
             assert "JobId" in state_output and "Location" in state_output
+            break
+
+
+def test_multipart_upload_create_task_succeeded(default_input: str) -> None:
+    client: SFNClient = boto3.client("stepfunctions")
+    response = client.start_execution(
+        stateMachineArn=os.environ[OutputKeys.INVENTORY_RETRIEVAL_STATE_MACHINE_ARN],
+        input=default_input,
+    )
+
+    sfn_util.wait_till_state_machine_finish(response["executionArn"], timeout=60)
+
+    sf_history_output = client.get_execution_history(
+        executionArn=response["executionArn"], maxResults=1000
+    )
+    event_details = [
+        event["stateExitedEventDetails"]
+        for event in sf_history_output["events"]
+        if "stateExitedEventDetails" in event
+    ]
+
+    for detail in event_details:
+        if detail["name"] == "MockS3CreateMultipartUploadTask":
+            state_output = detail["output"]
+            assert "UploadId" in state_output
             break
 
 

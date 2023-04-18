@@ -250,7 +250,7 @@ def test_get_inventory_step_function_created(
                             assertions.Match.string_like_regexp(
                                 r'","Item":{"task_token":{"S.\$":"\$\$.Task.Token"},"job_id":{"S.\$":"\$.initiate_job_result.JobId"},"start_timestamp":{"S.\$":"\$\$.Execution.StartTime"}}},'
                                 r'"ResultPath":"\$.async_ddb_put_result","Resource":"arn:aws:states:::aws-sdk:dynamodb:putItem.waitForTaskToken"},'
-                                r'"GenerateChunkArrayLambda":{"Next":"InventoryChunkRetrievalDistributedMap","Retry":\[{"ErrorEquals":\["Lambda.ServiceException","Lambda.AWSLambdaException","Lambda.SdkClientException"\],'
+                                r'"GenerateChunkArrayLambda":{"Next":"InitiateInventoryMultipartUpload","Retry":\[{"ErrorEquals":\["Lambda.ServiceException","Lambda.AWSLambdaException","Lambda.SdkClientException"\],'
                                 r'"IntervalSeconds":\d+,"MaxAttempts":\d+,"BackoffRate":\d+}\],'
                                 r'"Type":"Task","ResultPath":"\$.chunking_result","Resource":"'
                             ),
@@ -261,11 +261,20 @@ def test_get_inventory_step_function_created(
                                 ]
                             },
                             assertions.Match.string_like_regexp(
-                                r'","Parameters":{"InventorySize.\$":"\$.async_ddb_put_result.job_result.InventorySizeInBytes","MaximumInventoryRecordSize":\d+,"ChunkSize":\d+}},'
-                                r'"InventoryChunkRetrievalDistributedMap":{"Next":"ValidateMultipartUploadLambdaTask","Type":"Map","ItemProcessor":{"ProcessorConfig":{"Mode":"DISTRIBUTED","ExecutionType":"STANDARD"},'
+                                r'","Parameters":{"InventorySize.\$":"\$.async_ddb_put_result.job_result.InventorySizeInBytes","MaximumInventoryRecordSize":\d+,"ChunkSize":\d+}},.*'
+                            ),
+                            {"Ref": "AWS::Partition"},
+                            assertions.Match.string_like_regexp(
+                                r'aws-sdk:s3:createMultipartUpload","Parameters":{"Bucket"'
+                            ),
+                            {"Ref": inventory_bucket_logical_id},
+                            assertions.Match.string_like_regexp(
+                                r'"ContentType":"text/csv","Key":"inventory.csv"}},'
+                                r'"InventoryChunkRetrievalDistributedMap":{"Next":"ValidateMultipartUploadLambdaTask",'
+                                r'"Type":"Map","ItemProcessor":{"ProcessorConfig":{"Mode":"DISTRIBUTED","ExecutionType":"STANDARD"},'
                                 r'"StartAt":"InventoryChunkDownloadLambda","States":{"InventoryChunkDownloadLambda":{"End":true,"Retry":\[{"ErrorEquals":\["Lambda.ServiceException","Lambda.AWSLambdaException","Lambda.SdkClientException"\],'
                                 r'"IntervalSeconds":\d+,"MaxAttempts":\d+,"BackoffRate":\d+}\],'
-                                r'"Type":"Task","Resource":"'
+                                r'"Type":"Task","Resource"'
                             ),
                             {"Fn::GetAtt": [inventory_lambda_logical_id, "Arn"]},
                             assertions.Match.string_like_regexp(
@@ -275,9 +284,8 @@ def test_get_inventory_step_function_created(
                             {"Ref": inventory_bucket_logical_id},
                             assertions.Match.string_like_regexp(
                                 r'","S3DestinationKey.\$":"States.Format\(\'{}/inventory.csv\', \$.workflow_run\)",'
-                                r'"UploadId.\$":"\$.upload_id",'
-                                r'"PartNumber.\$":"\$\$.Map.Item.Index"},"ItemsPath":"\$.chunking_result.body"},'
-                                r'"ValidateMultipartUploadLambdaTask":{"Next":"GlueJobAutogenerateEtl","Retry":\[{"ErrorEquals":\["Lambda.ServiceException","Lambda.AWSLambdaException","Lambda.SdkClientException"\],'
+                                r'"UploadId.\$":"\$.multipart_upload_result.UploadId".*'
+                                r'"ValidateMultipartUploadLambdaTask":{"Next":"GlueJobAutogenerateEtl","Retry":\[{"ErrorEquals":\["Lambda.ServiceException","Lambda.AWSLambdaException","Lambda.SdkClientException"\],.*'
                                 r'"IntervalSeconds":\d+,"MaxAttempts":\d+,"BackoffRate":\d+}\],'
                                 r'"Type":"Task","Resource":"'
                             ),
