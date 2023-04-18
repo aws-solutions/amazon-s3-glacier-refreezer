@@ -3,7 +3,7 @@ Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
 SPDX-License-Identifier: Apache-2.0
 """
 
-import typing
+from typing import Any, List
 
 import aws_cdk as core
 import aws_cdk.assertions as assertions
@@ -34,16 +34,16 @@ def test_cdk_nag(stack: RefreezerStack) -> None:
 def assert_resource_name_has_correct_type_and_props(
     stack: RefreezerStack,
     template: assertions.Template,
-    resources_list: typing.List[str],
+    resources_list: List[str],
     cfn_type: str,
-    props: typing.Any,
+    props: Any,
 ) -> None:
     resources = template.find_resources(type=cfn_type, props=props)
     assert 1 == len(resources)
     assert get_logical_id(stack, resources_list) in resources
 
 
-def get_logical_id(stack: RefreezerStack, resources_list: typing.List[str]) -> str:
+def get_logical_id(stack: RefreezerStack, resources_list: List[str]) -> str:
     node = stack.node
     for resource in resources_list:
         node = node.find_child(resource).node

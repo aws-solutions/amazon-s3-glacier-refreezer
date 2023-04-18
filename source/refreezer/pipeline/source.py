@@ -4,7 +4,7 @@ SPDX-License-Identifier: Apache-2.0
 """
 
 import jsii
-import typing
+from typing import Optional
 from aws_cdk import pipelines
 from aws_cdk import aws_codepipeline as codepipeline
 from aws_cdk import aws_codepipeline_actions as codepipeline_actions
@@ -38,7 +38,7 @@ class CodeStarSource(pipelines.CodePipelineSource):
         output: codepipeline.Artifact,
         action_name: str,
         run_order: jsii.Number,
-        variables_namespace: typing.Optional[str] = None,
+        variables_namespace: Optional[str] = None,
     ) -> codepipeline_actions.Action:
         return codepipeline_actions.CodeStarConnectionsSourceAction(
             connection_arn=self.connection_arn,

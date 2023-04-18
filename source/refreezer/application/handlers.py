@@ -5,7 +5,7 @@ SPDX-License-Identifier: Apache-2.0
 
 import boto3
 import logging
-from typing import List, Dict, TYPE_CHECKING, Optional, Any
+from typing import Dict, TYPE_CHECKING, Optional, Any
 
 from refreezer.application.facilitator.processor import sns_handler, dynamoDb_handler
 from refreezer.application.chunking.inventory import generate_chunk_array
@@ -59,7 +59,7 @@ def chunk_retrieval_lambda_handler(
 
 
 def chunk_validation_lambda_handler(
-    event: events.ChunkValidation, _context: Any
+    _event: events.ChunkValidation, _context: Any
 ) -> Dict[str, Any]:
     logger.info("Chunk validation lambda has been invoked.")
     return {"body": "Chunk validation lambda has completed."}
@@ -124,7 +124,7 @@ def archive_chunk_lambda_handler(
 
 
 def validate_multipart_inventory_upload(
-    event: events.ValidateMultipartUpload, _context: Any
+    _event: events.ValidateMultipartUpload, _context: Any
 ) -> Dict[str, Any]:
     logger.info("Validate multipart inventory lambda has been invoked.")
     return {

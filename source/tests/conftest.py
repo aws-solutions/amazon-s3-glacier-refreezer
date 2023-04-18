@@ -3,13 +3,12 @@ Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
 SPDX-License-Identifier: Apache-2.0
 """
 
-import os
-import typing
+from typing import Dict, Any
 import pytest
 
 
 @pytest.fixture
-def glacier_job_result() -> typing.Dict[str, typing.Any]:
+def glacier_job_result() -> Dict[str, Any]:
     return {
         "Action": "InventoryRetrieval",
         "ArchiveId": None,

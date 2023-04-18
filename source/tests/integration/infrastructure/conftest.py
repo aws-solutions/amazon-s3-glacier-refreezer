@@ -4,7 +4,7 @@ SPDX-License-Identifier: Apache-2.0
 """
 
 import os
-import typing
+from typing import TYPE_CHECKING
 
 import boto3
 import pytest
@@ -12,7 +12,7 @@ import pytest
 from refreezer.infrastructure.stack import OutputKeys
 from refreezer.pipeline.stack import STACK_NAME
 
-if typing.TYPE_CHECKING:
+if TYPE_CHECKING:
     from mypy_boto3_cloudformation import CloudFormationClient
 else:
     CloudFormationClient = object

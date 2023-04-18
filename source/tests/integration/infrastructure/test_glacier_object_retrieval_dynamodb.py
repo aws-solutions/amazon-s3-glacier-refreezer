@@ -4,14 +4,13 @@ SPDX-License-Identifier: Apache-2.0
 """
 
 import os
-import typing
-import pytest
+from typing import TYPE_CHECKING
 import uuid
 import boto3
 
 from refreezer.infrastructure.stack import OutputKeys
 
-if typing.TYPE_CHECKING:
+if TYPE_CHECKING:
     from mypy_boto3_dynamodb import DynamoDBClient
     from mypy_boto3_dynamodb.service_resource import Table
 else:
