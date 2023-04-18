@@ -243,16 +243,16 @@ def test_get_inventory_step_function_created(
                             ),
                             {"Ref": topic_logical_id},
                             assertions.Match.string_like_regexp(
-                                r'"},"VaultName.\$":"\$.vault_name"},"Resource":"arn:aws:states:::aws-sdk:glacier:initiateJob"},'
+                                r'"},"VaultName.\$":"\$.vault_name"},"ResultPath":"\$.initiate_job_result","Resource":"arn:aws:states:::aws-sdk:glacier:initiateJob"},'
                                 r'"AsyncFacilitatorDynamoDBPut":{"Next":"GenerateChunkArrayLambda","Type":"Task","Parameters":{"TableName":"'
                             ),
                             {"Ref": table_logical_id},
                             assertions.Match.string_like_regexp(
-                                r'","Item":{"task_token":{"S.\$":"\$\$.Task.Token"},"job_id":{"S.\$":"\$.JobId"},"start_timestamp":{"S.\$":"\$\$.Execution.StartTime"}}},'
-                                r'"Resource":"arn:aws:states:::aws-sdk:dynamodb:putItem.waitForTaskToken"},'
+                                r'","Item":{"task_token":{"S.\$":"\$\$.Task.Token"},"job_id":{"S.\$":"\$.initiate_job_result.JobId"},"start_timestamp":{"S.\$":"\$\$.Execution.StartTime"}}},'
+                                r'"ResultPath":"\$.async_ddb_put_result","Resource":"arn:aws:states:::aws-sdk:dynamodb:putItem.waitForTaskToken"},'
                                 r'"GenerateChunkArrayLambda":{"Next":"InventoryChunkRetrievalDistributedMap","Retry":\[{"ErrorEquals":\["Lambda.ServiceException","Lambda.AWSLambdaException","Lambda.SdkClientException"\],'
                                 r'"IntervalSeconds":\d+,"MaxAttempts":\d+,"BackoffRate":\d+}\],'
-                                r'"Type":"Task","Resource":"'
+                                r'"Type":"Task","ResultPath":"\$.chunking_result","Resource":"'
                             ),
                             {
                                 "Fn::GetAtt": [
@@ -261,7 +261,7 @@ def test_get_inventory_step_function_created(
                                 ]
                             },
                             assertions.Match.string_like_regexp(
-                                r'","Parameters":{"InventorySize.\$":"\$.job_result.InventorySizeInBytes","MaximumInventoryRecordSize":\d+,"ChunkSize":\d+}},'
+                                r'","Parameters":{"InventorySize.\$":"\$.async_ddb_put_result.job_result.InventorySizeInBytes","MaximumInventoryRecordSize":\d+,"ChunkSize":\d+}},'
                                 r'"InventoryChunkRetrievalDistributedMap":{"Next":"ValidateMultipartUploadLambdaTask","Type":"Map","ItemProcessor":{"ProcessorConfig":{"Mode":"DISTRIBUTED","ExecutionType":"STANDARD"},'
                                 r'"StartAt":"InventoryChunkDownloadLambda","States":{"InventoryChunkDownloadLambda":{"End":true,"Retry":\[{"ErrorEquals":\["Lambda.ServiceException","Lambda.AWSLambdaException","Lambda.SdkClientException"\],'
                                 r'"IntervalSeconds":\d+,"MaxAttempts":\d+,"BackoffRate":\d+}\],'
@@ -269,7 +269,15 @@ def test_get_inventory_step_function_created(
                             ),
                             {"Fn::GetAtt": [inventory_lambda_logical_id, "Arn"]},
                             assertions.Match.string_like_regexp(
-                                r'"}}},"ItemsPath":"\$.body"},"ValidateMultipartUploadLambdaTask":{"Next":"GlueJobAutogenerateEtl","Retry":\[{"ErrorEquals":\["Lambda.ServiceException","Lambda.AWSLambdaException","Lambda.SdkClientException"\],'
+                                r'"}}},"ItemSelector":{"JobId.\$":"\$.initiate_job_result.JobId","VaultName.\$":"\$.vault_name",'
+                                r'"ByteRange.\$":"\$\$.Map.Item.Value","S3DestinationBucket":"'
+                            ),
+                            {"Ref": inventory_bucket_logical_id},
+                            assertions.Match.string_like_regexp(
+                                r'","S3DestinationKey.\$":"States.Format\(\'{}/inventory.csv\', \$.workflow_run\)",'
+                                r'"UploadId.\$":"\$.upload_id",'
+                                r'"PartNumber.\$":"\$\$.Map.Item.Index"},"ItemsPath":"\$.chunking_result.body"},'
+                                r'"ValidateMultipartUploadLambdaTask":{"Next":"GlueJobAutogenerateEtl","Retry":\[{"ErrorEquals":\["Lambda.ServiceException","Lambda.AWSLambdaException","Lambda.SdkClientException"\],'
                                 r'"IntervalSeconds":\d+,"MaxAttempts":\d+,"BackoffRate":\d+}\],'
                                 r'"Type":"Task","Resource":"'
                             ),
