@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.1.3] - 2023-04-14
+### Changed
+- Updated dependencies
+
 ## [1.1.2] - 2022-09-15
 ### Added
 - Added support for all AWS partitions
