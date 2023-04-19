@@ -218,6 +218,9 @@ def test_get_inventory_step_function_created(
     inventory_validate_logical_id = get_logical_id(
         stack, ["InventoryValidateMultipartUpload"]
     )
+    glacier_object_retrieval_logical_id = get_logical_id(
+        stack, ["GlacierObjectRetrieval"]
+    )
     assert_resource_name_has_correct_type_and_props(
         stack,
         template,
@@ -262,6 +265,8 @@ def test_get_inventory_step_function_created(
                             },
                             assertions.Match.string_like_regexp(
                                 r'","Parameters":{"InventorySize.\$":"\$.async_ddb_put_result.job_result.InventorySizeInBytes","MaximumInventoryRecordSize":\d+,"ChunkSize":\d+}},.*'
+                                r'"InitiateInventoryMultipartUpload":{"Next":"PutInventoryMultipartUploadMetadata","Type":"Task","ResultPath":"\$.multipart_upload_result",'
+                                r'"Resource":'
                             ),
                             {"Ref": "AWS::Partition"},
                             assertions.Match.string_like_regexp(
@@ -269,12 +274,28 @@ def test_get_inventory_step_function_created(
                             ),
                             {"Ref": inventory_bucket_logical_id},
                             assertions.Match.string_like_regexp(
+                                # "\",\"ContentType\":\"text/csv\",\"Key\":\"inventory.csv\"}},\"PutInventoryMultipartUploadMetadata\":{\"Next\":\"InventoryChunkRetrievalDistributedMap\",\"Type\":\"Task\",\"ResultPath\":\"$.multipart_upload_result.UploadId\",\"Resource\":\"arn:",
                                 r'"ContentType":"text/csv","Key":"inventory.csv"}},'
-                                r'"InventoryChunkRetrievalDistributedMap":{"Next":"ValidateMultipartUploadLambdaTask",'
-                                r'"Type":"Map","ItemProcessor":{"ProcessorConfig":{"Mode":"DISTRIBUTED","ExecutionType":"STANDARD"},'
-                                r'"StartAt":"InventoryChunkDownloadLambda","States":{"InventoryChunkDownloadLambda":{"End":true,"Retry":\[{"ErrorEquals":\["Lambda.ServiceException","Lambda.AWSLambdaException","Lambda.SdkClientException"\],'
-                                r'"IntervalSeconds":\d+,"MaxAttempts":\d+,"BackoffRate":\d+}\],'
-                                r'"Type":"Task","Resource"'
+                                r'"PutInventoryMultipartUploadMetadata":{"Next":"InventoryChunkRetrievalDistributedMap",'
+                                r'"Type":"Task","ResultPath":"\$.multipart_upload_result.UploadId","Resource":'
+                                # "Type\":\"Task\",\"ResultPath\":\"$.multipart_upload_result.UploadId\"
+                            ),
+                            {"Ref": "AWS::Partition"},
+                            assertions.Match.string_like_regexp(
+                                r'dynamodb:putItem","Parameters":{"TableName":'
+                            ),
+                            {"Ref": glacier_object_retrieval_logical_id},
+                            assertions.Match.string_like_regexp(
+                                r'Item":{"pk":{"S.\$":"States.Format.*'
+                                r'"sk\":{"S":"meta"},'
+                                r'"job_id":{"S.\$":"\$.initiate_job_result.JobId"},'
+                                r'"execution_start_time":{"S.\$":"\$\$.Execution.StartTime"},'
+                                r'"description":{"S.\$":"\$.description"},'
+                                r'"vault_name":{"S.\$":"\$.vault_name"},'
+                                r'"inventory_size":{"S.\$":.*,'
+                                r'"upload_id":{"S.\$":"\$.multipart_upload_result.UploadId"}}}},'
+                                r'"InventoryChunkRetrievalDistributedMap":{"Next":"ValidateMultipartUploadLambdaTask","Type":"Map","ItemProcessor":{"ProcessorConfig":{"Mode":"DISTRIBUTED","ExecutionType":"STANDARD"},'
+                                r'"StartAt":"InventoryChunkDownloadLambda","States":{"InventoryChunkDownloadLambda":{"End":true,"Retry":\[{"ErrorEquals":\["Lambda.ServiceException","Lambda.AWSLambdaException","Lambda.SdkClientException"\],"IntervalSeconds":\d+,"MaxAttempts":\d+,"BackoffRate":\d+}\],"Type":"Task","Resource":"'
                             ),
                             {"Fn::GetAtt": [inventory_lambda_logical_id, "Arn"]},
                             assertions.Match.string_like_regexp(

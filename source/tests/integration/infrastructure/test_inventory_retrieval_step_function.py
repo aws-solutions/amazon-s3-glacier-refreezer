@@ -135,6 +135,34 @@ def test_multipart_upload_create_task_succeeded(default_input: str) -> None:
             break
 
 
+def test_dynamo_db_put_multipart_upload_behavior(default_input: str) -> None:
+    client: SFNClient = boto3.client("stepfunctions")
+    response = client.start_execution(
+        stateMachineArn=os.environ[OutputKeys.INVENTORY_RETRIEVAL_STATE_MACHINE_ARN],
+        input=default_input,
+    )
+
+    sfn_util.wait_till_state_machine_finish(response["executionArn"], timeout=60)
+
+    sf_history_output = client.get_execution_history(
+        executionArn=response["executionArn"], maxResults=1000
+    )
+
+    vault_name = "test-vault-01"
+    workflow_run = "workflow_run_123"
+    pk = f"{workflow_run}:{vault_name}"
+    table_name = os.environ[OutputKeys.GLACIER_RETRIEVAL_TABLE_NAME]
+    db_client: DynamoDBClient = boto3.client("dynamodb")
+
+    # write a test case to check if the item is present in the table
+    # the key is pk, the value is the upload id
+    query_response = db_client.get_item(
+        TableName=table_name,
+        Key={"pk": {"S": pk}, "sk": {"S": "meta"}},
+    )
+    assert query_response["Item"]["upload_id"]["S"] is not None
+
+
 def test_dynamo_db_put_item_async_behavior(default_input: str) -> None:
     client: SFNClient = boto3.client("stepfunctions")
     response = client.start_execution(

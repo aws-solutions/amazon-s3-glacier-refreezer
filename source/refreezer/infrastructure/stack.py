@@ -524,6 +524,42 @@ class RefreezerStack(Stack):
             result_path="$.multipart_upload_result",
         )
 
+        dynamo_db_put_upload_id = tasks.CallAwsService(
+            self,
+            "PutInventoryMultipartUploadMetadata",
+            service="DynamoDB",
+            action="putItem",
+            iam_resources=[glacier_retrieval_table.table_arn],
+            parameters={
+                "TableName": glacier_retrieval_table.table_name,
+                "Item": {
+                    "pk": {
+                        "S.$": "States.Format('{}:{}', $.workflow_run, $.vault_name)"
+                    },
+                    "sk": {"S": "meta"},
+                    "job_id": {
+                        "S.$": "$.initiate_job_result.JobId",
+                    },
+                    "execution_start_time": {
+                        "S.$": "$$.Execution.StartTime",
+                    },
+                    "description": {
+                        "S.$": "$.description",
+                    },
+                    "vault_name": {
+                        "S.$": "$.vault_name",
+                    },
+                    "inventory_size": {
+                        "S.$": "States.JsonToString($.async_ddb_put_result.job_result.InventorySizeInBytes)",
+                    },
+                    "upload_id": {
+                        "S.$": "$.multipart_upload_result.UploadId",
+                    },
+                },
+            },
+            result_path="$.multipart_upload_result.UploadId",
+        )
+
         inventory_chunk_download_lambda_function = lambda_.Function(
             self,
             "InventoryChunkDownload",
@@ -639,7 +675,9 @@ class RefreezerStack(Stack):
 
         get_inventory_initiate_job.next(dynamo_db_put).next(
             generate_chunk_array_lambda
-        ).next(initiate_S3_multipart_upload).next(distributed_map_state).next(
+        ).next(initiate_S3_multipart_upload).next(dynamo_db_put_upload_id).next(
+            distributed_map_state
+        ).next(
             validate_multipart_task
         ).next(
             glue_order_archives
@@ -975,16 +1013,16 @@ class RefreezerStack(Stack):
                 "TableName": glacier_retrieval_table.table_name,
                 "Item": {
                     "pk": {
-                        "S": "IR:$.ArchiveId",
+                        "S.$": "States.Format('IR:{}', $.ArchiveId)",
                     },
                     "sk": {
                         "S": "meta",
                     },
                     "job_id": {
-                        "S": "$.JobId",
+                        "S.$": "$.JobId",
                     },
                     "start_timestamp": {
-                        "S": "$$.Execution.StartTime",
+                        "S.$": "$$.Execution.StartTime",
                     },
                 },
             },
