@@ -508,6 +508,20 @@ class RefreezerStack(Stack):
             ],
         )
 
+        initiate_S3_multipart_upload = tasks.CallAwsService(
+            self,
+            "InitiateInventoryMultipartUpload",
+            service="S3",
+            action="createMultipartUpload",
+            iam_resources=[inventory_bucket.bucket_arn],
+            parameters={
+                "Bucket": inventory_bucket.bucket_name,
+                "ContentType": "text/csv",
+                "Key": "inventory.csv",
+            },
+            result_path="$.multipart_upload_result",
+        )
+
         inventory_chunk_download_lambda_function = lambda_.Function(
             self,
             "InventoryChunkDownload",
@@ -555,7 +569,7 @@ class RefreezerStack(Stack):
                 "ByteRange.$": "$$.Map.Item.Value",
                 "S3DestinationBucket": inventory_bucket.bucket_name,
                 "S3DestinationKey.$": "States.Format('{}/inventory.csv', $.workflow_run)",
-                "UploadId.$": "$.upload_id",
+                "UploadId.$": "$.multipart_upload_result.UploadId",
                 "PartNumber.$": "$$.Map.Item.Index",
             },
         )
@@ -623,7 +637,9 @@ class RefreezerStack(Stack):
 
         get_inventory_initiate_job.next(dynamo_db_put).next(
             generate_chunk_array_lambda
-        ).next(distributed_map_state).next(validate_multipart_task).next(
+        ).next(initiate_S3_multipart_upload).next(distributed_map_state).next(
+            validate_multipart_task
+        ).next(
             glue_order_archives
         )
 
