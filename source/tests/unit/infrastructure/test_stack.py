@@ -580,6 +580,67 @@ def test_facilitator_default_policy(
     )
 
 
+def test_retrieve_archive_state_machine_policy(
+    stack: RefreezerStack, template: assertions.Template
+) -> None:
+    resources_list = ["RetrieveArchiveStateMachinePolicy"]
+    retrieve_archive_state_machine_logical_id = get_logical_id(
+        stack, ["RetrieveArchiveStateMachine"]
+    )
+    retrieve_archive_state_machine_role_logical_id = get_logical_id(
+        stack, ["RetrieveArchiveStateMachine", "Role"]
+    )
+
+    assert_resource_name_has_correct_type_and_props(
+        stack,
+        template,
+        resources_list=resources_list,
+        cfn_type="AWS::IAM::Policy",
+        props={
+            "Properties": {
+                "PolicyDocument": {
+                    "Statement": [
+                        {
+                            "Action": "states:StartExecution",
+                            "Effect": "Allow",
+                            "Resource": {
+                                "Ref": retrieve_archive_state_machine_logical_id
+                            },
+                        },
+                        {
+                            "Action": [
+                                "states:DescribeExecution",
+                                "states:StopExecution",
+                            ],
+                            "Effect": "Allow",
+                            "Resource": {
+                                "Fn::Join": [
+                                    "",
+                                    [
+                                        "arn:aws:states:",
+                                        {"Ref": "AWS::Region"},
+                                        ":",
+                                        {"Ref": "AWS::AccountId"},
+                                        ":execution:",
+                                        {
+                                            "Fn::GetAtt": [
+                                                retrieve_archive_state_machine_logical_id,
+                                                "Name",
+                                            ]
+                                        },
+                                        "/*",
+                                    ],
+                                ]
+                            },
+                        },
+                    ]
+                },
+                "Roles": [{"Ref": retrieve_archive_state_machine_role_logical_id}],
+            },
+        },
+    )
+
+
 def test_glue_job_created(stack: RefreezerStack, template: assertions.Template) -> None:
     inventory_bucket_logical_id = get_logical_id(stack, ["InventoryBucket"])
     resources = template.find_resources(

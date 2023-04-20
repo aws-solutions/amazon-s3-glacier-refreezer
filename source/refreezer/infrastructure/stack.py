@@ -11,7 +11,6 @@ from aws_cdk import (
 )
 from aws_cdk import aws_dynamodb as dynamodb
 from aws_cdk import aws_iam as iam
-from aws_cdk import aws_kms as kms
 from aws_cdk import aws_sns as sns
 from aws_cdk import aws_s3 as s3
 from aws_cdk import aws_lambda as lambda_
@@ -27,7 +26,10 @@ from refreezer.mocking.mock_glacier_stack import MockingParams
 from aws_cdk.aws_sns_subscriptions import LambdaSubscription
 from aws_cdk.aws_lambda_event_sources import DynamoEventSource
 from aws_cdk.aws_glue_alpha import Job, JobExecutable, PythonVersion, GlueVersion, Code
+
 from refreezer.infrastructure.distributed_map import DistributedMap
+from refreezer.infrastructure.nested_distributed_map import NestedDistributedMap
+
 
 from refreezer.infrastructure.glue_helper.glue_sfn_update import GlueSfnUpdate
 
@@ -999,61 +1001,14 @@ class RefreezerStack(Stack):
             initiate_retrieval_dynamo_db_put
         )
 
-        initiate_retrieval_inner_distributed_map_state = DistributedMap(
-            self,
-            "InitiateRetrievalInnerDistributedMap",
-            definition=initiate_retrieval_definition,
-            max_concurrency=1,
-            item_reader_resource="arn:aws:states:::s3:getObject",
-            reader_config={
-                "InputType": "CSV",
-                "CSVHeaderLocation": "FIRST_ROW",
-            },
-            item_reader_parameters={"Bucket.$": "$.bucket", "Key.$": "$.item.Key"},
-            item_selector={
-                "bucket.$": "$.bucket",
-                "key.$": "$.item.Key",
-                "item.$": "$$.Map.Item.Value",
-            },
-            result_writer={
-                "Resource": "arn:aws:states:::s3:putObject",
-                "Parameters": {
-                    "Bucket": inventory_bucket.bucket_name,
-                    "Prefix.$": "States.Format('{}/initiate_retrieval_inner_distributed_map_output', $.workflow_run)",
-                },
-            },
-            result_path="$.map_result",
-        )
-
-        initiate_retrieval_distributed_map_state = DistributedMap(
-            self,
-            "InitiateRetrievalDistributedMap",
-            definition=initiate_retrieval_inner_distributed_map_state,
-            max_concurrency=1,
-            item_reader_resource="arn:aws:states:::s3:listObjectsV2",
-            item_reader_parameters={
-                "Bucket": inventory_bucket.bucket_name,
-                "Prefix.$": "States.Format('{}/sorted_inventory', $.workflow_run)",
-            },
-            item_selector={
-                "bucket": inventory_bucket.bucket_name,
-                "workflow_run.$": "$.workflow_run",
-                "item.$": "$$.Map.Item.Value",
-            },
-            result_writer={
-                "Resource": "arn:aws:states:::s3:putObject",
-                "Parameters": {
-                    "Bucket": inventory_bucket.bucket_name,
-                    "Prefix.$": "States.Format('{}/initiate_retrieval_distributed_map_output', $.workflow_run)",
-                },
-            },
-            result_path="$.map_result",
+        initiate_retrieval_distributed_map = NestedDistributedMap(
+            self, "InitiateRetrieval", initiate_retrieval_definition, inventory_bucket
         )
 
         initiate_retrieval_state_machine = sfn.StateMachine(
             self,
             "InitiateRetrievalStateMachine",
-            definition=initiate_retrieval_distributed_map_state,
+            definition=initiate_retrieval_distributed_map.distributed_map_state,
         )
 
         self.outputs[OutputKeys.INITIATE_RETRIEVAL_STATE_MACHINE_ARN] = CfnOutput(
@@ -1062,79 +1017,13 @@ class RefreezerStack(Stack):
             value=initiate_retrieval_state_machine.state_machine_arn,
         )
 
-        inventory_bucket.grant_read_write(initiate_retrieval_state_machine)
         glacier_retrieval_table.grant_read_write_data(initiate_retrieval_state_machine)
 
-        initiate_retrieval_state_machine_policy = iam.Policy(
+        initiate_retrieval_distributed_map.configure_step_function(
             self,
-            "StateMachinePolicy",
-            statements=[
-                iam.PolicyStatement(
-                    effect=iam.Effect.ALLOW,
-                    actions=[
-                        "states:StartExecution",
-                    ],
-                    resources=[initiate_retrieval_state_machine.state_machine_arn],
-                ),
-                iam.PolicyStatement(
-                    effect=iam.Effect.ALLOW,
-                    actions=["states:DescribeExecution", "states:StopExecution"],
-                    resources=[
-                        f"arn:aws:states:{Aws.REGION}:{Aws.ACCOUNT_ID}:execution:{initiate_retrieval_state_machine.state_machine_name}/*"
-                    ],
-                ),
-            ],
-        )
-
-        initiate_retrieval_state_machine_policy.attach_to_role(
-            initiate_retrieval_state_machine.role
-        )
-
-        NagSuppressions.add_resource_suppressions(
-            initiate_retrieval_state_machine.role.node.find_child(
-                "DefaultPolicy"
-            ).node.find_child("Resource"),
-            [
-                {
-                    "id": "AwsSolutions-IAM5",
-                    "reason": "IAM policy required for Step Function logging",
-                    "appliesTo": ["Resource::*"],
-                },
-                {
-                    "id": "AwsSolutions-IAM5",
-                    "reason": "IAM policy required to export the results of the Distributed Map state to S3 bucket",
-                    "appliesTo": ["Action::s3:Abort*", "Action::s3:DeleteObject*"],
-                },
-                {
-                    "id": "AwsSolutions-IAM5",
-                    "reason": "IAM policy for reading a file as dataset in a Distributed Map state. https://docs.aws.amazon.com/step-functions/latest/dg/iam-policies-eg-dist-map.html",
-                    "appliesTo": [
-                        f"Resource::<{inventory_bucket_logical_id}.Arn>/*",
-                        "Action::s3:GetBucket*",
-                        "Action::s3:GetObject*",
-                        "Action::s3:List*",
-                    ],
-                },
-            ],
-        )
-
-        assert isinstance(
-            initiate_retrieval_state_machine.node.default_child, CfnElement
-        )
-        initiate_retrieval_state_machine_logical_id = Stack.of(self).get_logical_id(
-            initiate_retrieval_state_machine.node.default_child
-        )
-        NagSuppressions.add_resource_suppressions(
-            initiate_retrieval_state_machine_policy,
-            [
-                {
-                    "id": "AwsSolutions-IAM5",
-                    "reason": "IAM policy needed to run a Distributed Map state. https://docs.aws.amazon.com/step-functions/latest/dg/iam-policies-eg-dist-map.html",
-                    "appliesTo": [
-                        f"Resource::arn:aws:states:<AWS::Region>:<AWS::AccountId>:execution:<{initiate_retrieval_state_machine_logical_id}.Name>/*"
-                    ],
-                }
-            ],
+            "InitiateRetrieval",
+            initiate_retrieval_state_machine,
+            inventory_bucket,
         )
 
         NagSuppressions.add_resource_suppressions(
@@ -1171,7 +1060,9 @@ class RefreezerStack(Stack):
 
         # TODO: To be replaced by generate chunk array LambdaInvoke task
         retrieve_archive_generate_chunk_array_lambda_task = sfn.Pass(
-            self, "RetrieveArchiveGenerateChunkArrayLambda"
+            self,
+            "RetrieveArchiveGenerateChunkArrayLambda",
+            parameters={"chunk_array": ["0-499", "500-930"]},
         )
 
         # TODO: To be replaced by chunk processing LambdaInvoke task
@@ -1181,7 +1072,7 @@ class RefreezerStack(Stack):
 
         # TODO: To be replaced by a Map state in Distributed mode
         retrieve_archive_chunk_distributed_map_state = sfn.Map(
-            self, "RetrieveArchiveChunkDistributedMap"
+            self, "RetrieveArchiveChunkDistributedMap", items_path="$.chunk_array"
         )
         retrieve_archive_chunk_distributed_map_state.iterator(
             retrieve_archive_chunk_processing_lambda_task
@@ -1194,21 +1085,8 @@ class RefreezerStack(Stack):
             .next(retrieve_archive_chunk_distributed_map_state)
         )
 
-        # TODO: To be replaced by nested Map states in Distributed mode
-        retrieve_archive_distributed_map_state = sfn.Map(
-            self, "RetrieveArchiveDistributedMap"
-        )
-
-        # TODO: To be replaced by nested Map states in Distributed mode
-        retrieve_archive_inner_distributed_map_state = sfn.Map(
-            self, "RetrieveArchiveInnerDistributedMap"
-        )
-        retrieve_archive_inner_distributed_map_state.iterator(
-            retrieve_archive_definition
-        )
-
-        retrieve_archive_distributed_map_state.iterator(
-            retrieve_archive_inner_distributed_map_state
+        retrieve_archive_distributed_map = NestedDistributedMap(
+            self, "RetrieveArchive", retrieve_archive_definition, inventory_bucket
         )
 
         # TODO: To be replaced by validate LambdaInvoke task
@@ -1221,6 +1099,9 @@ class RefreezerStack(Stack):
             self, "RetrieveArchiveCloseMultipartUpload"
         )
 
+        retrieve_archive_distributed_map_state = (
+            retrieve_archive_distributed_map.distributed_map_state
+        )
         retrieve_archive_state_machine = sfn.StateMachine(
             self,
             "RetrieveArchiveStateMachine",
@@ -1235,6 +1116,10 @@ class RefreezerStack(Stack):
             self,
             OutputKeys.RETRIEVE_ARCHIVE_STATE_MACHINE_ARN,
             value=retrieve_archive_state_machine.state_machine_arn,
+        )
+
+        retrieve_archive_distributed_map.configure_step_function(
+            self, "RetrieveArchive", retrieve_archive_state_machine, inventory_bucket
         )
 
         NagSuppressions.add_resource_suppressions(
