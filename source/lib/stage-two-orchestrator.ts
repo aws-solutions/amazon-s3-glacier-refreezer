@@ -299,7 +299,7 @@ export class StageTwoOrchestrator extends Construct {
         this.stateMachine = new sfn.StateMachine(this, "StageTwoOrchestrator", {
             stateMachineName: `${Aws.STACK_NAME}-stageTwoOrchestrator`,
             stateMachineType: sfn.StateMachineType.STANDARD,
-            definition: graphDefinition,
+            definitionBody: sfn.DefinitionBody.fromChainable(graphDefinition),
             role: stageTwoOrchestratorRole.withoutPolicyUpdates(),
             logs: {
                 destination: stageTwoOrchestratorLogGroup,

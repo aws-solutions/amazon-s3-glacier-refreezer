@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.1.4] - 2023-11-07
+### Changed
+- Updated version of Jest to 29.5.0
+- Updated version of aws-cdk-lib to 2.87.0
+- Updated version of crypto-js to 4.2.0 to resolve vulnerabilities
+- Updated version of fast-xml-parser to 4.3.2 to resolve vulnerabilities
+- Updated Semver to use version 7.5.2 to prevent vulnerabilities
+
 ## [1.1.3] - 2023-04-14
 ### Changed
 - Updated dependencies
