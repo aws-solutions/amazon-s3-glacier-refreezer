@@ -1,3 +1,9 @@
+> [!WARNING]  
+> In December 2023, the [Data Transfer from Amazon S3 Glacier Vaults to Amazon S3](https://aws.amazon.com/solutions/implementations/data-transfer-from-amazon-s3-glacier-vaults-to-amazon-s3/) solution replaced this solution. All existing deployments of the Amazon S3 Glacier Re:Freezer solution will continue to work, but we no longer support or maintain this solution. 
+> 
+> The benefits of using the Data Transfer from Amazon S3 Glacier Vaults to Amazon S3 solution include improved performance and enhanced integration with AWS services, especially Amazon S3. We encourage customers to use this solution for future transfers
+
+
 # Amazon S3 Glacier Re:Freezer 
 The Amazon S3 Glacier Re:Freezer is a serverless solution that automatically copies entire Amazon S3 Glacier vault archives to a defined destination Amazon Simple Storage Service (Amazon S3 bucket) and S3 storage class.
 
@@ -76,7 +82,7 @@ The solution supports two deployment options:
 
 ### Option 1. Solution Builders Template
 
-You can launch this solution with one click from the [solution home page](https://aws.amazon.com/solutions/implementations/amazon-s3-glacier-refreezer).
+You can launch this solution with one click from the [solution template](https://docs.aws.amazon.com/solutions/latest/amazon-s3-glacier-refreezer/automated-deployment.html#step-1.-launch-the-stack).
 
 ### Option 2. Custom Build
 
