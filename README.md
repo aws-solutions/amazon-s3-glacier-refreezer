@@ -78,13 +78,9 @@ The following data points are collected:
 
 > **Please ensure you test the solutions prior running it against any production vaults.**
 
-The solution supports two deployment options:
+The solution can be deployed as below:
 
-### Option 1. Solution Builders Template
-
-You can launch this solution with one click from the [solution template](https://docs.aws.amazon.com/solutions/latest/amazon-s3-glacier-refreezer/automated-deployment.html#step-1.-launch-the-stack).
-
-### Option 2. Custom Build
+### Custom Build
 
 Please refer to [creating a custom build](#creating-a-custom-build) section below.
 
